@@ -1,0 +1,171 @@
+#+TITLE: Programming language memory models:
+#+SUBTITLE: Problems, Solutions, and Directions
+#+AUTHOR: Anton Podkopaev
+#+EMAIL: anton@podkopaev.net
+#+DATE: 6 July 2020
+#+DESCIRPTION: We consider ups and downs of modern memory models for programming languages and requirements imposed on them by languages' pragmatics.
+#+LANGUAGE: en
+#+OPTIONS: H:2 toc:nil
+#+EXCLUDE_TAGS: noexport
+#+LATEX_CLASS: beamer
+#+LATEX_CLASS_OPTIONS: [presentation,xcolor=dvipsnames,aspectratio=169]
+#+BEAMER_THEME: Singapore
+#+COLUMNS: %45ITEM %10BEAMER_ENV(Env) %10BEAMER_ACT(Act) %4BEAMER_COL(Col)
+
+#+LATEX_HEADER: \input{defs/maindefs.tex}
+#+LATEX_HEADER: \renewcommand{\insertnavigation}[1]{}
+
+* Introduction of myself
+I'm notorious for changing my facial hair style, so this is
+how my personal web page looks like: *two pictures*.
+* Intro to WMC
+** Thinking about Concurrency
+#+LATEX_HEADER: \includegraphics{thinking_concurrency.png}
+** Lamport's SC
+** Dekker's Lock is broken on x86 + GCC (SB)
+** LB as an example disallowed on x86, but allowed on ARM
+** There are different WMMs for hardware and PLs
+** Hardware MMs have requirements
+** PL MMs have 3 requirements
+*** Efficient compilation to hardware
+Maybe note that C/C++ MM (and now Java MM with Concurrent Access Modes)
+provides different layers of atomics (rlx -> SC).
+*** Allow for compiler optimizations
+*** Reasoning principles
+**** DRF (or even LDRF)
+A "model-agnostic" definition of DRF [Batty-al:ESOP15]
+**** No OOTA
+**** Undefined Behavior
+* Performance-by-choice
+** Are you fine w/ slowing down single-threaded applications?
+* Table of PL models comparison
+
+| Memory Model  | Style                       | Eff Compl | Comp Opt | No OOTA | Model Checking | DRF (check and/or split) | No UB | Rel/Acq mode       | SC mode | Complexity (subjectively) |
+|---------------+-----------------------------+-----------+----------+---------+----------------+--------------------------+-------+--------------------+---------+---------------------------|
+| SC            | All                         | -         | -        | +       | +              | +                        | +     | -                  | +       | Low                       |
+| Java          | Mixed                       | +         | -        | +       | +              | +                        | +     | + (from Java 1.9?) | +       | High                      |
+|---------------+-----------------------------+-----------+----------+---------+----------------+--------------------------+-------+--------------------+---------+---------------------------|
+| C/C++         | Declarative                 | +         | +        | -       | -              | -                        | -     | +                  | +       | Medium                    |
+| RC11          | Declarative                 | -         | +/-      | +       | +              | +                        | +     | +                  | +       | Medium                    |
+| Promising 2.0 | Operational                 | +         | ++       | +       | +/-            | +                        | +     | +                  | -       | High                      |
+| Weakestmo     | Event structures            | +         | +        | +       | ?              | +                        | +     | +                  | +       | High                      |
+| MRD-C11       | Event structures            | +         | +        | +       | -/+            | +                        | -     | +                  | +       | High                      |
+|---------------+-----------------------------+-----------+----------+---------+----------------+--------------------------+-------+--------------------+---------+---------------------------|
+| JS and Wasm   | Declarative and Operational | +         | +        |         | ?              | +                        | +     | -                  | +       | Medium (mixed-size)       |
+| OCaml         | Declarative and Operational | --        | +/-      | +       | +              | ++                       | +     | -                  | +       | Low                       |
+
+
+* Check Liu-al:PLDI19 and Liu-al:OOPSLA17. Forcing SC for Java
+** Liu-al:OOPSLA17
+  Average 28% penalty (sometimes >80%) on x86 for /volatile-by-default/
+  (DaCapo Benchmarks, includes Jython, Tomcat, Eclipse).
+  Could reduce overhead w/ 20 or fewer annotations (28% -> 18%).
+** Liu-al:PLDI19
+   57% and 73% penalty on ARM for /volatile-by-default/.
+* Enforcing SC [Marino-al:PLDI11, Singh-al:ISCA12]
+* Problem of volatile mappings to POWER
+** The example
+We recently noticed your draft (accepted to OOPSLA'19) about the new Java memory model.
+We suspect that there might be a problem with compilation to POWER based on "mixed mapping of volatiles": writes with trailing sync & reads with leading sync (as page 18 suggests).
+
+Consider the following execution graph:
+
+Wx1 ; Ry0
+||
+Wy1
+||
+Ry1 ; Wz1
+||
+Wz2 ; Rx0
+||
+Rz1  ; Rz2
+where *all accesses are volatile*.
+("reads-from" edges are determined by unique values.)
+
+Applying "mixed mapping", there will be no sync between the accesses of the third thread.
+So, this behavior is allowed in POWER.
+(One can run Herd to verify that we are not wrong in our understanding.)
+Since all accesses are volatile the source model must forbid this behavior, and so, the "mixed mapping" is broken.
+
+Please let us know if you understand differently.
+** Doug Lea response
+There is arguably a problem with Power mappings of Volatile. Hostpot uses
+the trailing-full-fence-on write mapping for volatile. In principle, Power
+should also use one for Volatile reads (vs lwsync) unless provably
+preceded by a write. But people understandably resist this. No knows of
+any code relying on it. Volatile reads usually outnumber writes by a large
+factor, so the impact is very noticeable. Users could easily avoid this by
+using Acquire reads, but there is huge amount of pre-JDK9 code out there.
+So in the mean time, one might view current situation as possibly-buggy
+"let us fix your performance bug for you" tactic that would be phased out
+eventually under adoption of revised memory model spec?
+
+-Doug
+
+** Sources
+http://hg.openjdk.java.net/jdk8/jdk8/hotspot/file/tip/src/share/vm/opto/library_call.cpp#l2621
+** The problem is related to "mixed mapping" scheme
+** Compilation Scheme
+Hi,
+
+I checked JVM sources [1] related to compilation of volatile accesses to Power, and it looks like they have two
+compilation schemes (the right one is used for PPC64):
+|                | Alt. 1           | Alt. 2           |
+| volatile write | lwsync; st; sync | lwsync; st       |
+| volatile read  | ld; lwsync       | sync; ld; lwsync |
+
+[1] https://hg.openjdk.java.net/ppc-aix-port/jdk8/hotspot/file/ac7b3be2fdb5/src/share/vm/opto/library_call.cpp#l2633
+
+best,
+Anton
+** Quote Shipilev on defensively volatile everything
+* Quotes
+** Hans-J. Boehm, Brian Demsky MSPC14 (about preserving dependencies)
+In addition to the negative performance consequences, all the world's compilers
+would have to be substantially rewritten.
+** Ou, Brian Demsky OOPSLA18 (about JMM)
+The Java Memory Model also attempted this approach [Manson et al. 2005], but the approach has
+since shown to be unsound with respect to standard compiler optimizations
+[Ševčík and Aspinall 2008]. Moreover, the JMM is extremely complicated for both
+compiler developers and application developers to understand. It is also complicated to
+use the constraints placed on OOTA executions by the JMM to prove correctness properties
+for concurrent programs. Indeed, merely verifying whether the JMM allows a given concrete
+execution is undecidable [Botinčan et al. 2010].
+
+* Content :noexport:
+** Requirements to hardware memory models (MMs)
+** Requirements to PL MMs
+** Memory models of mainstream PLs and their drawbacks
+- Sequential consistency (SC, [Lamport:TC79])
+- Java MM [Manson-al:POPL05]
+- C/C++11 MM [Batty-al:POPL11]
+** Other memory models
+- Linux Kernel memory model [Alglave-al:ASPLOS18]
+- JavaScript [Watt-al:PLDI20] and Wasm [Watt-al:OOPSLA19] memory models
+** Reason of out-of-thin-air (OOTA) problem in C/C++11 MM
+- Load buffering and OOTA
+** Existing solutions for OOTA
+- Conservative solution of RC11 [Lahav-al:PLDI17]
+- Calculation of "real" dependencies [Paviotti-al:ESOP20]
+- Event-structure-based solution (Weakestmo [Chakraborty-Vafeiadis:POPL19])
+- Operational solution (Promising 1.0 [Kang-al:POPL17])
+** Support for global optimizations. Promising 2.0 [Hwan-al:PLDI20]
+** Local data-race-freedom (DRF). OCaml memory model [Dolan-al:PLDI18]
+** Cost of non-efficient compilation
+- Enforcing SC [Marino-al:PLDI11, Singh-al:ISCA12]
+- Enforcing po $\cup$ rf acyclicity [Ou-Demsky:OOPSLA18]
+** How to design a memory model for a language
+- Do you want maximal efficiency and closeness to hardware?
+- Do you want more guarantees for programmers?
+- Do you want to be compatible w/ a certain language or platform?
+- In the end, you want to show that
+-- some compilation correctness results hold (see [Podkopaev-al:POPL19] and github.com/weakmemory/imm);
+-- some compilation optimizations are sound;
+-- some DRF results hold.
+** Links
+  :PROPERTIES:
+  :BEAMER_opt: allowframebreaks
+  :END:
+#+LATEX_HEADER: \bibliographystyle{apalike}
+#+LATEX_HEADER: \scriptsize
+#+LATEX_HEADER: \bibliography{../biblio/main}
