@@ -1,0 +1,173 @@
+#+TITLE: An Overview of Programming Language Memory Models
+#+SUBTITLE: Plan of the research paper
+
+* Abstract 
+
+* Introduction
+  * intro
+    * importance of parallel/concurrent computing today
+    * importance of formal semantics
+  * memory model definition
+  * sequential consistency (SC)
+    * some example (program + its executions in SC)
+    * advantage of SC --- simplicity
+    * disadvantage of SC --- performance penalty
+  * main tradeoff of WMMs: simplicity vs performance
+  * types of WMMs
+    * hardware
+    * programming language
+    * different requirements and tradeoffs for HW/PL
+  * programming language memory models (focus of this paper)
+  * structure of the paper
+
+
+* Requirement to the Programming Language Memory Model
+  
+  * sound and efficient compilation scheme
+    * example
+      * store buffering
+      * simplified Dekker
+      * discuss ~mfence~
+    * introduce fences and dependencies
+	
+  * soundness of compiler optimisations
+    * an example of a transformation that is not sound in SC
+    * a list of transformations that we might want to support (?)
+  
+  * reasoning
+    * DRF (non-expert-mode)
+    * being suitable for formal verification techiniques
+      * model checking in particular
+
+
+* Java Memory Model
+  
+  * intro
+  
+  * introduce ~volatile~
+  
+  * formal definition
+    * background on axiomatic memory models
+      * events, labels, relations, execution graphs
+    * overview of the iterative construction (commitment of events, etc)
+    * example
+  
+  * compilation
+  
+  * optimisations
+    * discuss optimisations which are broken in JMM
+  
+  * reasoning
+    * DRF-SC
+    * model checking  
+      * mention that checking whether JMM allows specific execution is undecidable
+  
+  * summary
+
+
+* C/C++ Memory Model
+
+  * intro
+  
+  * introduce ~atomic~ and ~memory_order~
+    * mention ~rlx~, ~rel/acq~, ~sc~
+
+  * formal definition
+    * constraints on the execution graphs
+      * mention coherence and atomicity
+      * mention psc axiom (?)
+    * examples
+
+  * discuss UB and catch-fire semantics
+    * opportunities for compilation and optimisations
+
+  * compilation
+
+  * optimisations
+
+  * reasoning
+    * OOTA problem
+      * example
+    * external/internal DRF
+      * discuss difference
+    * model checking
+      * challenging (if possible?) because of OOTA
+
+
+* Towards No-Thin-Air in C/C++ Memory Model
+  
+  * motivation
+
+  * Promising
+    * advantages
+    * formal definition
+      * operational semantics
+	* explain timestamps and viewfronts
+	* explain promises and certification
+      * example
+    * compilation
+    * optimisations
+    * reasoning
+      * promise-free machine
+      * DRF-RA
+
+  * Weakestmo
+    * advantages
+      * declarative
+      * mention support for SC accesses
+    * introduce event structures
+    * formal definition
+      * example
+    * compilation
+    * optimisations
+    * reasoning
+      * DRF-RLX
+      * discuss model checking (not yet published) (?)
+
+  * Relaxed Modular Dependencies
+    * advantages
+      * mention that semantics is denotational
+    * formal definition
+      * example
+    * compilation
+    * optimisation
+    * reasoning
+      * discuss challenges for model checking
+
+
+* Other Models
+  
+  * JS/WASM Memory Model
+    * introduce ~SharedArrayBuffer~
+    * discuss mixed-size accesses
+    * formal definition
+      * examples (?)
+    * compilation
+    * optimisations
+
+  * OCaml Memory Model
+    * intro (Multicore OCaml)
+    * formal definition
+      * axiomatic and operational version
+    * compilation
+    * optimisation
+    * reasoning
+      * local DRF
+    
+
+* Comparison 
+  * summary table
+    * style: execution graphs, event structures, abstract machine
+    * efficient compilation
+    * compiler optimisations
+    * DRF
+    * UB
+    * no OOTA
+    * suitable for model checking
+    * subjective complexity
+  * summary table with compilation mappings (?)
+  * summary table with supported optimisations (?)
+  * summary table with performance overhead (?)
+
+
+* Discussion and Open Problems
