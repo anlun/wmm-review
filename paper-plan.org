@@ -19,57 +19,65 @@
 ** programming language memory models (focus of this paper)
 ** structure of the paper
 
-* Requirement to the Programming Language Memory Model
+* Requirements to the Programming Language Memory Model
+** memory models under consideration
+*** SC Memory Model 
+**** "baseline" simple memory model
+*** C/C++ Memory Model
+**** should allow efficient compilation (zero-cost abstractions, don't pay for what you don't use, etc)
+**** should allow agressive optimisations
+**** can tolerate UB (Undefined Behaviour) in the semantics
+*** Java Memory Model
+**** should be as efficient as possible, yet
+**** should be type and memory safe (no UB)
+
 ** sound and efficient compilation scheme
-*** example
+*** examples
 **** store buffering
-**** simplified Dekker
-**** discuss ~mfence~
-*** introduce fences and dependencies
+***** simplified Dekker
+***** discuss ~mfence~
+***** C/C++ 
+****** introduce ~rlx~ and ~sc~
+****** explain how they are compiled
+****** rewrite Dekker in C/C++
+***** Java
+****** introduce ~volatile~
+****** explain how it is compiled
+****** rewrite Dekker in Java
+**** message passing
+***** simplified spinlock
+****** introduce CAS here?
+***** discuss ~dmb~
+***** C/C++
+****** introduce ~rel~ and ~acq~
+****** explain how they are compiled
+****** explain the difference with ~sc~
+*** discuss fences and dependencies (in general)
 ** soundness of compiler optimisations
-*** an example of a transformation that is not sound in SC
+*** examples
+**** an example of a transformation that is not sound in SC
+**** an example of a transformation that is not sound in JMM
 *** a list of transformations that we might want to support (?)
+*** discuss UB and catch-fire semantics in C/C++
+**** opportunities for compilation and optimisations
 ** reasoning
 *** DRF (non-expert-mode)
+**** DRF-SC in Java
+***** example
+**** DRF-SC in C/C++
+***** OOTA problem
+****** example
+***** external/internal DRF
 *** being suitable for formal verification techiniques
-**** model checking in particular
-* Java Memory Model
-** intro
-** introduce ~volatile~
-** formal definition
-*** background on axiomatic memory models
-**** events, labels, relations, execution graphs
-*** overview of the iterative construction (commitment of events, etc)
-*** example
-** compilation
-** optimisations
-*** discuss optimisations which are broken in JMM
-** reasoning
-*** DRF-SC
-*** model checking  
-**** mention that checking whether JMM allows specific execution is undecidable
+**** model checking 
+***** a couple of words about model checking of SC
+****** naive approach --- just enumerate all executions
+****** mention that problem is decidable and NP-complete 
+******* for programs without unbounded recursion and with finite domains
+***** mention that checking whether JMM allows specific execution is undecidable
+***** challenging (if possible?) for C/C++ because of OOTA
 ** summary
-* C/C++ Memory Model
-** intro
-** introduce ~atomic~ and ~memory_order~
-*** mention ~rlx~, ~rel/acq~, ~sc~
-** formal definition
-*** constraints on the execution graphs
-**** mention coherence and atomicity
-**** mention psc axiom (?)
-*** examples
-** discuss UB and catch-fire semantics
-*** opportunities for compilation and optimisations
-** compilation
-** optimisations
-** reasoning
-*** OOTA problem
-**** example
-*** external/internal DRF
-**** discuss difference
-*** model checking
-**** challenging (if possible?) because of OOTA
-* Towards No-Thin-Air in C/C++ Memory Model
+* Towards No-Thin-Air Memory Model
 ** motivation
 ** Promising
 *** advantages
