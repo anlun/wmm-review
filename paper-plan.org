@@ -3,24 +3,23 @@
 
 * Abstract 
 * Introduction
-** intro
+** Intro
 *** importance of parallel/concurrent computing today
 *** importance of formal semantics
-** memory model definition
-** sequential consistency (SC)
+** Memory model definition
+** Sequential consistency (SC)
 *** some example (program + its executions in SC)
 *** advantage of SC --- simplicity
 *** disadvantage of SC --- performance penalty
-** main tradeoff of WMMs: simplicity vs performance
-** types of WMMs
-*** hardware
-*** programming language
-*** different requirements and tradeoffs for HW/PL
-** programming language memory models (focus of this paper)
-** structure of the paper
-
-* Requirements to the Programming Language Memory Model
-** memory models under consideration
+** Main tradeoff of WMMs: simplicity vs performance
+** Types of WMMs
+*** Hardware
+*** Programming language
+*** Different requirements and tradeoffs for HW/PL
+** Programming language memory models (focus of this paper)
+** Structure of the paper
+* Requirements to Programming Language Memory Models
+** Memory models under consideration
 *** SC Memory Model 
 **** "baseline" simple memory model
 *** C/C++ Memory Model
@@ -30,8 +29,7 @@
 *** Java Memory Model
 **** should be as efficient as possible, yet
 **** should be type and memory safe (no UB)
-
-** sound and efficient compilation scheme
+** Sound and efficient compilation scheme
 *** examples
 **** store buffering
 ***** simplified Dekker
@@ -53,14 +51,14 @@
 ****** explain how they are compiled
 ****** explain the difference with ~sc~
 *** discuss fences and dependencies (in general)
-** soundness of compiler optimisations
+** Soundness of compiler optimisations
 *** examples
 **** an example of a transformation that is not sound in SC
 **** an example of a transformation that is not sound in JMM
 *** a list of transformations that we might want to support (?)
 *** discuss UB and catch-fire semantics in C/C++
 **** opportunities for compilation and optimisations
-** reasoning
+** Reasoning
 *** DRF (non-expert-mode)
 **** DRF-SC in Java
 ***** example
@@ -76,9 +74,9 @@
 ******* for programs without unbounded recursion and with finite domains
 ***** mention that checking whether JMM allows specific execution is undecidable
 ***** challenging (if possible?) for C/C++ because of OOTA
-** summary
+** Summary
 * Towards No-Thin-Air Memory Model
-** motivation
+** Motivation 
 ** Promising
 *** advantages
 *** formal definition
@@ -129,8 +127,8 @@
 *** optimisation
 *** reasoning
 **** local DRF
-* Comparison 
-** summary table
+* Comparison
+** Summary table
 *** style: execution graphs, event structures, abstract machine
 *** efficient compilation
 *** compiler optimisations
@@ -139,7 +137,7 @@
 *** no OOTA
 *** suitable for model checking
 *** subjective complexity
-** summary table with compilation mappings (?)
-** summary table with supported optimisations (?)
-** summary table with performance overhead (?)
+** Summary table with compilation mappings (?)
+** Summary table with supported optimisations (?)
+** Summary table with performance overhead (?)
 * Discussion and Open Problems
