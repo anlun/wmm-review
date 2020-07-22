@@ -3,14 +3,16 @@
 
 * Abstract 
 * Introduction
-** Intro
+** Intro (TODO: more concrete, not too general)
 *** importance of parallel/concurrent computing today
 *** importance of formal semantics
-** Memory model definition
 ** Sequential consistency (SC)
-*** some example (program + its executions in SC)
+*** some example (program + its executions in SC) (TODO: concrete example. SB?)
 *** advantage of SC --- simplicity
-*** disadvantage of SC --- performance penalty
+*** disadvantage of SC --- performance penalty (TODO: doesn't work in real life. SB example)
+** Informal memory model definition
+*** Semantics of a concurrent system like CPU or programming language
+
 ** Main tradeoff of WMMs: simplicity vs performance
 ** Types of WMMs
 *** Hardware
@@ -18,7 +20,44 @@
 *** Different requirements and tradeoffs for HW/PL
 ** Programming language memory models (focus of this paper)
 ** Structure of the paper
-* Requirements to Programming Language Memory Models
+* Introduction alternative
+** Weak memory introduction
+*** Here is SB program.
+*** We usually expect only SC semantics.
+**** Brief introduction of SC. Link to Lamport-TC79.
+*** That is, Dekker's lock is correct in SC.
+*** But it isn't in GCC+x86
+*** Two reasons
+**** Compiler optimizations
+**** CPU optimizations
+*** Fix w/ ~mfence~
+*** ~mfence~ solution has performance penalty
+
+** On data-race in SB example and usage of WMC
+Data-races are considered bad, but they are unavoidable in lock-free implementations.
+Thus, if you properly use locks, then you don't need to think about WMC.
+
+But implementations of locks usually have internal races, thus WMC is important
+at least for system engineers implementing the locks.
+** MMs in general
+*** Informal memory model definition
+**** Semantics of a concurrent system like CPU or programming language
+
+*** Main tradeoff of MMs: simplicity (ease to work w/?) vs performance
+*** Different requirements and trade-offs for HW/PL
+**** HW
+***** Describe real CPUs
+***** Room for future optimizations
+***** Guarantees for PL MMs
+**** PL
+***** Soundness of compiler optimizations (link to SB example)
+***** Compilation correctness to HW (link to SB example)
+***** Easy mode (DRF)
+***** ? UB and catch-fire semantics
+** Existing problems w/ most popular PL MMs
+** There are solutions w/ different trade-offs considered below
+** Paper structure 
+* Requirements to Programming Language Memory Models (TODO: rework w.r.t. new introduction)
 ** Memory models under consideration
 *** SC Memory Model 
 **** "baseline" simple memory model
@@ -30,34 +69,34 @@
 **** should be as efficient as possible, yet
 **** should be type and memory safe (no UB)
 ** Sound and efficient compilation scheme
-*** examples
-**** store buffering
-***** simplified Dekker
-***** discuss ~mfence~
-***** C/C++ 
-****** introduce ~rlx~ and ~sc~
-****** explain how they are compiled
-****** rewrite Dekker in C/C++
-***** Java
-****** introduce ~volatile~
-****** explain how it is compiled
-****** rewrite Dekker in Java
-**** message passing
-***** simplified spinlock
-****** introduce CAS here?
-***** discuss ~dmb~
-***** C/C++
-****** introduce ~rel~ and ~acq~
-****** explain how they are compiled
-****** explain the difference with ~sc~
-*** discuss fences and dependencies (in general)
+*** General words about efficiency of compilation
+We want efficient compilation to hardware.
+Thus, relaxed accesses have to have as weak semantics as normal accesses on hardware.
+*** Store buffering example
+**** simplified Dekker
+**** discuss ~mfence~
+**** C/C++
+***** introduce ~rlx~ and ~sc~
+***** explain how they are compiled
+***** rewrite Dekker in C/C++
+**** Java
+***** introduce ~volatile~
+***** Anton: VarHandlers? At least, to mention them. See [Bender-Palsberg-OOPSLA19].
+***** explain how it is compiled
+***** rewrite Dekker in Java
+*** Message passing example
+**** simplified spinlock
+***** introduce CAS here?
+**** discuss ~dmb~
+**** C/C++
+***** introduce ~rel~ and ~acq~
+***** explain how they are compiled
+***** explain the difference with ~sc~
+*** discuss fences and dependencies (in general) (TODO: fix and more details)
 ** Soundness of compiler optimisations
-*** examples
-**** an example of a transformation that is not sound in SC
-**** an example of a transformation that is not sound in JMM
-*** a list of transformations that we might want to support (?)
-*** discuss UB and catch-fire semantics in C/C++
-**** opportunities for compilation and optimisations
+*** Example: unsound transformation in SC
+*** Example: unsound transformation in JMM
+*** Transformations that we might want to support (?)
 ** Reasoning
 *** DRF (non-expert-mode)
 **** DRF-SC in Java
@@ -74,10 +113,20 @@
 ******* for programs without unbounded recursion and with finite domains
 ***** mention that checking whether JMM allows specific execution is undecidable
 ***** challenging (if possible?) for C/C++ because of OOTA
+** UB and catch-fire semantics
+*** Way to go for C/C++
+*** Not an option for Java (safe language)
+*** Opportunities for compilation and optimisations
 ** Summary
 * Towards No-Thin-Air Memory Model
-** Motivation 
-** Promising
+** ?Motivation? ANTON: should be discussed in the previous section.
+** LB examples. Real and fake dependencies. TODO: maybe move to the previous section.
+** RC11 (TODO)
+*** Reference to UB in context of forcing po ∪ rf acyclicity
+**** C++: only ~atomic~ accesses
+**** Java: all accesses
+*** Has performance penalty. See [Ou-Demsky-OOPSLA18].
+** Promising 2.0
 *** advantages
 *** formal definition
 **** operational semantics
@@ -85,7 +134,8 @@
 ***** explain promises and certification
 **** example
 *** compilation
-*** optimisations
+*** Local optimizations
+*** Global optimizations
 *** reasoning
 **** promise-free machine
 **** DRF-RA
@@ -101,16 +151,21 @@
 *** reasoning
 **** DRF-RLX
 **** discuss model checking (not yet published) (?)
-** Relaxed Modular Dependencies
+** Modular Relaxed Dependencies
 *** advantages
-**** mention that semantics is denotational
+**** mention that semantics is ?denotational?
+ANTON: only partially denotational. Their calculation of ``real'' dependencies denotational.
 *** formal definition
 **** example
 *** compilation
 *** optimisation
 *** reasoning
 **** discuss challenges for model checking
-* Other Models
+** Summary comparing the solutions
+*** Discuss challenges for model checking 
+*** Supported memory access types (rlx, rel/acq, sc)
+**** Promising doesn't support SC and it's hard to add there.
+* Other Models and features 
 ** JS/WASM Memory Model
 *** introduce ~SharedArrayBuffer~
 *** discuss mixed-size accesses
