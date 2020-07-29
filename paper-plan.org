@@ -150,9 +150,9 @@ we need relaxed atomics that are compiled as plain loads/stores with no dependen
 *** Opportunities for compilation and optimisations
 ** Summary
 * Towards No-Thin-Air Memory Model
-** ?Motivation? ANTON: should be discussed in the previous section. Evgenii: I think we need to briefly state it again in the beginning. 
-** RC11 
-*** Conservative approach 
+** Motivation
+** RC11
+*** Conservative approach
 **** advantage --- simplicity
 **** disadvantage --- performance penalty
 ***** compiler and hardware need to preserve load/store pairs (in other words cannot rearrange them)
@@ -164,7 +164,7 @@ we need relaxed atomics that are compiled as plain loads/stores with no dependen
 *** Reference to UB in the context of forcing po ∪ rf acyclicity
 **** C++: only ~atomic~ accesses
 **** Java: all accesses
-*** A brief look at formal semantics 
+*** A brief look at formal semantics
 **** intoduce axiomatic/declarative semantics 
 ***** events, pre-execution graphs (traces), execution graphs, constraints (axioms) 
 **** show examples on LB programs. 
@@ -189,11 +189,11 @@ we need relaxed atomics that are compiled as plain loads/stores with no dependen
 **** DRF-RA and DRF-SC
 
 ** Weakestmo
-*** Motivation  
+*** Motivation
 **** same goal as Promising, but tries to solve some of its problems
 ***** being more declarative (easier to adapt/modify)
 ***** support for SC accesses
-*** A brief look at formal semantics 
+*** A brief look at formal semantics
 **** introduce event structures
 **** operational semantics for ES construction
 **** show examples on LB programs
@@ -212,7 +212,7 @@ ANTON: only partially denotational. Their calculation of ``real'' dependencies d
 *** Discuss challenges for model checking 
 *** Supported memory access types (rlx, rel/acq, sc)
 **** Promising doesn't support SC and it's hard to add there.
-* Other Models and features 
+* Other Models and features
 ** JS/WASM Memory Model
 *** introduce ~SharedArrayBuffer~
 *** discuss mixed-size accesses
