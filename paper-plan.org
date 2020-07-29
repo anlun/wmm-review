@@ -3,25 +3,19 @@
 
 * Abstract 
 * Introduction
-** Intro (TODO: more concrete, not too general)
-*** importance of parallel/concurrent computing today
-*** importance of formal semantics
-** Sequential consistency (SC)
-*** some example (program + its executions in SC) (TODO: concrete example. SB?)
-*** advantage of SC --- simplicity
-*** disadvantage of SC --- performance penalty (TODO: doesn't work in real life. SB example)
-** Informal memory model definition
-*** Semantics of a concurrent system like CPU or programming language
-
-** Main tradeoff of WMMs: simplicity vs performance
-** Types of WMMs
-*** Hardware
-*** Programming language
-*** Different requirements and tradeoffs for HW/PL
-** Programming language memory models (focus of this paper)
-** Structure of the paper
-* Introduction alternative
 ** Weak memory introduction
+*** On data-races and usage of WMC
+
+Usually, programmers implementing concurrent programs should use 
+synchronization primitives (like locks) provided by programming language or libraries.
+Data-races (TODO: explain what it is) are considered as errors in this setting.
+Thus, if you properly use locks, then you don't need to think about WMC.
+However, data-races are unavoidable in some cases
+(e.g. implementation of synchronization primitives themselfs, lock-free data-structures, etc).
+Thus WMC is important at least for system engineers implementing the locks, lock-free data-structures, etc.
+
+Let us consider the consequences of having data-races in concurrent program on concrete example.
+
 *** Here is SB program.
 *** We usually expect only SC semantics.
 **** Brief introduction of SC. Link to Lamport-TC79.
@@ -33,12 +27,6 @@
 *** Fix w/ ~mfence~
 *** ~mfence~ solution has performance penalty
 
-** On data-race in SB example and usage of WMC
-Data-races are considered bad, but they are unavoidable in lock-free implementations.
-Thus, if you properly use locks, then you don't need to think about WMC.
-
-But implementations of locks usually have internal races, thus WMC is important
-at least for system engineers implementing the locks.
 ** MMs in general
 *** Informal memory model definition
 **** Semantics of a concurrent system like CPU or programming language
@@ -53,8 +41,14 @@ at least for system engineers implementing the locks.
 ***** Soundness of compiler optimizations (link to SB example)
 ***** Compilation correctness to HW (link to SB example)
 ***** Easy mode (DRF)
+***** Reasoning and formal verification
 ***** ? UB and catch-fire semantics
 ** Existing problems w/ most popular PL MMs
+*** Either
+**** unsound compilation
+**** inefficient compilation 
+**** some common optimizations are unsound 
+**** formal reasoning is impossible (memory model is too weak)
 ** There are solutions w/ different trade-offs considered below
 ** Paper structure 
 * Requirements to Programming Language Memory Models (TODO: rework w.r.t. new introduction)
@@ -70,33 +64,70 @@ at least for system engineers implementing the locks.
 **** should be type and memory safe (no UB)
 ** Sound and efficient compilation scheme
 *** General words about efficiency of compilation
+
 We want efficient compilation to hardware.
 Thus, relaxed accesses have to have as weak semantics as normal accesses on hardware.
-*** Store buffering example
-**** simplified Dekker
-**** discuss ~mfence~
-**** C/C++
-***** introduce ~rlx~ and ~sc~
-***** explain how they are compiled
-***** rewrite Dekker in C/C++
-**** Java
-***** introduce ~volatile~
-***** Anton: VarHandlers? At least, to mention them. See [Bender-Palsberg-OOPSLA19].
-***** explain how it is compiled
-***** rewrite Dekker in Java
+However, sometimes it is necessary to have stronger accesses that prevent some intstruction reorderings.
+Programming languages usually provide several types of accesses that compiled differently
+(e.g. Java normal and ~volatile~ accesses, ~memory_order~ in C/C++)
+
+*** Preventing instruction reorderings by hardware
+There are several techniques which the compiler can use 
+in order to prevent reorderings of intructions made by the processor  
+**** fence instructions
+**** intruction dependencies
+*** Note on the cost of enforcing SC (compile everything with fences)  
+*** Store buffering example (again)
+**** explain example again
+If relaxed accesses (~rlx~ in C/C++ or non-atomic in Java) 
+are used in SB then after the compilation to x86 (or ARM/POWER)
+the weak behaviors can appear. 
+**** restoring sequential consistency
+***** sc accesses (~sc~ in C/C++, ~volatile~ in Java)
+***** sc accesses are compiled with ~mfence~ on x86 (mention ARM/POWER compilation?)
+***** another way: using fences in PL (~atomic_thread_fence~ in C/C++)  
+Discuss difference between sc acceeses and fences, 
+perhaps it is better to do it in optimizations section. 
 *** Message passing example
-**** simplified spinlock
-***** introduce CAS here?
-**** discuss ~dmb~
-**** C/C++
-***** introduce ~rel~ and ~acq~
-***** explain how they are compiled
-***** explain the difference with ~sc~
-*** discuss fences and dependencies (in general) (TODO: fix and more details)
-** Soundness of compiler optimisations
+**** message passing program, weak behavior
+**** introduce release/acquire accesses
+***** difference with sc accesses  
+Informal explanation: allow to 'syncronize' two threads in the program
+but do not provide any 'global' syncronization.
+Perhaps, illustrate this with IRIW example.
+***** how they are compiled to hardware
+****** plain accesses on x86, ~dmb~ on ARMv7, ~lda/stl~ on ARMv8, control dependency + ~isync~ on POWER 
+*** Simlified spinlock example
+**** introduce RMW (CAS, FAI, etc)  
+**** splinlock implementation
+**** note that usage of RMW and release/acquire accesses is important
+**** how RMW are compiled
+***** ~XCHG~ on x86
+***** load-linked/store-conditional + loop on ARM/POWER
+***** special instructions for FAI on ARMv8
+
+*** Summary
+
+There are several types of atomic accesses. 
+Each of them should be compiled differently
+in order to preserve the required guarantees
+(e.g. to restore SC with sc atomics).
+Atomic RMWs should be compiled using special hardware instructions
+(either CAS-like or LL/SC + loop).
+If we want the PL to be able to compile code in the most effcient way,
+we need relaxed atomics that are compiled as plain loads/stores with no dependencies.    
+
+** Soundness of compiler optimizations
+*** General words about compiler optimizations
+*** Local and global transformations
+*** Fake dependencies elimination
+**** LB examples. Real and fake dependencies. Semantics should be able to distinguish them. 
 *** Example: unsound transformation in SC
+**** reordering of independent memory accesses
 *** Example: unsound transformation in JMM
-*** Transformations that we might want to support (?)
+**** redundunt read after read elimination
+*** C/C++ is fine 
+*** List of transformations that we might want to support (?)
 ** Reasoning
 *** DRF (non-expert-mode)
 **** DRF-SC in Java
@@ -119,47 +150,63 @@ Thus, relaxed accesses have to have as weak semantics as normal accesses on hard
 *** Opportunities for compilation and optimisations
 ** Summary
 * Towards No-Thin-Air Memory Model
-** ?Motivation? ANTON: should be discussed in the previous section.
-** LB examples. Real and fake dependencies. TODO: maybe move to the previous section.
-** RC11 (TODO)
-*** Reference to UB in context of forcing po ∪ rf acyclicity
+** ?Motivation? ANTON: should be discussed in the previous section. Evgenii: I think we need to briefly state it again in the beginning. 
+** RC11 
+*** Conservative approach 
+**** advantage --- simplicity
+**** disadvantage --- performance penalty
+***** compiler and hardware need to preserve load/store pairs (in other words cannot rearrange them)
+
+****** relaxed loads should be compiled with fake dependency on ARM/POWER 
+****** independent load/store reordering transformation is forbidden
+
+***** Discuss the cost of performance penalty. Reference to [Ou-Demsky-OOPSLA18].
+*** Reference to UB in the context of forcing po ∪ rf acyclicity
 **** C++: only ~atomic~ accesses
 **** Java: all accesses
-*** Has performance penalty. See [Ou-Demsky-OOPSLA18].
-** Promising 2.0
-*** advantages
-*** formal definition
-**** operational semantics
-***** explain timestamps and viewfronts
-***** explain promises and certification
-**** example
-*** compilation
+*** A brief look at formal semantics 
+**** intoduce axiomatic/declarative semantics 
+***** events, pre-execution graphs (traces), execution graphs, constraints (axioms) 
+**** show examples on LB programs. 
+*** Reasoning
+**** DRF-SC is restored
+**** efficient stateless model checking (cite [Kokologiannakis-et-al:POPL-17,Kokologiannakis-et-al:PLDI-19]) 
+
+** Promising (1.0 and 2.0)
+*** Idea --- allow causality (po ∪ rf) cycles that can be semantically certified 
+**** consequences for compilation/optimizations --- no performance penalty
+***** relaxed load/stores can be compiled as plain load/stores
+***** reordering of independent load/stores is su
+**** disadvantage --- model complexity
+*** A brief look at formal semantics
+**** operational semantics (abstract machine)
+***** timestamps and viewfronts
+***** promises and certification
+**** show examples on LB programs
 *** Local optimizations
 *** Global optimizations
-*** reasoning
-**** promise-free machine
-**** DRF-RA
+*** Reasoning
+**** DRF-RA and DRF-SC
+
 ** Weakestmo
-*** advantages
-**** declarative
-**** mention support for SC accesses
-*** introduce event structures
-*** formal definition
-**** example
-*** compilation
-*** optimisations
-*** reasoning
-**** DRF-RLX
+*** Motivation  
+**** same goal as Promising, but tries to solve some of its problems
+***** being more declarative (easier to adapt/modify)
+***** support for SC accesses
+*** A brief look at formal semantics 
+**** introduce event structures
+**** operational semantics for ES construction
+**** show examples on LB programs
+*** Reasoning
+**** DRF-RLX (proof is broken) (?)
 **** discuss model checking (not yet published) (?)
 ** Modular Relaxed Dependencies
-*** advantages
+*** Idea --- distinguish real and fake dependencies  
 **** mention that semantics is ?denotational?
 ANTON: only partially denotational. Their calculation of ``real'' dependencies denotational.
-*** formal definition
-**** example
-*** compilation
-*** optimisation
-*** reasoning
+*** A brief look at formal semantics
+**** show examples on LB programs
+*** Reasoning
 **** discuss challenges for model checking
 ** Summary comparing the solutions
 *** Discuss challenges for model checking 
