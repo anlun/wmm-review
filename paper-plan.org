@@ -4,28 +4,108 @@
 * Abstract 
 * Introduction
 ** Weak memory introduction
+
 *** On data-races and usage of WMC
 
-Usually, programmers implementing concurrent programs should use 
-synchronization primitives (like locks) provided by programming language or libraries.
-Data-races (TODO: explain what it is) are considered as errors in this setting.
-Thus, if you properly use locks, then you don't need to think about WMC.
-However, data-races are unavoidable in some cases
-(e.g. implementation of synchronization primitives themselfs, lock-free data-structures, etc).
-Thus WMC is important at least for system engineers implementing the locks, lock-free data-structures, etc.
+A main challenge in concurrent programming is 
+to establish a proper synchronization between threads executed in parallel.     
+Usually it is done with the help of synchronization primitives
+provided by the programming language or libraries.
+Examples of such primitives are locks, semaphores, barriers, channels and other.
+If the programmer uses these primitives properly, he/she should not worry about concurrencly related bugs.
+
+%% In this setting plain accesses to mutable shared variables are usually considered hazardous,
+
+However, if the programmer want to use plain accesses to mutable shared variables, 
+he/she must be very careful, because it can lead to data-races, a situation when two threads 
+concurrently access the same variable and at least one of them is performing a write operation.
+Data-races serve as a source of bugs in program,
+which are hard to detect due to nondeterministic nature of concurrent programs.
+     
+Unfortunately data-races are unavoidable in some cases. 
+For example, the implementation of synchronization primitives themselves usually contain data-races.
+Another important example is lock-free data-structures that use fine grained synchronization 
+in order to increase throughput of the program.
+Thus it is important for a programming language to specify the behaviour of programs containing data-races.
+This is what the memory model of programming language is responsible for.  
+
+%% The memory model defines which values the reads of shared variables can observe at each point of the execution. 
 
 Let us consider the consequences of having data-races in concurrent program on concrete example.
 
 *** Here is SB program.
+
+Consider a tiny program depicted below. 
+
+%% Here will be a figure with SB program
+
+In this program there are two threads, separated by two vertical bars, 
+two shared variables ~x~ and ~y~, and two local variables ~r1~ and ~r2~, which we will also call registers.
+In order to distinguish local and shared variables we enclose the latter into squre brackets, 
+i.e. we write ~[x]~ and ~[y]~ to emphasise these variables are shared. 
+Left thread first performs a write to ~[x]~ and then reads value from ~[y]~ into register ~r1~.
+Right thread does the same but with ~[x]~ and ~[y]~ switched their roles.
+
+%% Note the data races between write/read of ~[x]~/~[y]~.
+
 *** We usually expect only SC semantics.
+
+After running this program on multicore system, one would expect to see 
+that either ~r1 = 0 /\ r2 = 1~, ~r1 = 1 /\ r2 = 0~, or ~r1 = 1 /\ r2 = 1~.
+These behaviours can be explained as a result of interleaving of the instructions of parallel threads. 
+
 **** Brief introduction of SC. Link to Lamport-TC79.
-*** That is, Dekker's lock is correct in SC.
+
+A memory model that admits only these behaviours is known under the name /sequential consistency/ (SC) [Lamport:TC79].
+
 *** But it isn't in GCC+x86
+
+Unexpectedly, if one will try to port this program to C language,
+compile it with some compiler, say GCC, and run it on some real modern CPU, like x86, 
+one can also observe the behaviour ~r1 = 0 /\ r2 = 0~.
+
 *** Two reasons
 **** Compiler optimizations
 **** CPU optimizations
+
+The last non-SC behaviour appears because of optimizations,
+that could be performed either by the compiler or by the CPU. 
+The optimizer can notice that write to ~[x]~ and read from ~[y]~
+are independent instructions and thus they can be interchanged
+(this optimization is perfectly valid for a single threaded program).
+After the transformation the program looks as follows
+
+%% Here will be a figure with transformed SB program
+
+and now the behaviour with ~r1 = 0 /\ r2 = 0~ can be obtained 
+even if it is executed assuming SC semantics.
+
+The memory models that admit non-SC behaviours are called weak memory models
+(correspondingly non-SC behaviours themselves are called weak behaviours). 
+
+*** Dekker's lock is correct in SC, but not in weak memory.
+
+The appearance of weak behaviours can lead to very devastating consequences.
+For example a similar pattern to the SB program can be found in Dekker's algorithm for mutual exclusion.
+
+%% Here will be a figure with Dekker's algorithm
+
+Presence of weak behaviours breaks the correctness of the algorithm,
+allowing two threads to enter critical section simultaneously. 
+
 *** Fix w/ ~mfence~
+
+In order to forbid weak behaviours and restore SC semantics
+(and consequently restore correctness the Dekker's algoritm correct)
+one has to use special annotations and CPU instructions, called memory fences,
+in order to prevent compiler and CPU from reordering of the instructions. 
+In case of x86 such instruction is called ~mfence~ and it prevents 
+store to be moved below subsequent instructions.  
+
 *** ~mfence~ solution has performance penalty
+
+However, forbiding instruction reorderings on both the compiler's and CPU's level
+has performance penalty and can slow down the program.  
 
 ** MMs in general
 *** Informal memory model definition
