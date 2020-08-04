@@ -112,25 +112,119 @@ has performance penalty and can slow down the program.
 **** Semantics of a concurrent system like CPU or programming language
 
 *** Main tradeoff of MMs: simplicity (ease to work w/?) vs performance
+
+Thereby, the main tradeoff of the memory model is its simplicity versus the performance penalty it induces. 
+
 *** Different requirements and trade-offs for HW/PL
+
+The memory models are usually split into two classes: 
+models of hardware, that is modern CPU's like x86, ARMv8, POWER, etc, 
+and models of programming languages, such as C/C++ or Java. 
+Hardware and programming languages put different requirements 
+on a memory model, that substantially effect its design and trade-offs.     
+
+
 **** HW
 ***** Describe real CPUs
 ***** Room for future optimizations
 ***** Guarantees for PL MMs
+
+The main requirement for the hardware memory models is that 
+they should describe the behaviour of real modern CPU 
+with all complex optimizations they made, 
+like a hierarchy of memory caches, speculative executions, pipelining, etc.
+Besides that the memory model should also leave some room for possible future optimizations.
+Finally, it still needs to provide some reasonable guarantees for programs 
+run on that CPU.       
+
 **** PL
-***** Soundness of compiler optimizations (link to SB example)
+
+Programming language memory model features different set of requirements.
+
 ***** Compilation correctness to HW (link to SB example)
+
+First, it should permit an efficient and sound compilation scheme to the modern hardware.
+Efficient usually means that accesses to shared memory can be compiled 
+without usage of memory fences, or with as little of them as possible. 
+Soundness means that after the compilation the program when run on hardware 
+(assuming memory model of some particular hardware) should not exhibit
+any behaviours that were not allowed by the programming language memory models. 
+Otherwise it would be very confusing for a programmer, 
+because after the compilation he/she could observe the behaviours of the program 
+which are forbidden according to the programming language semantics.
+
+Going back to the SB example, one can conclude that SC is not really satisfies this criteria. 
+In order to guarantee SC memory model for a programming language that should be able to be compiled into x86
+one should issue the ~mfence~ instruction after each store to shared variable.
+Compiled with such compilation scheme the program will run significantly slower 
+than if it would have been compiled without memory fences.
+
+***** Soundness of compiler optimizations (link to SB example)
+
+
+
+Besides that the programming languge memory model should guarantee soundness of common compiler optimizations,
+like for example reordering of independent instructions or common subexpression elimination.
+It means that after an application of optimizations the program should not exibit any new behaviours.
+
+Considering the SB example again, it can be seen that SC is not good with this respect too.
+Reordering of independent instructions is not sound under SC, 
+because, for example, after the reordering of the instructions of the left thread,
+the new weak behaviour can be observed even if the program is compiled 
+using the strictest memory fences offered by the hardware.  
+
 ***** Easy mode (DRF)
+
+Contrary to the previous requirements, the memory model still should provide some reasonable guarantees.
+For example, it should be possible for a programmer unfamiliar with subtleties of weak memory models 
+to assume the SC model if he/she only uses corretly implemented syncronization primitives and data-structures
+and never uses plain accesses to shared memory which could lead to data-races.
+Guarantees of this kind are known as /Data-Race Free Theorems/ (DRF theorems) 
+and usually they should be provided by any sane memory model.  
+
 ***** Reasoning and formal verification
+
+Besides that it is very desirable for a memory model to be suitable for a formal reasoning and verification.
+It implies that automated or semi-automated verification tools can be implemented 
+in order to help the developers catch bugs in their concurrent code. 
+
+%% As we will see, this requirement is not trivially satisfiable and in fact it does not met by many existing programming language memory models.   
+
 ***** ? UB and catch-fire semantics
+
 ** Existing problems w/ most popular PL MMs
+
 *** Either
 **** unsound compilation
 **** inefficient compilation 
 **** some common optimizations are unsound 
 **** formal reasoning is impossible (memory model is too weak)
+
+It turns out that none of the existing industrial specification of memory models 
+for concurrent programming languages, like C/C++ or Java, really mets all of the requirements.
+A memory model that can be efficiently compiled to the hardware, admits common compiler optimizations 
+and at the same time provides strong enough guarantees for informal and formal reasoning
+was a holy grail for the researchers in the field of formal semantics for a long time.
+Only recently a major shift has been done, but even the most recently proposed solutions are flawed.    
+
 ** There are solutions w/ different trade-offs considered below
+
+Thus the existing solutions have to make different trade-offs and either sacrifice performance or break some reasoning principles.  
+In this paper we will consider several existing proposals for memory models of different programming languages,
+discuss their design choices, limitations and ways to overcome them.  
+
 ** Paper structure 
+
+The rest of the paper is organized as follows.
+In section [1] we will discuss in more detail the requirements to the programming language memory models.
+We will also look at specification of memory models for the C/C++ and Java languages
+and see why these models do not meet the desired requirements.
+In section [2] we will consider several proposed solutions to fix C/C++ MM. 
+Section [3] contains an overview of memory models for JavaScript/WebAssembly and OCaml languages. 
+Both of these models features some interesting properties that are currently lack in other models.
+In section [4] we compare all of the memory models presented in the paper.
+Finally, section [5] concludes with the discussion and open problems. 
+
 * Requirements to Programming Language Memory Models (TODO: rework w.r.t. new introduction)
 ** Memory models under consideration
 *** SC Memory Model 
