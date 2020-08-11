@@ -1,3 +1,4 @@
+
 #+TITLE: An Overview of Programming Language Memory Models
 #+SUBTITLE: Plan of the research paper
 
@@ -12,52 +13,58 @@ to establish a proper synchronization between threads executed in parallel.
 Usually it is done with the help of synchronization primitives
 provided by the programming language or libraries.
 Examples of such primitives are locks, semaphores, barriers, channels and other.
-If the programmer uses these primitives properly, he/she should not worry about concurrencly related bugs.
-(ANTON: Just use "she" here and in other similar situations.)
+If the programmer uses these primitives properly, she should not worry about concurrencly related bugs.
+Otherwise she must be very careful because accesses to mutable shared variables, 
+that are not protected by locks or other syncronization primitives, can lead to data-races, 
+a situation when two threads concurrently access the same variable and at least one of them is performing a write operation.
 
-%% In this setting plain accesses to mutable shared variables are usually considered hazardous,
-
-(ANTON: Plain accesses are not defined.)
-However, if the programmer want to use plain accesses to mutable shared variables, 
-he/she must be very careful, because it can lead to data-races, a situation when two threads 
-concurrently access the same variable and at least one of them is performing a write operation.
-Data-races serve as a source of bugs in program,
-which are hard to detect due to nondeterministic nature of concurrent programs.
-(ANTON: This paragraph is confusing. People do use plain accesses to shared variables but
-usually guard them with locks. It looks like the second paragraph should be rearranged w/ the third one.)
+%% Data-races serve as a source of bugs in program, which are hard to detect due to nondeterministic nature of concurrent programs.
      
 Unfortunately data-races are unavoidable in some cases. 
 For example, the implementation of synchronization primitives themselves usually contain data-races.
-Another important example is lock-free data-structures that use fine grained synchronization 
-in order to increase throughput of the program.
+Another important example is lock-free data-structures that use fine grained synchronization in order to increase throughput of the program.
 Thus it is important for a programming language to specify the behaviour of programs containing data-races.
-This is what the memory model of programming language is responsible for.  
-(ANTON: the term "memory model" is not introduced properly.)
 
-%% The memory model defines which values the reads of shared variables can observe at each point of the execution. 
+This is what the memory model of programming language is responsible for.  
+The memory model defines which values the reads of shared variables can observe at each point of the execution. 
+In other words, it defines the semantics of concurrent program.
+% (in the rest of the paper we will use terms memory model and program semantics interchangeably).
 
 Let us consider the consequences of having data-races on a concrete example.
 
+*** Dekker's lock is correct in SC, but not in weak memory.
+
+Consider a variant of Dekker's algorithm for mutual exclusion.
+
+%% Here will be a figure with Dekker's algorithm
+
+In this program there are two threads accessing shared variables ~flag_i~ and ~turn~.
+We enclose accesses to shared locations into square brackets, i.e., we write ~[flag_i]~ and ~[turn_i]~,
+in order to distinguish them from accesses to registers (local variables).
+Thread ~i~ use variable ~flag_i~ to indicate its intention to enter the critical section.
+Variable ~turn~ is used to determine which thread can enter critical section next. 
+ 
+%% Note the data races between write/read of ~[flag_i]~.
+
+The algorithm heavily relies on the fact that both threads cannot simultaneously read value ~0~ at lines \ref{...}.
+Otherwise the two threads would have been able to enter critical section simultaneously, thus breaking the correctness of the algorithm.
+At first this assumption seems perfectly valid but let's a have a closer look.
+
 *** Here is SB program.
 
-Consider a program depicted below. 
+Consider a program depicted below, which is a fragment of Dekker's algorithm.
 
 %% Here will be a figure with SB program
 
-In this program there are two threads accessing shared locations ~x~ and ~y~ and storing
-values read from the locations to /registers/ ~r1~ and ~r2~.
-In order to distinguish accesses to shared locations from accesses to registers,
-we enclose the latter into square brackets, i.e., we write ~[x]~ and ~[y]~. 
-%% Thus, in the program, the left thread first performs a write to ~[x]~ and then reads value from ~[y]~ into register ~r1~.
-%% The right thread does the same but with ~[x]~ and ~[y]~ switched their roles.
-
-%% Note the data races between write/read of ~[x]~/~[y]~.
-
 *** We usually expect only SC semantics.
 
+In this program there are two threads accessing shared locations ~x~ and ~y~ and 
+storing values read from the locations to registers ~r1~ and ~r2~.
 After running this program on a multi-core system, one would expect to see 
 one of the following outcomes: ~{[r1=0, r2=1], [r1=1,r2=0], [r1=1,r2=1]}~.
-Each of the behaviors may be explained as a result of a sequential execution of an interleaving of threads' instructions. 
+These outcomes matches the assumptions of Dekker's algorithm.
+Each one of them may be explained as a result of a sequential execution of an interleaving of threads' instructions. 
+
 (ANTON: If we have enough space, I'd put a figure w/ the interleavings.)
 (ANTON: IMO, we should more carefully distinguish terms "behavior" and "outcome".)
 (ANTON: Also, we should state somewhere that, in the context of concurrent programs, we use terms "semantics" and "memory model" interchangeably.)
@@ -75,7 +82,8 @@ she may also observe the outcome ~[r1=0, r2=0]~.
 **** Compiler optimizations
 **** CPU optimizations
 
-The last non-SC behaviour appears because of optimizations,
+The last non-SC behaviour is called /weak/.
+It can appears because of optimizations,
 that could be performed either by the compiler or by the CPU. 
 The optimizer may observe that write to ~[x]~ and read from ~[y]~
 are independent instructions and thus they may be interchanged
@@ -85,24 +93,6 @@ After the transformation the program looks as follows
 %% Here will be a figure with transformed SB program
 
 for which the outcome ~[r1 = 0, r2 = 0]~ may be obtained under the SC semantics.
-
-The memory models that admit non-SC behaviours are called /weak memory models/
-(correspondingly non-SC behaviours themselves are called /weak behaviours/). 
-(ANTON: Weak behaviors should be introduced before weak models.)
-
-*** Dekker's lock is correct in SC, but not in weak memory.
-
-The appearance of weak behaviours can lead to very devastating consequences.
-(ANTON: In general, I'd avoid such strong adjectives.)
-For example a similar pattern to the SB program can be found in Dekker's algorithm for mutual exclusion.
-
-%% Here will be a figure with Dekker's algorithm
-
-Presence of weak behaviours breaks the correctness of the algorithm,
-allowing two threads to enter critical section simultaneously. 
-
-(ANTON: I'd explain the Dekker's lock before introducing weak behaviors.
-It makes the point that weak models should be studied more bold.)
 
 *** Fix w/ ~mfence~
 
@@ -115,19 +105,25 @@ store to be moved below subsequent instructions.
 
 *** ~mfence~ solution has performance penalty
 
-However, forbiding instruction reorderings on both the compiler's and CPU's level
-has performance penalty and can slow down the program.  
+However, forbiding every possible instruction reordering  
+on both the compiler's and CPU's level by putting memory fences everywhere
+has performance penalty and can slow down the program.
+Thus the programmer who want to implement a concurrent algorithm 
+need to understand the memory model of the underlying system 
+and put memory fences carefully.  
 
-** MMs in general
-*** Informal memory model definition
-    (ANTON: I don't understand the purpose of the informal introduction here.
-    Shouldn't memory models be introduced informally in "Weak memory introduction" already?
-    What differs this section from the introduction in "Weak memory introduction" already?)
-**** Semantics of a concurrent system like CPU or programming language
+** Weak memory models 
+
+As we have seen, the modern CPU's do not provide us sequentially consistent memory model. 
+Memory models of programming languages also cannot provides us guarantees of sequential consistency
+without a sacrifice of of the compiled code's performance .  
+Thus memory models of modern systems have to be /weak/, that is they have to allow weak outcomes.  
 
 *** Main tradeoff of MMs: simplicity (ease to work w/?) vs performance
 
-Thereby, the main tradeoff of the memory model is its simplicity versus the performance penalty it induces. 
+The main qustions is how weak the memory model should be?
+The stronger model give more guarantees and thus is simpler to reason about while the weaker model permits more optimizatons. 
+The main tradeoff of the memory model therefore is its simplicity versus the performance penalty it induces. 
 
 *** Different requirements and trade-offs for HW/PL
 
@@ -141,23 +137,21 @@ on a memory model, that substantially effect its design and trade-offs.
 **** HW
 ***** Describe real CPUs
 ***** Room for future optimizations
+***** Preserve syntactic dependencies
 ***** Guarantees for PL MMs
 
 The main requirement for the hardware memory models is that 
 they should describe the behaviour of real modern CPU 
-with all complex optimizations they made, 
-like a hierarchy of memory caches, speculative executions, pipelining, etc.
+with all complex optimizations they made, like a hierarchy of memory caches, speculative executions, pipelining, etc.
 Besides that the memory model should also leave some room for possible future optimizations.
-Finally, it still needs to provide some reasonable guarantees for programs 
-run on that CPU.       
+Finally, it still needs to provide some reasonable guarantees for programs run on that CPU.       
 (ANTON: IMO, this section deserves some details and explanations because we aren't going to return to HW models.
 For example, more on future optimizations: there are behaviors allowed by models but not observed on CPUs [Alglave-al:TOPLAS14].
 Maybe, here we should briefly say that HW models preserve dependencies to contrast it to PL models (w/o OOTA details for now).)
 
 **** PL
 
-A programming language memory model features different set of requirements.
-(ANTON: I doubt that one may "feature requirements".)
+A programming language memory model has different set of requirements.
 
 ***** Compilation correctness to HW (link to SB example)
 
@@ -167,33 +161,38 @@ without usage of memory fences, or with as little of them as possible.
 Soundness means that after the compilation the program when run on hardware 
 (assuming memory model of some particular hardware) should not exhibit
 any behaviours that were not allowed by the programming language memory models. 
-Otherwise it would be very confusing for a programmer, 
-because after the compilation he/she could observe the behaviours of the program 
-which are forbidden according to the programming language semantics.
-(ANTON: Currently, the explanation is too brief and confusing.)
 
-(ANTON: "criteria" is a plural form of "criterion".)
 Going back to the SB example, one can conclude that SC is not really satisfies this criterion. 
-In order to guarantee SC memory model for a programming language that should be able to be compiled into x86
-one should issue the ~mfence~ instruction after each store to shared variable.
-Compiled with such compilation scheme the program will run significantly slower 
-than if it would have been compiled without memory fences.
-(ANTON: The statement ("significantly slower") is too bold. Also, a link to a following section is required.)
+
+Imagine if accesses to shared variables would have been compiled as plain load and store instructions of x86.
+Then after running the compiled program one would be able to observe the weak outcome ~[r1 = 0, r2 = 0]~.
+This outcome is not allowed by the SC semantics and yet it can be observed.
+Thus one can conclude that this compilation scheme is unsound. 
+
+Alternatively, in order to preserve the SC semantics one could 
+issue ~mfence~ instruction after each store to shared variable.
+This compilation scheme is sound but inefficient.
+Programs compiled with such compilation scheme will run slower than 
+if they would have been compiled without memory fences.
 
 ***** Soundness of compiler optimizations (link to SB example)
 
-
-
 Besides that the programming languge memory model should guarantee soundness of common compiler optimizations,
-like for example reordering of independent instructions or common subexpression elimination.
-It means that after an application of optimizations the program should not exibit any new behaviors.
+like, for example, reordering of independent instructions or common subexpression elimination.
+Soundness of an optimization means that after an application 
+of optimizations the program should not exibit any new behaviors.
 
 Considering the SB example again, it can be seen that SC is not good with this respect too.
-Reordering of independent instructions is not sound under SC, 
-because, for example, after the reordering of the instructions of the left thread,
-the new weak behaviour can be observed even if the program is compiled 
-using the strictest memory fences offered by the hardware.  
-(ANTON: IMO, the previous sentence is confusing for a general reader.)
+The allowed outcomes of the SB program are ~{[r1=0, r2=1], [r1=1,r2=0], [r1=1,r2=1]}~.
+After reordering of independent instructions in the left thread the program looks as follows.
+
+%% here will be a picture of SB after instruction reordering
+
+For this program SC model allows the following outcomes: 
+~{[r1=0, r2=1], [r1=1,r2=0], [r1=1,r2=1], [r1=0,r2=0]}~.
+Comparing them with the outcomes of the original program one can notice
+that there is one new outcome ~[r1=0,r2=0]~.
+This an evidence that reordering of independent instructions is not sound under SC.
 
 ***** Easy mode (DRF)
 
@@ -201,9 +200,8 @@ Contrary to the previous requirements, the memory model still should provide som
 (ANTON: For now, the contrast between the requirements is unclear. Maybe, at the end of the PL requirements section,
 we should mention that the first two criteria push a memory model to be weaker, whereas the third one---to be stronger.)
 For example, it should be possible for a programmer unfamiliar with subtleties of weak memory models 
-to assume the SC model if she only uses correctly implemented synchronization primitives and data-structures
-and never uses plain accesses to shared memory which could lead to data-races.
-(ANTON: Again, I think "plain accesses" here mean "unguarded accesses".)
+to assume the SC model if she only uses correctly implemented synchronization primitives 
+and data-structures and has no data-races in her program.
 Guarantees of this kind are known as /Data-Race Free Theorems/ (DRF theorems) 
 and usually they should be provided by any sane memory model.  
 
