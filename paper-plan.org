@@ -14,9 +14,9 @@ Usually it is done with the help of synchronization primitives
 provided by the programming language or libraries.
 Examples of such primitives are locks, semaphores, barriers, channels and other.
 If the programmer uses these primitives properly, she should not worry about concurrencly related bugs.
-Otherwise she must be very careful because accesses to mutable shared variables, 
-that are not protected by locks or other syncronization primitives, can lead to data-races, 
-a situation when two threads concurrently access the same variable and at least one of them is performing a write operation.
+Otherwise she must be very careful. Accesses to mutable shared variables, 
+that are not protected by locks or other syncronization primitives, can lead to data-races. 
+Data-race is a situation when two threads concurrently access the same variable and at least one of them is performing a write operation.
 
 %% Data-races serve as a source of bugs in program, which are hard to detect due to nondeterministic nature of concurrent programs.
      
@@ -58,7 +58,7 @@ Consider a program depicted below, which is a fragment of Dekker's algorithm.
 
 *** We usually expect only SC semantics.
 
-In this program there are two threads accessing shared locations ~x~ and ~y~ and 
+In this program there are two threads accessing shared locations ~[x]~ and ~[y]~ and 
 storing values read from the locations to registers ~r1~ and ~r2~.
 After running this program on a multi-core system, one would expect to see 
 one of the following outcomes: ~{[r1=0, r2=1], [r1=1,r2=0], [r1=1,r2=1]}~.
@@ -96,10 +96,10 @@ for which the outcome ~[r1 = 0, r2 = 0]~ may be obtained under the SC semantics.
 
 *** Fix w/ ~mfence~
 
-In order to forbid weak behaviours and restore SC semantics
+In order to to prevent compiler and CPU from reordering of the instructions 
+and thus forbid weak behaviours and restore SC semantics
 (and consequently restore correctness the Dekker's algoritm correct)
-one has to use special annotations and CPU instructions, called /memory fences/,
-in order to prevent compiler and CPU from reordering of the instructions. 
+one has to use special annotations and CPU instructions, called /memory fences/.
 In case of x86 such instruction is called ~mfence~ and it prevents 
 store to be moved below subsequent instructions.  
 
@@ -114,7 +114,7 @@ and put memory fences carefully.
 
 ** Weak memory models 
 
-As we have seen, the modern CPU's do not provide us sequentially consistent memory model. 
+As we have seen, the modern CPU's do not provide us sequentially consistent memory model by default. 
 Memory models of programming languages also cannot provides us guarantees of sequential consistency
 without a sacrifice of of the compiled code's performance .  
 Thus memory models of modern systems have to be /weak/, that is they have to allow weak outcomes.  
@@ -132,7 +132,6 @@ models of hardware, that is modern CPU's like x86, ARMv8, POWER, etc,
 and models of programming languages, such as C/C++ or Java. 
 Hardware and programming languages put different requirements 
 on a memory model, that substantially effect its design and trade-offs.     
-
 
 **** HW
 ***** Describe real CPUs
@@ -199,6 +198,7 @@ This an evidence that reordering of independent instructions is not sound under 
 Contrary to the previous requirements, the memory model still should provide some reasonable guarantees.
 (ANTON: For now, the contrast between the requirements is unclear. Maybe, at the end of the PL requirements section,
 we should mention that the first two criteria push a memory model to be weaker, whereas the third one---to be stronger.)
+(EVGENII: Currently there is a sentence about it above so perhaps it's fine now?)
 For example, it should be possible for a programmer unfamiliar with subtleties of weak memory models 
 to assume the SC model if she only uses correctly implemented synchronization primitives 
 and data-structures and has no data-races in her program.
@@ -227,21 +227,20 @@ It turns out that none of the existing industrial specification of memory models
 for concurrent programming languages, like C/C++ or Java, really meets all of the requirements.
 A memory model that can be efficiently compiled to the hardware, admits common compiler optimizations 
 and at the same time provides strong enough guarantees for informal and formal reasoning
-was the Holy Grail for the researchers in the field of formal semantics for a long time.
-Only recently a major shift has been done, but even the most recently proposed solutions are flawed.    
-(ANTON: I think the two sentences above are too strong.)
+was an open research problem for quite some time. 
+Only recently a major shift has been done, but even the 
+newly proposed solutions has some drawbacks, limitations, and trade-offs.    
 
 ** There are solutions w/ different trade-offs considered below
 
-(ANTON: Connection between this and the previous paragraphs is broken.)
-Thus the existing solutions have to make different trade-offs and either sacrifice performance or break some reasoning principles.  
-In this paper we will consider several existing proposals for memory models of different programming languages,
-discuss their design choices, limitations and ways to overcome them.  
+The goal of this paper is to give a comprehensive review of 
+the existing formal memory models for programming languages,
+discuss their design choices, limitations and ways to overcome them.   
 
 ** Paper structure 
 The rest of the paper is organized as follows.
 In section [1] we will discuss in more detail the requirements to the programming language memory models.
-We will also look at specification of memory models for the C/C++ and Java languages
+On the way we will also look at specification of memory models for the C/C++ and Java languages
 and see why these models do not meet the desired requirements.
 In section [2] we will consider several proposed solutions to fix C/C++ MM. 
 Section [3] contains an overview of memory models for JavaScript/WebAssembly and OCaml languages. 
