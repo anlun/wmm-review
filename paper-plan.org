@@ -2,7 +2,7 @@
 #+TITLE: An Overview of Programming Language Memory Models
 #+SUBTITLE: Plan of the research paper
 
-#+INFOJS_OPT: view:showall toc:nil mouse:#cccccc ltoc:nil
+#+INFOJS_OPT: view:showall toc:i ltoc:nil mouse:#cccccc 
 
 * Abstract 
 * Introduction
@@ -218,12 +218,10 @@ in order to help the developers catch bugs in their concurrent code.
 ***** ? UB and catch-fire semantics
 
 ** Existing problems w/ most popular PL MMs
-
-*** Either
-**** unsound compilation
-**** inefficient compilation 
-**** some common optimizations are unsound 
-**** formal reasoning is impossible (memory model is too weak)
+*** unsound compilation
+*** inefficient compilation 
+*** some common optimizations are unsound 
+*** formal reasoning is impossible (memory model is too weak)
 
 It turns out that none of the existing industrial specification of memory models 
 for concurrent programming languages, like C/C++ or Java, really meets all of the requirements.
