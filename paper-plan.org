@@ -2,7 +2,7 @@
 #+TITLE: An Overview of Programming Language Memory Models
 #+SUBTITLE: Plan of the research paper
 
-#+INFOJS_OPT: view:overview toc:nil mouse:#cccccc ltoc:nil path:org-info.js
+#+INFOJS_OPT: view:showall toc:nil mouse:#cccccc ltoc:nil
 
 * Abstract 
 * Introduction
