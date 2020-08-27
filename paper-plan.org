@@ -2,6 +2,8 @@
 #+TITLE: An Overview of Programming Language Memory Models
 #+SUBTITLE: Plan of the research paper
 
+#+INFOJS_OPT: view:overview toc:nil mouse:#cccccc ltoc:nil path:org-info.js
+
 * Abstract 
 * Introduction
 ** Weak memory introduction
@@ -273,37 +275,32 @@ There are several techniques which the compiler can use
 in order to prevent reorderings of intructions made by the processor  
 **** fence instructions
 **** intruction dependencies
-*** Note on the cost of enforcing SC (compile everything with fences)  
-*** Store buffering example (again)
-**** explain example again
-If relaxed accesses (~rlx~ in C/C++ or non-atomic in Java) 
-are used in SB then after the compilation to x86 (or ARM/POWER)
-the weak behaviors can appear. 
-**** restoring sequential consistency
-***** sc accesses (~sc~ in C/C++, ~volatile~ in Java)
-***** sc accesses are compiled with ~mfence~ on x86 (mention ARM/POWER compilation?)
-***** another way: using fences in PL (~atomic_thread_fence~ in C/C++)  
-Discuss difference between sc acceeses and fences, 
-perhaps it is better to do it in optimizations section. 
-*** Message passing example
-**** message passing program, weak behavior
-**** introduce release/acquire accesses
-***** difference with sc accesses  
-Informal explanation: allow to 'syncronize' two threads in the program
-but do not provide any 'global' syncronization.
-Perhaps, illustrate this with IRIW example.
-***** how they are compiled to hardware
-****** plain accesses on x86, ~dmb~ on ARMv7, ~lda/stl~ on ARMv8, control dependency + ~isync~ on POWER 
-*** Simlified spinlock example
-**** introduce RMW (CAS, FAI, etc)  
-**** splinlock implementation
-**** note that usage of RMW and release/acquire accesses is important
-**** how RMW are compiled
-***** ~XCHG~ on x86
-***** load-linked/store-conditional + loop on ARM/POWER
-***** special instructions for FAI on ARMv8
 
-*** Summary
+*** Compiling SC
+**** Every load/store should be compiled with fence/dependency
+**** Table with compilation mapping
+**** Note on the cost of enforcing SC (add a table with slowdown?)
+
+*** Compiling C/C++
+**** non-atomic and relaxed accesses are compiled as plain load/stores on all modern hardware
+**** this can lead to undesired weak behaviors (consider Dekker and SB again) 
+**** restoring sequential consistency
+***** fences (~atomic_thread_fence~ with ~sc~ fence in C/C++, compiled as ~mfence~ on x86)
+***** sc accesses 
+****** also compiled with ~mfence~ on x86 (mention ARM/POWER compilation?)
+
+**** implementing lock without Dekker algorithm
+***** one can argue that Dekker algorithm is simply broken w.r.t. weak memory models
+***** thus one can implement lock using atomic compare and swap instructions of the modern hardware
+***** ~atomic_compare_exchange~ (compiled as ~(LOCK) XCHG~ on x86)
+***** spinlock
+***** on x86 spinlock is fine
+***** however, on ARM and POWER it's still buggy
+***** one can use ~sc~ fences/accesses but it adds overhead on x86  
+***** C/C++ has release/acquire fences and accesses for this purpose (synchronization of two threads)
+***** compilation mappings for release/acquire (no overhead on x86, cheaper than ~sc~ on ARM and POWER)
+
+**** Summary
 
 There are several types of atomic accesses. 
 Each of them should be compiled differently
@@ -314,19 +311,28 @@ Atomic RMWs should be compiled using special hardware instructions
 If we want the PL to be able to compile code in the most effcient way,
 we need relaxed atomics that are compiled as plain loads/stores with no dependencies.    
 
+*** Compiling Java 
+**** Java (v.5) has plain and volatile variables 
+**** plain one compiled as plain load/stores 
+**** volatile ~= ~sc~ in C/C++
 ** Soundness of compiler optimizations
 *** General words about compiler optimizations
 *** Local and global transformations
+**** examples of local transformations
+***** reordering of independent accesses
+**** examples of global transformations
+***** register promotion
 *** Fake dependencies elimination
 **** LB examples. Real and fake dependencies. Semantics should be able to distinguish them. 
-*** Example: unsound transformation in SC
-**** reordering of independent memory accesses
-*** Example: unsound transformation in JMM
-**** redundunt read after read elimination
-*** C/C++ is fine 
+*** Optimizations in SC
+**** reordering of independent memory accesses is unsound in SC
+*** Optimizations in JMM
+**** redundunt read after read elimination is unsound in Java
+*** Optimizations in C/C++ 
 *** List of transformations that we might want to support (?)
 ** Reasoning
 *** DRF (non-expert-mode)
+**** General words about importance of DRF theorems
 **** DRF-SC in Java
 ***** example
 **** DRF-SC in C/C++
@@ -335,12 +341,16 @@ we need relaxed atomics that are compiled as plain loads/stores with no dependen
 ***** external/internal DRF
 *** being suitable for formal verification techiniques
 **** model checking 
-***** a couple of words about model checking of SC
+***** general words about model checking
+****** mention that we assume bounded model checking
+***** model checking SC
 ****** naive approach --- just enumerate all executions
-****** mention that problem is decidable and NP-complete 
+****** (?) mention that problem is decidable and NP-complete 
 ******* for programs without unbounded recursion and with finite domains
-***** mention that checking whether JMM allows specific execution is undecidable
-***** challenging (if possible?) for C/C++ because of OOTA
+***** model checking Java
+****** mention that checking whether JMM allows specific execution is undecidable
+***** model checking C/C++
+****** challenging (if possible?) for C/C++ because of OOTA
 ** UB and catch-fire semantics
 *** Way to go for C/C++
 *** Not an option for Java (safe language)
