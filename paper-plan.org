@@ -35,7 +35,7 @@ In other words, it defines the semantics of concurrent program.
 Let us consider the consequences of having data-races on a concrete example.
 
 *** Dekker's lock is correct in SC, but not in weak memory.
-
+    
 Consider a variant of Dekker's algorithm for mutual exclusion.
 
 %% Here will be a figure with Dekker's algorithm
@@ -118,7 +118,7 @@ and put memory fences carefully.
 
 As we have seen, the modern CPU's do not provide us sequentially consistent memory model by default. 
 Memory models of programming languages also cannot provides us guarantees of sequential consistency
-without a sacrifice of of the compiled code's performance .  
+without a sacrifice of the compiled code's performance .  
 Thus memory models of modern systems have to be /weak/, that is they have to allow weak outcomes.  
 
 *** Main tradeoff of MMs: simplicity (ease to work w/?) vs performance
@@ -250,17 +250,97 @@ Both of these models features some interesting properties that are currently lac
 In section [4] we compare all of the memory models presented in the paper.
 Finally, section [5] concludes with the discussion and open problems. 
 
-* Requirements to Programming Language Memory Models (TODO: rework w.r.t. new introduction)
+* Requirements to Programming Language Memory Models
+
+In this section we will have a closer look into the requirements 
+that a programming language memory model should satisfy, 
+namely the existence of sound and efficient compilation scheme, 
+soundness of common optimizations, and guarantees for formal and informal reasoning.  
+Taking as an examples three memory models: 
+sequential consistency, java memory model as formalized in [Manson:05] 
+and C/C++ memory model as formalized in [Batty:11]
+(EVGENII: also cite corresponding java and c/c++ specs?),
+we will see that each of them fails at least in one aspect.
+
 ** Memory models under consideration
+
+We choose to consider these three memory models for the following reasongs.
+
 *** SC Memory Model 
 **** "baseline" simple memory model
+
+Sequential consistency is included as a "baseline" memory model. 
+It is simple, does not permit any counterintuitive behaviors,
+and has clear formal specification.
+
 *** C/C++ Memory Model
-**** should allow efficient compilation (zero-cost abstractions, don't pay for what you don't use, etc)
-**** should allow agressive optimisations
+Memory model of the C/C++ follows the design principles of the language itself.
+
+**** should allow efficient compilation and aggressive optimizations
 **** can tolerate UB (Undefined Behaviour) in the semantics
+
+C and C++ languages positions themselves as low-level programming languages
+that provide zero-cost abstractions that generally do not put any performance penalties. 
+In other words the abstraction that these languages provide 
+should be compiled into efficient assembly code,
+and leave the room for the aggressive optimizations.
+
+The efficiency of the compiled code however comes with a certain cost.
+The programmer should strictly obey the rules and conventions
+established by the language's specification, 
+otherwise program is said to have /undefined behavior/ (UB for short)
+
+With respect to the memory model, the above means that C/C++ compiler should
+compile accesses to shared variables as plain memory accesses of the CPU,
+and provide to the programmer low-level syncronization primitives
+that can be mapped directly to CPU instructions.
+Besides that, the compiler should be able to perform 
+as many optimizations as possible to the code containing shared accesses.
+As we will see, not all of the optimizations that are sound 
+for a single thread program reamins sound for concurrent programs that contain data races. 
+(EVGENII: give some example? reordering of reads to the same location, as Anton suggested?) 
+
+For these reasons C/C++ distinguish two kind of memory accesses.
+Non-atomic accesses are can be used to perform read or write to memory that 
+is owned exclusively by one thread at the time of the access.
+Data-races on non-atomic accesses lead to undefined behavior for the whole program
+(so called /catch-fire/ semantics).
+In contrast, atomic accesses can be used to access memory that can be shared between different threads. 
+The results of data-races on these accesses are specified by the language and do not lead to undefined behavior.
+The consequence is that some of the compiler optimization are not applicable to atomic accesses.
+In addition to two kinds of memory accesses C/C++ also provide fences ---
+low-level synchronization primitives similar to CPUs fence instructions.
+
+# For these reasons C/C++ distinguish two kind of shared memory accesses.
+# Non-atomic accesses are can be used to perform read or write to memory that 
+# is owned exclusively by one thread at the time of the access.
+# These accesses compiled down to plain load or stores.
+# In contrast, atomic accesses can be used to access shared memory. 
+# Depending on the additional annotations (called ~memory_order~ in C/C++)
+# atomic accesses are either compiled as plain accesses or with 
+# additional CPU instructions that provide syncronization.
+# C/C++ also provide fences that are compiled directly to CPU fence instructions. 
+# Besides the difference in compilation scheme, 
+# some of the optimizations that are applicable to non-atomic accesses
+# are not sound when applied to atomic accesses. 
+# (EVGENII: give some example? reordering of reads to the same location, as Anton suggested?) 
+
 *** Java Memory Model
 **** should be as efficient as possible, yet
 **** should be type and memory safe (no UB)
+
+The Java language makes different design choices and has different tradeoffs comparing to C/C++.
+Unlike the later languages, Java provides safety and security guarantees
+which are enforced both at compile time and at runtime.  
+Thus Java language specification cannot tolerate undefined behaviors.
+Despite that the Java compilers still make a lot of effort 
+to provide good performance of the compiled code.
+
+Consequently, Java memory model should follow this design 
+and do not break any of the language's guarantees
+while still admit fairly efficient compilation scheme
+and allow as many optimizations as possible.
+
 ** Sound and efficient compilation scheme
 *** General words about efficiency of compilation
 
