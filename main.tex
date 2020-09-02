@@ -1,0 +1,399 @@
+\documentclass[a4paper,twoside,11pt]{article}
+\usepackage[cp1251]{inputenc}
+\usepackage[english,russian]{babel}
+\usepackage{fancyhdr}
+\usepackage{newprog1e}
+\usepackage{amsfonts,amsmath,amssymb,amsthm}
+\usepackage{graphicx}
+
+\tolerance=1000
+
+\newcommand{\defi}{\stackrel{\mathrm{def}}{=}}
+
+\numberwithin{equation}{section}
+\newtheorem{theorem}{Теорема}
+
+\newtheorem{definition}{Definition}
+\newtheorem{theorem_ru}{Теорема}
+
+
+\journalnumber{2}
+\curyear{2013}
+\authorlist{}
+\titlehead{}
+\headerdef
+
+\udk{004.421.6}
+%92+004.94}
+\rubrika{}
+\dateinput{10.07.2012}
+
+\rusabstr{}
+
+\author{
+% {\bfseries С.~А.~Абрамов*, А.~А.~Боголюбская**,}
+% \\ {\bfseries В.~А.~Ростовцев**}
+% \\ {\itshape *Вычислительный центр им. А. А. Дородницына Федерального исследовательского центра «Информатика и управление» РАН}
+% \\ {\slshape 119333} {\itshape Москва, ул. Вавилова, д.} {\slshape 40}
+% \\ {\itshape *Московский государственный университет им. М. В. Ломоносова}
+% \\ {\slshape 1199991} {\itshape Москва, ГСП-1, Ленинские горы, д.} {\slshape 1}
+% \\ {\itshape **Объединенный институт ядерных исследований}
+% \\ {\slshape 141980} {\itshape Дубна Московской области}
+% \\ {\itshape E-mail: sergeyabramov@mail.ru, abogol@jinr.ru,  rost@jinr.ru }
+}
+\title{}
+%\thanks{~}
+
+\date{}
+
+\begin{document}
+
+\maketitle
+%\tableofcontents
+
+\section{Abstract}
+
+\section{Introduction}
+
+A main challenge in concurrent programming is 
+to establish a proper synchronization between threads executed in parallel.     
+Usually it is done with the help of synchronization primitives
+provided by the programming language or libraries.
+Examples of such primitives are locks, semaphores, barriers, channels and other.
+If the programmer uses these primitives properly, she should not worry about concurrencly related bugs.
+Otherwise she must be very careful. Accesses to mutable shared variables, 
+that are not protected by locks or other syncronization primitives, can lead to data-races. 
+Data-race is a situation when two threads concurrently access the same variable and at least one of them is performing a write operation.
+
+%% Data-races serve as a source of bugs in program, which are hard to detect due to nondeterministic nature of concurrent programs.
+
+Unfortunately data-races are unavoidable in some cases. 
+For example, the implementation of synchronization primitives themselves usually contain data-races.
+Another important example is lock-free data-structures that use fine grained synchronization in order 
+to increase throughput of the program.
+Thus it is important for a programming language to specify the behaviour of programs containing data-races.
+
+This is what the memory model of programming language is responsible for.  
+The memory model defines which values the reads of shared variables can observe at each point of the execution. 
+In other words, it defines the semantics of concurrent program.
+% (in the rest of the paper we will use terms memory model and program semantics interchangeably).
+
+Let us consider the consequences of having data-races on a concrete example.
+
+Consider a variant of Dekker's algorithm for mutual exclusion.
+
+%% TODO: Here will be a figure with Dekker's algorithm
+
+In this program there are two threads accessing shared variables \texttt{flag\_i} and \texttt{turn}.
+We enclose accesses to shared locations into square brackets, i.e., we write \texttt{[flag\_i]} and \texttt{[turn\_i]},
+in order to distinguish them from accesses to registers (local variables).
+Thread \texttt{i} use variable \texttt{flag\_i} to indicate its intention to enter the critical section.
+Variable \texttt{turn} is used to determine which thread can enter critical section next. 
+
+%% Note the data races between write/read of \texttt{[flag\_i]}.
+
+The algorithm heavily relies on the fact that both threads cannot simultaneously read value \texttt{0} at lines \ref{...}.
+Otherwise the two threads would have been able to enter critical section simultaneously, thus breaking the correctness of the algorithm.
+At first this assumption seems perfectly valid but let's a have a closer look.
+
+Consider a program depicted below, which is a fragment of Dekker's algorithm.
+
+%% TODO: Here will be a figure with SB program
+
+In this program there are two threads accessing shared locations \texttt{[x]} and \texttt{[y]} and 
+storing values read from the locations to registers \texttt{r1} and \texttt{r2}.
+After running this program on a multi-core system, one would expect to see 
+one of the following outcomes: \texttt{\{[r1=0, r2=1], [r1=1,r2=0], [r1=1,r2=1]\}}.
+These outcomes matches the assumptions of Dekker's algorithm.
+Each one of them may be explained as a result of a sequential execution of an interleaving of threads' instructions. 
+
+%% ANTON: If we have enough space, I'd put a figure w/ the interleavings.)
+%% ANTON: IMO, we should more carefully distinguish terms "behavior" and "outcome".
+%% ANTON: Also, we should state somewhere that, in the context of concurrent programs, 
+%%        we use terms "semantics" and "memory model" interchangeably.
+
+A memory model that admits only these behaviours is known under the name \emph{sequential consistency} (SC) [Lamport:TC79].
+
+However, real concurrent systems may have different semantics. 
+Thus, if one port this program to C language, compile it with the GCC compiler, and run on an x86 machine,
+she may also observe the outcome \texttt{[r1=0, r2=0]}.
+
+The last non-SC behaviour is called \emph{weak}.
+It can appears because of optimizations,
+that could be performed either by the compiler or by the CPU. 
+The optimizer may observe that write to \texttt{[x]} and read from \texttt{[y]}
+are independent instructions and thus they may be interchanged
+(this optimization is perfectly valid for single-threaded programs).
+After the transformation the program looks as follows
+
+%% TODO: Here will be a figure with transformed SB program
+
+for which the outcome \texttt{[r1 = 0, r2 = 0]} may be obtained under the SC semantics.
+
+In order to to prevent compiler and CPU from reordering of the instructions 
+and thus forbid weak behaviours and restore SC semantics
+(and consequently restore correctness the Dekker's algoritm correct)
+one has to use special annotations and CPU instructions, called \emph{memory fences}.
+In case of x86 such instruction is called \texttt{mfence} and it prevents 
+store to be moved below subsequent instructions.  
+
+However, forbiding every possible instruction reordering  
+on both the compiler's and CPU's level by putting memory fences everywhere
+has performance penalty and can slow down the program.
+Thus the programmer who want to implement a concurrent algorithm 
+need to understand the memory model of the underlying system 
+and put memory fences carefully.  
+
+As we have seen, the modern CPU's do not provide us sequentially consistent memory model by default. 
+Memory models of programming languages also cannot provides us guarantees of sequential consistency
+without a sacrifice of the compiled code's performance .  
+Thus memory models of modern systems have to be \emph{weak}, that is they have to allow weak outcomes.  
+
+The main qustions is how weak the memory model should be?
+The stronger model give more guarantees and thus is simpler to reason about while the weaker model permits more optimizatons. 
+The main tradeoff of the memory model therefore is its simplicity versus the performance penalty it induces. 
+
+The memory models are usually split into two classes: 
+models of hardware, that is modern CPU's like x86, ARMv8, POWER, etc, 
+and models of programming languages, such as C/C++ or Java. 
+Hardware and programming languages put different requirements 
+on a memory model, that substantially effect its design and trade-offs.     
+
+The main requirement for the hardware memory models is that 
+they should describe the behaviour of real modern CPU 
+with all complex optimizations they made, like a hierarchy of memory caches, speculative executions, pipelining, etc.
+Besides that the memory model should also leave some room for possible future optimizations.
+Finally, it still needs to provide some reasonable guarantees for programs run on that CPU.       
+
+%% ANTON: IMO, this section deserves some details and explanations because we aren't going to return to HW models.
+%%        For example, more on future optimizations: there are behaviors allowed by models 
+%%        but not observed on CPUs [Alglave-al:TOPLAS14].
+%%        Maybe, here we should briefly say that HW models preserve dependencies to contrast 
+%%        it to PL models (w/o OOTA details for now).)
+
+A programming language memory model has different set of requirements.
+
+First, it should permit an efficient and sound compilation scheme to the modern hardware.
+Efficient usually means that accesses to shared memory can be compiled 
+without usage of memory fences, or with as little of them as possible. 
+Soundness means that after the compilation the program when run on hardware 
+(assuming memory model of some particular hardware) should not exhibit
+any behaviours that were not allowed by the programming language memory models. 
+
+Going back to the SB example, one can conclude that SC is not really satisfies this criterion. 
+
+Imagine if accesses to shared variables would have been compiled as plain load and store instructions of x86.
+Then after running the compiled program one would be able to observe the weak outcome \texttt{[r1 = 0, r2 = 0]}.
+This outcome is not allowed by the SC semantics and yet it can be observed.
+Thus one can conclude that this compilation scheme is unsound. 
+
+Alternatively, in order to preserve the SC semantics one could 
+issue \texttt{mfence} instruction after each store to shared variable.
+This compilation scheme is sound but inefficient.
+Programs compiled with such compilation scheme will run slower than 
+if they would have been compiled without memory fences.
+
+Besides that the programming languge memory model should guarantee soundness of common compiler optimizations,
+like, for example, reordering of independent instructions or common subexpression elimination.
+Soundness of an optimization means that after an application 
+of optimizations the program should not exibit any new behaviors.
+
+Considering the SB example again, it can be seen that SC is not good with this respect too.
+The allowed outcomes of the SB program are \texttt{\{[r1=0, r2=1], [r1=1,r2=0], [r1=1,r2=1]\}}.
+After reordering of independent instructions in the left thread the program looks as follows.
+
+%% TODO: here will be a picture of SB after instruction reordering
+
+For this program SC model allows the following outcomes: 
+\texttt{\{[r1=0, r2=1], [r1=1,r2=0], [r1=1,r2=1], [r1=0,r2=0]\}}.
+Comparing them with the outcomes of the original program one can notice
+that there is one new outcome \texttt{[r1=0,r2=0]}.
+This an evidence that reordering of independent instructions is not sound under SC.
+
+Contrary to the previous requirements, the memory model still should provide some reasonable guarantees.
+(ANTON: For now, the contrast between the requirements is unclear. Maybe, at the end of the PL requirements section,
+we should mention that the first two criteria push a memory model to be weaker, whereas the third one---to be stronger.)
+(EVGENII: Currently there is a sentence about it above so perhaps it's fine now?)
+For example, it should be possible for a programmer unfamiliar with subtleties of weak memory models 
+to assume the SC model if she only uses correctly implemented synchronization primitives 
+and data-structures and has no data-races in her program.
+Guarantees of this kind are known as \emph{Data-Race Free Theorems} (DRF theorems) 
+and usually they should be provided by any sane memory model.  
+
+Besides that it is very desirable for a memory model to be suitable for a formal reasoning and verification.
+It implies that automated or semi-automated verification tools can be implemented 
+in order to help the developers catch bugs in their concurrent code. 
+
+%% As we will see, this requirement is not trivially satisfiable and in fact it does not met by many existing programming language memory models.   
+
+It turns out that none of the existing industrial specification of memory models 
+for concurrent programming languages, like C/C++ or Java, really meets all of the requirements.
+A memory model that can be efficiently compiled to the hardware, admits common compiler optimizations 
+and at the same time provides strong enough guarantees for informal and formal reasoning
+was an open research problem for quite some time. 
+Only recently a major shift has been done, but even the 
+newly proposed solutions has some drawbacks, limitations, and trade-offs.    
+
+The goal of this paper is to give a comprehensive review of 
+the existing formal memory models for programming languages,
+discuss their design choices, limitations and ways to overcome them.   
+
+The rest of the paper is organized as follows.
+In section [1] we will discuss in more detail the requirements to the programming language memory models.
+On the way we will also look at specification of memory models for the C/C++ and Java languages
+and see why these models do not meet the desired requirements.
+In section [2] we will consider several proposed solutions to fix C/C++ MM. 
+Section [3] contains an overview of memory models for JavaScript/WebAssembly and OCaml languages. 
+Both of these models features some interesting properties that are currently lack in other models.
+In section [4] we compare all of the memory models presented in the paper.
+Finally, section [5] concludes with the discussion and open problems. 
+
+\section{Requirements to Programming Language Weak Memory Model}
+
+In this section we will have a closer look into the requirements 
+that a programming language memory model should satisfy, 
+namely the existence of sound and efficient compilation scheme, 
+soundness of common optimizations, and guarantees for formal and informal reasoning.  
+Taking as an examples three memory models: 
+sequential consistency, java memory model as formalized in [Manson:05] 
+and C/C++ memory model as formalized in [Batty:11]
+we will see that each of them fails at least in one aspect.
+%% EVGENII: also cite corresponding java and c/c++ specs?
+
+\subsection{Memory models under consideration}
+
+We choose to consider three memory models, namely SC, CMM and JMM, for the following reasongs.
+
+\subsubsection{SC Memory Model}
+
+Sequential consistency is included as a "baseline" memory model. 
+It is simple, does not permit any counterintuitive behaviors,
+and has clear formal specification.
+
+\subsubsection{C/C++ Memory Model}
+
+Memory model of the C/C++ follows the design principles of the language itself.
+
+C and C++ languages positions themselves as low-level programming languages
+that provide zero-cost abstractions that generally do not put any performance penalties. 
+In other words the abstraction that these languages provide 
+should be compiled into efficient assembly code,
+and leave the room for the aggressive optimizations.
+
+The efficiency of the compiled code however comes with a certain cost.
+The programmer should strictly obey the rules and conventions
+established by the language's specification, 
+otherwise program is said to have \emph{undefined behavior} (UB for short)
+
+With respect to the memory model, the above means that C/C++ compiler should
+compile accesses to shared variables as plain memory accesses of the CPU,
+and provide to the programmer low-level syncronization primitives
+that can be mapped directly to CPU instructions.
+Besides that, the compiler should be able to perform 
+as many optimizations as possible to the code containing shared accesses.
+As we will see, not all of the optimizations that are sound 
+for a single thread program reamins sound for concurrent programs that contain data races. 
+(EVGENII: give some example? reordering of reads to the same location, as Anton suggested?) 
+
+For these reasons C/C++ distinguish two kind of memory accesses.
+Non-atomic accesses are can be used to perform read or write to memory that 
+is owned exclusively by one thread at the time of the access.
+Data-races on non-atomic accesses lead to undefined behavior for the whole program
+(so called \emph{catch-fire} semantics).
+In contrast, atomic accesses can be used to access memory that can be shared between different threads. 
+The results of data-races on these accesses are specified by the language and do not lead to undefined behavior.
+The consequence is that some of the compiler optimization are not applicable to atomic accesses.
+In addition to two kinds of memory accesses C/C++ also provide fences ---
+low-level synchronization primitives similar to CPUs fence instructions.
+
+\subsubsection{Java Memory Model}
+
+The Java language makes different design choices and has different tradeoffs comparing to C/C++.
+Unlike the later languages, Java provides safety and security guarantees
+which are enforced both at compile time and at runtime.  
+Thus Java language specification cannot tolerate undefined behaviors.
+Despite that the Java compilers still make a lot of effort 
+to provide good performance of the compiled code.
+
+Consequently, Java memory model should follow this design 
+and do not break any of the language's guarantees
+while still admit fairly efficient compilation scheme
+and allow as many optimizations as possible.
+
+\subsection{Sound and efficient compilation scheme}
+
+Having a short description of each of the three memory models 
+together with their design goals we are ready to proceed 
+and consider whether these models satisfy the desired requirements.
+We are going to start with compilation schemes.
+
+As we have seen, the memory models of modern CPUs 
+(those based on x86, ARMv8 and POWER architecture)
+are weak and allow non sequentially consistent behaviors.
+This is a result of various optimization implemented in hardware,
+including instruction pipelines, speculative out of order executions, 
+hierarchy of caches with complex coherence protocols, and others.
+
+If the memory model wants to provide stronger guarantees 
+than the CPU does (as for example sequentially consistent model)
+it should somehow prevent the out of order executions.
+In general, there are two ways to achieve that. 
+
+First, as we have already discussed, special fence instructions,
+provided by the CPU (such as \texttt{mfence} on x86) can be used.
+These instructions usually flush caches, prevent speculative executions
+and perform any other actions required by the hardware architecture
+to forbid various weak behaviours.
+
+Second, all modern hardware architectures do not reorder instructions 
+if there are \emph{syntactic dependencies} between them. 
+For example, the load instruction cannot be moved below 
+the store instruction if there is conditional jump instruction between them.
+The compiler can utilize this and prevent 
+the reordering of the load instruction below subsequent stores
+by emiting a usuless conditional jump instruction that would jump 
+to the same label no matter what is the result of condition evaluation.
+Dependencies of such kind can be computed following the 
+syntax of the program (hence the name) as opposed 
+to \emph{semantic dependencies} 
+(we will see the difference between the two later).
+
+Now that we have CPU fences and syntactic dependencies in our service
+let's have a look at how they are used in real compilation schemes.
+
+\subsubsection{Compiling SC}
+
+Sequential consistency model is very expensive to implement in hardware. 
+For this reasons all modern hardware architectures (including rather strong x86) do not provide it. 
+We have seen this on the examples of Dekker lock and SB programs in \ref{introduction}.
+
+In order to restore the sequential consistency on x86 one has to 
+insert \texttt{mfence} instruction after each write.
+On ARMv7 and POWER one need to insert full memory fence
+(\texttt{dmb} and \texttt{sync} on ARMv7/POWER correspondingly)
+before each write,
+emit same full fence before each read, and also
+add a syntactic dependency with special instruction fence 
+(\texttt{isb} and \texttt{isync} on ARMv7/POWER correspondingly)
+after the read.
+Newer ARMv8 chips allows simpler solution, 
+one just need to compile accesses to special 
+load/store instruction to restore SC semantics
+(\texttt{ldar} and \texttt{stlr}).
+The table summarizes the resulting compilation mappings.
+
+%% TODO: Here will be the table with compilation mappings
+
+The natural question to ask is how much of the performance penalties
+these compilation mappings induce compared to compiling all accesses as plain ones
+without any fences or artificial syntactic dependencies.
+
+%% TODO: cite some paper, present table with measurements etc. 
+
+Thus one can see that enforcing sequential consistency on modern hardware is costly.
+
+\subsubsection{Compiling C/C++}
+
+\subsubsection{Compiling Java}
+
+\end{document}
