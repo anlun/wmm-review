@@ -257,14 +257,15 @@ A lot of work has also been done in the area of programming language weak memory
 Memory models have been proposed for the languages
 Java~\cite{Manson-al:POPL05}, C/C++~\cite{Boehm-Adve:PLDI08, Batty-al:POPL11}, 
 OpenCL~\cite{Batty-el:POPL16}, LLVM~\cite{Chakraborty-Vafeiadis:CGO17}, 
-and more recently for OCaml~\cite{Dolan-al:PLDI18}, JavaScript/WebAssembly~\cite{Watt-el:PLDI2020}.
+OCaml~\cite{Dolan-al:PLDI18}, JavaScript/WebAssembly~\cite{Watt-el:PLDI2020}.
 %% TODO: recent works on Java opaque accesses (?)
 It was then shown that some compiler optimizations are unsound 
 for Java model~\cite{Sevcik-Aspinall:ECOOP08}, that is the model is too strong.
 As for C/C++ model it was observed that the model both is too strong 
 to permit some compiler optimizations~\cite{Vafeiadis-al:POPL15} and too weak to 
 be suitable for any kind of formal or informal reasoning~\cite{Boehm-Demsky:MSPC14}. 
-Memory models of OpenCL and LLVM follow closely the C/C++ model.
+Memory models of OpenCL and LLVM follow closely the C/C++ model
+and thus inherent some of its problems.
 OCaml and JavaScript have chosen consciously to strengthening their memory models
 to overcome problems specific to C/C++ and thus sacrifice performance. 
 
@@ -284,6 +285,49 @@ The aim of this paper is to provide such survey and to systemize the prior work.
 % be implemented as a library~\cite{} (e.g. \texttt{pthreads} library)
 % and that the language standard requires a clear and concise specification of the concurrency semantics.
 
+\section{Methodology}
+
+The purpose of our study is to compare weak memory models for programming languages.
+In particular, with respect to each model we want to answer the following questions.
+
+% In particular, we want to compare them with respect to several criterias
+% that can be partioned into three classes.
+
+\begin{itemize}
+  
+  \item Can the memory model be efficiently implemented on modern hardware? 
+    In other words, is the compilation scheme for a model sound and efficient?
+    If the compilation scheme is not optimal, then how large is induced performance overhead?
+
+  \item What compiler optimizations are correct in the model? What are not? 
+    How large is performance impact for the generated code in case when 
+    some optimizations are disabled due to unsoundness.
+
+  \item What is the subjective complexity of the model?
+    How easy it is to reason about the behavior of the model for non-experts?
+    Is the model suitable for formal verification?
+  
+\end{itemize}
+
+For our research we have chosen a number of memory models 
+that we previously published 
+%% either as a part of specifications of corresponded programming languages or 
+in form of research papers in peer-reviewed journals or conference proceedings. 
+Below we explain the motivation behind our choice of each particular memory model.  
+
+We included \textbf{sequential consistency} as a "baseline" memory model. 
+It is simple, does not permit any counterintuitive behaviors,
+and has clear formal specification.
+
+We consider \textbf{Java} memory model\cite{Manson-al:POPL05}
+and \textbf{C/C++} memory model~\cite{Boehm-Adve:PLDI08, Batty-al:POPL11}
+because of their significance and impact on software engineering industry.
+On the contrary, we exclude OpenCL~\cite{Batty-el:POPL16} and LLVM~\cite{Chakraborty-Vafeiadis:CGO17}
+models because they are based on C/C++ model and have no significant distinctions
+with respect to our criteria.
+
+%% TODO: no-thin-air models + OCaml & WASM 
+
 \section{Requirements to Programming Language Weak Memory Model}
 
 In this section we will have a closer look into the requirements 
@@ -291,8 +335,7 @@ that a programming language memory model should satisfy,
 namely the existence of sound and efficient compilation scheme, 
 soundness of common optimizations, and guarantees for formal and informal reasoning.  
 Taking as an examples three memory models: 
-sequential consistency, java memory model as formalized in [Manson:05] 
-and C/C++ memory model as formalized in [Batty:11]
+sequential consistency, java memory model and C/C++ memory model
 we will see that each of them fails at least in one aspect.
 %% EVGENII: also cite corresponding java and c/c++ specs?
 
