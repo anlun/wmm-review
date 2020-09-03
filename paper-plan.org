@@ -4,8 +4,12 @@
 
 #+INFOJS_OPT: view:showall toc:i ltoc:nil mouse:#cccccc 
 
+Total number of pages:
+2.5 + 0.5 + 0.5 + 5 + 5 + 3 + 4 + 2 ≈ 22.5
+What's about bibliography (3-4 pages)?
+
 * Abstract 
-* Introduction
+* Introduction (2.5 pages)
 ** Weak memory introduction
 
 *** On data-races and usage of WMC
@@ -248,7 +252,9 @@ Both of these models features some interesting properties that are currently lac
 In section [4] we compare all of the memory models presented in the paper.
 Finally, section [5] concludes with the discussion and open problems. 
 
-* Requirements to Programming Language Memory Models
+* Related work (0.5 pages)
+* Method (0.5 pages)
+* Requirements to Programming Language Memory Models (4-5 pages)
 
 In this section we will have a closer look into the requirements 
 that a programming language memory model should satisfy, 
@@ -504,7 +510,7 @@ we need relaxed atomics that are compiled as plain loads/stores with no dependen
 *** Not an option for Java (safe language)
 *** Opportunities for compilation and optimisations
 ** Summary
-* Towards No-Thin-Air Memory Model
+* Towards No-Thin-Air Memory Model (3-5 pages)
 ** Motivation
 ** RC11
 *** Conservative approach
@@ -567,7 +573,7 @@ ANTON: only partially denotational. Their calculation of ``real'' dependencies d
 *** Discuss challenges for model checking 
 *** Supported memory access types (rlx, rel/acq, sc)
 **** Promising doesn't support SC and it's hard to add there.
-* Other Models and features
+* Other Models and features (2-3 pages)
 ** JS/WASM Memory Model
 *** introduce ~SharedArrayBuffer~
 *** discuss mixed-size accesses
@@ -584,7 +590,7 @@ ANTON: only partially denotational. Their calculation of ``real'' dependencies d
 *** optimisation
 *** reasoning
 **** local DRF
-* Comparison
+* Comparison (3-4 pages)
 ** Summary table
 *** style: execution graphs, event structures, abstract machine
 *** efficient compilation
@@ -597,4 +603,12 @@ ANTON: only partially denotational. Their calculation of ``real'' dependencies d
 ** Summary table with compilation mappings (?)
 ** Summary table with supported optimisations (?)
 ** Summary table with performance overhead (?)
-* Discussion and Open Problems
+* Discussion and Open Problems (1-2 pages)
+** How to choose a memory model for your language
+** Ideas
+*** Promising + SC
+*** Other aspects
+**** Mixed-size accesses
+**** Liveness
+**** Persistency
+
