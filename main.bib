@@ -9,6 +9,16 @@
   year =          {2017},
 }
 
+@inproceedings{Podkopaev-al:ECOOP17,
+  author =        {Anton Podkopaev and 
+                   Ori Lahav and
+                   Viktor Vafeiadis},
+  booktitle =     {ECOOP 2017},
+  title={Promising Compilation to {ARMv8 POP}},
+  year={2017},
+  organization={Schloss Dagstuhl-Leibniz-Zentrum fuer Informatik}
+}
+
 @inproceedings{Kang-al:POPL17,
   author =        {Jeehoon Kang and Chung-Kil Hur and Ori Lahav and
                    Viktor Vafeiadis and Derek Dreyer},
@@ -19,14 +29,12 @@
   doi       = {10.1145/3009837.3009850},
 }
 
-@inproceedings{Podkopaev-al:ECOOP17,
-  author =        {Anton Podkopaev and 
-                   Ori Lahav and
-                   Viktor Vafeiadis},
-  booktitle =     {ECOOP 2017},
-  title={Promising Compilation to {ARMv8 POP}},
-  year={2017},
-  organization={Schloss Dagstuhl-Leibniz-Zentrum fuer Informatik}
+@inproceedings{Lee-el:PLDI20,
+  title={Promising 2.0: global optimizations in relaxed memory concurrency},
+  author={Lee, Sung-Hwan and Cho, Minki and Podkopaev, Anton and Chakraborty, Soham and Hur, Chung-Kil and Lahav, Ori and Vafeiadis, Viktor},
+  booktitle={Proceedings of the 41st ACM SIGPLAN Conference on Programming Language Design and Implementation},
+  pages={362--376},
+  year={2020}
 }
 
 @inproceedings{Flur-al:POPL16,
@@ -54,6 +62,14 @@
   doi       = {10.1109/TC.1979.1675439},
 }
 
+@inproceedings{Chong-ASPLOS08,
+  title={Reasoning about the ARM weakly consistent memory model},
+  author={Chong, Nathan and Ishtiaq, Samin},
+  booktitle={Proceedings of the 2008 ACM SIGPLAN workshop on Memory systems performance and correctness: held in conjunction with the Thirteenth International Conference on Architectural Support for Programming Languages and Operating Systems (ASPLOS'08)},
+  pages={16--19},
+  year={2008}
+}
+
 @article{Sewell-al:CACM10,
   author =        {Peter Sewell and Susmit Sarkar and Scott Owens and
                    Francesco Zappa Nardelli and Magnus O. Myreen},
@@ -76,6 +92,14 @@
   title =         {Understanding {POWER} Multiprocessors},
   year =          {2011},
   doi =           {10.1145/1993498.1993520},
+}
+
+@inproceedings{Alglave-DAMP09,
+  title={The semantics of Power and ARM multiprocessor machine code},
+  author={Alglave, Jade and Fox, Anthony and Ishtiaq, Samin and Myreen, Magnus O and Sarkar, Susmit and Sewell, Peter and Nardelli, Francesco Zappa},
+  booktitle={Proceedings of the 4th workshop on Declarative aspects of multicore programming},
+  pages={13--24},
+  year={2009}
 }
 
 @article{Alglave-al:TOPLAS14,
@@ -111,6 +135,17 @@
   title =         {Explaining Relaxed Memory Models with Program Transformations},
   year =          {2016},
   doi       = {10.1007/978-3-319-48989-6_29},
+}
+
+@article{Boehm-Adve:PLDI08,
+  title={Foundations of the C++ concurrency memory model},
+  author={Boehm, Hans-J and Adve, Sarita V},
+  journal={ACM SIGPLAN Notices},
+  volume={43},
+  number={6},
+  pages={68--78},
+  year={2008},
+  publisher={ACM New York, NY, USA}
 }
 
 @inproceedings{Boehm-Demsky:MSPC14,
@@ -174,6 +209,16 @@
   doi =           {10.1145/1040305.1040336},
 }
 
+@inproceedings{Sevcik-Aspinall:ECOOP08,
+  title={On validity of program transformations in the Java memory model},
+  author={{\v{S}}ev{\v{c}}{\'\i}k, Jaroslav and Aspinall, David},
+  booktitle={European Conference on Object-Oriented Programming},
+  pages={27--51},
+  year={2008},
+  organization={Springer}
+}
+
+
 @inproceedings{Batty-al:POPL11,
   author =        {Mark Batty and Scott Owens and Susmit Sarkar and
                    Peter Sewell and Tjark Weber},
@@ -183,6 +228,25 @@
   title =         {Mathematizing {C++} Concurrency},
   year =          {2011},
   doi = {10.1145/1925844.1926394},
+}
+
+@inproceedings{Batty-el:POPL16,
+  title={Overhauling SC atomics in C11 and OpenCL},
+  author={Batty, Mark and Donaldson, Alastair F and Wickerson, John},
+  booktitle={Proceedings of the 43rd Annual ACM SIGPLAN-SIGACT Symposium on Principles of Programming Languages},
+  pages={634--648},
+  year={2016}
+}
+
+@article{Dolan-al:PLDI18,
+  title={Bounding data races in space and time},
+  author={Dolan, Stephen and Sivaramakrishnan, KC and Madhavapeddy, Anil},
+  journal={ACM SIGPLAN Notices},
+  volume={53},
+  number={4},
+  pages={242--255},
+  year={2018},
+  publisher={ACM New York, NY, USA}
 }
 
 @book{Hennessy-Patterson:BOOK,
@@ -304,4 +368,50 @@
   month = jul,
   note = {Draft, available at \url{http://www.cl.cam.ac.uk/~pes20/armv8-mca/armv8-mca-draft.pdf} [Online; accessed 19-Jul-2017]},
   project = {http://www.cl.cam.ac.uk/~pes20/armv8-mca/},
+}
+
+@phdthesis{Adve:PhD93,
+  title={Designing memory consistency models for shared-memory multiprocessors},
+  author={Adve, Sarita Vikram},
+  year={1993},
+  school={University of Wisconsin-Madison}
+}
+
+@article{Adve:Comp96,
+  title={Shared memory consistency models: A tutorial},
+  author={Adve, Sarita V and Gharachorloo, Kourosh},
+  journal={computer},
+  volume={29},
+  number={12},
+  pages={66--76},
+  year={1996},
+  publisher={IEEE}
+}
+
+@inproceedings{Watt-el:PLDI2020,
+  title={Repairing and mechanising the JavaScript relaxed memory model},
+  author={Watt, Conrad and Pulte, Christopher and Podkopaev, Anton and Barbier, Guillaume and Dolan, Stephen and Flur, Shaked and Pichon-Pharabod, Jean and Guo, Shu-yu},
+  booktitle={Proceedings of the 41st ACM SIGPLAN Conference on Programming Language Design and Implementation},
+  pages={346--361},
+  year={2020}
+}
+
+@article{Chakraborty-Vafeiadis:POPL19,
+  title={Grounding thin-air reads with event structures},
+  author={Chakraborty, Soham and Vafeiadis, Viktor},
+  journal={Proceedings of the ACM on Programming Languages},
+  volume={3},
+  number={POPL},
+  pages={1--28},
+  year={2019},
+  publisher={ACM New York, NY, USA}
+}
+
+@inproceedings{Chakraborty-Vafeiadis:CGO17,
+  title={Formalizing the concurrency semantics of an LLVM fragment},
+  author={Chakraborty, Soham and Vafeiadis, Viktor},
+  booktitle={2017 IEEE/ACM International Symposium on Code Generation and Optimization (CGO)},
+  pages={100--110},
+  year={2017},
+  organization={IEEE}
 }

@@ -253,6 +253,12 @@ In section [4] we compare all of the memory models presented in the paper.
 Finally, section [5] concludes with the discussion and open problems. 
 
 * Related work (0.5 pages)
+
+** Early works
+** Hardware memory models
+** Programming Languages memory models (prior Promising)
+** Programming Languages memory models (recent works)
+
 * Method (0.5 pages)
 * Requirements to Programming Language Memory Models (4-5 pages)
 
