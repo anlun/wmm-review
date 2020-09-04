@@ -6,10 +6,13 @@
 \usepackage{amsfonts,amsmath,amssymb,amsthm}
 \usepackage{graphicx}
 \usepackage{caption}
+\usepackage{xcolor}
 
 \tolerance=1000
 
 \newcommand{\defi}{\stackrel{\mathrm{def}}{=}}
+
+\newcommand{\app}[1]{\textcolor{blue}{(ANTON: #1)}}
 
 \numberwithin{equation}{section}
 \newtheorem{theorem}{Theorem}
@@ -40,7 +43,8 @@
 \maketitle
 %\tableofcontents
 
-\section{Abstract}
+\begin{abstract}
+\end{abstract}
 
 \section{Introduction}
 
@@ -237,7 +241,7 @@ Both of these models features some interesting properties that are currently lac
 In section [4] we compare all of the memory models presented in the paper.
 Finally, section [5] concludes with the discussion and open problems. 
 
-\section{Related Works}
+\section{Related Work}
 
 The study of weak memory models has been an active 
 area of programming language theory for about 30 years,
@@ -316,20 +320,24 @@ that we previously published
 in form of research papers in peer-reviewed journals or conference proceedings. 
 Below we explain the motivation behind our choice of each particular memory model.  
 
-We included \textbf{sequential consistency} as a "baseline" memory model. 
-It is simple, does not permit any counterintuitive behaviors,
+We included \textbf{sequential consistency} as a ``baseline'' memory model. 
+It is simple, does not permit any counter-intuitive behaviors,
 and has clear formal specification.
 
 We consider \textbf{Java} memory model (\textbf{JMM})~\cite{Manson-al:POPL05}
 and \textbf{C/C++} memory model (\textbf{CMM})~\cite{Boehm-Adve:PLDI08, Batty-al:POPL11}
 because of their significance and impact on software engineering industry.
-On the contrary, we exclude OpenCL~\cite{Batty-el:POPL16} and LLVM~\cite{Chakraborty-Vafeiadis:CGO17}
+On the contrary, we exclude OpenCL~\cite{Batty-el:POPL16}
+\app{We could say that we consider MMs only for general-purpose PLs. OpenCL is for GPUs.}
+and LLVM~\cite{Chakraborty-Vafeiadis:CGO17}
+\app{But we do consider Weakestmo, which is the extension of~\cite{Chakraborty-Vafeiadis:CGO17}.
+It is strange.}
 models because they are based on C/C++ model and have no significant distinctions
 with respect to our criteria.
 
 Next, we consider a number of proposed memory models 
 that aim to repair C/C++ model, namely 
-\textbf{Repaired C11} \textbf{RC11}~\cite{Lahav-al:PLDI17}, 
+\textbf{Repaired C11} (\textbf{RC11})~\cite{Lahav-al:PLDI17}, 
 \textbf{Promising}~\cite{Kang-al:POPL17, Lee-el:PLDI20}, 
 \textbf{Weakest}~\cite{Chakraborty-Vafeiadis:POPL19}, 
 \textbf{Relaxed Modular Dependencies} (\textbf{RMD})~\cite{Paviotti-el:ESOP20}.
