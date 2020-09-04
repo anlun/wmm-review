@@ -1,0 +1,39 @@
+\section{Comparison}
+
+\begin{table*}[t]
+\centering
+\begin{tabular}{ |l|c|c|c|c|c|c|c| }
+                                                                            \hline
+
+ Model          & Eff. Comp. & Opt. & DRF & UB & No OOTA & MC & Complex. \\ \hline
+
+ SC             &            &      &     &    &         &    &          \\ \hline
+
+ C11            &            &      &     &    &         &    &          \\ \hline
+
+ JMM            &            &      &     &    &         &    &          \\ \hline
+
+ RC11           &            &      &     &    &         &    &          \\ \hline
+
+ Promising      &            &      &     &    &         &    &          \\ \hline
+
+ Weakest        &            &      &     &    &         &    &          \\ \hline
+
+ RMD            &            &      &     &    &         &    &          \\ \hline
+
+ OCaml          &            &      &     &    &         &    &          \\ \hline
+
+ JavaScript     &            &      &     &    &         &    &          \\ \hline
+
+\end{tabular}
+\caption{Comparison of memory models. 
+  \textit{Eff. Comp.} --- does the model have efficient compilation scheme.
+  \textit{Opt.} --- are the common optimizations sound in the model.
+  \textit{DRF.} --- does the model provides Data-Race-Freedom guarantees.
+  \textit{UB.} --- does the model have undefined behaviors.
+  \textit{No OOTA.} --- does the model forbid out-of-thin-air behaviors.
+  \textit{MC.} --- is the model suitable for model checking.
+  \textit{Complex.} --- subjective complexity of the model.
+}
+\label{table:summary}
+\end{table*}
