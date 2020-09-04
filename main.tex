@@ -319,14 +319,26 @@ We included \textbf{sequential consistency} as a "baseline" memory model.
 It is simple, does not permit any counterintuitive behaviors,
 and has clear formal specification.
 
-We consider \textbf{Java} memory model\cite{Manson-al:POPL05}
-and \textbf{C/C++} memory model~\cite{Boehm-Adve:PLDI08, Batty-al:POPL11}
+We consider \textbf{Java} memory model (\textbf{JMM})~\cite{Manson-al:POPL05}
+and \textbf{C/C++} memory model (\textbf{CMM})~\cite{Boehm-Adve:PLDI08, Batty-al:POPL11}
 because of their significance and impact on software engineering industry.
 On the contrary, we exclude OpenCL~\cite{Batty-el:POPL16} and LLVM~\cite{Chakraborty-Vafeiadis:CGO17}
 models because they are based on C/C++ model and have no significant distinctions
 with respect to our criteria.
 
-%% TODO: no-thin-air models + OCaml & WASM 
+Next, we consider a number of proposed memory models 
+that aim to repair C/C++ model, namely 
+\textbf{Repaired C11} \textbf{RC11}~\cite{Lahav-al:PLDI17}, 
+\textbf{Promising}~\cite{Kang-al:POPL17, Lee-el:PLDI20}, 
+\textbf{Weakest}~\cite{Chakraborty-Vafeiadis:POPL19}, 
+\textbf{Relaxed Modular Dependencies} (\textbf{RMD})~\cite{Paviotti-el:ESOP20}.
+%% TODO: explain why we excluded~\cite{Jeffrey-Riely:LICS16, PichonPharabod-Sewell:POPL16}.
+
+Finally, we also included memory models of OCaml~\cite{Dolan-al:PLDI18}
+and JavaScript/WebAssembly~\cite{Watt-el:PLDI2020}.
+These models are of some interest becuase 
+they have some distinctive properties
+that other models currently lacking.
 
 \section{Requirements to Programming Language Weak Memory Model}
 
@@ -335,19 +347,17 @@ that a programming language memory model should satisfy,
 namely the existence of sound and efficient compilation scheme, 
 soundness of common optimizations, and guarantees for formal and informal reasoning.  
 Taking as an examples three memory models: 
-sequential consistency, java memory model and C/C++ memory model
+sequential consistency, Java memory model and C/C++ memory model
 we will see that each of them fails at least in one aspect.
 %% EVGENII: also cite corresponding java and c/c++ specs?
 
 \subsection{Memory models under consideration}
 
-We choose to consider three memory models, namely SC, CMM and JMM, for the following reasongs.
-
-\subsubsection{SC Memory Model}
-
-Sequential consistency is included as a "baseline" memory model. 
-It is simple, does not permit any counterintuitive behaviors,
-and has clear formal specification.
+We chose to demonstrate the requirements to models on the example of SC, CMM and JMM for reason.
+Again, SC was picked as a ``baseline''.
+The other two models, Java and C/C++, was chosen because 
+(1) they were the first formally specified memory models of industrial programming languages, and
+(2) they are significantly differ and their design and goals.
 
 \subsubsection{C/C++ Memory Model}
 
@@ -372,7 +382,7 @@ Besides that, the compiler should be able to perform
 as many optimizations as possible to the code containing shared accesses.
 As we will see, not all of the optimizations that are sound 
 for a single thread program reamins sound for concurrent programs that contain data races. 
-(EVGENII: give some example? reordering of reads to the same location, as Anton suggested?) 
+%% TODO: give some example? reordering of reads to the same location, as Anton suggested? 
 
 For these reasons C/C++ distinguish two kind of memory accesses.
 Non-atomic accesses are can be used to perform read or write to memory that 
@@ -401,7 +411,7 @@ and allow as many optimizations as possible.
 
 \subsection{Sound and efficient compilation scheme}
 
-Having a short description of each of the three memory models 
+Having a short description of the memory models 
 together with their design goals we are ready to proceed 
 and consider whether these models satisfy the desired requirements.
 We are going to start with compilation schemes.
