@@ -1,0 +1,52 @@
+\section{Related Work}
+
+One of the first formally specified memory models 
+for shared memory multiprocessors was sequential consistency~\cite{Lamport:TC79}
+It was early on realized that sequential consistency memory model 
+is too costly to be implemented in the hardware. 
+The pioneering work on weak memory models started with the attempt to 
+invent a more optimization-friendly memory model~\cite{Adve:PhD93, Adve:Comp96}.
+Since then a large amount of effots were put to formally specify weak memory models of various 
+hardware architectures~\cite{Chong-ASPLOS08, Alglave-DAMP09, Sewell-al:CACM10, Sarkar-al:PLDI11, Flur-al:POPL16}.
+The work~\cite{Alglave-al:TOPLAS14} summarized different studies in the area 
+of hardware weak memory models and provides a comprehensive overview of existing models.  
+Besides that, it also proposed a general framework for specification, 
+testing and verification of hardware weak memory models.
+
+In the context of programming languages, 
+it was realized that that multithreading cannot
+be implemented as a library~\cite{Boehm:ACM05} (e.g. \texttt{pthreads} library)
+without the concise specification of the concurrency semantics on the language level.
+This is due to the fact that some compiler optimization 
+valid for single threaded programs are not correct in the multithreading enviroment.
+
+Then a lot of work has been done to formally specify 
+weak memory models of programming languages.
+Memory models have been proposed for the languages
+Java~\cite{Manson-al:POPL05}, 
+C/C++~\cite{Boehm-Adve:PLDI08, Batty-al:POPL11}, 
+OpenCL~\cite{Batty-el:POPL16}, LLVM~\cite{Chakraborty-Vafeiadis:CGO17}, 
+OCaml~\cite{Dolan-al:PLDI18}, JavaScript/WebAssembly~\cite{Watt-el:OOPSLA19, Watt-el:PLDI2020}.
+%% TODO: recent works on Java opaque accesses (?)
+For some of these models it was then shawed that they are flawed.
+Some compiler optimizations are unsound for Java model~\cite{Sevcik-Aspinall:ECOOP08}, 
+that is the model is too strong.
+As for C/C++ model it was observed that the model both is too strong 
+to permit some compiler optimizations~\cite{Vafeiadis-al:POPL15} and too weak to 
+be suitable for any kind of formal or informal reasoning~\cite{Boehm-Demsky:MSPC14}. 
+OpenCL model follow closely the C/C++ model and thus inherent some of its problems.
+OCaml and WebAssembly/JavaScript have chosen consciously to strengthening their memory models
+to overcome problems specific to C/C++ and thus sacrifice performance. 
+
+The problem of C/C++ model being overly weak \app{Some details} has 
+been formally stated and studied in~\cite{Batty-al:ESOP15}.
+Many of the subsequent works were dedicated 
+to strengthen the model ``just enough'' to outlaw undesired behaviours
+and yet support efficient compilation and 
+common optimizations~\cite{Jeffrey-Riely:LICS16, PichonPharabod-Sewell:POPL16, 
+Podkopaev-al:CoRR16, Kang-al:POPL17, Chakraborty-Vafeiadis:POPL19, Lee-el:PLDI20}. 
+
+We are unaware of any work that would try to give 
+a survey of programming language memory models.
+Yet with the large number of new models proposed recently,
+we argue such work would be of current interest. 

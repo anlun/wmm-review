@@ -286,54 +286,7 @@ The rest of the paper is organized as follows.
 
 %% Batty:ESOP15, PhD thesis
 
-\section{Related Work}
-
-%% move to introduction
-
-
-%% cite previous surveys
-
-It was early on realized that sequential consistency memory model is too costly to be implemented. 
-The pioneering work on weak memory models started with the attempt to 
-invent a more optimization-friendly memory model 
-for shared memory multiprocessors~\cite{Adve:PhD93, Adve:Comp96}.
-Since then a large amount of effots were put to formally specify weak memory models of various 
-hardware architectures~\cite{Chong-ASPLOS08, Alglave-DAMP09, Sewell-al:CACM10, Sarkar-al:PLDI11, Flur-al:POPL16}.
-The work~\cite{Alglave-al:TOPLAS14} summarized different studies in the area 
-of hardware weak memory models and proposed a general 
-framework to specify, test and verify them.
-
-A lot of work has also been done in the area of programming language weak memory models.
-Memory models have been proposed for the languages
-Java~\cite{Manson-al:POPL05}, C/C++~\cite{Boehm-Adve:PLDI08, Batty-al:POPL11}, 
-OpenCL~\cite{Batty-el:POPL16}, LLVM~\cite{Chakraborty-Vafeiadis:CGO17}, 
-OCaml~\cite{Dolan-al:PLDI18}, JavaScript/WebAssembly~\cite{Watt-el:PLDI2020}.
-%% TODO: recent works on Java opaque accesses (?)
-It was then shown that some compiler optimizations are unsound 
-for Java model~\cite{Sevcik-Aspinall:ECOOP08}, that is the model is too strong.
-As for C/C++ model it was observed that the model both is too strong 
-to permit some compiler optimizations~\cite{Vafeiadis-al:POPL15} and too weak to 
-be suitable for any kind of formal or informal reasoning~\cite{Boehm-Demsky:MSPC14}. 
-Memory models of OpenCL and LLVM follow closely the C/C++ model
-and thus inherent some of its problems.
-OCaml and JavaScript have chosen consciously to strengthening their memory models
-to overcome problems specific to C/C++ and thus sacrifice performance. 
-
-The problem of C/C++ model being overly weak \app{Some details} has 
-been formally stated and studied in~\cite{Batty-al:ESOP15}.
-Many of the subsequent works were dedicated 
-to strengthen the model ``just enough'' to outlaw undesired behaviours
-and yet support efficient compilation and 
-common optimizations~\cite{Jeffrey-Riely:LICS16, PichonPharabod-Sewell:POPL16, 
-Podkopaev-al:CoRR16, Kang-al:POPL17, Chakraborty-Vafeiadis:POPL19, Lee-el:PLDI20}. 
-
-With the large number of new memory models for programming languages
-proposed recently there is a need in a detailed survey on recent trends in this field.
-The aim of this paper is to provide such survey and to systemize the prior work.
- 
-% Work on the C/C++ memory model has started from the observation that multithreading cannot
-% be implemented as a library~\cite{} (e.g. \texttt{pthreads} library)
-% and that the language standard requires a clear and concise specification of the concurrency semantics.
+\input{related-work.tex}
 
 \section{Methodology}
 
