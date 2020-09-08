@@ -9,6 +9,8 @@
 \usepackage{xcolor}
 \usepackage{tikz}
 \usepackage{cleveref}
+\usepackage{sansmath}
+\usepackage{xspace}
 
 \tolerance=1000
 
@@ -287,80 +289,7 @@ The rest of the paper is organized as follows.
 %% Batty:ESOP15, PhD thesis
 
 \input{related-work.tex}
-
-\section{Methodology}
-
-The purpose of our study is to compare weak memory models for programming languages.
-In particular, with respect to each model we want to answer the following questions.
-
-% In particular, we want to compare them with respect to several criterias
-% that can be partioned into three classes.
-
-\begin{itemize}
-  
-  \item Can the memory model be efficiently implemented on modern hardware? 
-    In other words, is the compilation scheme for a model sound and efficient?
-    If the compilation scheme is not optimal, then how large is induced performance overhead?
-
-  \item What compiler optimizations are correct in the model? What are not? 
-    How large is performance impact for the generated code in case when 
-    some optimizations are disabled due to unsoundness.
-
-  \item What is the subjective complexity of the model?
-    How easy it is to reason about the behavior of the model for non-experts?
-    Is the model suitable for formal verification?
-  
-\end{itemize}
-
-For our research we have chosen a number of memory models 
-that we previously published 
-%% either as a part of specifications of corresponded programming languages or 
-in form of research papers in peer-reviewed journals or conference proceedings. 
-Below we explain the motivation behind our choice of each particular memory model.  
-
-%% Class of memory models (think how to introduce that)
-
-%% We consider only "C/C++ style" MMs
-
-%% General purpose not GPU
-
-We included \textbf{sequential consistency} as a ``baseline'' memory model. 
-It is simple, does not permit any counter-intuitive behaviors,
-and has clear formal specification. 
-
-We consider \textbf{Java} memory model (\textbf{JMM})~\cite{Manson-al:POPL05}
-and \textbf{C/C++} memory model (\textbf{CMM})~\cite{Boehm-Adve:PLDI08, Batty-al:POPL11}
-because of their significance and impact on software engineering industry.
-On the contrary, we exclude OpenCL~\cite{Batty-el:POPL16}
-\app{We could say that we consider MMs only for general-purpose PLs. OpenCL is for GPUs.}
-and LLVM~\cite{Chakraborty-Vafeiadis:CGO17}
-\app{But we do consider Weakestmo, which is the extension of~\cite{Chakraborty-Vafeiadis:CGO17}.
-It is strange.}
-models because they are based on C/C++ model and have no significant distinctions
-with respect to our criteria.
-
-Next, we consider a number of proposed memory models 
-that aim to repair C/C++ model, namely 
-\textbf{Repaired C11} (\textbf{RC11})~\cite{Lahav-al:PLDI17}, 
-\textbf{Promising}~\cite{Kang-al:POPL17, Lee-el:PLDI20}, 
-\textbf{Weakest}~\cite{Chakraborty-Vafeiadis:POPL19}, 
-\textbf{Relaxed Modular Dependencies} (\textbf{RMD})~\cite{Paviotti-el:ESOP20}.
-
-%% RMW --> MRD 
-
-%% TODO: explain why we excluded~\cite{Jeffrey-Riely:LICS16, PichonPharabod-Sewell:POPL16}.
-%% Jeffrey-Riely:LICS16 --> MRD
-%% PichonPharabod --- mistakes, incomplete, (?)
-
-Finally, we also included memory models of \textbf{OCaml}~\cite{Dolan-al:PLDI18}
-and \textbf{JavaScript/WebAssembly}~\cite{Watt-el:PLDI2020}.
-These models are of some interest becuase 
-they have some distinctive properties
-that other models currently lacking.
-
-\app{Mentioned that there are PL MMs, which have different to Java/C++ style of
-  atomic interface, \emph{i.e.} \cite{Crary-Sullivan:POPL15}.
-}
+\input{methodology.tex}
 
 \section{Requirements to Programming Language Weak Memory Model}
 
