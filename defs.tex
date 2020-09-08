@@ -39,14 +39,14 @@
 \newcommand{\IssuedToMemory}{\textup{\sf mem}}
 \newcommand{\ExclIssuedToMemory}{\textup{\sf excl-mem}}
 
-\newcommand{\readInst }[3][\ExclReadType]{#2 \;:=_{\excl{#1}}\;[#3]}
+\newcommand{\readInst }[3]{#2\;:=_{#1}\;[#3]}
+\newcommand{\writeInst}[3]{[#2]\;:=_{#1}\;#3}
 \newcommand{\fenceInst}[1]{\fence{#1}}
 %% \newcommand{\dmbSY}{\fenceInst{\SY}}
 %% \newcommand{\dmbLD}{\fenceInst{\LD}}
 
-\newcommand\ifGoto{\textsf{if}-\textsf{goto}}
-\newcommand{\ifGotoInst}[2]{\textsf{if} \; #1 \; \textsf{goto} \; #2}
-\newcommand{\writeInst}[2]{[#1]\;:=\;#2}
+\newcommand\kw[1]{\textsf{#1}~}
+
 \newcommand{\writeExclInst}[3]{\textup{\sf atomic-write}(#1, [#2], #3)}
 \newcommand{\assignInst}[2]{#1\;:=\;#2}
 
@@ -577,6 +577,20 @@
 \newcommand{\relRel}{{\rm rel\text{-}rel}}
 \newcommand{\msgRelF}{{\rm msg\text{-}rel\text{-}fun}}
 \newcommand{\msgRel}{{\rm msg\text{-}rel}}
+
+%% listings
+
+\newcommand{\inarrC}[1]{\begin{array}{@{}c@{}}#1\end{array}}
+\newcommand{\inpar}[1]{\left(\begin{array}{@{}l@{}}#1\end{array}\right)}
+\newcommand{\inset}[1]{\left\{\begin{array}{@{}l@{}}#1\end{array}\right\}}
+\newcommand{\inarr}[1]{\begin{array}{@{}l@{}}#1\end{array}}
+\newcommand{\inarrII}[2]{\begin{array}{@{}l@{~~}||@{~~}l@{}}\inarr{#1}&\inarr{#2}\end{array}}
+\newcommand{\inarrIII}[3]{\begin{array}{@{}l@{~~}||@{~~}l@{~~}||@{~~}l@{}}\inarr{#1}&\inarr{#2}&\inarr{#3}\end{array}}
+\newcommand{\inarrIV}[4]{\begin{array}{@{}l@{~~}||@{~~}l@{~~}||@{~~}l@{~~}||@{~~}l@{}}\inarr{#1}&\inarr{#2}&\inarr{#3}&\inarr{#4}\end{array}}
+\newcommand{\inarrV}[5]{\begin{array}{@{}l@{~~}||@{~~}l@{~~}||@{~~}l@{~~}||@{~~}l@{~~}||@{~~}l@{}}\inarr{#1}&\inarr{#2}&\inarr{#3}&\inarr{#4}&\inarr{#5}\end{array}}
+
+\renewcommand{\comment}[1]{\color{teal}{~~\texttt{/\!\!/}\textit{#1}}}
+\newcommand{\nocomment}[1]{\color{red!60!black}{~~\texttt{/\!\!/}\textit{#1}}}
 
 %% abbrevations
 
