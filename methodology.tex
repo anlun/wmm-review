@@ -24,37 +24,6 @@ that we previously published in form of research papers
 in peer-reviewed journals or conference proceedings. 
 Below we explain the motivation behind our choice of each particular memory model.  
 
-\todo{
-  Outline the subclass of MMs we are considering.
-  \cite{Boudol-Gustavo:POPL09} --- generalized memory model based on hierarchial structure of 
-  TSO-like write buffers + some reorderings that can be performed on operations in the buffer
-  (according to specific memory model). 
-  Cons. Podkopaev \etal mentions it can be hard to adapt C11-style interaction of release/acquire and relaxed atomics.
-  Also, probably, it would be challenging to model load buffering scenarios.
-  It looks like the authors do not provide any proofs except the DRF-SC.
-  \cite{Boudol-al:EXPRESS12} --- generalized memory model with single operation buffer 
-  sitting between threads and shared memory. 
-  Specific memory model defines commutativity predicate that defines which operations can be reordered in the buffer.
-  Cons. Overly strong barrier semantics for Power according to~\cite{Alglave-al:TOPLAS14}. 
-  No to much other cites of this paper though. Not clear what other limitations/drawbacks.
-  Agains, not much formal proofs about the model.
-  \cite{Jagadeesan-el:ESOP10} --- an attempt to fix JMM. 
-  Memory is a sequence of actions that can be reordered.
-  Also, there is a \emph{speculations} mechanism to model load-buffering like scenarios.
-  Unlike \Promising semantics, thread-local certification is not required~\cite{Kang-al:POPL17}, 
-  instead it uses so called \textit{initiality}, \textit{consistency}, and \textit{timeliness} constraints
-  (it seams that the semantics is actually more similar to \Weakest).
-  The authors prove DRF-SC, uselessness of speculations when there are no read-write races,
-  and soundness of three optimizations (write-write reordering, roach-motel reordering, read-after-read elimination).
-  There are no other formal proofs (e.g. there is no compilation results).
-  Also, there are no release/acquire accesses (only locks), sc accesses, fences, and RMWs.
-  \cite{Crary-Sullivan:POPL15} --- unconvential model, based on idea to allow the programmer 
-  to explicitly specify visibility order on accesses, rather that let the compiler infer it 
-  from the annotations like release/acquire, \etc.
-  OOTA problem (according authors and to~\cite{Kang-al:POPL17}).
-  Despite that, authors claim they prove some form of type safety and DRF-SC (?).
-}
-
 %% Class of memory models (think how to introduce that)
 
 %% We consider only "\CPP style" MMs
@@ -77,8 +46,8 @@ that aim to repair \CPP model, namely
 
 \todo{
   It looks like that we need to 
-  mention~\cite{Jeffrey-Riely:LICS16, PichonPharabod-Sewell:POPL16}}
-  at least briefly
+  mention~\cite{Jeffrey-Riely:LICS16, PichonPharabod-Sewell:POPL16}
+  in the survey at least briefly.
 }
 
 Finally, we also included memory models of \OCaml~(\OCMM)~\cite{Dolan-al:PLDI18}
@@ -102,3 +71,44 @@ model which we do consider.
 \app{Mentioned that there are PL MMs, which have different to Java/C++ style of
   atomic interface, \emph{i.e.} \cite{Crary-Sullivan:POPL15}.
 }
+
+\eupp{Below are some other notable MMs. It's not clear what to do about them in the survey}
+
+  \begin{itemize}
+
+  \item \cite{Boudol-Gustavo:POPL09} --- 
+    generalized memory model based on hierarchial structure of 
+    TSO-like write buffers + some reorderings that can be performed on operations in the buffer
+    (according to specific memory model). 
+    Podkopaev \etal~ mentions it can be hard to adapt C11-style interaction of release/acquire and relaxed atomics.
+    Also, probably, it would be challenging to model load buffering scenarios.
+    It looks like the authors do not provide any proofs except the DRF-SC.
+
+  \item \cite{Boudol-al:EXPRESS12} --- 
+    generalized memory model with single operation buffer 
+    sitting between threads and shared memory. 
+    Specific memory model defines commutativity predicate that defines which operations can be reordered in the buffer.
+    Overly strong barrier semantics for Power according to~\cite{Alglave-al:TOPLAS14}. 
+    No to much other cites of this paper though. Not clear what other limitations/drawbacks.
+    Agains, not much formal proofs about the model.
+
+  \item \cite{Jagadeesan-el:ESOP10} --- 
+    an attempt to fix JMM. 
+    Memory is a sequence of actions that can be reordered.
+    Also, there is a \emph{speculations} mechanism to model load-buffering like scenarios.
+    Unlike \Promising semantics, thread-local certification is not required~\cite{Kang-al:POPL17}, 
+    instead it uses so called \textit{initiality}, \textit{consistency}, and \textit{timeliness} constraints
+    (it seams that the semantics is actually more similar to \Weakest).
+    The authors prove DRF-SC, uselessness of speculations when there are no read-write races,
+    and soundness of three optimizations (write-write reordering, roach-motel reordering, read-after-read elimination).
+    There are no other formal proofs (e.g. there is no compilation results).
+    Also, there are no release/acquire accesses (only locks), sc accesses, fences, and RMWs.
+
+  \item \cite{Crary-Sullivan:POPL15} --- 
+    unconvential model, based on idea to allow the programmer 
+    to explicitly specify visibility order on accesses, rather that let the compiler infer it 
+    from the annotations like release/acquire, \etc.
+    OOTA problem (according authors and to~\cite{Kang-al:POPL17}).
+    Despite that, authors claim they prove some form of type safety and DRF-SC (?).
+
+  \end{itemize}
