@@ -51,27 +51,26 @@
 \end{abstract}
 
 \section{Introduction}
+
 A main challenge in concurrent programming is 
 to establish a proper synchronization between threads executed in parallel.     
 Usually it is done with the help of synchronization primitives
 provided by the programming language or libraries,
 for example locks, barriers, channels \etc
-If the accesses to mutable shared variables are not 
-protected by syncronization primitives, then program can contain \emph{data-races}.
-A data-race occurs when two threads concurrently access the same shared location 
-and at least one of them is performing a write operation.
-Data-races serve as a source of bugs, 
-which are hard to detect due to nondeterministic nature of concurrent programs.
+Sometimes, however, the usage of these primitives
+is not possible or undesirable. 
+Examples of such cases are the implementation 
+of synchronization primitive themselves
+or lock-free data structures.
+In these cases one has to resort to 
+lower-level programming discipline and 
+use just the mutable shared variables. 
+At this point things get complicated.
 
-Unfortunately, data-races are unavoidable in some cases. 
-For example, the implementation of synchronization primitives 
-themselves usually contain data-races.
-Thus it is important to specify the behaviour of programs containing data-races.
-This is what the memory model of programming language is responsible for.  
-The memory model defines which values reads of shared variables can observe at each point of execution. 
+%The memory model defines which values reads of shared variables can observe at each point of execution. 
 %In other words, it defines the semantics of concurrent program.
 
-Let us consider the consequences of having data-races on a concrete example.
+Let us consider a concrete example.
 Here is a simplified version of Dekker's algorithm for mutual exclusion.
 
 \begin{equation*}
@@ -91,128 +90,98 @@ Here is a simplified version of Dekker's algorithm for mutual exclusion.
 \tag{Dekker}\label{ex:Dekker}
 \end{equation*}
 
-In this program there are two threads accessing shared variables \texttt{[x]} and \texttt{[y]}.
-We enclose accesses to shared locations into square brackets, 
-in order to distinguish them from accesses to registers (local variables), 
-such as \texttt{r1} and \texttt{r2} in the program above.
-Threads use variables \texttt{x} or \texttt{y} to indicate 
-their intention to enter the critical section.
-Note the data races between writes and reads of varibles~\texttt{[x]}~and~\texttt{[y]}.
-
-The algorithm heavily relies on the fact that both threads 
+In this program there are two threads that compete to enter critical section.
+In order to indicate their intention threads set 
+variables \texttt{[x]} and \texttt{[y]} correspondinly
+\footnote{We enclose names of shared variables into square brackets
+(\ie \texttt{[x]}, \texttt{[y]}), in order to distinguish them 
+from local registers (\ie \texttt{r1} and \texttt{r2}).}.
+The one who manages to set the variable first wins.
+The algorithm relies on the fact that both threads 
 cannot simultaneously read value~\texttt{0}.
-Otherwise the two threads would have been able to enter critical section simultaneously, 
+Otherwise the two threads would have been able 
+to enter critical section simultaneously, 
 thus breaking the correctness of the algorithm.
-At first this assumption seems perfectly valid but let's a have a closer look.
 
-After running this program on a multi-core system, one would expect to see 
+Indeed after running this program on a multi-core system, one would expect to see 
 one of the following outcomes: \texttt{\{[r$_1$=0, r$_2$=1], [r$_1$=1,r$_2$=0], [r$_1$=1,r$_2$=1]\}}.
-These outcomes matche the assumptions of Dekker's algorithm.
-Each one of them may be explained as a result of a sequential execution of an interleaving of threads' instructions. 
-A memory model that admits only these behaviours is known under the name \emph{sequential consistency} (SC) [Lamport:TC79].
+These outcomes are said to be \emph{sequential consistent}~\cite{Lamport:TC79}
+because they can be obtained by the sequential execution 
+of some interleaving of threads' instructions. 
+
+%A memory model that admits only these behaviours is known under the name \emph{sequential consistency} (SC) [Lamport:TC79].
 
 %% ANTON: If we have enough space, I'd put a figure w/ the interleavings.)
 %% ANTON: IMO, we should more carefully distinguish terms "behavior" and "outcome".
 %% ANTON: Also, we should state somewhere that, in the context of concurrent programs, 
 %%        we use terms "semantics" and "memory model" interchangeably.
 
-It turns out that in practice SC is too costly to be implemented.
-Thus real concurrent systems have different semantics. 
+However, the real concurrent systems can have different semantics. 
 For example, if one port this program to C language, compile it with the GCC compiler, 
-and run on any modern CPU (including those from x86/x64, ARMv7/ARMv8, and PowerPC families)
-she may also observe the outcome \texttt{[r1=0, r2=0]}.
+and run on processor from x86/x64 family
+she may also observe yet another outcome \texttt{[r1=0, r2=0]},
+which is called \emph{weak}.
 
-The last non-SC behaviour is called \emph{weak},
-and memory models that allows such behaviors are also called \emph{weak models}.
-Weak behaviors can appear because of optimizations,
+Weak outcomes can appear because of optimizations,
 that could be performed either by the compiler or by the CPU. 
-The optimizer may observe that write to \texttt{[x]} and read from \texttt{[y]}
-are independent instructions and thus they may be reordered
+For example, in the program above, 
+the optimizer may observe that write 
+to \texttt{[x]} and read from \texttt{[y]}
+are independent instructions and thus they can be reordered
 (this optimization is perfectly valid for single-threaded programs).
-After the transformation the program looks as follows
+For the optimized program the outcome \texttt{[r1 = 0, r2 = 0]}
+is sequentially consistent.
 
-\begin{equation*}
-\inarrII{
-  \readInst{}{r_1}{y}  \\
-  \writeInst{}{x}{1} \\
-  \kw{if} {r_1 = 0} ~\{ \\
-  ~~ \comment{critical section} \\
-  \}
-}{
-  \writeInst{}{y}{1} \\
-  \readInst{}{r_2}{x}  \\
-  \kw{if} {r_2 = 0} ~\{ \\
-  ~~ \comment{critical section} \\
-  \}
-}
-\tag{Dekker-opt}\label{ex:Dekker-opt}
-\end{equation*}
+The exact set of allowed outcomes for a given program 
+is defined by the \emph{memory model}.
+The memory model that permits only sequentially consistent outcomes 
+is called correspondingly \emph{sequential consistency} (SC).
+Memory models that admit weak, that is non sequentially consistent, 
+outcomes form a large class of so-called \emph{weak memory models}.
 
-for which the outcome \texttt{[r1 = 0, r2 = 0]} can be obtained under the SC semantics.
-
-% In order to prevent compiler and CPU from reordering of the instructions 
-% and thus forbid weak behaviours and restore SC semantics
-% (and consequently restore correctness the Dekker's algoritm correct)
-% one has to use special primitives, called \emph{memory fences}.
-% Memory fences are compiled to specal CPU instructions and additionally act as annotations to the compiler.
-% However, forbiding every possible instruction reordering by putting memory fences everywhere
-% has performance penalty and can slow down the program.
-% Thus the programmer who want to implement concurrent algorithm 
-% need to understand the memory model of the underlying system 
-% and put memory fences carefully.  
-
-Since neither the modern hardware nor programming languages 
+Neither the modern hardware nor programming languages 
 guarantee us sequentially consistent memory model,
-the main qustions then is how weak their memory models should be.
-The stronger model give more guarantees and thus is simpler to reason about 
-while the weaker model permits more optimizatons. 
-%% It turns out that the answer depends on the type of the memory model.
+because it forbids many important optimizations.
+The main question then is how weak their memory models should be.
+The stronger model give more guarantees 
+and thus is simpler to reason about 
+while the weaker model permits more 
+useful optimizatons.
 
-Hardware and programming languages put different requirements on a memory model, 
-that substantially effect its design and trade-offs.
+It turns out that this question, 
+at least in the context of programming language 
+memory models, is quite challenging. 
+Thus over the last two decades many memory models have been proposed~\cite{
+Manson-al:POPL05, Batty-al:POPL11, Dolan-al:PLDI18, 
+Watt-el:OOPSLA19, Watt-el:PLDI2020,
+Jeffrey-Riely:LICS16, PichonPharabod-Sewell:POPL16, 
+Kang-al:POPL17, Chakraborty-Vafeiadis:POPL19, 
+Paviotti-el:ESOP20, Lee-el:PLDI20}. 
+These memory models have different design goals, trade-offs, and limitations.
+Yet for the people unfamiliar with all the subtelties 
+of weak memory models it can be hard to navigate in this large zoo.
+Despite the long history of the field and recent progress made, 
+there is no single source that would summare the prior knowledge
+and give comprehensive comparison of different memory models
+of programming languages.
 
-The main requirement for the hardware memory models is that 
-they should describe the behaviour of real modern CPU 
-with all complex optimizations they made, like a hierarchy of memory caches, speculative executions, pipelining, etc.
-Besides that the memory model should also leave some room for possible future optimizations.
-Finally, it still needs to provide some reasonable guarantees for programs run on that CPU.       
+The aim of this paper is to close this gap.
+We provide an overview of the existing approaches to 
+formal programming languages memory models,
+discuss their design choices, trade-offs and limitations.
+Besides that we compare the existing memory models 
+in terms of how many CPU and compiler optimizations 
+they permit and what guarantees for formal reasoning they provide.
+As a result of our study we present the table with a summary of this comparison.
 
-%% ANTON: IMO, this section deserves some details and explanations because we aren't going to return to HW models.
-%%        For example, more on future optimizations: there are behaviors allowed by models 
-%%        but not observed on CPUs [Alglave-al:TOPLAS14].
-%%        Maybe, here we should briefly say that HW models preserve dependencies to contrast 
-%%        it to PL models (w/o OOTA details for now).)
-
-A programming language memory model has different set of requirements.
-
-\begin{itemize}
-  \item It should permit an efficient and correct compilation scheme to the modern hardware.
-  \item It should guarantee soundness of common compiler optimizations, like, for example, 
-        reordering of independent instructions or common subexpression elimination.
-  \item Finally, the memory still should be suitable for informal and formal 
-        reasoning about the behavior of the concurrent programs.
-\end{itemize}
-
-Note that these requirements are conflicting. 
-The first two pushes the model to be weaker, 
-while the last one --- to be stronger. 
-This conflict is the reasong why none of the existing industrial specification of memory models 
-for concurrent programming languages, like C/C++ or Java, really meets all of the requirements.
-A memory model that can be efficiently compiled to the hardware, admits common compiler optimizations 
-and at the same time provides strong enough guarantees for informal and formal reasoning
-was an open research problem for quite some time. 
-Only recently a major shift has been done, but even the 
-newly proposed solutions has some drawbacks, limitations, and trade-offs.    
-
-Thus the study of weak memory models is still an active 
-area of research in programming language theory,
-with the new results still coming out and some open problems still unsolved.
-Yet, despite the long history and recent progress made, 
-there are not many materials summarizing the prior knowledge.
-
-The goal of this paper is to give a comprehensive overview of 
-the existing approaches to formal programming languages memory models,
-discuss their design choices, limitations and ways to overcome them.   
+We believe our work will help the developers,
+who are working on implementation of synchronization primitives
+or lock-free data structures, and thus have to understand 
+the subtelties of weak memory models.
+We also think it would be a great help to 
+programmers who want to build new 
+programming languages, compilers or virtual machines,
+and thus have to choose the memory model of their system. 
 
 The rest of the paper is organized as follows.
 \todo{}.
@@ -224,69 +193,6 @@ The rest of the paper is organized as follows.
 % Both of these models features some interesting properties that are currently lack in other models.
 % In section [4] we compare all of the memory models presented in the paper.
 % Finally, section [5] concludes with the discussion and open problems. 
-
-% First, it should permit an efficient and correct compilation scheme to the modern hardware.
-% Efficient usually means that accesses to shared memory can be compiled 
-% without usage of memory fences, or with as little of them as possible. 
-% Soundness means that after the compilation the program when run on hardware 
-% (assuming memory model of some particular hardware) should not exhibit
-% any behaviours that were not allowed by the programming language memory models. 
-
-% Going back to the SB example, one can conclude that SC is not really satisfies this criterion. 
-
-% Imagine if accesses to shared variables would have been compiled as plain load and store instructions of x86.
-% Then after running the compiled program one would be able to observe the weak outcome \texttt{[r1 = 0, r2 = 0]}.
-% This outcome is not allowed by the SC semantics and yet it can be observed.
-% Thus one can conclude that this compilation scheme is unsound. 
-
-% Alternatively, in order to preserve the SC semantics one could 
-% issue \texttt{mfence} instruction after each store to shared variable.
-% This compilation scheme is sound but inefficient.
-% Programs compiled with such compilation scheme will run slower than 
-% if they would have been compiled without memory fences.
-
-% Besides that the programming languge memory model should guarantee soundness of common compiler optimizations,
-% like, for example, reordering of independent instructions or common subexpression elimination.
-% Soundness of an optimization means that after an application 
-% of optimizations the program should not exibit any new behaviors.
-
-% Considering the SB example again, it can be seen that SC is not good with this respect too.
-% The allowed outcomes of the SB program are \texttt{\{[r1=0, r2=1], [r1=1,r2=0], [r1=1,r2=1]\}}.
-% After reordering of independent instructions in the left thread the program looks as follows.
-
-%% TODO: here will be a picture of SB after instruction reordering
-
-% For this program SC model allows the following outcomes: 
-% \texttt{\{[r1=0, r2=1], [r1=1,r2=0], [r1=1,r2=1], [r1=0,r2=0]\}}.
-% Comparing them with the outcomes of the original program one can notice
-% that there is one new outcome \texttt{[r1=0,r2=0]}.
-% This an evidence that reordering of independent instructions is not sound under SC.
-
-% Contrary to the previous requirements, the memory model still should provide some reasonable guarantees.
-% (ANTON: For now, the contrast between the requirements is unclear. Maybe, at the end of the PL requirements section,
-% we should mention that the first two criteria push a memory model to be weaker, whereas the third one---to be stronger.)
-% (EVGENII: Currently there is a sentence about it above so perhaps it's fine now?)
-% For example, it should be possible for a programmer unfamiliar with subtleties of weak memory models 
-% to assume the SC model if she only uses correctly implemented synchronization primitives 
-% and data-structures and has no data-races in her program.
-% Guarantees of this kind are known as \emph{Data-Race Free Theorems} (DRF theorems) 
-% and usually they should be provided by any sane memory model.  
-
-% Besides that it is very desirable for a memory model to be suitable for a formal reasoning and verification.
-% It implies that automated or semi-automated verification tools can be implemented 
-% in order to help the developers catch bugs in their concurrent code. 
-
-%% As we will see, this requirement is not trivially satisfiable and in fact it does not met by many existing programming language memory models.   
-
-% It turns out that none of the existing industrial specification of memory models 
-% for concurrent programming languages, like C/C++ or Java, really meets all of the requirements.
-% A memory model that can be efficiently compiled to the hardware, admits common compiler optimizations 
-% and at the same time provides strong enough guarantees for informal and formal reasoning
-% was an open research problem for quite some time. 
-% Only recently a major shift has been done, but even the 
-% newly proposed solutions has some drawbacks, limitations, and trade-offs.    
-
-%% Batty:ESOP15, PhD thesis
 
 \input{related-work.tex}
 \input{methodology.tex}
