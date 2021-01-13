@@ -90,23 +90,22 @@ Here is a simplified version of Dekker's algorithm for mutual exclusion.
 \tag{Dekker}\label{ex:Dekker}
 \end{equation*}
 
-In this program there are two threads that compete to enter critical section.
+In this program, there are two threads that compete to enter critical section.
 In order to indicate their intention threads set 
-variables \texttt{[x]} and \texttt{[y]} correspondinly
+variables $x$ and $y$ correspondingly.%
 \footnote{We enclose names of shared variables into square brackets
-(\ie \texttt{[x]}, \texttt{[y]}), in order to distinguish them 
-from local registers (\ie \texttt{r1} and \texttt{r2}).}.
+(\ie $x$, $y$), in order to distinguish them 
+from local registers (\ie $r_1$ and $r_2$).}
 The one who manages to set the variable first wins.
-The algorithm relies on the fact that both threads 
-cannot simultaneously read value~\texttt{0}.
-Otherwise the two threads would have been able 
+The algorithm relies on the fact that both threads cannot read value~\texttt{0}.
+Otherwise, the two threads would have been able 
 to enter critical section simultaneously, 
 thus breaking the correctness of the algorithm.
 
-Indeed after running this program on a multi-core system, one would expect to see 
-one of the following outcomes: \texttt{\{[r$_1$=0, r$_2$=1], [r$_1$=1,r$_2$=0], [r$_1$=1,r$_2$=1]\}}.
-These outcomes are said to be \emph{sequential consistent}~\cite{Lamport:TC79}
-because they can be obtained by the sequential execution 
+Indeed, after running this program on a multi-core system, one would expect to see 
+one of the following outcomes: $[r_1=0, r_2=1]$, $[r_1=1,r_2=0]$, and $[r_1=1,r_2=1]$.
+These outcomes are \emph{sequential consistent}~\cite{Lamport:TC79} meaning
+that they may be obtained by a sequential execution 
 of some interleaving of threads' instructions. 
 
 %A memory model that admits only these behaviours is known under the name \emph{sequential consistency} (SC) [Lamport:TC79].
@@ -116,37 +115,34 @@ of some interleaving of threads' instructions.
 %% ANTON: Also, we should state somewhere that, in the context of concurrent programs, 
 %%        we use terms "semantics" and "memory model" interchangeably.
 
-However, the real concurrent systems can have different semantics. 
-For example, if one port this program to C language, compile it with the GCC compiler, 
-and run on processor from x86/x64 family
-she may also observe yet another outcome \texttt{[r1=0, r2=0]},
-which is called \emph{weak}.
+However, not all behaviors which are observable on real concurrent systems are sequentially consistent. 
+For example, if one ports the \ref{ex:Dekker} program to the C language, compile it with the GCC compiler, 
+and run on a processor from the x86/x64 family,
+she may observe yet another outcome $[r_1=0, r_2=0]$,
+which is called \emph{weak}, \ie not sequentially consistent.
 
-Weak outcomes can appear because of optimizations,
-that could be performed either by the compiler or by the CPU. 
-For example, in the program above, 
-the optimizer may observe that write 
-to \texttt{[x]} and read from \texttt{[y]}
+Weak outcomes appear because of compiler and CPU optimizations.
+For example, in the \ref{ex:Dekker} program,
+the optimizer may observe that the store to $x$ and the load from $y$ in the left thread
 are independent instructions and thus they can be reordered
 (this optimization is perfectly valid for single-threaded programs).
-For the optimized program the outcome \texttt{[r1 = 0, r2 = 0]}
+For the optimized program, the outcome $[r_1=0, r_2=0]$
 is sequentially consistent.
 
 The exact set of allowed outcomes for a given program 
-is defined by the \emph{memory model}.
-The memory model that permits only sequentially consistent outcomes 
-is called correspondingly \emph{sequential consistency} (SC).
-Memory models that admit weak, that is non sequentially consistent, 
-outcomes form a large class of so-called \emph{weak memory models}.
+is defined by a semantics of a concurrent system, or a \emph{memory model}.
+The memory model permitting only sequentially consistent outcomes 
+is called \emph{sequential consistency} (SC).
+Memory models admitting \emph{weak}, \ie non sequentially consistent, behaviors 
+are called \emph{weak memory models}.
 
-Neither the modern hardware nor programming languages 
-guarantee us sequentially consistent memory model,
-because it forbids many important optimizations.
-The main question then is how weak their memory models should be.
-The stronger model give more guarantees 
-and thus is simpler to reason about 
-while the weaker model permits more 
-useful optimizatons.
+Neither modern hardware nor programming languages 
+guarantee sequential consistency since SC forbids many important optimizations.
+The main question then is how \emph{weak} their memory models should be,
+\ie how big is a set of allowed weak behaviors for a given program.
+A stronger model allows less behaviors, thus giving more guarantees to a programmer
+and simplifying reasoning about programs, but a weaker model permits more optimizations,
+thus allowing a compiler to produce more efficient code and a CPU to execute the code faster.
 
 It turns out that this question, 
 at least in the context of programming language 
@@ -158,8 +154,8 @@ Jeffrey-Riely:LICS16, PichonPharabod-Sewell:POPL16,
 Podkopaev-al:CoRR16, Kang-al:POPL17, Chakraborty-Vafeiadis:POPL19, 
 Paviotti-el:ESOP20, Lee-el:PLDI20}. 
 These memory models have different design goals, trade-offs, and limitations.
-Yet for the people unfamiliar with all the subtelties 
-of weak memory models it can be hard to navigate in this large zoo.
+For the people unfamiliar with all the subtleties 
+of weak memory models, it can be hard to navigate in this large zoo.
 Despite the long history of the field and recent progress made, 
 there is no single source that would summare the prior knowledge
 and give comprehensive comparison of different memory models
@@ -169,15 +165,15 @@ The aim of this paper is to close this gap.
 We provide an overview of the existing approaches to 
 formal programming languages memory models,
 discuss their design choices, trade-offs and limitations.
-Besides that we compare the existing memory models 
+Besides that, we compare the existing memory models 
 in terms of how many CPU and compiler optimizations 
 they permit and what guarantees for formal reasoning they provide.
-As a result of our study we present the table with a summary of this comparison.
+As a result of our study, we present a summary of this comparison.
 
 We believe our work will help the developers,
 who are working on implementation of synchronization primitives
 or lock-free data structures, and thus have to understand 
-the subtelties of weak memory models.
+the subtleties of weak memory models.
 We also think it would be a great help to 
 programmers who want to build new 
 programming languages, compilers or virtual machines,
