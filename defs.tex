@@ -626,3 +626,114 @@
 \newcommand{\MRD}{\MM{MRD}}
 \newcommand{\OCMM}{\MM{OCamlMM}}
 \newcommand{\JSMM}{\MM{JSMM}}
+
+\colorlet{colorPO}{gray!60!black}
+\colorlet{colorRPO}{brown!60!black}
+\colorlet{colorCF}{red!60!black}
+\colorlet{colorECF}{red!60!black}
+\colorlet{colorJF}{blue!60!black}
+\colorlet{colorRF}{green!60!black}
+\colorlet{colorEW}{brown}
+\colorlet{colorMO}{orange}
+\colorlet{colorFR}{purple}
+\colorlet{colorECO}{orange!80!black}
+\colorlet{colorSYN}{green!40!black}
+\colorlet{colorHB}{blue}
+\colorlet{colorPPO}{magenta}
+\colorlet{colorPB}{olive}
+\colorlet{colorSBRF}{olive}
+\colorlet{colorRMW}{olive!70!black}
+\colorlet{colorRS}{blue}
+\colorlet{colorRELEASE}{blue!70!black}
+\colorlet{colorSC}{violet}
+\colorlet{colorPSC}{violet}
+\colorlet{colorREL}{olive}
+\colorlet{colorCONFLICT}{olive}
+\colorlet{colorRACE}{olive}
+\colorlet{colorWB}{orange!70!black}
+\colorlet{colorSCB}{violet}
+\colorlet{colorDETOUR}{teal}
+\colorlet{colorDEPS}{violet}
+\colorlet{colorFENCE}{olive}
+\colorlet{colorCOV}{magenta!20}
+\colorlet{colorISS}{blue!10!white}
+\colorlet{colorVF}{purple!70!black}
+\colorlet{colorXO}{violet!80!black}
+
+\colorlet{colorREL}{blue!70!black}
+\colorlet{colorACQ}{orange!70!black}
+
+\tikzset{
+   every path/.style={>=stealth},
+   po/.style={->,color=colorPO,shorten >=-0.5mm,shorten <=-0.5mm},
+   rpo/.style={->,color=colorRPO,shorten >=-0.5mm,shorten <=-0.5mm},
+   sw/.style={->,color=colorSYN,shorten >=-0.5mm,shorten <=-0.5mm},
+   sc/.style={->,color=colorSC,dotted,thick,shorten >=-0.5mm,shorten <=-0.5mm},
+   rf/.style={->,color=colorRF,dashed,,shorten >=-0.5mm,shorten <=-0.5mm},
+   hb/.style={->,color=colorHB,thick,shorten >=-0.5mm,shorten <=-0.5mm},
+   mo/.style={->,color=colorMO,dotted,very thick,shorten >=-0.5mm,shorten <=-0.5mm},
+   co/.style={->,color=colorMO,dotted,thick,shorten >=-0.5mm,shorten <=-0.5mm},
+   no/.style={->,dotted,thick,shorten >=-0.5mm,shorten <=-0.5mm},
+   fr/.style={->,color=colorFR,dotted,thick,shorten >=-0.5mm,shorten <=-0.5mm},
+   deps/.style={->,color=colorDEPS,dotted,thick,shorten >=-0.5mm,shorten <=-0.5mm},
+   ppo/.style={->,color=colorPPO,shorten >=-0.5mm,shorten <=-0.5mm},
+   rmw/.style={->,color=colorRMW,thick,shorten >=-0.5mm,shorten <=-0.5mm},
+   detour/.style={->,color=colorDETOUR,shorten >=-0.5mm,shorten <=-0.5mm},
+   cf/.style={-,snake=zigzag,segment amplitude=1pt,segment length=3pt,colorCF},
+   ew/.style={<->,dashed,,shorten >=-0.5mm,shorten <=-0.5mm,color=colorEW},
+   jf/.style={->,color=colorJF,dotted,thick,shorten >=-0.5mm,shorten <=-0.5mm},
+   jo/.style={->,color=colorJO,thick,shorten >=-0.5mm,shorten <=-0.5mm},
+   vf/.style={->,color=colorVF,dashed,shorten >=-0.5mm,shorten <=-0.5mm},
+}
+
+
+%% Orders
+%\newcommand{\na}{\mathtt{na}}
+\newcommand{\pln}{\mathtt{pln}}
+\newcommand{\sto}{{\mathtt{st}}}
+\newcommand{\full}{{\mathtt{sy}}}
+\newcommand{\ld}{{\mathtt{ld}}}
+\newcommand{\isb}{{\mathtt{isb}}}
+\newcommand{\isync}{{\mathtt{isync}}}
+\newcommand{\lwsync}{{\mathtt{lwsync}}}
+\newcommand{\sync}{{\mathtt{sync}}}
+
+\newcommand{\normal}{{\mathtt{normal}}}
+\newcommand{\strong}{{\mathtt{strong}}}
+
+\newcommand{\lPO}{{\color{colorPO}\mathtt{po}}}
+\newcommand{\lPPO}{{\color{colorPPO}\mathtt{ppo}}}
+\newcommand{\lPOimm}{{\color{colorPO}\mathtt{po_{imm}}}}
+\newcommand{\lCF}{{\color{colorCF}\mathtt{cf}}}
+\newcommand{\lCFimm}{{\color{colorCF}\mathtt{cf_{imm}}}}
+\newcommand{\lECF}{{\color{colorECF}\mathtt{ecf}}}
+\newcommand{\lJF}{{\color{colorJF} \mathtt{jf}}}
+\newcommand{\lRF}{{\color{colorRF} \mathtt{rf}}}
+\newcommand{\lPORF}{\lPO\lRF}
+\newcommand{\lRPORF}{\lRPO\lRF}
+\newcommand{\lRMW}{{\color{colorRMW} \mathtt{rmw}}}
+\newcommand{\lMO}{{\color{colorMO} \mathtt{mo}}}
+\newcommand{\lMOx}{{\color{colorMO} \mathtt{mo}}_x}
+\newcommand{\lMOy}{{\color{colorMO} \mathtt{mo}}_y}
+\newcommand{\lEW}{{\color{colorEW} \mathtt{ew}}}
+\newcommand{\lCO}{{\color{colorMO} \mathtt{co}}}
+\newcommand{\lCOx}{{\color{colorMO} \mathtt{co}}_x}
+\newcommand{\lCOy}{{\color{colorMO} \mathtt{co}}_y}
+\newcommand{\lFR}{{\color{colorFR} \mathtt{fr}}}
+\newcommand{\lFRx}{{\color{colorFR} \mathtt{fr}}_x}
+\newcommand{\lFRy}{{\color{colorFR} \mathtt{fr}}_y}
+\newcommand{\lECO}{{\color{colorECO} \mathtt{eco}}}
+\newcommand{\lSBRF}{{\color{colorSBRF} \mathtt{sbrf}}}
+\newcommand{\lRS}{{\color{colorRS}\mathtt{rs}}}
+\newcommand{\lRELEASE}{{\color{colorRELEASE}\mathtt{release}}}
+\newcommand{\lSW}{{\color{colorSYN}\mathtt{sw}}}
+\newcommand{\lHB}{{\color{colorHB}\mathtt{hb}}}
+%\newcommand{\lWB}{{\color{colorWB} \mathtt{wb}}}
+\newcommand{\lDOB}{{\mathtt{dob}}}
+\newcommand{\lFWBOB}{{\mathtt{fwbob}}}
+\newcommand{\lBOB}{{\mathtt{bob}}}
+\newcommand{\lAOB}{{\mathtt{aob}}}
+\newcommand{\lOBS}{{\mathtt{obs}}}
+\newcommand{\lEORD}{{\mathtt{eord}}}
+\newcommand{\lSC}{{\color{colorSC}\mathtt{sc}}}
+\newcommand{\lXO}{{\color{colorXO}\mathtt{xo}}}
