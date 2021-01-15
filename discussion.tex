@@ -1,0 +1,73 @@
+\section{Discussion}
+
+In this section we provide a summary of our findings  
+described in the previous sections. 
+We briefly compare the design choices and properties 
+of various memory models and discuss their prons and cons.
+Finally, We highlight the underdeveloped parts of the theoretical
+and practical aspects of memory models, suggesting 
+a possible directions for future research in the field. 
+
+\subsection{Optimizations versus Complexity} 
+
+Split the models into classes, for each class 
+outline what reasoning guarantess are given and  
+how the optimizations are affected.
+
+\begin{itemize}
+  \item strong SC-like models (mention SC-haskell)
+  \item $\lPO \cup \lRF$ acyclic cyclic models
+  \item $\lPPO \cup \lRF$ acyclic cyclic (?) (mention LKMM)
+  \item $\lPO \cup \lRF$ cyclic models
+  \item OOTA models
+\end{itemize}
+
+Mention the consequences of allowing undefined behavior.
+
+On relationship between speculative optimizations and DRF (?)
+(i.e. load introduction is unsound in models sensitive to DRF).
+
+On relationship between trace preserving opts. and dependency tracking (?)
+
+Support from PL (i.e. through type system) to mitigate performance problems 
+(i.e. by separating local/shared objects statically). 
+Examples: SC-haskell, OCaml (?), Rust can do this too. 
+
+\subsection{Memory Model Style (?)}
+
+Operational, axiomatic, denotational. 
+Pros and cons of different styls w.r.t. memory models. 
+
+\begin{itemize}
+  \item Axiomatic. \\
+    Easier to add features (?). 
+    The most evolved models (in terms of \#features) are axiomatic.
+    (exception: Promising, but even it has problems with SC).
+  \item Denotational.
+    The conventional way to prove soundness of optimizations in PL theory (?). 
+    Could enable local reasoning (?).
+    Yet today underdeveloped for weak memory models (only a couple of papers).
+\end{itemize}
+
+\subsection{Hints for PL Designers}
+ 
+\begin{itemize}
+  \item Separation between local/shared objects can mitigate
+        performance slowdown due to strong memory model.
+  \item Undefined behavior gives an escape hatch for optimizations.
+  \item $\lPO \cup \lRF$ acyclicity gives (relatively) simple 
+        cognitive model, enables almost all desired optimizations, efficient on x86.
+  \item SC accesses (when combined with other types of accesses) behave in unituitive way (?).
+  \item Theory of mixed-size accesses is underdeveloped (?)
+        (i.e. it's good idea to forbid them in the language).
+\end{itemize}
+
+\subsection{Future Work}
+
+\begin{itemize}
+  \item Mixed-size accesses.
+  \item Global optimizations. Sequentialization.
+  \item Local DRF. Local reasoning in general (denotational models?).
+  \item Common ground between no-OOTA models (?). 
+  \item Performance comparison. Quantitative study in general.
+\end{itemize}
