@@ -19,98 +19,98 @@ In particular, with respect to each model we want to answer the following questi
   
 \end{itemize}
 
-For our research we have chosen a number of memory models 
-that we previously published in form of research papers 
-in peer-reviewed journals or conference proceedings. 
-Below we explain the motivation behind our choice of each particular memory model.  
+% For our research we have chosen a number of memory models 
+% that we previously published in form of research papers 
+% in peer-reviewed journals or conference proceedings. 
+% Below we explain the motivation behind our choice of each particular memory model.  
 
 %% Class of memory models (think how to introduce that)
 
 %% We consider only "\CPP style" MMs
 
-We included \SC~\cite{Lamport:TC79}
-as a ``baseline'' memory model. 
-It is simple, does not permit any counter-intuitive behaviors,
-and has clear formal specification. 
+% We included \SC~\cite{Lamport:TC79}
+% as a ``baseline'' memory model. 
+% It is simple, does not permit any counter-intuitive behaviors,
+% and has clear formal specification. 
 
-We consider \Java memory model~(\JMM)~\cite{Manson-al:POPL05}
-and \CPP memory model~(\CMM)~\cite{Boehm-Adve:PLDI08, Batty-al:POPL11}
-because of their significance and impact on software engineering industry.
+% We consider \Java memory model~(\JMM)~\cite{Manson-al:POPL05}
+% and \CPP memory model~(\CMM)~\cite{Boehm-Adve:PLDI08, Batty-al:POPL11}
+% because of their significance and impact on software engineering industry.
 
-Next, we consider a number of proposed memory models 
-that aim to repair \CPP model, namely 
-\RCMM~\cite{Lahav-al:PLDI17}, 
-\Promising~\cite{Kang-al:POPL17, Lee-el:PLDI20}, 
-\Weakest~\cite{Chakraborty-Vafeiadis:POPL19}, 
-\MRD~\cite{Paviotti-el:ESOP20}.
+% Next, we consider a number of proposed memory models 
+% that aim to repair \CPP model, namely 
+% \RCMM~\cite{Lahav-al:PLDI17}, 
+% \Promising~\cite{Kang-al:POPL17, Lee-el:PLDI20}, 
+% \Weakest~\cite{Chakraborty-Vafeiadis:POPL19}, 
+% \MRD~\cite{Paviotti-el:ESOP20}.
 
-\todo{
-  It looks like that we need to 
-  mention~\cite{Jeffrey-Riely:LICS16, PichonPharabod-Sewell:POPL16}
-  in the survey at least briefly.
-}
+% \todo{
+%   It looks like that we need to 
+%   mention~\cite{Jeffrey-Riely:LICS16, PichonPharabod-Sewell:POPL16}
+%   in the survey at least briefly.
+% }
 
-Finally, we also included memory models of \OCaml~(\OCMM)~\cite{Dolan-al:PLDI18}
-and \JS/\WASM~(\JSMM)~\cite{Watt-el:PLDI2020}.
-These models are of some interest becuase 
-they have some distinctive properties
-that other models currently lacking.
+% Finally, we also included memory models of \OCaml~(\OCMM)~\cite{Dolan-al:PLDI18}
+% and \JS/\WASM~(\JSMM)~\cite{Watt-el:PLDI2020}.
+% These models are of some interest becuase 
+% they have some distinctive properties
+% that other models currently lacking.
 
-We have consciously excluded several memory models from our review
-for the following reasons.
-We do not consider \OpenCL~\cite{Batty-el:POPL16} model 
-because it inherets from the \CPP model.
-All of the distinguished features of \OpenCL model comparing to \CPP
-correspond to heteregeneous programming 
-(\ie programming on a system where multiple CPU, GPU and FPGA processors can coexist),
-which is beyond the scope of this paper. 
-We also do not consider model proposed for \LLVM~\cite{Chakraborty-Vafeiadis:CGO17}
-because it is based on the \Weakest~\cite{Chakraborty-Vafeiadis:POPL19} 
-model which we do consider. 
+% We have consciously excluded several memory models from our review
+% for the following reasons.
+% We do not consider \OpenCL~\cite{Batty-el:POPL16} model 
+% because it inherets from the \CPP model.
+% All of the distinguished features of \OpenCL model comparing to \CPP
+% correspond to heteregeneous programming 
+% (\ie programming on a system where multiple CPU, GPU and FPGA processors can coexist),
+% which is beyond the scope of this paper. 
+% We also do not consider model proposed for \LLVM~\cite{Chakraborty-Vafeiadis:CGO17}
+% because it is based on the \Weakest~\cite{Chakraborty-Vafeiadis:POPL19} 
+% model which we do consider. 
 
-\app{Mentioned that there are PL MMs, which have different to Java/C++ style of
-  atomic interface, \emph{i.e.} \cite{Crary-Sullivan:POPL15}.
-}
+% \app{Mentioned that there are PL MMs, which have different to Java/C++ style of
+%   atomic interface, \emph{i.e.} \cite{Crary-Sullivan:POPL15}.
+% }
 
-\eupp{Below are some other notable MMs. It's not clear what to do about them in the survey}
-\app{Please, add some names of models/authors to the links. Now, it is impossible to read
-even for us.}
+% \eupp{Below are some other notable MMs. It's not clear what to do about them in the survey}
+% \app{Please, add some names of models/authors to the links. Now, it is impossible to read
+% even for us.}
 
-  \begin{itemize}
+%   \begin{itemize}
 
-  \item \cite{Boudol-Gustavo:POPL09} --- 
-    generalized memory model based on hierarchial structure of 
-    TSO-like write buffers + some reorderings that can be performed on operations in the buffer
-    (according to specific memory model). 
-    Podkopaev \etal~ mentions it can be hard to adapt C11-style interaction of release/acquire and relaxed atomics.
-    Also, probably, it would be challenging to model load buffering scenarios.
-    It looks like the authors do not provide any proofs except the DRF-SC.
+%   \item \cite{Boudol-Gustavo:POPL09} --- 
+%     generalized memory model based on hierarchial structure of 
+%     TSO-like write buffers + some reorderings that can be performed on operations in the buffer
+%     (according to specific memory model). 
+%     Podkopaev \etal~ mentions it can be hard to adapt C11-style interaction of release/acquire and relaxed atomics.
+%     Also, probably, it would be challenging to model load buffering scenarios.
+%     It looks like the authors do not provide any proofs except the DRF-SC.
 
-  \item \cite{Boudol-al:EXPRESS12} --- 
-    generalized memory model with single operation buffer 
-    sitting between threads and shared memory. 
-    Specific memory model defines commutativity predicate that defines which operations can be reordered in the buffer.
-    Overly strong barrier semantics for Power according to~\cite{Alglave-al:TOPLAS14}. 
-    No to much other cites of this paper though. Not clear what other limitations/drawbacks.
-    Agains, not much formal proofs about the model.
+%   \item \cite{Boudol-al:EXPRESS12} --- 
+%     generalized memory model with single operation buffer 
+%     sitting between threads and shared memory. 
+%     Specific memory model defines commutativity predicate that defines which operations can be reordered in the buffer.
+%     Overly strong barrier semantics for Power according to~\cite{Alglave-al:TOPLAS14}. 
+%     No to much other cites of this paper though. Not clear what other limitations/drawbacks.
+%     Agains, not much formal proofs about the model.
 
-  \item \cite{Jagadeesan-el:ESOP10} --- 
-    an attempt to fix JMM. 
-    Memory is a sequence of actions that can be reordered.
-    Also, there is a \emph{speculations} mechanism to model load-buffering like scenarios.
-    Unlike \Promising semantics, thread-local certification is not required~\cite{Kang-al:POPL17}, 
-    instead it uses so called \textit{initiality}, \textit{consistency}, and \textit{timeliness} constraints
-    (it seams that the semantics is actually more similar to \Weakest).
-    The authors prove DRF-SC, uselessness of speculations when there are no read-write races,
-    and soundness of three optimizations (write-write reordering, roach-motel reordering, read-after-read elimination).
-    There are no other formal proofs (e.g. there is no compilation results).
-    Also, there are no release/acquire accesses (only locks), sc accesses, fences, and RMWs.
+%   \item \cite{Jagadeesan-el:ESOP10} --- 
+%     an attempt to fix JMM. 
+%     Memory is a sequence of actions that can be reordered.
+%     Also, there is a \emph{speculations} mechanism to model load-buffering like scenarios.
+%     Unlike \Promising semantics, thread-local certification is not required~\cite{Kang-al:POPL17}, 
+%     instead it uses so called \textit{initiality}, \textit{consistency}, and \textit{timeliness} constraints
+%     (it seams that the semantics is actually more similar to \Weakest).
+%     The authors prove DRF-SC, uselessness of speculations when there are no read-write races,
+%     and soundness of three optimizations (write-write reordering, roach-motel reordering, read-after-read elimination).
+%     There are no other formal proofs (e.g. there is no compilation results).
+%     Also, there are no release/acquire accesses (only locks), sc accesses, fences, and RMWs.
 
-  \item \cite{Crary-Sullivan:POPL15} --- 
-    unconvential model, based on idea to allow the programmer 
-    to explicitly specify visibility order on accesses, rather that let the compiler infer it 
-    from the annotations like release/acquire, \etc.
-    OOTA problem (according authors and to~\cite{Kang-al:POPL17}).
-    Despite that, authors claim they prove some form of type safety and DRF-SC (?).
+%   \item \cite{Crary-Sullivan:POPL15} --- 
+%     unconvential model, based on idea to allow the programmer 
+%     to explicitly specify visibility order on accesses, rather that let the compiler infer it 
+%     from the annotations like release/acquire, \etc.
+%     OOTA problem (according authors and to~\cite{Kang-al:POPL17}).
+%     Despite that, authors claim they prove some form of type safety and DRF-SC (?).
 
-  \end{itemize}
+%   \end{itemize}
