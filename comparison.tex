@@ -1,43 +1,82 @@
 \section{Comparison}
+\onecolumn
 
 \begin{landscape}
 
-\begin{table*}[t]
-\centering
-\begin{tabular}{ |l|c|c|c|c|c|c|c| }
-                                                                            \hline
+% \begin{longtable}{|l|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}
 
- Model          & Eff. Comp. & Opt. & DRF & UB & No OOTA & MC & Complex. \\ \hline
+\begin{table*}
+\begin{tabular}{|l|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}
+ \hline
 
- SC             &            &      &     &    &         &    &          \\ \hline
+ \multirow{3}{*}{Model}                               & 
+ \multicolumn{4}{c|}{\multirow{2}{*}{Compilation}}   &
+ \multicolumn{10}{c|}{Optimizations}                 &
+ \multicolumn{3}{c|}{\multirow{2}{*}{DRF}}           &
+ \multicolumn{3}{c}{\multirow{2}{*}{Properties}}    \\ \cline{6-16}
 
- C11            &            &      &     &    &         &    &          \\ \hline
+ &
+ \multicolumn{4}{c|}{}      &
+ \multicolumn{7}{c|}{Local}  &
+ \multicolumn{3}{c}{Global} &
+  & & & & & \\ \hline
+ 
+ &
+ x86 & Power & ARMv7 & ARMv8 &
+ 
+ \makecell{Trace \\ Preserving}                &
+ \makecell{Reordering of \\Indep. \\Instr.}    & 
+ \makecell{Redundunt \\Load/Store \\Elim.}     &
+ \makecell{Irrelevant \\Load \\Elim.}          &
+ \makecell{Speculative \\Load \\Intro.}        &
+ \makecell{Strength.}                          &
+ \makecell{Roach Motel}                        &
+ \makecell{Register \\ Promotion}              &
+ \makecell{Value Range}                        &
+ \makecell{Thread \\ Inlining}                 &
+ 
+ Internal &
+ External &
+ Local    &
 
- JMM            &            &      &     &    &         &    &          \\ \hline
+ Undefined Behavior     & 
+ $\lPO\cup\lRF$ acyclic & 
+ OOTA                   \\ \hline
+ 
+ SC             & & & & & & & & & & & & & & & & & & & & \\ \hline
 
- RC11           &            &      &     &    &         &    &          \\ \hline
+ C11            & & & & & & & & & & & & & & & & & & & & \\ \hline
 
- Promising      &            &      &     &    &         &    &          \\ \hline
+ JMM            & & & & & & & & & & & & & & & & & & & & \\ \hline
 
- Weakest        &            &      &     &    &         &    &          \\ \hline
+ RC11           & & & & & & & & & & & & & & & & & & & & \\ \hline
 
- RMD            &            &      &     &    &         &    &          \\ \hline
+ Promising      & & & & & & & & & & & & & & & & & & & & \\ \hline
 
- OCaml          &            &      &     &    &         &    &          \\ \hline
+ Weakest        & & & & & & & & & & & & & & & & & & & & \\ \hline
 
- JavaScript     &            &      &     &    &         &    &          \\ \hline
+ RMD            & & & & & & & & & & & & & & & & & & & & \\ \hline
+
+ OCaml          & & & & & & & & & & & & & & & & & & & & \\ \hline
+
+ JavaScript     & & & & & & & & & & & & & & & & & & & & \\ \hline
 
 \end{tabular}
-\caption{Comparison of memory models. 
-  \textit{Eff. Comp.} --- does the model have efficient compilation scheme.
-  \textit{Opt.} --- are the common optimizations sound in the model.
-  \textit{DRF.} --- does the model provides Data-Race-Freedom guarantees.
-  \textit{UB.} --- does the model have undefined behaviors.
-  \textit{No OOTA.} --- does the model forbid out-of-thin-air behaviors.
-  \textit{MC.} --- is the model suitable for model checking.
-  \textit{Complex.} --- subjective complexity of the model.
+\caption{
+  % Comparison of memory models. 
+  % \textit{Eff. Comp.} --- does the model have efficient compilation scheme.
+  % \textit{Opt.} --- are the common optimizations sound in the model.
+  % \textit{DRF.} --- does the model provides Data-Race-Freedom guarantees.
+  % \textit{UB.} --- does the model have undefined behaviors.
+  % \textit{No OOTA.} --- does the model forbid out-of-thin-air behaviors.
+  % \textit{MC.} --- is the model suitable for model checking.
+  % \textit{Complex.} --- subjective complexity of the model.
 }
 \label{table:summary}
 \end{table*}
 
+% \end{longtable}
+
 \end{landscape}
+
+\twocolumn
