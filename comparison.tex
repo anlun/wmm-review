@@ -6,60 +6,94 @@
 % \begin{longtable}{|l|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}
 
 \begin{table*}
-\begin{tabular}{|l|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}
+\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}
  \hline
 
  \multirow{3}{*}{Model}                               & 
- \multicolumn{4}{c|}{\multirow{2}{*}{Compilation}}   &
- \multicolumn{10}{c|}{Optimizations}                 &
- \multicolumn{3}{c|}{\multirow{2}{*}{DRF}}           &
- \multicolumn{3}{c}{\multirow{2}{*}{Properties}}    \\ \cline{6-16}
+ \multicolumn{ 4}{c|}{\multirow{2}{*}{Compilation}}   &
+ \multicolumn{10}{c|}{Optimizations}                  &
+ \multicolumn{ 3}{c|}{\multirow{2}{*}{DRF}}           &
+ \multicolumn{ 3}{c|}{\multirow{2}{*}{Properties}}    &
+ \multicolumn{ 9}{c|}{\multirow{2}{*}{Features}}      \\ 
 
- &
- \multicolumn{4}{c|}{}      &
+ \cline{6-15}
+
+                             &
+ \multicolumn{4}{c|}{}       &
  \multicolumn{7}{c|}{Local}  &
- \multicolumn{3}{c}{Global} &
-  & & & & & \\ \hline
+ \multicolumn{3}{c|}{Global} &
+
+ \multicolumn{3}{c|}{}       &
+ \multicolumn{3}{c|}{}       &
+ \multicolumn{9}{c|}{}       \\ 
  
- &
- x86 & Power & ARMv7 & ARMv8 &
+ \hline
+                                      &
+ \rotatebox[origin=c]{270}{x86}      & 
+ \rotatebox[origin=c]{270}{Power}    & 
+ \rotatebox[origin=c]{270}{ARMv7}    & 
+ \rotatebox[origin=c]{270}{ARMv8}    & 
  
- \makecell{Trace \\ Preserving}                &
- \makecell{Reordering of \\Indep. \\Instr.}    & 
- \makecell{Redundunt \\Load/Store \\Elim.}     &
- \makecell{Irrelevant \\Load \\Elim.}          &
- \makecell{Speculative \\Load \\Intro.}        &
- \makecell{Strength.}                          &
- \makecell{Roach Motel}                        &
- \makecell{Register \\ Promotion}              &
- \makecell{Value Range}                        &
- \makecell{Thread \\ Inlining}                 &
+ \rotatebox[origin=c]{270}{T.P.}     &
+ \rotatebox[origin=c]{270}{R.I.}     &
+ \rotatebox[origin=c]{270}{R.E.}     &
+ \rotatebox[origin=c]{270}{I.L.E.}   &
+ \rotatebox[origin=c]{270}{S.L.I.}   &
+ \rotatebox[origin=c]{270}{S.}       &
+ \rotatebox[origin=c]{270}{R.M.}     &
+ \rotatebox[origin=c]{270}{R.P.}     &
+ \rotatebox[origin=c]{270}{V.R.}     &
+ \rotatebox[origin=c]{270}{T.I.}     &
+
+ % \makecell{Trace \\ Preserving}                &
+ % \makecell{Reordering of \\Indep. \\Instr.}    & 
+ % \makecell{Redundunt \\Load/Store \\Elim.}     &
+ % \makecell{Irrelevant \\Load \\Elim.}          &
+ % \makecell{Speculative \\Load \\Intro.}        &
+ % \makecell{Strength.}                          &
+ % \makecell{Roach Motel}                        &
+ % \makecell{Register \\ Promotion}              &
+ % \makecell{Value Range}                        &
+ % \makecell{Thread \\ Inlining}                 &
  
- Internal &
- External &
- Local    &
+ \rotatebox[origin=c]{270}{Int.} &
+ \rotatebox[origin=c]{270}{Ext.} &
+ \rotatebox[origin=c]{270}{Loc.} &
 
- Undefined Behavior     & 
- $\lPO\cup\lRF$ acyclic & 
- OOTA                   \\ \hline
+ \rotatebox[origin=c]{270}{UB}                                 &
+ \rotatebox[origin=c]{270}{\makecell{$\lPO\cup\lRF$ \\ acyc.}} & 
+ \rotatebox[origin=c]{270}{OOTA}                               &                              
+
+
+ \rotatebox[origin=c]{270}{NA}                      &
+ \rotatebox[origin=c]{270}{RLX}                     &
+ \rotatebox[origin=c]{270}{RA}                      &
+ \rotatebox[origin=c]{270}{SC}                      &
+ \rotatebox[origin=c]{270}{F-RA}                    &
+ \rotatebox[origin=c]{270}{F-SC}                    &
+ \rotatebox[origin=c]{270}{RMW}                     &
+ \rotatebox[origin=c]{270}{Lock}                    &
+ \rotatebox[origin=c]{270}{\makecell{Mix.Sz.}}  \\ 
  
- SC             & & & & & & & & & & & & & & & & & & & & \\ \hline
+ \hline
+ 
+ SC             & & & & & & & & & & & & & & & & & & & & & & & & & & & & & \\ \hline
 
- C11            & & & & & & & & & & & & & & & & & & & & \\ \hline
+ C11            & & & & & & & & & & & & & & & & & & & & & & & & & & & & & \\ \hline
 
- JMM            & & & & & & & & & & & & & & & & & & & & \\ \hline
+ JMM            & & & & & & & & & & & & & & & & & & & & & & & & & & & & & \\ \hline
 
- RC11           & & & & & & & & & & & & & & & & & & & & \\ \hline
+ RC11           & & & & & & & & & & & & & & & & & & & & & & & & & & & & & \\ \hline
 
- Promising      & & & & & & & & & & & & & & & & & & & & \\ \hline
+ Promising      & & & & & & & & & & & & & & & & & & & & & & & & & & & & & \\ \hline
 
- Weakest        & & & & & & & & & & & & & & & & & & & & \\ \hline
+ Weakest        & & & & & & & & & & & & & & & & & & & & & & & & & & & & & \\ \hline
 
- RMD            & & & & & & & & & & & & & & & & & & & & \\ \hline
+ RMD            & & & & & & & & & & & & & & & & & & & & & & & & & & & & & \\ \hline
 
- OCaml          & & & & & & & & & & & & & & & & & & & & \\ \hline
+ OCaml          & & & & & & & & & & & & & & & & & & & & & & & & & & & & & \\ \hline
 
- JavaScript     & & & & & & & & & & & & & & & & & & & & \\ \hline
+ JavaScript     & & & & & & & & & & & & & & & & & & & & & & & & & & & & & \\ \hline
 
 \end{tabular}
 \caption{
@@ -71,6 +105,22 @@
   % \textit{No OOTA.} --- does the model forbid out-of-thin-air behaviors.
   % \textit{MC.} --- is the model suitable for model checking.
   % \textit{Complex.} --- subjective complexity of the model.
+  \textit{T.P.} --- trace preserving.
+  \textit{R.I.} --- reordering of independent instructions.
+  \textit{R.E.} --- redundunt load/store elimination.
+  \textit{I.L.E.} --- irrelevant load elimination.
+  \textit{S.L.I.} --- speculative load introduction.
+  \textit{S.} --- strengthening.
+  \textit{R.M.} --- roach motel reordering.
+  \textit{R.P.} --- register promotion.
+  \textit{V.R.} --- value range analysis based optimizations.
+  \textit{T.I.} --- thread inlining (sequentialization).
+  \textit{Int.} --- internal.
+  \textit{Ext.} --- external.
+  \textit{Loc.} --- local.
+  \textit{UB} --- undefined behavior.
+  \textit{OOTA} --- out-of-thin air values.
+  \textit{Mix.Sz.} --- mixed-size accesses.
 }
 \label{table:summary}
 \end{table*}
