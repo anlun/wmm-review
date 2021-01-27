@@ -1,9 +1,65 @@
-\section{Comparison}
+\section{Analysis}
+
+In this section we present the detailed comparison 
+of the considered programming language memory models. 
+
+We summarize our findings in \cref{table:summary}. 
+Each row of the table corresponds to a memory model, denoted by its abbreviation. 
+The correspondence between the memory model abbrevation, 
+its full name and the research papers is given in \cref{table:mmodels}.
+Columns of the table correspond to properties of the models. 
+We split the properties into several subgroups. 
+
+The first group is devoted to optimality of compilation mappings
+to target hardware instructions. 
+\todo{explain how we classify mappings as optimal/non-optimal}.
+
+The second group is dedicated to soundness of various program transformations. 
+The classification is binary: a transformation is either sound or unsound 
+in the given memory model (in a sense stated in \cref{sec:bgrnd-opt-sound}).
+We further split the transformations to global and local as in \cref{sec:bgrnd-opt-sound}.
+
+The third group corresponds to reasoning principles guaranteed by the model. 
+It includes the following properties. What kind of DRF guarantee the model provides.
+(we distinguish the internal, external and local DRF theorems, see \cref{sec:bgrnd-drf}).
+Whether the model has undefined behaviors (see \cref{sec:bgrnd-ub}).
+Whether the model permits out-of-thin-air values (see \cref{sec:bgrnd-oota}).
+
+Finally, the last group enumerates the list of memory access modes 
+and fences supported by the model, as well as whether the model 
+supports read-modify-write operations, locks, and mixed-size accesses.
+
+Driven by our analysis of the models' properties, we partition all models into five classes. 
+The models from the same class have similar compilation mappings, 
+set of sound program transformations, and provided reasoning guarantees.
+Our classes are ordered by the weakness of the memory models they consist of.  
+The strongest models are located at the top rows of the table, 
+while the weakest are at the bottom. 
+
+We next discuss each class in more details
+(note that the order is different from the one in the \cref{table:summary}). 
+We also give some insight on the relationship
+between compilation scheme optimality, 
+soundness of transformations and reasoning guarantees.
+In particular, we explain why the support of some reasoning guarantees 
+disables some program transformations and requires more heavyweight 
+compilation mappings to hardware.
+
+\subsection{Strong SC-like Models}
+
+\subsection{Strong TSO-like Models}
+
+\subsection{OOTA Models}
+
+\subsection{$\lPO\cup\lRF$ Acyclic Models}
+
+\subsection{$\lPPO\cup\lRF$ Acyclic Models}
+
+\subsection{no-OOTA Models}
+ 
 \onecolumn
 
 \begin{landscape}
-
-% \begin{longtable}{|l|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}
 
 \begin{table*}
 \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}
@@ -124,8 +180,6 @@
 }
 \label{table:summary}
 \end{table*}
-
-% \end{longtable}
 
 \end{landscape}
 
