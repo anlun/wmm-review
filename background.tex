@@ -71,6 +71,32 @@ soundness of common optimizations, and guarantees for formal and informal reason
 
 \subsection{Optimal Compilation Scheme}
 
+\subsubsection{Full Memory Fences}
+
+\begin{itemize}
+  \item Mention x86-TSO again.
+  \item Present SB example again. 
+  \item How to restore SC?
+  \item Introduce \texttt{mfence}. SB+MFENCE example.
+  \item Mention \texttt{sync} (POWER) and \texttt{dmb} (ARM).
+\end{itemize}
+
+\subsubsection{Lightweight Memory Fences}
+
+\begin{itemize}
+  \item Mention POWER and ARM (weaker than x86).
+  \item Present MP example. 
+  \item Introduce \texttt{lwsync} (POWER), \texttt{dmb ld} and \texttt{dmb st} (ARM).
+\end{itemize}
+
+\subsubsection{Syntactic Dependencies}
+
+\begin{itemize}
+  \item Mention POWER and ARM again. Mention event weaker archs (e.g. DEC-Alpha) (?).
+  \item Present LB example. 
+  \item Introduce syntactic dependencies and \texttt{isync} (POWER).
+\end{itemize}
+
 % Having a short description of the memory models 
 % together with their design goals we are ready to proceed 
 % and consider whether these models satisfy the desired requirements.
@@ -150,11 +176,31 @@ soundness of common optimizations, and guarantees for formal and informal reason
 \subsection{Soundness of Program Transformations}
 \label{sec:bgrnd-opt-sound}
 
-\subsubsection{Local Optimizations}
+\subsubsection{Local Transformations}
 
-\subsubsection{Global Optimizations}
+\paragraph{Trace preserving transformations (TR)}
 
-\subsection{Reasoning Guarantees and High-level Properties}
+\paragraph{Reordering of independent instructions (RI)}
+
+\paragraph{Redundunt Load/Store Elimination (RE)}
+
+\paragraph{Irrelevant Load Elimination (ILE)}
+
+\paragraph{Speculative Load Introduction (SLI)}
+
+\paragraph{Strengthening (S)}
+
+\paragraph{Roach Motel Reordering (RM)}
+
+\subsubsection{Global Transformations}
+
+\paragraph{Register Promotion (RP)}
+
+\paragraph{Value Range based Transformations (VR)}
+
+\paragraph{Thread Inlining (TI)}
+
+\subsection{Reasoning Guarantees}
 
 \subsubsection{DRF Theorems}
 \label{sec:bgrnd-drf}
