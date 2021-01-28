@@ -205,15 +205,75 @@ soundness of common optimizations, and guarantees for formal and informal reason
 \subsubsection{DRF Theorems}
 \label{sec:bgrnd-drf}
 
+\begin{itemize}
+  \item Motivation: no weak behaviors for well-sync programs.
+  \item Example
+  \begin{itemize}
+    \item Lock + increment?
+    \item MP with atomic flag?
+  \end{itemize}
+  \item Definition of the race
+  \item DRF theorem
+  \begin{itemize}
+    \item explain difference between internal/external DRF
+  \end{itemize}
+  \item Local DRF (?)
+  \begin{itemize}
+    \item Example
+  \end{itemize}
+\end{itemize}
+
 \subsubsection{Out-of-Thin-Air Values}
 \label{sec:bgrnd-oota}
 
+\begin{itemize}
+  \item Introduce three examples: LB, LB+dep, LB+fakedep.
+  \item Explain the problem: some memory models cannot 
+    correctly distinguish theese three programs.
+  \item It leads to out-of-thin-air values.
+\end{itemize}
+
 \subsubsection{$\lPO\cup\lRF$ Acyclicity}
 
-\subsubsection{Dependency Tracking}
+\begin{itemize}
+  \item Motivation: forbid OOTA.
+  \item Proposed solution: forbid causality cycles. 
+  \item Explain execution graphs and $\lPO\cup\lRF$ cycles.
+  \item LB examples againg, with their execution graphs.
+  \item Drawback of this approach: some optimizations are unsound 
+    (refer to analysis section).
+\end{itemize}
+
+\subsubsection{Syntactic Dependency Tracking}
+
+\begin{itemize}
+  \item Motivation: forbid OOTA, but enable more opts.
+  \item Proposed solution: forbid causality cycles with syntactic dependencies. 
+  \item Explain $\lPPO\cup\lRF$ cycles.
+  \item LB examples againg, with their execution graphs and syntax.deps.
+  \item Drawback of this approach: some optimizations are still unsound 
+    (refer to analysis section).
+\end{itemize}
+
+\subsubsection{Semantic Dependency Tracking}
+
+\begin{itemize}
+  \item Motivation: forbid OOTA (precisely).
+  \item Proposed solution: forbid causality cycles with semantic dependencies. 
+  \item The exact notion of semantic dependency is model-specific.
+        There is no conventional common definition.
+  \item Drawback of this approach: complexity, no common ground.
+\end{itemize}
 
 \subsubsection{Undefined Behavior}
 \label{sec:bgrnd-ub}
+
+\begin{itemize}
+  \item Motivation: enable more opts for non-atomics.
+        (At the cost of model's predictability and programmability).
+  \item Catch-fire semantics (race on non-atomics implies UB).
+  \item Explain how it affects opts.
+\end{itemize}
 
 \subsubsection{Coherence (?)}
 

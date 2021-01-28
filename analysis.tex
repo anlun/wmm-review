@@ -47,17 +47,98 @@ compilation mappings to hardware.
 
 \subsection{Strong SC-like Models}
 
+\begin{itemize}
+  \item Pros.
+  \begin{itemize}
+    \item Simplicity
+    \item DRF-SC for free
+    \item Coherence for free
+  \end{itemize}
+  \item Cons.
+  \begin{itemize}
+    \item Compilation to hardware is expensive.
+    \item Many transformations are unsound.
+    \begin{itemize}
+      \item reorderings
+      \item CSE
+      \item what else...?
+    \end{itemize}
+  \end{itemize}
+\end{itemize}
+
 \subsection{Strong TSO-like Models}
+
+\begin{itemize}
+  \item Pros.
+  \begin{itemize}
+    \item optimal compilation to x86
+    \item Coherence for free
+  \end{itemize}
+  \item Cons.
+  \begin{itemize}
+    \item Compilation to hardware weaker hardware is expensive.
+    \item Load/Store reorderings unsound.
+    \item Thread inlining unsound (?)
+  \end{itemize}
+\end{itemize}
 
 \subsection{OOTA Models}
 
+\begin{itemize}
+  \item Pros.
+  \begin{itemize}
+    \item Cheap compilation to hardware.
+    \item Almost all transformations are sound. 
+  \end{itemize}
+  \item Cons.
+  \begin{itemize}
+    \item No external DRF (only internal).
+  \end{itemize}
+\end{itemize}
+
 \subsection{$\lPO\cup\lRF$ Acyclic Models}
+
+\begin{itemize}
+  \item Pros.
+  \begin{itemize}
+    \item Many desired transformations are sound. 
+    \item Simple solution to forbid OOTA.
+  \end{itemize}
+  \item Cons.
+  \begin{itemize}
+    \item Compilation to ARM and POWER is still not optimal.
+    \item Load/Store reordering is still unsound.
+  \end{itemize}
+\end{itemize}
 
 \subsection{$\lPPO\cup\lRF$ Acyclic Models}
 
+\begin{itemize}
+  \item Pros.
+  \begin{itemize}
+    \item (?)
+  \end{itemize}
+  \item Cons.
+  \begin{itemize}
+    \item Trace preserving transformations are unsound.
+  \end{itemize}
+\end{itemize}
+
 \subsection{no-OOTA Models}
- 
-\onecolumn
+
+\begin{itemize}
+  \item Pros.
+  \begin{itemize}
+    \item Cheap compilation to hardware.
+    \item Almost all transformations are sound (including all reorderings). 
+  \end{itemize}
+  \item Cons.
+  \begin{itemize}
+    \item Complexity.
+    \item No common ground between various models.
+    \item It's unknown how to make thread inlining sound (?).
+  \end{itemize}
+\end{itemize}
 
 \begin{landscape}
 
