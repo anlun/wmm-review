@@ -11,13 +11,27 @@ Columns of the table correspond to properties of the models.
 We split the properties into several subgroups. 
 
 The first group is devoted to optimality of compilation mappings
-to target hardware instructions. 
-\todo{explain how we classify mappings as optimal/non-optimal}.
+to target hardware instructions. In order to be concise, 
+we chose the binary classification of optimality, 
+that is we classify the compilation scheme as either optimal or not,
+in the following sense.
+We chose the weakest possible access mode supported by the model
+and consider the compilation scheme for the memory accesses annotated by this mode. 
+However, for the memory models that treat racy non-atomic accesses
+as undefined behavior, we consider the compilation mapping
+for relaxed accesses (or stronger, in case when the model does not support relaxed atomics).  
+This is because the catch-fire semantics for racy non-atomics 
+trivially permits the most optimal compilation mappings (see \cref{sec:bgrnd-ub}).
+We say that compilation scheme is optimal if the accesses annotated by the chosen mode 
+can be compiled as plain load and store instructions of the given hardware architecture. 
 
 The second group is dedicated to soundness of various program transformations. 
-The classification is binary: a transformation is either sound or unsound 
+The classification is also binary: a transformation is either sound or unsound 
 in the given memory model (in a sense stated in \cref{sec:bgrnd-opt-sound}).
-We further split the transformations to global and local as in \cref{sec:bgrnd-opt-sound}.
+Again, to be concise, we do not consider all the combinations 
+of program tranformations and memory access modes. 
+Instead, we consider the weakest possible accesses which have fully defined semantics. 
+We further split the transformations into global and local as in \cref{sec:bgrnd-opt-sound}.
 
 The third group corresponds to reasoning principles guaranteed by the model. 
 It includes the following properties. What kind of DRF guarantee the model provides.
@@ -139,6 +153,9 @@ compilation mappings to hardware.
     \item It's unknown how to make thread inlining sound (?).
   \end{itemize}
 \end{itemize}
+
+\newpage
+\onecolumn
 
 \begin{landscape}
 
