@@ -17,3 +17,11 @@
 ** TODO В future work упомянуть NVM модели и модели файловых систем 
 ** TODO Поправить табличку
 *** исправить название моделей Weakest --> Weakestmo, RMD --> MRD
+** TODO Background
+*** Compilation scheme
+**** Оптимальность (определение)
+**** Заход на разные access modes
+**** Перенести syntax deps в OOTA
+*** DRF
+**** internal/external --- LB+ctrl example
+*** Semantics style
