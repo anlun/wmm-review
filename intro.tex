@@ -12,7 +12,7 @@ of synchronization primitive themselves
 or lock-free data structures.
 In these cases one has to resort to 
 lower-level programming discipline and 
-use just the mutable shared variables. 
+use the mutable shared variables. 
 At this point things get complicated.
 
 %The memory model defines which values reads of shared variables can observe at each point of execution. 
@@ -64,10 +64,11 @@ of some interleaving of threads' instructions.
 %%        we use terms "semantics" and "memory model" interchangeably.
 
 However, not all behaviors which are observable on real concurrent systems are sequentially consistent. 
-For example, if one ports the \ref{ex:Dekker} program to the C language, compile it with the GCC compiler, 
+For example, if one ports the \ref{ex:Dekker} program
+from the pseudocode to the C language, compile it with the GCC compiler, 
 and run on a processor from the x86/x64 family,
-she may observe yet another outcome $[r_1=0, r_2=0]$,
-which is called \emph{weak}, \ie not sequentially consistent.
+she may observe yet non sequentially consistent outcome $[r_1=0, r_2=0]$,
+which is called \emph{weak}.
 
 Weak outcomes appear because of compiler and CPU optimizations.
 For example, in the \ref{ex:Dekker} program,
@@ -81,21 +82,19 @@ The exact set of allowed outcomes for a given program
 is defined by a semantics of a concurrent system, or a \emph{memory model}.
 The memory model permitting only sequentially consistent outcomes 
 is called \emph{sequential consistency} (SC).
-Memory models admitting \emph{weak}, \ie non sequentially consistent, behaviors 
-are called \emph{weak memory models}.
+Memory models admitting weak behaviors are called \emph{weak memory models}.
 
 Neither modern hardware nor programming languages 
-guarantee sequential consistency since SC forbids many important optimizations.
+guarantee sequential consistency since this model forbids many important optimizations.
 The main question then is how \emph{weak} their memory models should be,
 \ie how big is a set of allowed weak behaviors for a given program.
 A stronger model allows less behaviors, thus giving more guarantees to a programmer
 and simplifying reasoning about programs, but a weaker model permits more optimizations,
-thus allowing a compiler to produce more efficient code and a CPU to execute the code faster.
+thus allowing a compiler to produce more efficient code.
 
 It turns out that this question is challenging
-especially in the context of programming language 
-memory models.
-Thus over the last two decades many memory models have been proposed~%
+especially in the context of programming language (PL) memory models.
+Thus over the last two decades a plenty of memory models have been proposed~%
 \cite{Manson-al:POPL05, Batty-al:POPL11, Batty-el:POPL16, 
 Dolan-al:PLDI18, Watt-el:OOPSLA19, Watt-el:PLDI2020, 
 Jeffrey-Riely:LICS16, PichonPharabod-Sewell:POPL16, 
@@ -112,22 +111,16 @@ of programming languages.
 The aim of this paper is to close this gap.
 We provide an overview of the existing approaches to 
 formal programming languages memory models,
-discuss their design choices, trade-offs and limitations.
+discuss their design choices, trade-offs, and limitations.
 Besides that, we compare the existing memory models 
-in terms of how many CPU and compiler optimizations 
-they permit and what guarantees for formal reasoning they provide.
-As a result of our study, we present a summary of this comparison.
+in terms of what optimizations opportunities 
+and what guarantees for formal reasoning they provide.
 
-We believe our work will help the developers,
-who are working on implementation of synchronization primitives
-or lock-free data structures, and thus have to understand 
-the subtleties of weak memory models.
-We also think it would be a great help to 
-programmers who want to build new 
-programming languages, compilers or virtual machines,
-and thus have to choose the memory model of their system.
-\app{I think that with our new focus we should appeal mostly to researchers and system-level developers,
-not application-level developers as it is stated in the first sentence of the paragraph.}
+We hope that our work will be useful to the programming language researches 
+who want to dive into the theory of weakly consistent memory models,
+and also to the system-level developers, 
+who are working on new programming languages, compilers or virtual machines, 
+and thus have to choose the memory model for their system.
 
 The rest of the paper is organized as follows.
 \todo{}.
