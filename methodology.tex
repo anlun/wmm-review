@@ -1,23 +1,93 @@
 \section{Methodology}
 
-The purpose of our study is to compare weak memory models for programming languages.
-In particular, with respect to each model we want to answer the following questions.
+The main puprose of our study was to answer the following research question.
 
 \begin{itemize}
-  
-  \item Can the memory model be efficiently implemented on modern hardware? 
-    In other words, is the compilation scheme for a model sound and efficient?
-    If the compilation scheme is not optimal, then how large is induced performance overhead?
-
-  \item What compiler optimizations are correct in the model? What are not? 
-    How large is performance impact for the generated code in case when 
-    some optimizations are disabled due to unsoundness.
-
-  \item What is the subjective complexity of the model?
-    How easy it is to reason about the behavior of the model for non-experts?
-    Is the model suitable for formal verification?
-  
+  \item What are the trade-offs in the design of a memory model for a programming language?
 \end{itemize}
+
+As we have already briefly mentioned, the stronger memory models 
+give more guarantees to the programmers, while the weaker models 
+provide more optimization opportunities. 
+Thus our research question can be further refined into the following one:
+
+\begin{itemize}
+  \item How the formal reasoning guarantees, provided by the memory model 
+    to the end-user of a programming language, narrow the 
+    optimizations opportunities for the language implementation. 
+\end{itemize}
+
+To answer this question, we have consulted the existing research studies 
+in the field of programming lanugage memory models.
+Our goal was to identify existing proposed memory models, 
+study their properties, and classify them.
+\todo{transition to search procedure}
+
+We have performed the following search procedure.
+
+On the \emph{first stage}, we have manually selected 10 significant 
+peer-reviewed research papers, whose main contribution 
+was a proposal of the new PL weak memory model.
+We have then extracted the list of keywords from this papers. 
+From this list of keywords we manually excluded those 
+that were either too broad or too narrow.
+As a result we get three keyword phrases:
+\begin{itemize}
+  \item Relaxed Memory Models
+  \item Weak Memory Models
+  \item Weak Memory Consistency
+\end{itemize}
+ 
+On the \emph{second stage} we have used these phrases as a search queries. 
+Using the Google Scholar as a search engine we have obtained a list of 2000 research items. 
+As a sanity check we have verified that each of the 10 initially selected papers was contained in the selection. 
+
+On the \emph{third stage} we have removed from the selection duplicates and non peer-reviewed papers. 
+Also we decided to remove techinical reports, theses and dissertations, 
+non english publications, as well as short papers (up to 4 page long).
+After this stage only the 1077 research items have left.
+
+Next, on the \emph{fourth stage}, we have further filtered the selection 
+by consulting the title and the abstract of the papers. 
+We have included only the papers which are directly related to the 
+topic of PL memory models and whose main focus is memory models itself,
+as opposed to papers that only use established results about PL memory models,
+or papers related to adjacent topics. 
+In particular, we have filtered out papers related to the following adjacent topics:
+\begin{itemize}
+  \item memory models of hardware, heterogeneous systems, and distributed systems;
+  \item semantics of transactions and persistency;
+  \item verification methods for weakly consistent languages.
+\end{itemize}
+As a result we get 137 research items.
+
+Finally, on the \emph{fifth stage}, we carefully examined the remaining articles.
+In our final selection, we have included only those whose contribution was claimed to include:
+\begin{itemize}
+  \item a new PL memory model;
+  \item a refiment of the existing PL memory model;
+  \item a study of the properties of the existing PL memory model.
+\end{itemize}
+After this stage, only the 40 papers were left.
+
+% The purpose of our study is to compare weak memory models for programming languages.
+% In particular, with respect to each model we want to answer the following questions.
+
+% \begin{itemize}
+  
+%   \item Can the memory model be efficiently implemented on modern hardware? 
+%     In other words, is the compilation scheme for a model sound and efficient?
+%     If the compilation scheme is not optimal, then how large is induced performance overhead?
+
+%   \item What compiler optimizations are correct in the model? What are not? 
+%     How large is performance impact for the generated code in case when 
+%     some optimizations are disabled due to unsoundness.
+
+%   \item What is the subjective complexity of the model?
+%     How easy it is to reason about the behavior of the model for non-experts?
+%     Is the model suitable for formal verification?
+  
+% \end{itemize}
 
 % For our research we have chosen a number of memory models 
 % that we previously published in form of research papers 
