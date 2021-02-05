@@ -160,17 +160,19 @@ compilation mappings to hardware.
 \begin{landscape}
 
 \begin{table*}
-\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}
+\begin{tabular}{|c|l|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}
  \hline
 
+                                                      &
  \multirow{3}{*}{Model}                               & 
  \multicolumn{ 4}{c|}{\multirow{2}{*}{Compilation}}   &
  \multicolumn{10}{c|}{Transformations}                &
  \multicolumn{ 6}{c|}{Reasoning}                      &
  \multicolumn{ 9}{c|}{\multirow{2}{*}{Features}}      \\ 
 
- \cline{6-21}
+ \cline{7-22}
 
+                             &
                              &
  \multicolumn{4}{c|}{}       &
  \multicolumn{7}{c|}{Local}  &
@@ -181,37 +183,27 @@ compilation mappings to hardware.
  \multicolumn{9}{c|}{}       \\ 
  
  \hline
-                                      &
+                                     &
+                                     &
  \rotatebox[origin=c]{270}{x86}      & 
  \rotatebox[origin=c]{270}{Power}    & 
  \rotatebox[origin=c]{270}{ARMv7}    & 
  \rotatebox[origin=c]{270}{ARMv8}    & 
  
- \rotatebox[origin=c]{270}{T.P.}     &
- \rotatebox[origin=c]{270}{R.I.}     &
- \rotatebox[origin=c]{270}{R.E.}     &
- \rotatebox[origin=c]{270}{I.L.E.}   &
- \rotatebox[origin=c]{270}{S.L.I.}   &
- \rotatebox[origin=c]{270}{S.}       &
- \rotatebox[origin=c]{270}{R.M.}     &
- \rotatebox[origin=c]{270}{R.P.}     &
- \rotatebox[origin=c]{270}{V.R.}     &
- \rotatebox[origin=c]{270}{T.I.}     &
-
- % \makecell{Trace \\ Preserving}                &
- % \makecell{Reordering of \\Indep. \\Instr.}    & 
- % \makecell{Redundunt \\Load/Store \\Elim.}     &
- % \makecell{Irrelevant \\Load \\Elim.}          &
- % \makecell{Speculative \\Load \\Intro.}        &
- % \makecell{Strength.}                          &
- % \makecell{Roach Motel}                        &
- % \makecell{Register \\ Promotion}              &
- % \makecell{Value Range}                        &
- % \makecell{Thread \\ Inlining}                 &
+ \rotatebox[origin=c]{270}{TP}     &
+ \rotatebox[origin=c]{270}{RI}     &
+ \rotatebox[origin=c]{270}{RE}     &
+ \rotatebox[origin=c]{270}{ILE}    &
+ \rotatebox[origin=c]{270}{SLI}    &
+ \rotatebox[origin=c]{270}{S}      &
+ \rotatebox[origin=c]{270}{RM}     &
+ \rotatebox[origin=c]{270}{RP}     &
+ \rotatebox[origin=c]{270}{VR}     &
+ \rotatebox[origin=c]{270}{TI}     &
  
- \rotatebox[origin=c]{270}{Int.} &
- \rotatebox[origin=c]{270}{Ext.} &
- \rotatebox[origin=c]{270}{Loc.} &
+ \rotatebox[origin=c]{270}{Int}    &
+ \rotatebox[origin=c]{270}{Ext}    &
+ \rotatebox[origin=c]{270}{Loc}    &
 
  \rotatebox[origin=c]{270}{UB}                                 &
  \rotatebox[origin=c]{270}{\makecell{$\lPO\cup\lRF$ \\ acyc.}} & 
@@ -226,54 +218,87 @@ compilation mappings to hardware.
  \rotatebox[origin=c]{270}{F-SC}                    &
  \rotatebox[origin=c]{270}{RMW}                     &
  \rotatebox[origin=c]{270}{Lock}                    &
- \rotatebox[origin=c]{270}{\makecell{Mix.Sz.}}  \\ 
+ \rotatebox[origin=c]{270}{\makecell{Mix.Sz.}}      \\ 
  
- \hline
+ \Xhline{2\arrayrulewidth}
  
- SC             & & & & & & & & & & & & & & & & & & & & & & & & & & & & & \\ \hline
+ \multirow{3}{*}{\rotatebox[origin=c]{270}{\makecell{SeqCst}}}   
 
- C11            & & & & & & & & & & & & & & & & & & & & & & & & & & & & & \\ \hline
+ & SC             & & & & & & & & & & & & & & & & & & & & & & & & & & & & & \\ \cline{2-31}
+ & SC-Haskell     & & & & & & & & & & & & & & & & & & & & & & & & & & & & & \\ \cline{2-31}
+ & DRFx           & & & & & & & & & & & & & & & & & & & & & & & & & & & & & \\ \Xhline{2\arrayrulewidth}
 
- JMM            & & & & & & & & & & & & & & & & & & & & & & & & & & & & & \\ \hline
+ \multirow{2}{*}{\rotatebox[origin=c]{270}{\makecell{TSO\\PSO}}}   
 
- RC11           & & & & & & & & & & & & & & & & & & & & & & & & & & & & & \\ \hline
+ & BMM            & & & & & & & & & & & & & & & & & & & & & & & & & & & & & \\ \cline{2-31}
 
- Promising      & & & & & & & & & & & & & & & & & & & & & & & & & & & & & \\ \hline
+ & Rlx Op.Sem.    & & & & & & & & & & & & & & & & & & & & & & & & & & & & & \\ \Xhline{2\arrayrulewidth}
 
- Weakest        & & & & & & & & & & & & & & & & & & & & & & & & & & & & & \\ \hline
+ \multirow{5}{*}{\rotatebox[origin=c]{270}{\makecell{$\lPO\lRF$\\acyc}}}   
 
- RMD            & & & & & & & & & & & & & & & & & & & & & & & & & & & & & \\ \hline
+ & RC11           & & & & & & & & & & & & & & & & & & & & & & & & & & & & & \\ \cline{2-31}
 
- OCaml          & & & & & & & & & & & & & & & & & & & & & & & & & & & & & \\ \hline
+ & ORC11          & & & & & & & & & & & & & & & & & & & & & & & & & & & & & \\ \cline{2-31}
 
- JavaScript     & & & & & & & & & & & & & & & & & & & & & & & & & & & & & \\ \hline
+ & OCaml MM       & & & & & & & & & & & & & & & & & & & & & & & & & & & & & \\ \cline{2-31}
+
+ & JAM            & & & & & & & & & & & & & & & & & & & & & & & & & & & & & \\ \cline{2-31}
+
+ & Rlx Compos.    & & & & & & & & & & & & & & & & & & & & & & & & & & & & & \\ \Xhline{2\arrayrulewidth}
+
+ \multirow{2}{*}{\rotatebox[origin=c]{270}{\makecell{$\lPPO\lRF$\\acyc}}}   
+
+ & LKMM           & & & & & & & & & & & & & & & & & & & & & & & & & & & & & \\ \cline{2-31}
+
+ & OHMM           & & & & & & & & & & & & & & & & & & & & & & & & & & & & & \\ \Xhline{2\arrayrulewidth}
+
+ \multirow{7}{*}{\rotatebox[origin=c]{270}{\makecell{no-OOTA}}}   
+
+ & JMM            & & & & & & & & & & & & & & & & & & & & & & & & & & & & & \\ \cline{2-31}
+
+ & Promising      & & & & & & & & & & & & & & & & & & & & & & & & & & & & & \\ \cline{2-31}
+
+ & Weakestmo      & & & & & & & & & & & & & & & & & & & & & & & & & & & & & \\ \cline{2-31}
+
+ & MRD            & & & & & & & & & & & & & & & & & & & & & & & & & & & & & \\ \cline{2-31}
+
+ & P-P/S          & & & & & & & & & & & & & & & & & & & & & & & & & & & & & \\ \cline{2-31}
+
+ & J/R            & & & & & & & & & & & & & & & & & & & & & & & & & & & & & \\ \cline{2-31}
+
+ & Generative     & & & & & & & & & & & & & & & & & & & & & & & & & & & & & \\ \Xhline{2\arrayrulewidth}
+
+ \multirow{5}{*}{\rotatebox[origin=c]{270}{\makecell{OOTA}}}   
+
+ & C11            & & & & & & & & & & & & & & & & & & & & & & & & & & & & & \\ \cline{2-31}
+
+ & JS MM          & & & & & & & & & & & & & & & & & & & & & & & & & & & & & \\ \cline{2-31}
+
+ & RMC            & & & & & & & & & & & & & & & & & & & & & & & & & & & & & \\ \cline{2-31}
+
+ & RAO            & & & & & & & & & & & & & & & & & & & & & & & & & & & & & \\ \cline{2-31}
+
+ & Spec.Comp.     & & & & & & & & & & & & & & & & & & & & & & & & & & & & & \\ \Xhline{2\arrayrulewidth}
+
 
 \end{tabular}
 \caption{
-  % Comparison of memory models. 
-  % \textit{Eff. Comp.} --- does the model have efficient compilation scheme.
-  % \textit{Opt.} --- are the common optimizations sound in the model.
-  % \textit{DRF.} --- does the model provides Data-Race-Freedom guarantees.
-  % \textit{UB.} --- does the model have undefined behaviors.
-  % \textit{No OOTA.} --- does the model forbid out-of-thin-air behaviors.
-  % \textit{MC.} --- is the model suitable for model checking.
-  % \textit{Complex.} --- subjective complexity of the model.
-  \textit{T.P.} --- trace preserving.
-  \textit{R.I.} --- reordering of independent instructions.
-  \textit{R.E.} --- redundunt load/store elimination.
-  \textit{I.L.E.} --- irrelevant load elimination.
-  \textit{S.L.I.} --- speculative load introduction.
-  \textit{S.} --- strengthening.
-  \textit{R.M.} --- roach motel reordering.
-  \textit{R.P.} --- register promotion.
-  \textit{V.R.} --- value range analysis based optimizations.
-  \textit{T.I.} --- thread inlining (sequentialization).
-  \textit{Int.} --- internal.
-  \textit{Ext.} --- external.
-  \textit{Loc.} --- local.
-  \textit{UB} --- undefined behavior.
-  \textit{OOTA} --- out-of-thin air values.
-  \textit{Mix.Sz.} --- mixed-size accesses.
+  % \textit{T.P.} --- trace preserving.
+  % \textit{R.I.} --- reordering of independent instructions.
+  % \textit{R.E.} --- redundunt load/store elimination.
+  % \textit{I.L.E.} --- irrelevant load elimination.
+  % \textit{S.L.I.} --- speculative load introduction.
+  % \textit{S.} --- strengthening.
+  % \textit{R.M.} --- roach motel reordering.
+  % \textit{R.P.} --- register promotion.
+  % \textit{V.R.} --- value range analysis based optimizations.
+  % \textit{T.I.} --- thread inlining (sequentialization).
+  % \textit{Int.} --- internal.
+  % \textit{Ext.} --- external.
+  % \textit{Loc.} --- local.
+  % \textit{UB} --- undefined behavior.
+  % \textit{OOTA} --- out-of-thin air values.
+  % \textit{Mix.Sz.} --- mixed-size accesses.
 }
 \label{table:summary}
 \end{table*}
