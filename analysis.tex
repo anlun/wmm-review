@@ -95,11 +95,11 @@ of LLVM compiler infrastructure and
 To mitigate the induced overhead the authors 
 utilized the observation that hardware need to 
 enforce SC only for memory accesses to shared mutable variables. 
-To classify the accesses as either thread-local,
+To classify the memory regions as either thread-local,
 shared immutable, or shared mutable they have used 
 a combination of static compiler analysis and 
 dynamic analysis powered by modified hardware. 
-They've evaluated their approach on a number of benchmarks
+They evaluated their approach on a number of benchmarks
 and reported performance overhead of 6.2\% on avarage 
 and ~17\% in maximum, compared to stock LLVM compiler 
 and regular x86 hardware. 
@@ -130,7 +130,7 @@ to existing hardware.
 The authors claim that any sequentially valid optimization 
 (\eg instruction reorderings or common subexpression elimination),
 is \textbf{sound} in DRFx model.
-However, the transformations can only be performed
+The only limitation is that these transformations can only be performed
 withing the bounds of compiler-designated program regions.
 Importantly, any transformation that introduces 
 speculative reads or writes is \textbf{unsound},
@@ -142,18 +142,28 @@ assuming the efficient implementation
 of data-race detection in hardware. 
 (compared to stock compiler and x86 hardware). 
 
-Given the evalution of performance regress above,
+Given the results of performance evaluation above,
 one can argue that the cost is worth the prize
 of having simple SC-like model.
-However, we point out that the solution above 
+However, we point out that the two 
+of the solutions above~\cite{Singh-el:ISCA12, Marino-el:PLDI10} 
 require non-trivial modifications to the 
-existing hardware and compilers, or, 
-in case of SC-Haskell, a strict programming 
-discipline enforced by the type system of the language.
-Moreover, the in expierements the proposed 
-solutions were mainly compared to x86 hardware, 
+existing hardware and compilers.
+In case of SC-Haskell~\cite{Vollmer-el:PPoPP17}, 
+the programmers are obligated to follow 
+a strict programming discipline enforced 
+by the type system of the language.
+In all research papers above the expirements 
+of proposed solutions were mainly evaluated on x86 hardware, 
 and the impact of enforcing SC on weaker hardware
-(ARM, POWER) is less clear.   
+(ARM, POWER) is less clear. 
+Moreover, while the reported performance overhead 
+is relatively small on average, 
+it is more significant for particular 
+kind of programs that heavily utilize shared 
+mutable memory (like lock-free data structures).
+\eupp{check the evaluation in the papers once again
+to support this claim}
 
 \subsection{Strong TSO-like Models}
 
@@ -191,40 +201,25 @@ Their motivation, however, stemmed not from the desire
 to fully replace the Java Memory Model, but rather 
 from the goal to build a verified version of 
 Java Virtual Machine (akin to CompCertTSO project).
-By taking a relatively simple and yet practicle memory model
+By taking a relatively simple and yet pragmatic memory model
 as a first target they hoped to made this task feasible. 
 The authors proved soundness of several program transformations
-(including store/load reordering, elimination of redundunt
-load/load, store/store, store/load pairs and several others, 
-see the table~\cite{table:summary} for details
-\footnote{\eupp{If we'll decide to mention thread inlining w.r.t. TSO
+(including store/load reordering, speculative load introduction,
+and several others, see 
+the \cref{table:summary} for details\footnote{
+\eupp{If we'll decide to mention thread inlining w.r.t. TSO
 then cite~\cite{Lahav-Vafeiadis:FM16} 
 (since the paper itself doesn't mention this transformation)}})
 and the external DRF-SC theorem. 
 They also modified existing open-source implementation of 
 JVM~\cite{Pizlo-el:ECCS10} to preserve BMM and 
-reported only 1\% average overhead 
+reported only~1\% average overhead 
 compared to original version of the virtual machine. 
 Again, the authors used only x86 hardware in their 
 experiments, and the performance penalties 
 are expected to be more significant on weaker hardware.   
 
-
 \cite{Boudol-el:POPL09}
-
-\begin{itemize}
-  \item Pros.
-  \begin{itemize}
-    \item optimal compilation to x86
-    \item Coherence for free
-  \end{itemize}
-  \item Cons.
-  \begin{itemize}
-    \item Compilation to hardware weaker hardware is expensive.
-    \item Load/Store reorderings unsound.
-    \item Thread inlining unsound (?)
-  \end{itemize}
-\end{itemize}
 
 \subsection{OOTA Models}
 
