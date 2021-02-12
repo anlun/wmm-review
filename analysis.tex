@@ -199,7 +199,15 @@ load/load, store/store, store/load pairs and several others,
 see the table~\cite{table:summary} for details
 \footnote{\eupp{If we'll decide to mention thread inlining w.r.t. TSO
 then cite~\cite{Lahav-Vafeiadis:FM16} 
-(since the paper itself doesn't mention this transformation)}}).
+(since the paper itself doesn't mention this transformation)}})
+and the external DRF-SC theorem. 
+They also modified existing open-source implementation of 
+JVM~\cite{Pizlo-el:ECCS10} to preserve BMM and 
+reported only 1\% average overhead 
+compared to original version of the virtual machine. 
+Again, the authors used only x86 hardware in their 
+experiments, and the performance penalties 
+are expected to be more significant on weaker hardware.   
 
 
 \cite{Boudol-el:POPL09}
