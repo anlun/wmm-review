@@ -219,7 +219,16 @@ Again, the authors used only x86 hardware in their
 experiments, and the performance penalties 
 are expected to be more significant on weaker hardware.   
 
-\cite{Boudol-el:POPL09}
+In~\cite{Boudol-el:POPL09} the authors propose 
+an approach to formal semantics of relaxed memory models 
+based on the abstract machine with the main memory 
+and the hierarchial structure of store buffers 
+with stores to different locations possibly 
+propagating to the main memory out-of-order
+(similarly to PSO model).
+The authors present a proof of DRF-SC theorem,
+but do not provide an extensive study 
+of program transformations' soundness.
 
 \subsection{OOTA Models}
 
