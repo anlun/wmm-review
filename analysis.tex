@@ -71,7 +71,7 @@ since even the strongest hardware model, namely the x86-TSO,
 permits store/load reordering as an optimization.
 Therefore, to preserve sequential consistency during compilation,
 the compiler need to emit heavyweight full memory fences,
-which makes compilation mappings not optimal.  
+which makes compilation mappings far from optimal.  
 
 In terms of reasoning guarantees, however, SC is quite a pleasant model. 
 It gives the DRF-SC and coherence (\eupp{s/coherence/SC-per-location?}) 
@@ -103,8 +103,6 @@ They've evaluated their approach on a number of benchmarks
 and reported performance overhead of 6.2\% on avarage 
 and ~17\% in maximum, compared to stock LLVM compiler 
 and regular x86 hardware. 
-The cost of ensuring SC on weaker architectures 
-(e.g. ARM, POWER), however, is unclear. 
 
 The SC-Haskell memory model~\cite{Vollmer-el:PPoPP17}
 were inspired by the same idea of separation
@@ -121,26 +119,45 @@ They reported 0.4\% geometric mean slowdown,
 and noticed that only 12 benchmars expierenced 
 slowdown greater than 10\%.
 
-% \begin{itemize}
-%   \item Pros.
-%   \begin{itemize}
-%     \item Simplicity
-%     \item DRF-SC for free
-%     \item Coherence for free
-%   \end{itemize}
-%   \item Cons.
-%   \begin{itemize}
-%     \item Compilation to hardware is expensive.
-%     \item Many transformations are unsound.
-%     \begin{itemize}
-%       \item reorderings
-%       \item CSE
-%       \item what else...?
-%     \end{itemize}
-%   \end{itemize}
-% \end{itemize}
+The DRFx~\cite{Marino-el:PLDI10} is another 
+SC preserving memory model. In this memory model
+the runtime system is guaranteed to raise 
+an exception if the program has data-races, 
+and yeild only sequantially consistent outcomes otherwise.
+In order to make the runtime data-race detection feasible 
+in practice, the authors propose several modifications 
+to existing hardware.
+The authors claim that any sequentially valid optimization 
+(\eg instruction reorderings or common subexpression elimination),
+is \textbf{sound} in DRFx model.
+However, the transformations can only be performed
+withing the bounds of compiler-designated program regions.
+Importantly, any transformation that introduces 
+speculative reads or writes is \textbf{unsound},
+since speculative optimizations can bring
+data-races into otherwise race-free programs.
+The expected performance overhead of the model 
+is reported to be 3.25\% on average
+assuming the efficient implementation 
+of data-race detection in hardware. 
+(compared to stock compiler and x86 hardware). 
+
+Given the evalution of performance regress above,
+one can argue that the cost is worth the price
+of having simple SC-like model.
+However, we point out that the solution above 
+require non-trivial modifications to the 
+existing hardware and compilers, or, 
+in case of SC-Haskell, a strict programming 
+discipline enforced by the type system of the language.
+Moreover, the in expierements the proposed 
+solutions were mainly compared to x86 hardware, 
+and the impact of enforcing SC on weaker hardware
+(ARM, POWER) is less clear.   
 
 \subsection{Strong TSO-like Models}
+
+
 
 \begin{itemize}
   \item Pros.
