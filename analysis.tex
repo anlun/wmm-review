@@ -143,7 +143,7 @@ of data-race detection in hardware.
 (compared to stock compiler and x86 hardware). 
 
 Given the evalution of performance regress above,
-one can argue that the cost is worth the price
+one can argue that the cost is worth the prize
 of having simple SC-like model.
 However, we point out that the solution above 
 require non-trivial modifications to the 
@@ -157,7 +157,52 @@ and the impact of enforcing SC on weaker hardware
 
 \subsection{Strong TSO-like Models}
 
+The next class of PL memory models we consider 
+was inspired by TSO~\cite{Sewell-al:CACM10} and PSO~\cite{Sparc:94} 
+hardware models. In these models, threads usually 
+are equipped with \emph{store buffers}.
+All store operations go to these buffers before they 
+propogate into the main memory.  
+In essence, store buffers enable 
+store/load reordering (in case of~TSO),
+and store/load \& store/store reordegins (in case of~PSO).
 
+The models based on store buffers idea 
+can be compiled down to x86 hardware without any 
+perfrormance penalty, since x86 implements TSO model itself.
+That is, the compilation mappings to x86 are optimal.
+However, when compiled down to weaker hardware (e.g. ARM, POWER)
+the compiler indeed needs to take additional measures 
+to enforce TSO/PSO like memory model.
+\eupp{Perhaps, we can cite some paper here?} 
+
+The TSO/PSO models are weaker than SC, while 
+they are still relatively strong.
+The external DRF-SC and coherence still hold
+and program order is preserved.
+
+We are aware of two papers that propose to use TSO/PSO 
+like models as PL level memory models.
+
+Demange et al.~\cite{Demange-el:POPL13} presented 
+the \emph{Buffered Memory Model} (or BMM in short)
+as a candidate model for Java language.
+Their motivation, however, stemmed not from the desire 
+to fully replace the Java Memory Model, but rather 
+from the goal to build a verified version of 
+Java Virtual Machine (akin to CompCertTSO project).
+By taking a relatively simple and yet practicle memory model
+as a first target they hoped to made this task feasible. 
+The authors proved soundness of several program transformations
+(including store/load reordering, elimination of redundunt
+load/load, store/store, store/load pairs and several others, 
+see the table~\cite{table:summary} for details
+\footnote{\eupp{If we'll decide to mention thread inlining w.r.t. TSO
+then cite~\cite{Lahav-Vafeiadis:FM16} 
+(since the paper itself doesn't mention this transformation)}}).
+
+
+\cite{Boudol-el:POPL09}
 
 \begin{itemize}
   \item Pros.
