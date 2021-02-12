@@ -61,24 +61,84 @@ compilation mappings to hardware.
 
 \subsection{Strong SC-like Models}
 
-\begin{itemize}
-  \item Pros.
-  \begin{itemize}
-    \item Simplicity
-    \item DRF-SC for free
-    \item Coherence for free
-  \end{itemize}
-  \item Cons.
-  \begin{itemize}
-    \item Compilation to hardware is expensive.
-    \item Many transformations are unsound.
-    \begin{itemize}
-      \item reorderings
-      \item CSE
-      \item what else...?
-    \end{itemize}
-  \end{itemize}
-\end{itemize}
+The sequential consistency is the strongest model one can imagine. 
+It renders many common transformations unsound, 
+including all kind of instruction reorderings and 
+common subexpression elimination~\cite{Marino-el:PLDI11, Sevcik-Aspinall:ECOOP08}.
+The fact that instruction reorderings are forbidden 
+makes the model expensive to implement on modern hardware
+since even the strongest hardware model, namely the x86-TSO,
+permits store/load reordering as an optimization.
+Therefore, to preserve sequential consistency during compilation,
+the compiler need to emit heavyweight full memory fences,
+which makes compilation mappings not optimal.  
+
+In terms of reasoning guarantees, however, SC is quite a pleasant model. 
+It gives the DRF-SC and coherence (\eupp{s/coherence/SC-per-location?}) 
+properties for free
+\footnote{The SC semantics assigns to programs only sequantially consistent
+outcomes by definition, thus satisfying DRF-SC without any preconditions.
+The coherence property is equivalent to sequential consistency per location.
+The fact that in SC model any execution is sequeantially consistent implies trivially
+that the accesses to each location are also sequeantially consistent.}
+and it is naturally program order preserving.
+
+The conceptual simplicity of SC have inspired many researchers 
+to adopt it and to try to mitigate the induced performance 
+penalty by some additional measures.
+
+The work by Marino et al~\cite{Marino-el:PLDI11, Singh-el:ISCA12} 
+examined the performance penalties to ensure end-to-end SC
+enforced by (1) modified SC-preserving version 
+of LLVM compiler infrastructure and 
+(2) a modified version of x86-TSO hardware. 
+To mitigate the induced overhead the authors 
+utilized the observation that hardware need to 
+enforce SC only for memory accesses to shared mutable variables. 
+To classify the accesses as either thread-local,
+shared immutable, or shared mutable they have used 
+a combination of static compiler analysis and 
+dynamic analysis powered by modified hardware. 
+They've evaluated their approach on a number of benchmarks
+and reported performance overhead of 6.2\% on avarage 
+and ~17\% in maximum, compared to stock LLVM compiler 
+and regular x86 hardware. 
+The cost of ensuring SC on weaker architectures 
+(e.g. ARM, POWER), however, is unclear. 
+
+The SC-Haskell memory model~\cite{Vollmer-el:PPoPP17}
+were inspired by the same idea of separation
+between the thread-local and shared mutable memory. 
+To safely distinguish between the two 
+the authors utilized the powerful strong type system of Haskell. 
+The consequence of this approach is that the 
+programmers need to follow a stricter discipline 
+in order to please the type checker. 
+The authors modified the GHC to preserve SC 
+and then run 1,279 benchmarks on x86-64 hardware
+to measure the performance penalties.
+They reported 0.4\% geometric mean slowdown,
+and noticed that only 12 benchmars expierenced 
+slowdown greater than 10\%.
+
+% \begin{itemize}
+%   \item Pros.
+%   \begin{itemize}
+%     \item Simplicity
+%     \item DRF-SC for free
+%     \item Coherence for free
+%   \end{itemize}
+%   \item Cons.
+%   \begin{itemize}
+%     \item Compilation to hardware is expensive.
+%     \item Many transformations are unsound.
+%     \begin{itemize}
+%       \item reorderings
+%       \item CSE
+%       \item what else...?
+%     \end{itemize}
+%   \end{itemize}
+% \end{itemize}
 
 \subsection{Strong TSO-like Models}
 
