@@ -2,15 +2,15 @@
 
 In this section we present the detailed comparison 
 of the considered programming language memory models. 
-We summarize our findings in \cref{table:summary}. 
+We summarize our findings in~\cref{table:summary}.
 Each row of the table corresponds to a memory model, denoted by its abbreviation. 
-Columns of the table correspond to properties of the models. 
+Columns of the table correspond to the properties of the models discussed in~\cref{sec:background}.
 We split the properties into several subgroups. 
 
 The first group is devoted to optimality of compilation mappings
-to target hardware instructions. In order to be concise, 
+to target hardware architectures. In order to be concise, 
 we chose the binary classification of optimality, 
-that is we classify the compilation scheme as either optimal or not,
+that is, we classify the compilation scheme as either optimal or not,
 in the following sense.
 We chose the weakest possible access mode supported by the model
 and consider the compilation scheme for the memory accesses annotated by this mode. 
@@ -18,31 +18,32 @@ For the memory models that treat racy non-atomic accesses
 as undefined behavior, we consider the compilation mapping
 for most relaxed access types the model provides.
 This is because the catch-fire semantics for racy non-atomics 
-trivially permits the most optimal compilation mappings (see \cref{sec:bgrnd-ub}).
-We say that compilation scheme is optimal if the 
+trivially permits the most optimal compilation mappings (see~\cref{sec:bgrnd-ub}).
+We say that compilation scheme is \emph{optimal} if the 
 accesses annotated by the most relaxed mode 
 can be compiled as plain load and store instructions 
 of the given hardware architecture. 
 
 The second group is dedicated to soundness of various program transformations. 
 The classification is also binary: a transformation is either sound or unsound 
-in the given memory model (in a sense stated in \cref{sec:bgrnd-opt-sound}).
+in the given memory model (in a sense stated in~\cref{sec:bgrnd-opt-sound}).
 Again, to be concise, we do not consider all the combinations 
 of program tranformations and memory access modes. 
 Instead, we consider the weakest possible accesses which have fully defined semantics. 
-We further split the transformations into global and local as in \cref{sec:bgrnd-opt-sound}.
+We further split the transformations into global and local as in~\cref{sec:bgrnd-opt-sound}.
 
 The third group corresponds to reasoning principles guaranteed by the model. 
 It includes the following properties. What kind of DRF guarantee the model provides.
-(we distinguish the internal, external and local DRF theorems, see \cref{sec:bgrnd-drf}).
-Whether the model has undefined behaviors (see \cref{sec:bgrnd-ub}).
-Whether the model permits out-of-thin-air values (see \cref{sec:bgrnd-oota}).
+(we distinguish the internal, external and local DRF theorems, see~\cref{sec:bgrnd-drf}).
+Whether the model has undefined behaviors (see~\cref{sec:bgrnd-ub}).
+Whether the model permits out-of-thin-air values (see~\cref{sec:bgrnd-oota}).
 
 Finally, the last group enumerates the list of memory access modes 
 and fences supported by the model, as well as whether the model 
 supports read-modify-write operations, locks, and mixed-size accesses.
 
 Driven by our analysis of the models' properties, we partition all models into five classes. 
+\app{I think this is the place to name the classes and briefly introduce them.}
 The models from the same class have similar compilation mappings, 
 set of sound program transformations, and provided reasoning guarantees.
 Our classes are ordered by the weakness of the memory models they consist of.  
@@ -50,7 +51,7 @@ The strongest models are located at the top rows of the table,
 while the weakest are at the bottom. 
 
 We next discuss each class in more details
-(note that the order is different from the one in the \cref{table:summary}). 
+(note that the order is different from the one in the~\cref{table:summary}). 
 We also give some insight on the relationship
 between compilation scheme optimality, 
 soundness of transformations and reasoning guarantees.
@@ -61,12 +62,15 @@ compilation mappings to hardware.
 \subsection{Strong SC-like Models}
 
 The sequential consistency is the strongest model one can imagine. 
+\app{The statement is too strong. I.e., sequential execution of the threads
+is even stronger.}
 It renders many common transformations unsound, 
 including all kind of instruction reorderings and 
 common subexpression elimination~\cite{Marino-el:PLDI11, Sevcik-Aspinall:ECOOP08}.
 The fact that instruction reorderings are forbidden 
 makes the model expensive to implement on modern hardware
 since even the strongest hardware model, namely the x86-TSO,
+\app{The same problem. I'd not use ``strongest'' that often.}
 permits store/load reordering as an optimization.
 Therefore, to preserve sequential consistency during compilation,
 the compiler need to emit heavyweight full memory fences,
@@ -74,19 +78,19 @@ which makes compilation mappings far from optimal.
 
 In terms of reasoning guarantees, however, SC is quite a pleasant model. 
 It gives the DRF-SC and coherence (\eupp{s/coherence/SC-per-location?}) 
-properties for free
+properties for free%
 \footnote{The SC semantics assigns to programs only sequantially consistent
 outcomes by definition, thus satisfying DRF-SC without any preconditions.
 The coherence property is equivalent to sequential consistency per location.
 The fact that in SC model any execution is sequeantially consistent implies trivially
 that the accesses to each location are also sequeantially consistent.}
 and it is naturally program order preserving.
+\app{I don't get the last sub-sentence.}
 
 The conceptual simplicity of SC have inspired many researchers 
 to adopt it and to try to mitigate the induced performance 
 penalty by some additional measures.
-
-The work by Marino et al~\cite{Marino-el:PLDI11, Singh-el:ISCA12} 
+Marino et al~\cite{Marino-el:PLDI11, Singh-el:ISCA12} 
 examined the performance penalties to ensure end-to-end SC
 enforced by (1) modified SC-preserving version 
 of LLVM compiler infrastructure and 
@@ -99,7 +103,7 @@ shared immutable, or shared mutable they have used
 a combination of static compiler analysis and 
 dynamic analysis powered by modified hardware. 
 They evaluated their approach on a number of benchmarks
-and reported performance overhead of 6.2\% on avarage 
+and reported performance overhead of 6.2\% on average 
 and ~17\% in maximum, compared to stock LLVM compiler 
 and regular x86 hardware. 
 
@@ -115,7 +119,7 @@ The authors modified the GHC to preserve SC
 and then run 1,279 benchmarks on x86-64 hardware
 to measure the performance penalties.
 They reported 0.4\% geometric mean slowdown,
-and noticed that only 12 benchmars expierenced 
+and noticed that only 12 benchmarks experienced 
 slowdown greater than 10\%.
 
 The DRFx~\cite{Marino-el:PLDI10} is another 
@@ -141,6 +145,9 @@ assuming the efficient implementation
 of data-race detection in hardware. 
 (compared to stock compiler and x86 hardware). 
 
+\app{As a reader, I'd expect to see the slowdown numbers in the table in some
+unified manner.}
+
 Given the results of performance evaluation above,
 one can argue that the cost is worth the prize
 of having simple SC-like model.
@@ -152,10 +159,12 @@ In case of SC-Haskell~\cite{Vollmer-el:PPoPP17},
 the programmers are obligated to follow 
 a strict programming discipline enforced 
 by the type system of the language.
-In all research papers above the expirements 
+In all research papers above \app{Very unclear reference.} the expirements 
 of proposed solutions were mainly evaluated on x86 hardware, 
 and the impact of enforcing SC on weaker hardware
-(ARM, POWER) is less clear. 
+(ARM, POWER) is less clear.
+\app{I think that the current text dictates that we have to say smth stronger: not studied.
+However, it is not true. Why don't we discuss Liu-al-PLDI19 here?}
 Moreover, while the reported performance overhead 
 is relatively small on average, 
 it is more significant for particular 
@@ -178,7 +187,7 @@ and store/load \& store/store reordegins (in case of~PSO).
 
 The models based on store buffers idea 
 can be compiled down to x86 hardware without any 
-perfrormance penalty, since x86 implements TSO model itself.
+performance penalty, since x86 implements TSO model itself.
 That is, the compilation mappings to x86 are optimal.
 However, when compiled down to weaker hardware (e.g. ARM, POWER)
 the compiler indeed needs to take additional measures 
@@ -205,8 +214,8 @@ as a first target they hoped to made this task feasible.
 The authors proved soundness of several program transformations
 (including store/load reordering, speculative load introduction,
 and several others, see 
-the \cref{table:summary} for details\footnote{
-\eupp{If we'll decide to mention unsoundness of 
+the~\cref{table:summary} for details%
+\footnote{\eupp{If we'll decide to mention unsoundness of 
 thread inlining w.r.t. TSO
 then cite~\cite{Lahav-Vafeiadis:FM16} 
 (since the paper itself doesn't mention this transformation)}})
