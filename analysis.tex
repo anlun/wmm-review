@@ -280,6 +280,16 @@ Finally, Nienhuis~\etal~\cite{Nienhuis-el:OOPSLA16} presented
 a formal executable semantics in terms of an abstract machine, 
 equivalent to the original \CMM model. 
 
+Crary and Sullivan~\cite{Crary-Sullivan:POPL15} proposed 
+an alternative approach to relaxed shared memory concurrency.
+Instead of deriving the ordering constraints via annotations 
+on memory accesses, they propose to directly specify 
+the ordering between memory access in the source code. 
+Their approach is highly generic and subsumes 
+the traditional memory order annotation in the style of \CMM.
+Their semantics gives a very weak memory model permitting 
+thin-air values. Still the authors prove the internal DRF theorem.
+
 % \begin{itemize}
 %   \item Pros.
 %   \begin{itemize}
