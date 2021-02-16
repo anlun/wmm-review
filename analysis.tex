@@ -284,9 +284,9 @@ equivalent to the original \CMM model.
 The JavaScript memory model (\JSMM) inhereted some properties from \CMM.
 Like the latter, it also has the problem of thin-air values
 and thus can only provide internal DRF-SC gurantee. 
-Contrary to the \CMM, \JSMM gives a fully defined 
+Contrary to the \CMM, \JS model gives a fully defined 
 semantics to non-atomics 
-(\ie not undefined behavior for racy non-atomic accesses).  
+(\ie no undefined behavior for racy non-atomic accesses).  
 Also, unlike \CMM, where the main language primitive is 
 individual mutable atomic variables, \JSMM uses 
 the primitive of \texttt{SharedArrayBuffer},
@@ -303,15 +303,21 @@ the traditional memory order annotation in the style of \CMM.
 Their semantics gives a very weak memory model permitting 
 thin-air values. Still the authors prove the internal DRF theorem.
 
-Saraswat~\etal~\cite{Saraswat-el:PPoPP07} presented a memory model
+Saraswat~\etal~\cite{Saraswat-el:PPoPP07} presented the RAO memory model
 where relaxed behaviors are explained through the transformations 
 over sequentially consistent execution.
 Depending on the exact choice of transformations 
-their model is either (1) permits thin-air value or 
+their model is either (1) permits thin-air values or 
 (2) preserves external DRF-SC. 
 Since the transformations (\eg reorderings, value range based, \etc)
 are baked into the model, their soundness follows immediatelly.  
 
+Boudol and Petri~\cite{Boudol-Petri:ESOP10} proposed a general 
+framework to study the effects of speculative execution in
+shared memory setting. 
+They have also noticed that the external DRF doest not 
+hold in the presence of unrestricted speculations, 
+but the internal DRF theorem still can be proven. 
 
 \subsection{$\lPO\cup\lRF$ Acyclic Models}
 
