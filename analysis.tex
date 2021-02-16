@@ -241,17 +241,56 @@ of program transformations' soundness.
 
 \subsection{OOTA Models}
 
-\begin{itemize}
-  \item Pros.
-  \begin{itemize}
-    \item Cheap compilation to hardware.
-    \item Almost all transformations are sound. 
-  \end{itemize}
-  \item Cons.
-  \begin{itemize}
-    \item No external DRF (only internal).
-  \end{itemize}
-\end{itemize}
+We next move on to the other end of the memory models' spectrum. 
+We consider the class uniting the weakest models of our analysis.
+These models enable efficient compilation mappings and 
+many program transformations, but at the cost of 
+introducing thin-air values (see \cref{sec:bgrnd-oota}).
+Hence we name this class of models as Out-of-Thin-Air (OOTA) models. 
+ 
+The most notable member of this class is \CMM model~\cite{Batty-al:POPL11}.
+The C and C++ languages are widely known as low-level languages 
+for system programming which focus on the efficiency of compiled code. 
+The main design principle of these languages is to provide
+so-called zero-cost abstraction that should be compiled 
+into efficient assembly code and leave the room 
+for the aggressive optimizations. 
+The main purpose of the \CMM model was to adhere 
+to the same principles. The memory model 
+was meant to provide efficient compilation mappings 
+and as many transformation as possible.
+It was later shown that the formal model actually 
+fails in achieving this goal. 
+Vafeiadis~\etal~\cite{Vafeiadis-al:POPL15} have shown
+that many program transformation that deemed to be correct
+are actually unsound according to the formal model. 
+Batty~\etal~\cite{Batty-al:ESOP15} have shown that 
+the model also fails to provide exteranl DRF guarantee, 
+and that it is ultimately not possible to do at all 
+within the style of the \CMM formal semantics.
+A lot of work~\cite{Sarkar-al:PLDI12, Batty-al:POPL12, Batty-el:POPL16} 
+was dedicated to prove soundness of optimal compilation mappings 
+with respect to formal models of hardware, 
+and there the results were positive
+\eupp{should we mention that SC proof was broken and 
+also cite RC11 here?}. 
+Flur~\etal~\cite{Flur-el:POPL17} have extended the model 
+to support mixed-size accesses.
+Finally, Nienhuis~\etal~\cite{Nienhuis-el:OOPSLA16} presented 
+a formal executable semantics in terms of an abstract machine, 
+equivalent to the original \CMM model. 
+
+% \begin{itemize}
+%   \item Pros.
+%   \begin{itemize}
+%     \item Cheap compilation to hardware.
+%     \item Almost all transformations are sound. 
+%   \end{itemize}
+%   \item Cons.
+%   \begin{itemize}
+%     \item No external DRF (only internal).
+%   \end{itemize}
+% \end{itemize}
 
 \subsection{$\lPO\cup\lRF$ Acyclic Models}
 
