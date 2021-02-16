@@ -234,6 +234,18 @@ soundness of common optimizations, and guarantees for formal and informal reason
   \item It leads to out-of-thin-air values.
 \end{itemize}
 
+\begin{equation*}
+\inarrII{
+  \readInst{}{r_1}{x}      \\
+  \writeInst{}{y}{r_1}     \\
+}{
+  \readInst{}{r_2}{x}      \\
+  \writeInst{}{x}{r_2}     \\
+}
+\tag{LB+data}\label{ex:lb+data}
+\end{equation*}
+
+
 \subsubsection{$\lPO\cup\lRF$ Acyclicity}
 
 \begin{itemize}

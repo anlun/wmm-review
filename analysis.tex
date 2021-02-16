@@ -248,7 +248,61 @@ many program transformations, but at the cost of
 introducing thin-air values (see \cref{sec:bgrnd-oota}).
 Hence we name this class of models as Out-of-Thin-Air (OOTA) models. 
  
-The most notable member of this class is \CMM model~\cite{Batty-al:POPL11}.
+The main common disadvantage of OOTA models is that 
+the presence of thin-air reads breaks many fundamental reasoning 
+principles~\cite{Boehm-Demsky:MSPC14, Batty-al:ESOP15}:
+type safety and security gurantess can be violated, 
+compositional reasoning is impossible, and
+the external DRF-SC property cannot be established. 
+The odd consequences of thin-air values manifest 
+itself best on the following classical example~\cite{Boehm-Demsky:MSPC14}: 
+
+\begin{equation*}
+\inarrII{
+  \readInst{}{r_1}{x}      \\
+  \kw{if} {(r_1)} ~\{      \\
+  \quad\writeInst{}{y}{1}  \\
+  \}
+}{
+  \readInst{}{r_2}{x}      \\
+  \kw{if} {(r_2)} ~\{      \\
+  \quad\writeInst{}{x}{1}  \\
+  \}
+}
+\tag{LB+ctrl}\label{ex:lb+ctrl}
+\end{equation*}
+
+For the memory model admitting thin-air values 
+(as \eg \CMM~\cite{Batty-al:POPL11}), 
+the outcome $[r_1=1, r_2=1]$ is perfectly valid
+(one can see that the program above is analogous 
+to the \cref{ex:lb+data}, except it has 
+control dependencies between instructions 
+in place of data dependencies).
+Not only this outcome is completely unintuitive,
+but it also contradicts to the external DRF-SC guarantee.
+Indeed, in SC model the program above has 
+a single valid execution with the outcome $[r_1=0, r_2=0]$ 
+and no data-races, thus under DRF-SC compilant model 
+it should also has this sole outcome.  
+
+Contrintuitive behavior of OOTA models, 
+together with the fact that they break 
+many important reasoning principles
+(external DRF-SC among them), 
+has lead over the time to the consensus 
+in the research community that these models 
+are not suited well for the role of 
+programming languages memory models.
+\eupp{cite some paper here?}
+A lot of effort has been put to forbid problematic 
+thin air outcomes, while still preserving 
+efficient compilation mappings and soundness of program trasformations
+(see \cref{sec:porf-acyc,,sec:pporf-acyc,,sec:prm-cert}).
+Yet it is still interesting to study the OOTA models 
+both for historical reasons and also to examine their properties in more detail. 
+
+The most notable member of the OOTA class is \CMM model~\cite{Batty-al:POPL11}.
 The C and C++ languages are widely known as low-level languages 
 for system programming which focus on the efficiency of compiled code. 
 The main design principle of these languages is to provide
@@ -320,6 +374,8 @@ hold in the presence of unrestricted speculations,
 yet the internal DRF theorem still can be proven. 
 
 \subsection{$\lPO\cup\lRF$ Acyclic Models}
+\label{sec:porf-acyc}
+
 
 \begin{itemize}
   \item Pros.
@@ -335,6 +391,8 @@ yet the internal DRF theorem still can be proven.
 \end{itemize}
 
 \subsection{$\lPPO\cup\lRF$ Acyclic Models}
+\label{sec:pporf-acyc}
+
 
 \begin{itemize}
   \item Pros.
@@ -348,6 +406,7 @@ yet the internal DRF theorem still can be proven.
 \end{itemize}
 
 \subsection{no-OOTA Models}
+\label{sec:prm-cert}
 
 \begin{itemize}
   \item Pros.
