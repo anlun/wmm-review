@@ -268,10 +268,11 @@ Batty~\etal~\cite{Batty-al:ESOP15} have shown that
 the model also fails to provide exteranl DRF guarantee, 
 and that it is ultimately not possible to do at all 
 within the style of the \CMM formal semantics.
-A lot of work~\cite{Sarkar-al:PLDI12, Batty-al:POPL12, Batty-el:POPL16} 
+Yet the authors show that the internal DRF 
+A lot of work~\cite{Batty-al:POPL11, Sarkar-al:PLDI12, Batty-al:POPL12, Batty-el:POPL16} 
 was dedicated to prove soundness of optimal compilation mappings 
 with respect to formal models of hardware, 
-and there the results were positive
+and there the results were mostly positive
 \eupp{should we mention that SC proof was broken and 
 also cite RC11 here?}. 
 Flur~\etal~\cite{Flur-el:POPL17} have extended the model 
@@ -279,6 +280,18 @@ to support mixed-size accesses.
 Finally, Nienhuis~\etal~\cite{Nienhuis-el:OOPSLA16} presented 
 a formal executable semantics in terms of an abstract machine, 
 equivalent to the original \CMM model. 
+
+The JavaScript memory model (\JSMM) inhereted some properties from \CMM.
+Like the latter, it also has the problem of thin-air values
+and thus can only provide internal DRF-SC gurantee. 
+Contrary to the \CMM, \JSMM gives a fully defined 
+semantics to non-atomics 
+(\ie not undefined behavior for racy non-atomic accesses).  
+Also, unlike \CMM, where the main language primitive is 
+individual mutable atomic variables, \JSMM uses 
+the primitive of \texttt{SharedArrayBuffer},
+that is a linear mutable byte buffer.
+Thus the model naturally supports mixed-size accesses.
 
 Crary and Sullivan~\cite{Crary-Sullivan:POPL15} proposed 
 an alternative approach to relaxed shared memory concurrency.
@@ -290,17 +303,15 @@ the traditional memory order annotation in the style of \CMM.
 Their semantics gives a very weak memory model permitting 
 thin-air values. Still the authors prove the internal DRF theorem.
 
-% \begin{itemize}
-%   \item Pros.
-%   \begin{itemize}
-%     \item Cheap compilation to hardware.
-%     \item Almost all transformations are sound. 
-%   \end{itemize}
-%   \item Cons.
-%   \begin{itemize}
-%     \item No external DRF (only internal).
-%   \end{itemize}
-% \end{itemize}
+Saraswat~\etal~\cite{Saraswat-el:PPoPP07} presented a memory model
+where relaxed behaviors are explained through the transformations 
+over sequentially consistent execution.
+Depending on the exact choice of transformations 
+their model is either (1) permits thin-air value or 
+(2) preserves external DRF-SC. 
+Since the transformations (\eg reorderings, value range based, \etc)
+are baked into the model, their soundness follows immediatelly.  
+
 
 \subsection{$\lPO\cup\lRF$ Acyclic Models}
 
