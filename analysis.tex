@@ -286,22 +286,6 @@ a single valid execution with the outcome $[r_1=0, r_2=0]$
 and no data-races, thus under DRF-SC compilant model 
 it should also has this sole outcome.  
 
-Contrintuitive behavior of OOTA models, 
-together with the fact that they break 
-many important reasoning principles
-(external DRF-SC among them), 
-has lead over the time to the consensus 
-in the research community that these models 
-are not suited well for the role of 
-programming languages memory models.
-\eupp{cite some paper here?}
-A lot of effort has been put to forbid problematic 
-thin-air outcomes, while still preserving 
-efficient compilation mappings and soundness of program trasformations
-(see \cref{sec:porf-acyc,,sec:pporf-acyc,,sec:prm-cert}).
-Yet it is still interesting to study the OOTA models 
-both for historical reasons and also to examine their properties in more detail. 
-
 The most notable member of the OOTA class is \CMM model~\cite{Batty-al:POPL11}.
 The C and C++ languages are widely known as low-level languages 
 for system programming which focus on the efficiency of compiled code. 
@@ -376,19 +360,42 @@ yet the internal DRF theorem still can be proven.
 \subsection{$\lPO\cup\lRF$ Acyclic Models}
 \label{sec:porf-acyc}
 
+Contrintuitive behavior of OOTA models, together with the fact that they break 
+many important reasoning principles (external DRF-SC among them), 
+has lead over the time to the consensus in the research community that these models 
+are not suited well for the role of 
+programming languages memory models~\cite{Boehm-Demsky:MSPC14, Batty-al:ESOP15}
+\eupp{cite some paper here?}
+A lot of effort has been put to forbid problematic 
+thin-air outcomes, while still preserving 
+efficient compilation mappings and soundness of program trasformations
 
-\begin{itemize}
-  \item Pros.
-  \begin{itemize}
-    \item Many desired transformations are sound. 
-    \item Simple solution to forbid OOTA.
-  \end{itemize}
-  \item Cons.
-  \begin{itemize}
-    \item Compilation to ARM and POWER is still not optimal.
-    \item Load/Store reordering is still unsound.
-  \end{itemize}
-\end{itemize}
+The most straightforward way to forbid thin-air values 
+was proposed by Boehm and Demsky~\cite{Boehm-Demsky:MSPC14}
+and then formalized and studied extensively by
+Lahav~\etal~\cite{Lahav-al:PLDI17}.
+The idea is to simply prohibit any kind of speculative execution, 
+which is equivalent to forbidding load/store reorderings altogether. 
+Lahav~\etal~\cite{Lahav-al:PLDI17} have shown that many 
+program transformations remain sound in this case, 
+with the obvious exception of load/store reordering itself
+(see~\cref{table:summary} for details).
+Also this design decision has no performance penalty on x86,
+since the architecture already guarantee to preserve the order 
+between loads and subsequent stores. 
+
+% \begin{itemize}
+%   \item Pros.
+%   \begin{itemize}
+%     \item Many desired transformations are sound. 
+%     \item Simple solution to forbid OOTA.
+%   \end{itemize}
+%   \item Cons.
+%   \begin{itemize}
+%     \item Compilation to ARM and POWER is still not optimal.
+%     \item Load/Store reordering is still unsound.
+%   \end{itemize}
+% \end{itemize}
 
 \subsection{$\lPPO\cup\lRF$ Acyclic Models}
 \label{sec:pporf-acyc}
