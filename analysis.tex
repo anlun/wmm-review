@@ -365,24 +365,58 @@ many important reasoning principles (external DRF-SC among them),
 has lead over the time to the consensus in the research community that these models 
 are not suited well for the role of 
 programming languages memory models~\cite{Boehm-Demsky:MSPC14, Batty-al:ESOP15}
-\eupp{cite some paper here?}
 A lot of effort has been put to forbid problematic 
-thin-air outcomes, while still preserving 
-efficient compilation mappings and soundness of program trasformations
+thin-air outcomes, while still  
+keep compilation scheme as efficient as possible
+and enable as many transformations as possible.
 
 The most straightforward way to forbid thin-air values 
 was proposed by Boehm and Demsky~\cite{Boehm-Demsky:MSPC14}
-and then formalized and studied extensively by
-Lahav~\etal~\cite{Lahav-al:PLDI17}.
 The idea is to simply prohibit any kind of speculative execution, 
 which is equivalent to forbidding load/store reorderings altogether. 
-Lahav~\etal~\cite{Lahav-al:PLDI17} have shown that many 
-program transformations remain sound in this case, 
+
+Lahav~\etal~\cite{Lahav-al:PLDI17} formalized this approach and 
+studied it extensively. They proposed a modified version 
+of \CPP model called \RCMM (repaired \CMM).  
+Besides the strengthening of the model to preserve 
+the order between load/store pairs, 
+the \RCMM also corrects the semantics 
+of sequentially-consistent accesses.
+
+The authors proved that external DRF-SC property 
+holds for the repaired version of the model as expected. 
+Also they have shown that many 
+program transformations are still sound in \RCMM, 
 with the obvious exception of load/store reordering itself
 (see~\cref{table:summary} for details).
-Also this design decision has no performance penalty on x86,
-since the architecture already guarantee to preserve the order 
+The compilation mappings to x86 remain efficient, 
+since the architecture already guarantee to preserve the order. 
 between loads and subsequent stores. 
+However, weaker architectures (ARM, POWER) do not guarantee that, 
+and thus additional measures are required.
+Lahav~\etal proposed to compile relaxed loads 
+as plain load followed by a spurious conditional branch,
+which introduces fake control dependency between 
+the load and subsequent stores. 
+ARM and POWER hardware preserves dependencies, 
+and thus it has to also retain the load/store ordering. 
+
+Ou and Demsky \cite{Ou-Demsky:OOPSLA18} evaluated 
+the performance penalty required to guarantee 
+\RCMM memory model on ARMv8 hardware.
+They modified the LLVM compiler framework 
+to enforce \RCMM memory model
+by (1) adjusting the compiler optimization passes and 
+(2) changing the compilation mappings.
+Several compilation schemes were considered,
+among them the one that uses spurious conditional branch
+as descibed above has demonstrated the most promising results.  
+The authors measured the running time on a set of benchmarks 
+implementing various concurrent data-structures
+and reported an overhead of 0\% on average and 6.3\% in maximum,
+compared to the unmodified version of the compiler. 
+
+
 
 % \begin{itemize}
 %   \item Pros.
