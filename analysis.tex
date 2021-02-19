@@ -366,43 +366,43 @@ has lead over the time to the consensus in the research community that these mod
 are not suited well for the role of 
 programming languages memory models~\cite{Boehm-Demsky:MSPC14, Batty-al:ESOP15}
 A lot of effort has been put to forbid problematic 
-thin-air outcomes, while still  
-keep compilation scheme as efficient as possible
+thin-air outcomes, while still keep compilation scheme as efficient as possible
 and enable as many transformations as possible.
 
 The most straightforward way to forbid thin-air values 
 was proposed by Boehm and Demsky~\cite{Boehm-Demsky:MSPC14}
 The idea is to simply prohibit any kind of speculative execution, 
 which is equivalent to forbidding load/store reorderings altogether. 
+This fix not only restores external DRF-SC~\cite{Lahav-al:PLDI17}
+and other reasoning guarantees, but also leads to 
+a much simpler mental model.  
 
 Lahav~\etal~\cite{Lahav-al:PLDI17} formalized this approach and 
 studied it extensively. They proposed a modified version 
 of \CPP model called \RCMM (repaired \CMM).  
 Besides the strengthening of the model to preserve 
 the order between load/store pairs, 
-the \RCMM also corrects the semantics 
+the repaired version also corrects the semantics 
 of sequentially-consistent accesses.
 
-The authors proved that external DRF-SC property 
-holds for the repaired version of the model as expected. 
-Also they have shown that many 
+The authors have shown that many 
 program transformations are still sound in \RCMM, 
 with the obvious exception of load/store reordering itself
 (see~\cref{table:summary} for details).
-The compilation mappings to x86 remain efficient, 
+Also, the compilation mappings to x86 remain efficient, 
 since the architecture already guarantee to preserve the order. 
 between loads and subsequent stores. 
 However, weaker architectures (ARM, POWER) do not guarantee that, 
 and thus additional measures are required.
-Lahav~\etal proposed to compile relaxed loads 
+Lahav~\etal~\cite{Lahav-al:PLDI17} proposed to compile relaxed loads 
 as plain load followed by a spurious conditional branch,
 which introduces fake control dependency between 
 the load and subsequent stores. 
 ARM and POWER hardware preserves dependencies, 
 and thus it has to also retain the load/store ordering. 
 
-Ou and Demsky \cite{Ou-Demsky:OOPSLA18} evaluated 
-the performance penalty required to guarantee 
+Ou and Demsky \cite{Ou-Demsky:OOPSLA18} have studied 
+the performance penalty needed to guarantee 
 \RCMM memory model on ARMv8 hardware.
 They modified the LLVM compiler framework 
 to enforce \RCMM memory model
@@ -416,7 +416,86 @@ implementing various concurrent data-structures
 and reported an overhead of 0\% on average and 6.3\% in maximum,
 compared to the unmodified version of the compiler. 
 
+A plenty of memory models have utilized the \RCMM
+solution to forbid thin-air values by 
+preserving the order between load/store pairs. 
 
+Dang~\etal~\cite{Dang-el:POPL19} developed an operational 
+version of \RCMM in terms of the abstract machine, 
+which they called \ORCMM. Their motivation was to 
+then develop a new program logic and show it's soundness
+with respect to \ORCMM memory model. 
+The program logic itself was then utilized to 
+prove correctness of some parts of 
+the \Rust~\cite{RustBook:19} standard library.
+\eupp{Maybe we can omit this paper, since it's mostly about program logics?} 
+
+Dolan~\etal~\cite{Dolan-al:PLDI18} developed a new 
+memory model for the \MOCaml project. 
+They were the first to propose the local DRF property. 
+The authors also hinted that the local DRF property 
+is not compatible with load/store reordering.
+This fact forced them to forbid this transformation
+and adapt similar compilation scheme as for \RCMM. 
+
+An important divergence of \OCaml memory model 
+from \CMM-like models is that the former 
+has a weaker notion of coherence.
+The choice of the weaker coherence was deliberate 
+with the purpose to enable common subexpression elimination (CSE).
+\eupp{Consider to move the details on Coherence vs. CSE
+into separate subsection and then leave the reference here}.
+The subtle effect of the strong coherence property 
+on this classic compiler optimization was first 
+observed in the context of \Java 
+memory model~\cite{Pugh:JAVA99}.
+To see the problem, consider the program below
+(on the left) and the transformed version 
+of this program after application of CSE (on the right).
+Note that the optimization has replaced 
+the second access to variable \texttt{x}
+by a read from register. 
+
+\begin{minipage}{0.5\linewidth}
+\begin{equation*}
+\inarrII{
+  \readInst{}{r_1}{x}      \\
+  \readInst{}{r_2}{y}      \\
+  \readInst{}{r_3}{x}      \\
+}{
+  \writeInst{}{y}{1}       \\
+}
+\tag{}\label{ex:coh-rr}
+\end{equation*}
+\end{minipage}
+%
+\begin{minipage}{0.5\linewidth}
+\begin{equation*}
+\inarrII{
+  \readInst{}{r_1}{x}      \\
+  \readInst{}{r_2}{y}      \\
+  \assignInst{r_3}{r_1}    \\
+}{
+  \writeInst{}{y}{1}       \\
+}
+\tag{}\label{ex:coh-rr}
+\end{equation*}
+\end{minipage}
+
+Now assume that \texttt{x} and \texttt{y} are aliased,
+\ie they point to the same memory location.
+Under this assumption the outcome $[r_1=0, r_2=1, r_3=0]$
+is forbidden for the memory model respecting coherence.
+Indeed, the coherence guarantees sequential consistency per location, 
+which means that for the programs consisting of accesses 
+to the single memory location 
+(as the one above in the presence of aliasing) 
+only the sequentially consistent outcomes are allowed.
+The outcome $[r_1=0, r_2=1, r_3=0]$ cannot be obtained 
+by the interleaving of instructions, and thus 
+it should be forbidden.  
+However, this outcome is allowed for 
+the optimized version of the program. 
 
 % \begin{itemize}
 %   \item Pros.

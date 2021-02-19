@@ -45,7 +45,9 @@ variables $x$ and $y$ correspondingly.%
 (\ie $x$, $y$), in order to distinguish them 
 from local registers (\ie $r_1$ and $r_2$).}
 The one who manages to set the variable first wins.
-The algorithm relies on the fact that both threads cannot read value~\texttt{0}.
+The algorithm relies on the fact that both threads cannot read value~\texttt{0}%
+\footnote{From here and through the rest of the paper we assume that initially all 
+variables are initialized with zeros, unless the other is stated explicitly}.
 Otherwise, the two threads would have been able 
 to enter critical section simultaneously, 
 thus breaking the correctness of the algorithm.
