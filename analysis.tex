@@ -390,11 +390,11 @@ program transformations are still sound in \RCMM,
 with the obvious exception of load/store reordering itself
 (see~\cref{table:summary} for details).
 Also, the compilation mappings to x86 remain efficient, 
-since the architecture already guarantee to preserve the order. 
+since the architecture already guarantee to preserve the order 
 between loads and subsequent stores. 
 However, weaker architectures (ARM, POWER) do not guarantee that, 
 and thus additional measures are required.
-Lahav~\etal~\cite{Lahav-al:PLDI17} proposed to compile relaxed loads 
+Lahav~\etal~\cite{Lahav-al:PLDI17} proposed to compile relaxed load 
 as plain load followed by a spurious conditional branch,
 which introduces fake control dependency between 
 the load and subsequent stores. 
