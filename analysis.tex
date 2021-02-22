@@ -61,20 +61,24 @@ compilation mappings to hardware.
 
 \subsection{Strong SC-like Models}
 
-The sequential consistency is the strongest model one can imagine. 
-\app{The statement is too strong. I.e., sequential execution of the threads
-is even stronger.}
-It renders many common transformations unsound, 
+Sequential Consistency (\SC) is one of the most intuitive models of concurrency.
+Under this model, one can represent the state of the system as 
+a simple mapping from memory locations to their values. 
+Then each outcome can be obtained by a sequential interleaved execution 
+of thread's instructions. Each execution induces a total order 
+on the individual memory access operations, issued by the program, 
+consistent with per-thread program order. 
+
+\SC renders many common transformations unsound, 
 including all kind of instruction reorderings and 
 common subexpression elimination~\cite{Marino-el:PLDI11, Sevcik-Aspinall:ECOOP08}.
 The fact that instruction reorderings are forbidden 
 makes the model expensive to implement on modern hardware
-since even the strongest hardware model, namely the x86-TSO,
-\app{The same problem. I'd not use ``strongest'' that often.}
+since even relatively strong hardware model of x86,
 permits store/load reordering as an optimization.
 Therefore, to preserve sequential consistency during compilation,
 the compiler need to emit heavyweight full memory fences,
-which makes compilation mappings far from optimal.  
+which makes compilation mappings far from being optimal.  
 
 In terms of reasoning guarantees, however, SC is quite a pleasant model. 
 It gives the DRF-SC and coherence (\eupp{s/coherence/SC-per-location?}) 

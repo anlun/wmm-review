@@ -55,8 +55,7 @@ thus breaking the correctness of the algorithm.
 Indeed, after running this program on a multi-core system, one would expect to see 
 one of the following outcomes: $[r_1=0, r_2=1]$, $[r_1=1,r_2=0]$, and $[r_1=1,r_2=1]$.
 These outcomes are \emph{sequential consistent}~\cite{Lamport:TC79} meaning
-that they may be obtained by a sequential execution 
-of some interleaving of threads' instructions. 
+that they may be obtained by an interleaving of threads' instructions.
 
 %A memory model that admits only these behaviours is known under the name \emph{sequential consistency} (SC) [Lamport:TC79].
 
