@@ -512,6 +512,16 @@ opaque (an analog of \CPP relaxed) or stronger accesses.
 The model does not tackle the problem of 
 thin-air values on the level of plain (\ie non-atomic) accesses.
 
+Dodds~\etal~\cite{Dodds-el:ESOP18} proposed a denotational 
+compositional semantics for the fragment of \CMM memory model, 
+including non-atomic accesses with cath-fire semantics, 
+release-acquire accesses, and sequantially-consistent fences. 
+Based on this semantics the authors developed 
+a tool for automatic verification of program transformations
+in the considered fragment of the \CMM model. 
+Since the relaxed fragment was not included, 
+the authors avoided problems with thin-air values. 
+
 \subsection{$\lPPO\cup\lRF$ Acyclic Models}
 \label{sec:pporf-acyc}
 
