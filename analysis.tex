@@ -572,12 +572,12 @@ Even if the compiler itself does not perform this reordering,
 after the compilation the hardware can do this during the execution.   
 
 This subtlety reveals the main drawback of 
-syntactic dependency preserving models --- 
+syntactic dependency tracking models --- 
 various trace preserving transformations
 (\eg constant folding) are unsound in these models. 
-The fact that constant folding is one of 
-the basic kind of optimizations that 
-any compiler might want to apply 
+Constant folding is one of the basic kind of optimizations that 
+any compiler might want to apply, 
+and the fact that it is unsound  
 makes the adoption of this class of models problematic.
 
 Note that harware models apply a similar approach 
@@ -586,6 +586,18 @@ the memory operations~\cite{Sarkar-al:PLDI11, Alglave-al:TOPLAS14, Pulte-al:POPL
 Yet in this setting the unsoundness of 
 trace preserving transformation is not a problem,
 since the hardware does not perform such complex optimizations.
+
+The Linux kernel memory model \LKMM~\cite{Alglave-al:ASPLOS18} has adopted 
+the idea to track syntactic dependencies in order to 
+forbid thin-air values. In the context of OS kernel development 
+this choice is justified. First, the Linux kernel targets 
+a wide range of hardware architectures with a diverse
+set of memory models. To simplify the reasoning about the code, 
+it is reasonable to pick a model which is conceptually close
+to those of hardware. Second, the kernel developers 
+already utilze various techiniques to prevent 
+certain compiler optimizations%
+\cite{Alglave-al:ASPLOS18, LK-MemBarriers, LK-RCU-Deref}  
 
 \subsection{no-OOTA Models}
 \label{sec:prm-cert}
