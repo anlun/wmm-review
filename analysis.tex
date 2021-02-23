@@ -529,17 +529,63 @@ the authors avoided problems with thin-air values.
 \subsection{$\lPPO\cup\lRF$ Acyclic Models}
 \label{sec:pporf-acyc}
 
+An alternative conceptually simple solution 
+to thin-air values problem is to preserve 
+\emph{syntactic dependencies}~\cite{Boehm-Demsky:MSPC14, Alglave-al:ASPLOS18}.
+Under this approach reordering of independent load/store pairs is not forbidden.
+However, the reordering is forbidden if the store depends on the value 
+read by the load either because this value 
+was used to compute the value written by the store (\emph{data dependency}), 
+or the memory address used in the store (\emph{address dependency}),
+or else the control-flow path lead to the store was dependent
+on this value (\emph{control dependency}).
+For example, giving the program \ref{ex:lb+data} 
+the store $\writeInst{}{y}{r_1}$ depends 
+on the load $\writeInst{}{x}{r_1}$ since 
+it writes the value read by the load.
 
-\begin{itemize}
-  \item Pros.
-  \begin{itemize}
-    \item (?)
-  \end{itemize}
-  \item Cons.
-  \begin{itemize}
-    \item Trace preserving transformations are unsound.
-  \end{itemize}
-\end{itemize}
+Note that these kind of dependencies are computed following the 
+syntax of the program (hence the name) as opposed 
+to \emph{semantic dependencies}.
+For example, giving the modified version of the \ref{ex:lb+data} program below, 
+the store to \texttt{y} is still considered to be dependent on the previous load. 
+
+\begin{equation*}
+\inarrII{
+  \readInst{}{r_1}{x}           \\
+  \writeInst{}{y}{1 + 0 * r_1}  \\
+}{
+  \readInst{}{r_2}{x}      \\
+  \writeInst{}{x}{r_2}     \\
+}
+\tag{LB+data}\label{ex:lb+fakedata}
+\end{equation*}
+
+Here the syntactic dependency can be eliminated 
+by the \emph{constant folding} transformation --- 
+the expression $1 + 0 * r_1$ can be reduced to just $1$.
+Under the syntactic dependency preserving memory model 
+the compiler, however, is prohibited to perform this optimization. 
+Indeed, once the dependency is removed, nothing prevents 
+to reorder the store before the preceding load. 
+Even if the compiler itself does not perform this reordering,
+after the compilation the hardware can do this during the execution.   
+
+This subtlety reveals the main drawback of 
+syntactic dependency preserving models --- 
+various trace preserving transformations
+(\eg constant folding) are unsound in these models. 
+The fact that constant folding is one of 
+the basic kind of optimizations that 
+any compiler might want to apply 
+makes the adoption of this class of models problematic.
+
+Note that harware models apply a similar approach 
+and usually have a notion of dependencies between 
+the memory operations~\cite{Sarkar-al:PLDI11, Alglave-al:TOPLAS14, Pulte-al:POPL18}.
+Yet in this setting the unsoundness of 
+trace preserving transformation is not a problem,
+since the hardware does not perform such complex optimizations.
 
 \subsection{no-OOTA Models}
 \label{sec:prm-cert}
