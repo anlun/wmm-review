@@ -666,8 +666,30 @@ soundness of standard optimal compilation mappings to x86, POWER, ARMv7, and ARM
 One of a few limitations of the \Promising semantics is that 
 it does not support sequentially consistent accesses. 
 
-\todo{Overview of \cite{Jagadeesan-al:ESOP10, PichonPharabod-Sewell:POPL16, Jeffrey-Riely:LICS16, 
-Chakraborty-Vafeiadis:POPL19, Paviotti-al:ESOP20}}.
+Jagadeesan~\etal~\cite{Jagadeesan-al:ESOP10} attempted to fix \JMM 
+and proposed an operational semantics with speculative execution.
+To avoid thin-air values they have put stratification constraints 
+on speculations. The authors prove the external DRF theorem. 
+Also they verified a few program transformations 
+(store/store reordering, load/load elimination, and roach motel reordering), 
+but overall their study of transformations was not systematic.  
+
+Several authors proposed to use \emph{event structures}~\cite{Winskel:86}
+to resolve thin-air problem. Event structures allow to represent 
+multiple conflicting executions of the program in one mathematical structure.  
+
+Jeffrey and Riely~\cite{Jeffrey-Riely:LICS16} proposed 
+a memory model based on event structures and a notion of 
+\emph{well-justification} of events inspired by the game theory. 
+Well-justification is used to prevent thin-air values 
+and prove external DRF. The authors do not study 
+soundness of program transformations in their model. 
+They show, however, a counterexample demonstrating that 
+load/load reordering is unsound. It implies that 
+the compilation mappings to ARMv7, ARMv8, and POWER 
+are not optimal too.   
+
+\todo{Overview of \cite{PichonPharabod-Sewell:POPL16, Chakraborty-Vafeiadis:POPL19, Paviotti-al:ESOP20}}.
 
 % \begin{itemize}
 %   \item Pros.
