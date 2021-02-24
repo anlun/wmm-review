@@ -460,8 +460,9 @@ Note that the optimization has replaced
 the second access to variable \texttt{x}
 by a read from register. 
 
-\begin{minipage}{0.5\linewidth}
+\begin{minipage}{0.45\linewidth}
 \begin{equation*}
+\small
 \inarrII{
   \readInst{}{r_1}{x}      \\
   \readInst{}{r_2}{y}      \\
@@ -469,12 +470,15 @@ by a read from register.
 }{
   \writeInst{}{y}{1}       \\
 }
-\tag{}\label{ex:coh-rr}
+\label{ex:coh-rr}
 \end{equation*}
-\end{minipage}
-%
-\begin{minipage}{0.5\linewidth}
+\end{minipage}\hfill%
+\begin{minipage}{0.05\linewidth}
+\Large~\\ $\leadsto$
+\end{minipage}\hfill%
+\begin{minipage}{0.45\linewidth}
 \begin{equation*}
+\small
 \inarrII{
   \readInst{}{r_1}{x}      \\
   \readInst{}{r_2}{y}      \\
@@ -482,12 +486,11 @@ by a read from register.
 }{
   \writeInst{}{y}{1}       \\
 }
-\tag{}\label{ex:coh-rr}
+\label{ex:coh-rr}
 \end{equation*}
 \end{minipage}
 
-Now assume that \texttt{x} and \texttt{y} are aliased,
-\ie they point to the same memory location.
+Now assume that \texttt{x} and \texttt{y} point to the same memory location.
 Under this assumption the outcome $[r_1=0, r_2=1, r_3=0]$
 is forbidden for the memory model respecting coherence.
 Indeed, the coherence guarantees sequential consistency per location, 
