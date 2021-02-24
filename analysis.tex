@@ -405,7 +405,7 @@ the load and subsequent stores.
 ARM and POWER hardware preserves dependencies, 
 and thus it has to also retain the load/store ordering. 
 
-Ou and Demsky \cite{Ou-Demsky:OOPSLA18} have studied 
+Ou and Demsky~\cite{Ou-Demsky:OOPSLA18} have studied 
 the performance penalty needed to guarantee 
 \RCMM memory model on ARMv8 hardware.
 They modified the LLVM compiler framework 
@@ -597,7 +597,22 @@ it is reasonable to pick a model which is conceptually close
 to those of hardware. Second, the kernel developers 
 already utilze various techiniques to prevent 
 certain compiler optimizations%
-\cite{Alglave-al:ASPLOS18, LK-MemBarriers, LK-RCU-Deref}  
+\cite{Alglave-al:ASPLOS18, LK-MemBarriers, LK-RCU-Deref}.
+
+In attempt to repair Java memory model Zhang and Feng have proposed the 
+operational happens-before model \OHMM~\cite{Zhang-Feng:FCS16}.
+Their abstract machine consists of global event buffer,
+where the events might be reordered before they propogate into  
+a global history based memory, and a replay mechanism 
+used to simulate speculative executions. 
+To avoid thin-air outcomes the model tracks dependencies 
+between the events and forbids the reordering of dependent events. 
+
+Ou and Demsky~\cite{Ou-Demsky:OOPSLA18} also studied 
+the performance penalty induced by dependency preserving compiler. 
+Again, they modified the LLVM compiler infrastructure 
+and run a number of benchmarks on ARMv8 hardware. 
+They have observed 3.1\% overhead on average and 17.6\% in maximum. 
 
 \subsection{no-OOTA Models}
 \label{sec:prm-cert}
