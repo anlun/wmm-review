@@ -641,8 +641,28 @@ an operational notion of \emph{commit sequence},
 The model was shown to adhere external DRF~\cite{Huisman-Petri:CONCUR07}.
 However the model failed to justify some program transformations 
 which were expected to be sound~\cite{Sevcik-Aspinall:ECOOP08} 
-(\eg redundunt load after load elimination, roach motel reoderint, and others,
+(\eg redundunt load after load elimination, roach motel reodering, and others,
 see \cref{table:summary} for details). 
+
+The most evolved model of this class is 
+\Promising operational semantics~\cite{Kang-al:POPL17, Lee-al:PLDI20}. 
+Its key ingredient is the promising and certification machinery.
+During the execution, the abstract machine can 
+non-deterministically \emph{promise} to perform some store,
+it then has to \emph{certify} that the promise is feasible. 
+The certification mechanism is defined in the way to forbid thin-air values to appear.
+The authors of the model have proven formally 
+that \Promising semantics admits many local and global program transformations
+(see \cref{table:summary} for details).
+Among the set of transformations usally considered 
+in the relaxed memory literature, 
+only the thread inlining was shown to be unsound%
+\footnote{\CSE is left unsound intentionally due to coherence property}. 
+The external DRF theorem was also shown to hold. 
+Podkopaev~\etal~\cite{Podkopaev-al:ECOOP17, Podkopaev-al:POPL19} have proven formally
+soundness of standard optimal compilation mappings to x86, POWER, ARMv7, and ARMv8.
+One of a few limitations of the \Promising semantics is a lack 
+of support of sequentially consistent accesses. 
 
 % \begin{itemize}
 %   \item Pros.
