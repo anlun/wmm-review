@@ -649,7 +649,7 @@ The most evolved model of this class is
 Its key ingredient is the promising and certification machinery.
 During the execution, the abstract machine can 
 non-deterministically \emph{promise} to perform some store,
-it then has to \emph{certify} that the promise is feasible. 
+it then has to \emph{certify} the promise is feasible. 
 The certification mechanism is defined in the way to forbid thin-air values to appear.
 The authors of the model have proven formally 
 that \Promising semantics admits many local and global program transformations
@@ -661,8 +661,11 @@ only the thread inlining was shown to be unsound%
 The external DRF theorem was also shown to hold. 
 Podkopaev~\etal~\cite{Podkopaev-al:ECOOP17, Podkopaev-al:POPL19} have proven formally
 soundness of standard optimal compilation mappings to x86, POWER, ARMv7, and ARMv8.
-One of a few limitations of the \Promising semantics is a lack 
-of support of sequentially consistent accesses. 
+One of a few limitations of the \Promising semantics is that 
+it does not support sequentially consistent accesses. 
+
+\todo{Overview of \cite{Jagadeesan-al:ESOP10, PichonPharabod-Sewell:POPL16, Jeffrey-Riely:LICS16, 
+Chakraborty-Vafeiadis:POPL19, Paviotti-al:ESOP20}}.
 
 % \begin{itemize}
 %   \item Pros.
