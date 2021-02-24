@@ -66,8 +66,7 @@ Under this model, one can represent the state of the system as
 a simple mapping from memory locations to their values. 
 Then each outcome can be obtained by a sequential interleaved execution 
 of thread's instructions. Each execution induces a total order 
-on the individual memory access operations, issued by the program, 
-consistent with per-thread program order. 
+on individual memory access operations consistent with per-thread program order. 
 
 \SC renders many common transformations unsound, 
 including all kind of instruction reorderings and 
@@ -76,7 +75,7 @@ The fact that instruction reorderings are forbidden
 makes the model expensive to implement on modern hardware
 since even relatively strong hardware model of x86,
 permits store/load reordering as an optimization.
-Therefore, to preserve sequential consistency during compilation,
+Therefore, in order to preserve sequential consistency during compilation,
 the compiler need to emit heavyweight full memory fences,
 which makes compilation mappings far from being optimal.  
 
