@@ -605,7 +605,7 @@ Their abstract machine consists of global event buffer,
 where the events might be reordered before they propogate into  
 a global history based memory, and a replay mechanism 
 used to simulate speculative executions. 
-To avoid thin-air outcomes the model tracks dependencies 
+To avoid thin-air outcomes the model tracks syntactic dependencies 
 between the events and forbids the reordering of dependent events. 
 
 Ou and Demsky~\cite{Ou-Demsky:OOPSLA18} also studied 
@@ -617,19 +617,46 @@ They have observed 3.1\% overhead on average and 17.6\% in maximum.
 \subsection{no-OOTA Models}
 \label{sec:prm-cert}
 
-\begin{itemize}
-  \item Pros.
-  \begin{itemize}
-    \item Cheap compilation to hardware.
-    \item Almost all transformations are sound (including all reorderings). 
-  \end{itemize}
-  \item Cons.
-  \begin{itemize}
-    \item Complexity.
-    \item No common ground between various models.
-    \item It's unknown how to make thread inlining sound (?).
-  \end{itemize}
-\end{itemize}
+The last approach to tackle thin-air problem is to   
+construct a notion of \emph{semantic dependencies}, 
+which would precisely characterize what load/store 
+pairs are ``independent'' and rule out 
+``fake'' dependencies like the one in \ref{ex:lb+fakedata}.
+It turns out that this task is challenging 
+and to this date there is no strong consensus on how to achieve it.
+
+The practical payoff of this approach is that it 
+does not require significant modifications to existing compilers or hardware, 
+and thus should not impose performance penalties.  
+The ultimate goal is to enable optimal compilation mappings, 
+preserve most of the existing compiler optimizations, 
+and at the same time maintain the important 
+reasoning guarantees like external DRF. 
+
+The original formalized version of Java memory model \JMM~\cite{Manson-al:POPL05}
+had taken this approach. While the most of the memory model 
+was formalized in axiomatic style, it also used 
+an operational notion of \emph{commit sequence}, 
+\ie a sequence of partial execution graphs, to forbid thin-air outcomes. 
+The model was shown to adhere external DRF~\cite{Huisman-Petri:CONCUR07}.
+However the model failed to justify some program transformations 
+which were expected to be sound~\cite{Sevcik-Aspinall:ECOOP08} 
+(\eg redundunt load after load elimination, roach motel reoderint, and others,
+see \cref{table:summary} for details). 
+
+% \begin{itemize}
+%   \item Pros.
+%   \begin{itemize}
+%     \item Cheap compilation to hardware.
+%     \item Almost all transformations are sound (including all reorderings). 
+%   \end{itemize}
+%   \item Cons.
+%   \begin{itemize}
+%     \item Complexity.
+%     \item No common ground between various models.
+%     \item It's unknown how to make thread inlining sound (?).
+%   \end{itemize}
+% \end{itemize}
 
 \newpage
 \onecolumn
