@@ -689,7 +689,40 @@ load/load reordering is unsound. It implies that
 the compilation mappings to ARMv7, ARMv8, and POWER 
 are not optimal too.   
 
-\todo{Overview of \cite{PichonPharabod-Sewell:POPL16, Chakraborty-Vafeiadis:POPL19, Paviotti-al:ESOP20}}.
+Pichon-Pharabod and Sewell~\cite{PichonPharabod-Sewell:POPL16} 
+presented an operational memory model consisting of 
+memory subsystem inspired by POWER and a thread subsystem, 
+where each thread is represented as an event structure. 
+At each step the abstract machine is allowed to either 
+commit an event to the storage, or perform a transformation 
+on one of the event structures. 
+The authors have shown soundness of 
+optimal compilation mappings to x86 and POWER, 
+as well as soundness of several program transformations.
+It was later revealed though that the compilation scheme
+to ARMv7 and ARMv8 is not optimal~\cite{PichonPharabod:PhD18}.
+
+Chakraborty and Vafeiadis~\cite{Chakraborty-Vafeiadis:POPL19}
+also developed a memory model based on event structures. 
+They utilize the event structures' capability to simultaneously encode 
+multiple conflicting executions in order to model speculative executions.
+Their model is close in spirit to conventional axiomatic models, 
+however, instead of idividual execution graphs, they use 
+the event structures upon which they put additional constraints. 
+The model was shown to admit optimal compilation mappings~\cite{Moiseenko-al:ECOOP20},
+several program transformation, and external DRF.
+Unlike \Promising semantics, it also supports 
+sequantially consistent accesses.
+
+Paviotti~\etal~\cite{Paviotti-al:ESOP20} constructed a 
+denotational semantics based on event structures. 
+They employ the event structures to capture 
+semantic dependencies between the memory access events, 
+which are in ture used to rule out thin-air outcomes.
+The authors prove the external DRF-SC and 
+soundness of optimal compilation mappings,
+also they present a refinement relation which 
+can be used to reason about validity of program transformations. 
 
 % \begin{itemize}
 %   \item Pros.
