@@ -634,9 +634,6 @@ construct a notion of \emph{semantic dependencies},
 which would precisely characterize what load/store 
 pairs are ``independent'' and rule out 
 ``fake'' dependencies like the one in \ref{ex:lb+fakedata}.
-It turns out that this task is challenging 
-and to this date there is no strong consensus on how to achieve it.
-
 The practical payoff of this approach is that it 
 does not require significant modifications to existing compilers or hardware, 
 and thus should not impose performance penalties.  
@@ -644,6 +641,13 @@ The ultimate goal is to enable optimal compilation mappings,
 preserve most of the existing compiler optimizations, 
 and at the same time maintain the important 
 reasoning guarantees like external DRF. 
+
+It turns out that this task is quite challenging 
+and to this date there is no strong consensus on how to achieve it.
+In order to give a satisfactory definition of semantic dependencies 
+the researchers had to resort to conceptually complex memory models.
+The main challenge in this line of works was to formally prove 
+that these complex models indeed satisfy all the desired properties. 
 
 The original formalized version of Java memory model \JMM~\cite{Manson-al:POPL05}
 had taken this approach. While the most of the memory model 
@@ -655,6 +659,14 @@ However the model failed to justify some program transformations
 which were expected to be sound~\cite{Sevcik-Aspinall:ECOOP08} 
 (\eg redundunt load after load elimination, roach motel reodering, and others,
 see \cref{table:summary} for details). 
+
+Jagadeesan~\etal~\cite{Jagadeesan-al:ESOP10} attempted to fix \JMM 
+and proposed an operational semantics with speculative execution.
+To avoid thin-air values they have put stratification constraints 
+on speculations. The authors prove the external DRF theorem. 
+Also they verified a few program transformations 
+(store/store reordering, load/load elimination, and roach motel reordering), 
+but overall their study of transformations was not systematic.  
 
 The most evolved model of this class is 
 \Promising operational semantics~\cite{Kang-al:POPL17, Lee-al:PLDI20}. 
@@ -676,14 +688,6 @@ soundness of standard optimal compilation mappings to x86, POWER, ARMv7, and ARM
 One of a few limitations of the \Promising semantics is that 
 it does not support sequentially consistent accesses. 
 
-Jagadeesan~\etal~\cite{Jagadeesan-al:ESOP10} attempted to fix \JMM 
-and proposed an operational semantics with speculative execution.
-To avoid thin-air values they have put stratification constraints 
-on speculations. The authors prove the external DRF theorem. 
-Also they verified a few program transformations 
-(store/store reordering, load/load elimination, and roach motel reordering), 
-but overall their study of transformations was not systematic.  
-
 Several authors proposed to use \emph{event structures}~\cite{Winskel:86}
 to resolve thin-air problem. Event structures allow to represent 
 multiple conflicting executions of the program in one mathematical structure.  
@@ -696,8 +700,7 @@ and prove external DRF. The authors do not study
 soundness of program transformations in their model. 
 They show, however, a counterexample demonstrating that 
 load/load reordering is unsound. It implies that 
-the compilation mappings to ARMv7, ARMv8, and POWER 
-are not optimal too.   
+the compilation mappings to ARMv7, ARMv8, and POWER are not optimal.   
 
 Pichon-Pharabod and Sewell~\cite{PichonPharabod-Sewell:POPL16} 
 presented an operational memory model consisting of 
