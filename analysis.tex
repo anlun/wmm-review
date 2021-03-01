@@ -393,7 +393,7 @@ yet the internal DRF theorem still can be proven.
 \subsection{$\lPO\cup\lRF$ Acyclic Models}
 \label{sec:porf-acyc}
 
-Contrintuitive behavior of OOTA models, together with the fact that they break 
+Counter-intuitive behavior of OOTA models, together with the fact that they break 
 many important reasoning principles (external DRF-SC among them), 
 has lead over the time to the consensus in the research community that these models 
 are not suited well for the role of 
@@ -656,6 +656,7 @@ pairs are ``independent'' and rule out
 ``fake'' dependencies like the one in \ref{ex:lb+fakedata}.
 The practical payoff of this approach is that it 
 does not require significant modifications to existing compilers or hardware, 
+\app{Here should be some reference to optimality of compilation schemes used in the compilers}
 and thus should not impose performance penalties.  
 The ultimate goal is to enable optimal compilation mappings, 
 preserve most of the existing compiler optimizations, 
@@ -666,7 +667,7 @@ It turns out that this task is quite challenging
 and to this date there is no strong consensus on how to achieve it.
 In order to give a satisfactory definition of semantic dependencies 
 the researchers had to resort to conceptually complex memory models.
-The main challenge in this line of works was to formally prove 
+The main challenge in this line of work was to formally prove 
 that these complex models indeed satisfy all the desired properties. 
 
 The original formalized version of Java memory model \JMM~\cite{Manson-al:POPL05}
@@ -675,7 +676,7 @@ was formalized in axiomatic style, it also used
 an operational notion of \emph{commit sequence}, 
 \ie a sequence of partial execution graphs, to forbid thin-air outcomes. 
 The model was shown to adhere external DRF~\cite{Huisman-Petri:CONCUR07}.
-However the model failed to justify some program transformations 
+However, the model failed to justify some program transformations 
 which were expected to be sound~\cite{Sevcik-Aspinall:ECOOP08} 
 (\eg redundunt load after load elimination, roach motel reodering, and others,
 see \cref{table:summary} for details). 
@@ -688,8 +689,8 @@ Also they verified a few program transformations
 (store/store reordering, load/load elimination, and roach motel reordering), 
 but overall their study of transformations was not systematic.  
 
-The most evolved model of this class is 
-\Promising operational semantics~\cite{Kang-al:POPL17, Lee-al:PLDI20}. 
+The most evolved \app{This is an opinion, not a fact. I'd not state it like that.} model of this class is 
+the \Promising operational semantics~\cite{Kang-al:POPL17, Lee-al:PLDI20}. 
 Its key ingredient is the promising and certification machinery.
 During the execution, the abstract machine can 
 non-deterministically \emph{promise} to perform some store,
