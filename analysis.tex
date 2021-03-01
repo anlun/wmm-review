@@ -94,6 +94,7 @@ and it is naturally program order preserving.
 The conceptual simplicity of SC have inspired many researchers 
 to adopt it and to try to mitigate the induced performance 
 penalty by some additional measures.
+
 Marino et al~\cite{Marino-al:PLDI11, Singh-al:ISCA12} 
 examined the performance penalties to ensure end-to-end SC
 enforced by (1) modified SC-preserving version 
@@ -111,8 +112,27 @@ and reported performance overhead of 6.2\% on average
 and ~17\% in maximum, compared to stock LLVM compiler 
 and regular x86 hardware. 
 
-The SC-Haskell memory model~\cite{Vollmer-al:PPoPP17}
-were inspired by the same idea of separation
+Liu~\etal~\cite{Liu-al:OOPSLA17, Liu-al:PLDI19} studied 
+sequential consistency in the context of \Java.  
+They proposed a \emph{volatile-by-default} semantics,
+where each memory access is treated as volatile 
+(\ie sequentailly consistent) by default. 
+The experiments showed a considerable performance penalty:
+28\% slowdown on average with 81\% in maximum on x86 hardware,
+and 57\% slowdown on average with 157\% in maximum on ARMv8 hardware.
+The authors tried to mitigate performance overhead and presented  
+a novel optimization techinique for language-level SC
+compatible with \emph{just-in-time} compilation. 
+They propose to treat each object as thread-local speculatively 
+and compile memory accesses without fences. 
+If later during the execution concurrent accesses to the object  
+are detected, the code is recompiled to place necessary fences.
+A modified version of \JVM which implements the technique
+described above was reported to incur 37\% slowdon on average 
+with 73\% in maximum on ARMv8 hardware.
+
+SC-Haskell memory model~\cite{Vollmer-al:PPoPP17}
+were inspired by the similar idea of separation
 between the thread-local and shared mutable memory. 
 To safely distinguish between the two 
 the authors utilized the powerful strong type system of Haskell. 
