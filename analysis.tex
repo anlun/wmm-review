@@ -68,7 +68,7 @@ a simple mapping from memory locations to their values.
 Then each outcome can be obtained by a sequential interleaved execution 
 of thread's instructions. Each execution induces a total order 
 on individual memory access operations consistent with per-thread program order
-and, moreover, each read is guaranteed reads-from the most recent write. 
+and, moreover, each read is guaranteed to read-from the most recent write. 
 
 \SC renders many common transformations unsound, 
 including all kind of instruction reorderings and 
@@ -122,29 +122,36 @@ unified manner.}
 \subsection{Strong TSO-like Models}
 
 The next class of PL memory models we consider 
-was inspired by TSO~\cite{Sewell-al:CACM10} and PSO~\cite{Sparc:94} 
-hardware models. In these models, threads usually 
-are equipped with \emph{store buffers}.
+was inspired by \emph{total store order}~\cite{Sewell-al:CACM10} (\TSO) 
+and \emph{partial store order}~\cite{Sparc:94} (\PSO) hardware models. 
+In these models threads are equipped with \emph{store buffers}.
 All store operations go to these buffers before they 
-propogate into the main memory.  
-In essence, store buffers enable 
-store/load reordering (in case of~TSO),
-and store/load \& store/store reordegins (in case of~PSO).
+propogate into the main memory.
+The name of these models stems from their axiomatic formulation. 
+They require an existence of total (in case of \TSO) 
+or partial (in case of \PSO) order on write events, 
+consistent with program order and such that 
+each read either reads locally or from 
+the most recent write~\cite{Sewell-al:CACM10, Lahav-al:POPL16}. 
 
-The models based on store buffers idea 
-\app{Something is wrong w/ phrasing}
-can be compiled down to x86 hardware without any 
+Models of this class can be compiled down to x86 hardware without any 
 performance penalty, since x86 implements TSO model itself.
-That is, the compilation mappings to x86 are optimal.
-However, when compiled down to weaker hardware (e.g. ARM, POWER)
-the compiler indeed needs to take additional measures 
-to enforce TSO/PSO like memory model.
-\eupp{Perhaps, we can cite some paper here?} 
-
-The TSO/PSO models are weaker than SC, while 
-they are still relatively strong.
-The external DRF-SC and coherence still hold
+However, on weaker hardware (e.g. POWER) 
+the compiler need to emit as many fences 
+as to enforce \SC~\cite{Lustig-al:AISCA15}. 
+This class also permits more program transformations.
+In essence, store buffers enable store/load reordering (in case of~\TSO),
+and store/load \& store/store reordegins (in case of~\PSO).
+The \TSO and \PSO models are weaker than \SC, 
+but they are still relatively strong.
+The external DRF-SC and coherence properties hold
 and program order is preserved.
+
+Therefore these models do not have any significant 
+benefits in terms of reasoning guarantees compared to \SC,
+but induce a similar performance penalty on weak architectures. 
+Hence the choice of \TSO and \PSO as the programming language level
+memory model is reasonable only if the language targets x86 hardware solely. 
 
 \subsection{OOTA Models}
 
