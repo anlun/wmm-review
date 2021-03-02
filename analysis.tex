@@ -67,63 +67,57 @@ Under this model, one can represent the state of the system as
 a simple mapping from memory locations to their values. 
 Then each outcome can be obtained by a sequential interleaved execution 
 of thread's instructions. Each execution induces a total order 
-on individual memory access operations consistent with per-thread program order. 
+on individual memory access operations consistent with per-thread program order
+and, moreover, each read is guaranteed reads-from the most recent write. 
 
 \SC renders many common transformations unsound, 
 including all kind of instruction reorderings and 
 common subexpression elimination~\cite{Marino-al:PLDI11, Sevcik-Aspinall:ECOOP08}.
 The fact that instruction reorderings are forbidden 
 makes the model expensive to implement on modern hardware
-since even relatively strong hardware model of x86,
+since even relatively strong hardware model of x86
 permits store/load reorderings.
 Therefore, in order to preserve sequential consistency during compilation,
 the compiler need to emit heavyweight memory fences between store and load instructions,
 which makes compilation mappings far from being optimal.  
 
 In terms of reasoning guarantees, however, SC is quite a pleasant model. 
-It gives the DRF-SC and coherence (\eupp{s/coherence/SC-per-location?}) 
-properties for free%
-\footnote{The SC semantics assigns to programs only sequantially consistent
-outcomes by definition, thus satisfying DRF-SC without any preconditions.
+It gives the DRF-SC and coherence properties for free.
+The SC semantics assigns to programs only sequantially consistent
+outcomes by definition, thus it satisfies DRF-SC without any preconditions.
 The coherence property is equivalent to sequential consistency per location.
-The fact that in SC model any execution is sequeantially consistent implies trivially
-that the accesses to each location are also sequeantially consistent.}
-and it is naturally program order preserving.
+The fact that in SC model any execution is sequentially consistent implies trivially
+that accesses to each location are also sequentially consistent.
+The model also preserves program order.
 \app{I don't get the last sub-sentence.}
+\eupp{Use some nice non-techical terminology for $\lPO\cup\lRF$ acyclicity}
 
 The conceptual simplicity of SC have inspired many researchers 
-to adopt it and to try to mitigate the induced performance 
-penalty by some additional measures.
+to adopt it and to try to mitigate the induced performance penalty.
+The recurring idea was to somehow separate thread-local and shared mutable memory.
+Accesses to the thread-local memory can be compiled 
+without memory fences and are subject to a wider range 
+of local transformations.
+To safely distinguish between the two types of memory
+researches proposed to utilize type-systems~\cite{Vollmer-al:PPoPP17},
+static~\cite{Singh-al:ISCA12} or dynamic~\cite{Liu-al:PLDI19} analysis,
+hardware support~\cite{Singh-al:ISCA12, Marino-al:PLDI10}
+or some combination of the above. 
 
-
+Despite these efforts \SC still induces considerable slowdown,
+especially on weak hardware like ARMv8~\cite{Liu-al:PLDI19} 
+(see \cref{sec:catalog:sc} for details).
+Moreover, while these optimization typically reduce 
+the penalties on thread-local accesses (a common case), 
+they are likely to have lesser impact on specific 
+applications which heavily utilize concurrency,
+like, for example, lock-free data structures.
+Finally, modern compilers usually require 
+a significant amount of engeneering work and rewrite
+in order to preserve \SC~\cite{Marino-al:PLDI11, Liu-al:PLDI19}.
 
 \app{As a reader, I'd expect to see the slowdown numbers in the table in some
 unified manner.}
-
-Given the results of performance evaluation above,
-one can argue that the cost is worth the prize
-of having simple SC-like model.
-However, we point out that the two 
-of the solutions above~\cite{Singh-al:ISCA12, Marino-al:PLDI10} 
-require non-trivial modifications to the 
-existing hardware and compilers.
-In case of SC-Haskell~\cite{Vollmer-al:PPoPP17}, 
-the programmers are obligated to follow 
-a strict programming discipline enforced 
-by the type system of the language.
-In all research papers above \app{Very unclear reference.} the expirements 
-of proposed solutions were mainly evaluated on x86 hardware, 
-and the impact of enforcing SC on weaker hardware
-(ARM, POWER) is less clear.
-\app{I think that the current text dictates that we have to say smth stronger: not studied.
-However, it is not true. Why don't we discuss Liu-al-PLDI19 here?}
-Moreover, while the reported performance overhead 
-is relatively small on average, 
-it is more significant for particular 
-kind of programs that heavily utilize shared 
-mutable memory (like lock-free data structures).
-\eupp{check the evaluation in the papers once again
-to support this claim}
 
 \subsection{Strong TSO-like Models}
 
