@@ -158,18 +158,85 @@ memory model is reasonable only if the language targets x86 hardware solely.
 We next move on to the other end of the memory models' spectrum. 
 We consider the class uniting the weakest models of our analysis.
 These models enable efficient compilation mappings and 
-many program transformations, but at the cost of 
-introducing thin-air values (see \cref{sec:bgrnd-oota}).
-Hence we name this class of models as Out-of-Thin-Air (OOTA) models. 
+almost all reasonable program transformations, but at the cost of 
+introducing so-called thin-air values (hence the name of this class).
+
+In order to introduce the concept of thin-air values, 
+let us first consider the two programs below. 
+
+\begin{minipage}{0.43\linewidth}
+\begin{equation*}
+\small
+\inarrII{
+  \readInst{}{r_1}{x}     \\
+  \writeInst{}{y}{1}      \\
+}{
+  \readInst{}{r_2}{y}     \\
+  \writeInst{}{x}{r_2}    \\
+}
+\tag{LB}\label{ex:lb}
+\end{equation*}
+\end{minipage}\hfill%
+\begin{minipage}{0.09\linewidth}
+\Large~\\ $\leadsto$
+\end{minipage}\hfill%
+\begin{minipage}{0.43\linewidth}
+\begin{equation*}
+\inarrII{
+  \writeInst{}{y}{1}      \\
+  \readInst{}{r_1}{x}     \\
+}{
+  \readInst{}{r_2}{y}     \\
+  \writeInst{}{x}{r_2}    \\
+}
+\tag{LBtr}\label{ex:lbtr}
+\end{equation*}
+\end{minipage}
+
+Program on the right (\ref{ex:lbtr}) can be obtained 
+from the program on the left (\ref{ex:lb})
+via the load/store reordering.
+An outcome $[r_1=1, r_2=1]$ is valid for \ref{ex:lbtr}.
+Therefore under a memory model where load/store is a sound transformation, 
+this outcome should also be valid for \ref{ex:lb}.
+In order to enable this kind of behaviors for programs, 
+the memory models usually utilize some form of 
+\emph{speculative execution}~\cite{Boudol-Petri:ESOP10, Crary-Sullivan:POPL15}.
+That is, during the execution, the load $\readInst{}{r_1}{x}$
+is buffered and store $\writeInst{}{y}{1}$ is executed out of order
+(hence the name of the program LB --- \emph{load buffering}).
+
+However, unrestricted speculations can lead to disruptive results. 
+A store executed out of order can turn into 
+a self-satisfying prophecy~\cite{Boehm-Demsky:MSPC14}.
+Consider the following variation of the load buffering program. 
+
+\begin{equation*}
+\small
+\inarrII{
+  \readInst{}{r_1}{x}   \\
+  \writeInst{}{y}{r_1}  \\
+}{
+  \readInst{}{r_2}{y}   \\
+  \writeInst{}{x}{r_2}  \\
+}
+\label{ex:lb-dep}
+\end{equation*}
+
+Here, a hypothetical abstract machine can speculate 
+to perform a store of value \texttt{1} into variable \texttt{y}
+from the left thread, then read this value in the right thread, 
+write it to variable \texttt{x} and then read it back in the
+left thread closing the paradoxical causality cycle.  
  
-The main common disadvantage of OOTA models is that 
-they lack many fundamental reasoning 
+Examples of this kind demonstrate the main common 
+disadvantage of OOTA models.
+They lack the fundamental reasoning 
 principles~\cite{Boehm-Demsky:MSPC14, Batty-al:ESOP15}:
 type safety and security gurantess can be violated, 
-compositional reasoning is impossible, and
-the external DRF-SC property cannot be established. 
-The odd consequences of thin-air values manifest 
-itself best on the following classical example~\cite{Boehm-Demsky:MSPC14}: 
+and compositional reasoning is impossible.
+They also do not satisfy external DRF-SC property.
+To see this consider yet another program.
 
 \begin{equation*}
 \inarrII{
@@ -188,29 +255,29 @@ itself best on the following classical example~\cite{Boehm-Demsky:MSPC14}:
 
 For the memory model admitting thin-air values 
 (as \eg \CMM~\cite{Batty-al:POPL11}), 
-the outcome $[r_1=1, r_2=1]$ is perfectly valid
+the outcome $[r_1=1, r_2=1]$ is valid
 (one can see that the program above is analogous 
 to the \ref{ex:lb+data}, except it has 
 control dependencies between instructions 
 in place of data dependencies).
 Not only this outcome is completely unintuitive,
 but it also contradicts to the external DRF-SC guarantee.
-Indeed, in SC model the program above has 
+Indeed, under \SC model the program above has 
 a single valid execution with the outcome $[r_1=0, r_2=0]$ 
 and no data-races, thus under DRF-SC compliant model 
 it should also has this sole outcome.  
 
-\subsection{$\lPO\cup\lRF$ Acyclic Models}
-\label{sec:porf-acyc}
-
 Counter-intuitive behavior of OOTA models, together with the fact that they break 
-many important reasoning principles (external DRF-SC among them), 
+many important reasoning principles,
 has lead over the time to the consensus in the research community that these models 
 are not suited well for the role of 
 programming languages memory models~\cite{Boehm-Demsky:MSPC14, Batty-al:ESOP15}.
 A lot of effort has been put to forbid problematic 
 thin-air outcomes, while still keep compilation scheme as efficient as possible
 and enable as many transformations as possible.
+
+\subsection{$\lPO\cup\lRF$ Acyclic Models}
+\label{sec:porf-acyc}
 
 The most straightforward way to forbid thin-air values 
 was proposed by Boehm and Demsky~\cite{Boehm-Demsky:MSPC14}
