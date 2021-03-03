@@ -1,0 +1,91 @@
+\section{Comparison}
+
+We performed a comparison of memory models 
+found via a search procedure described in \cref{sec:methodology} 
+by a criteria given in \cref{sec:background}. 
+Based on this comparison, we identified six primary 
+and two secondary orthogonal classes of models.
+ \app{I think this is the place to name the classes and briefly introduce them.}
+The models from the same class have similar compilation mappings, 
+set of sound program transformations, and provided reasoning guarantees.
+We first present the result of our comparison on a per-class basis 
+(see \cref{table:cmp-cls} and \cref{sec:analysis}), and 
+then give a more detailed comparison with respect to individual models
+(see \cref{table:cmp-mms} and \cref{sec:catalog}).
+Thus we have an opportunity to first discuss the common principles
+behind the PL relaxed memory models in general, and then dive deeper 
+into details of each particular model.  
+
+Columns of both tables correspond to the properties 
+of the models discussed in~\cref{sec:background}.
+Each row of the \cref{table:cmp-cls} corresponds to a class of memory models.
+The numbers in the cells of the table denote the number of models in this 
+class possessing the corresponding property relative to a total number 
+of models in this class. \todo{Give an example once table is ready}.
+For binary classified properties if at least one of the models 
+in the given class possess the property,
+then we additionally mark it by \cmark, 
+if none of the models posses the property, we mark it by \xmark.    
+In table \cref{table:cmp-mms} each row corresponds to 
+a specific memory model, denoted by its abbreviation, 
+and thus all cells describe just the properties 
+of this particular model. 
+
+As for the properties themselves, we split them into several subgroups.
+
+The first group is devoted to optimality of compilation mappings
+to target hardware architectures. In order to be concise, 
+we chose the binary classification of optimality, 
+that is, we classify the compilation scheme as either optimal or not,
+in the following sense.
+We chose the weakest possible access mode supported by the model
+and consider the compilation scheme for the memory accesses annotated by this mode. 
+For the memory models that treat racy non-atomic accesses
+as undefined behavior, we consider the compilation mapping
+for most relaxed access types the model provides.
+This is because the catch-fire semantics for racy non-atomics 
+trivially permits the most optimal compilation mappings (see~\cref{sec:bgrnd-ub}).
+We say that compilation scheme is \emph{optimal} if the 
+accesses annotated by the most relaxed mode 
+can be compiled just as plain load and store instructions 
+of the given hardware architecture (\ie without memory fences or extra dependencies). 
+
+The second group is dedicated to soundness of various program transformations. 
+The classification is also binary: a transformation is either sound or unsound 
+in the given memory model (in a sense stated in~\cref{sec:bgrnd-opt-sound}).
+Again, to be concise, we do not consider all the combinations 
+of program tranformations and memory access modes. 
+Instead, we consider the weakest possible accesses which have fully defined semantics. 
+We further split the transformations into global and local as in~\cref{sec:bgrnd-opt-sound}.
+
+The third group corresponds to reasoning principles guaranteed by the model. 
+It includes the following properties. What kind of DRF guarantee the model provides.
+(we distinguish the internal, external and local DRF theorems, see~\cref{sec:bgrnd-drf}).
+Whether the model has undefined behaviors (see~\cref{sec:bgrnd-ub}).
+Whether the model permits out-of-thin-air values (see~\cref{sec:bgrnd-oota}).
+
+Finally, the last group enumerates the list of memory access modes 
+and fences supported by the model, as well as whether the model 
+supports read-modify-write operations, locks, and mixed-size accesses.
+
+We partitioned all models into six primary classes: 
+sequentially consistent models, models with total or partial order on stores, 
+program order preserving models, syntactic dependency preserving models, 
+semantic dependency preserving models, and model with out of thin-air values.
+In both \cref{table:cmp-cls} and \cref{table:cmp-mms} we order
+the classes by the weakness of the memory models they consist of.  
+The strongest models are located at the top rows of the table, 
+while the weakest are at the bottom. 
+
+We next discuss each class in more details.
+Note that the order is different from the one 
+in \cref{table:cmp-cls} and \cref{table:cmp-mms}.
+This is because we wanted to first introduce the problem 
+of thin-air (\cref{sec:analysis:oota}) and then describe 
+various solutions of this problem
+(\cref{sec:analysis:porf,sec:analysis:deprf,sec:analysis:sdeprf}).
+We give an insight on the relationship between compilation scheme optimality, 
+soundness of transformations and reasoning guarantees.
+In particular, we explain why the support of some reasoning guarantees 
+disables some program transformations and requires more heavyweight 
+compilation mappings to hardware.

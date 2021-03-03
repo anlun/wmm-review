@@ -1,64 +1,5 @@
 \section{Analysis}
-
-In this section we present the detailed comparison 
-of the considered programming language memory models. 
-We summarize our findings in~\cref{table:summary}.
-Each row of the table corresponds to a memory model, denoted by its abbreviation. 
-Columns of the table correspond to the properties of the models discussed in~\cref{sec:background}.
-We split the properties into several subgroups. 
-
-The first group is devoted to optimality of compilation mappings
-to target hardware architectures. In order to be concise, 
-we chose the binary classification of optimality, 
-that is, we classify the compilation scheme as either optimal or not,
-in the following sense.
-We chose the weakest possible access mode supported by the model
-and consider the compilation scheme for the memory accesses annotated by this mode. 
-For the memory models that treat racy non-atomic accesses
-as undefined behavior, we consider the compilation mapping
-for most relaxed access types the model provides.
-This is because the catch-fire semantics for racy non-atomics 
-trivially permits the most optimal compilation mappings (see~\cref{sec:bgrnd-ub}).
-We say that compilation scheme is \emph{optimal} if the 
-accesses annotated by the most relaxed mode 
-can be compiled just as plain load and store instructions 
-of the given hardware architecture (\ie without memory fences or extra dependencies). 
-
-The second group is dedicated to soundness of various program transformations. 
-The classification is also binary: a transformation is either sound or unsound 
-in the given memory model (in a sense stated in~\cref{sec:bgrnd-opt-sound}).
-Again, to be concise, we do not consider all the combinations 
-of program tranformations and memory access modes. 
-Instead, we consider the weakest possible accesses which have fully defined semantics. 
-We further split the transformations into global and local as in~\cref{sec:bgrnd-opt-sound}.
-
-The third group corresponds to reasoning principles guaranteed by the model. 
-It includes the following properties. What kind of DRF guarantee the model provides.
-(we distinguish the internal, external and local DRF theorems, see~\cref{sec:bgrnd-drf}).
-Whether the model has undefined behaviors (see~\cref{sec:bgrnd-ub}).
-Whether the model permits out-of-thin-air values (see~\cref{sec:bgrnd-oota}).
-
-Finally, the last group enumerates the list of memory access modes 
-and fences supported by the model, as well as whether the model 
-supports read-modify-write operations, locks, and mixed-size accesses.
-
-Driven by our analysis of the models' properties, we partition all models into five classes. 
-\app{I think this is the place to name the classes and briefly introduce them.}
-The models from the same class have similar compilation mappings, 
-set of sound program transformations, and provided reasoning guarantees.
-Our classes are ordered by the weakness of the memory models they consist of.  
-The strongest models are located at the top rows of the table, 
-while the weakest are at the bottom. 
-
-We next discuss each class in more details
-(note that the order is different from the one in the~\cref{table:summary}). 
-\app{I think we should briefly explain why the order is different.}
-We also give some insight on the relationship
-between compilation scheme optimality, 
-soundness of transformations and reasoning guarantees.
-In particular, we explain why the support of some reasoning guarantees 
-disables some program transformations and requires more heavyweight 
-compilation mappings to hardware.
+\label{sec:analysis}
 
 \subsection{Sequential Consistency}
 
@@ -137,10 +78,10 @@ the most recent write~\cite{Sewell-al:CACM10, Lahav-al:POPL16}.
 Models of this class can be compiled down to x86 hardware without any 
 performance penalty, since x86 implements TSO model itself.
 However, on weaker hardware (e.g. POWER) 
-the compiler need to emit as many fences 
+the compiler need to emit essentially as many fences 
 as to enforce \SC~\cite{Lustig-al:AISCA15}. 
 This class also permits more program transformations.
-In essence, store buffers enable store/load reordering (in case of~\TSO),
+Store buffers enable store/load reordering (in case of~\TSO),
 and store/load \& store/store reordegins (in case of~\PSO).
 The \TSO and \PSO models are weaker than \SC, 
 but they are still relatively strong.
@@ -154,6 +95,7 @@ Hence the choice of \TSO and \PSO as the programming language level
 memory model is reasonable only if the language targets x86 hardware solely. 
 
 \subsection{Out of Thin-Air Values}
+\label{sec:analysis:oota}
 
 We next move on to the other end of the memory models' spectrum. 
 We consider the class uniting the weakest models of our analysis.
@@ -279,7 +221,7 @@ thin-air outcomes, while still keep compilation scheme as efficient as possible
 and enable as many transformations as possible.
 
 \subsection{Program Order Preserving}
-\label{sec:porf-acyc}
+\label{sec:analysis:porf}
 
 The most straightforward way to forbid thin-air values 
 was proposed by Boehm and Demsky~\cite{Boehm-Demsky:MSPC14}
@@ -302,7 +244,7 @@ to thin-air problem and studied it extensively.
 The authors have shown that many 
 program transformations are still sound in this setting, 
 with the obvious exception of load/store reordering itself
-(see~\cref{table:summary} for details).
+(see~\cref{table:cmp-mms} for details).
 Also, the compilation mappings to \xTSO remain efficient, 
 since the architecture already guarantee to preserve the order 
 between loads and subsequent stores. 
@@ -332,7 +274,7 @@ compiled down to \xTSO, and only a moderate overhead
 when compiled to \ARM or \POWER.
 
 \subsection{Syntactic Dependencies Preserving}
-\label{sec:pporf-acyc}
+\label{sec:analysis:deprf}
 
 An alternative conceptually simple solution 
 to thin-air values problem is to preserve 
@@ -389,7 +331,7 @@ the compiler optimization passes to preserve
 dependencies between non-atomic accesses 
 and reported a moderate slowdown compared 
 to the unmodified version of the compiler  
-(see \ref{sec:catalog:pporf} for details).
+(see \ref{sec:catalog:deprf} for details).
 
 Note that harware models apply a similar approach 
 and usually have a notion of dependencies between 
@@ -399,7 +341,7 @@ trace preserving transformation is not a problem,
 since the hardware does not perform such complex optimizations.
 
 \subsection{Semantic Dependencies Preserving}
-\label{sec:prm-cert}
+\label{sec:analysis:sdeprf}
 
 The last approach to tackle thin-air problem is to   
 construct a notion of \emph{semantic dependencies}, 
@@ -659,7 +601,7 @@ It is because the hardware already guarantee coherence%
   % \textit{OOTA} --- out-of-thin air values.
   % \textit{Mix.Sz.} --- mixed-size accesses.
 }
-\label{table:summary}
+\label{table:cmp-mms}
 \end{table*}
 
 \end{landscape}
