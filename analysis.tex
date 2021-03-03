@@ -227,7 +227,9 @@ Here, a hypothetical abstract machine can speculate
 to perform a store of value \texttt{1} into variable \texttt{y}
 from the left thread, then read this value in the right thread, 
 write it to variable \texttt{x} and then read it back in the
-left thread closing the paradoxical causality cycle.  
+left thread closing the paradoxical causality cycle.
+The value \texttt{1} in the example above appears \emph{out of thin-air}
+and then justifies itself leading to a confusing outcome.
  
 Examples of this kind demonstrate the main common 
 disadvantage of OOTA models.
@@ -285,24 +287,26 @@ The idea is to simply prohibit any kind of speculative execution,
 which is equivalent to forbidding load/store reorderings altogether. 
 This fix not only restores external DRF-SC~\cite{Lahav-al:PLDI17}
 and other reasoning guarantees, but also leads to 
-a much simpler mental model.  
+a much simpler model. The abstract machine implementing 
+the memory model does not need to resort to speculative execution 
+and can perform threads' instructions in order. 
+The memory storage can be implemented as a 
+monotonically growing history of messages, 
+witch each thread having its own view on 
+the frontier of this history~\cite{Dolan-al:PLDI18, Doherty-al:PPoPP19}.
+In terms of axiomatic semantics it is enough to just
+forbid cycles consisting of program order and reads-from relations. 
 
-Lahav~\etal~\cite{Lahav-al:PLDI17} formalized this approach and 
-studied it extensively. They proposed a modified version 
-of \CPP model called \RCMM (repaired \CMM).  
-Besides the strengthening of the model to preserve 
-the order between load/store pairs, 
-the repaired version also corrects the semantics 
-of sequentially-consistent accesses.
-
+Lahav~\etal~\cite{Lahav-al:PLDI17} formalized this approach
+to thin-air problem and studied it extensively. 
 The authors have shown that many 
-program transformations are still sound in \RCMM, 
+program transformations are still sound in this setting, 
 with the obvious exception of load/store reordering itself
 (see~\cref{table:summary} for details).
-Also, the compilation mappings to x86 remain efficient, 
+Also, the compilation mappings to \xTSO remain efficient, 
 since the architecture already guarantee to preserve the order 
 between loads and subsequent stores. 
-However, weaker architectures (ARM, POWER) do not guarantee that, 
+However, weaker architectures (\ARM, \POWER) do not guarantee that, 
 and thus additional measures are required.
 Lahav~\etal~\cite{Lahav-al:PLDI17} proposed to compile relaxed load 
 as plain load followed by a spurious conditional branch,
@@ -312,19 +316,20 @@ ARM and POWER hardware preserves dependencies,
 and thus it has to also retain the load/store ordering. 
 
 Ou and Demsky~\cite{Ou-Demsky:OOPSLA18} have studied 
-the performance penalty needed to guarantee 
-\RCMM memory model on ARMv8 hardware.
-They modified the LLVM compiler framework 
-to enforce \RCMM memory model
-by (1) adjusting the compiler optimization passes and 
-(2) changing the compilation mappings.
-Several compilation schemes were considered,
-among them the one that uses spurious conditional branch
-as descibed above has demonstrated the most promising results.  
-The authors measured the running time on a set of benchmarks 
-implementing various concurrent data-structures
-and reported an overhead of 0\% on average and 6.3\% in maximum,
-compared to the unmodified version of the compiler. 
+the performance penalty required to preserve
+load/store ordering between relaxed atomics 
+and reported a negligible overhead 
+(see \ref{sec:catalog:porf} for details).
+However, the overhead is likely to be more significant
+if one want to apply it to non-atomic accesses as well. 
+
+In conclusion, the memory models forbidding load/store reorderings
+provide a simple solution to thin-air problem, 
+give a convinient formal model,  
+restore external DRF-SC guarantee, preserve soundness of 
+most program transformations, induce no overhead when 
+compiled down to \xTSO, and only a moderate overhead 
+when compiled to \ARM or \POWER.
 
 \subsection{$\lPPO\cup\lRF$ Acyclic Models}
 \label{sec:pporf-acyc}
