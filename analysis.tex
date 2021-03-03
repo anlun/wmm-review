@@ -435,15 +435,18 @@ while still preserving the external DRF-SC guarantee.
 \subsection{Secondary Classes}
 \label{sec:other-classes}
 
-\subsubsection{Coherent Models}
+We also identify a secondary classes of memory models. 
+Those correspond to a particular property of the memory model, 
+\eg coherence or a catch-fire semantics which treats racy programs 
+as errorneous. We demonstrate how presence or absence of these properties 
+affects the soundness of program transformations and compilation mappings.
 
-The choice of the weaker coherence was deliberate 
-with the purpose to enable common subexpression elimination (CSE).
-\eupp{Consider to move the details on Coherence vs. CSE
-into separate subsection and then leave the reference here}.
-The subtle effect of the strong coherence property 
-on this classic compiler optimization was first 
-observed in the context of \Java 
+\subsubsection{Coherent Models}
+\label{sec:analysis:coh}
+
+Coherence property (\ie \SC-per-location, \cref{sec:background:coh})
+has a subtle effect on the common subexpression elimination optimization (\CSE),
+which was was first observed in the context of an early version of \Java 
 memory model~\cite{Pugh:JAVA99}.
 To see the problem, consider the program below
 (on the left) and the transformed version 
@@ -495,6 +498,21 @@ by the interleaving of instructions, and thus
 it should be forbidden.  
 However, this outcome is allowed for 
 the optimized version of the program. 
+
+Note that the compiler still can apply \CSE to the program above, 
+but only if it is able to prove that variables \texttt{x} and \texttt{y} 
+point to disjoint memory locations. 
+To derive this knowledge the compiler can utilize alias analysis~\cite{?},
+which implementation is known to be challenging~\cite{?}.
+
+Therefore, the coherence property in general is not compatible 
+with common subexpression elimination, or at least 
+it requires some adjustments of this optimization.
+
+As for compilation schemes, coherence does not require 
+any changes here and thus does not impose any performance penatly.
+It is because the hardware already guarantee coherence%
+~\cite{Alglave-al:TOPLAS14, Sarkar-al:PLDI11, Sewell-al:CACM10, Lahav-al:PLDI17}. 
 
 \newpage
 \onecolumn

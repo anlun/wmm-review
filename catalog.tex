@@ -284,6 +284,9 @@ and adapt similar compilation scheme as for \RCMM.
 An important divergence of \OCaml memory model 
 from \CMM-like models is that the former 
 has a weaker notion of coherence.
+The choice of the weaker coherence was deliberate 
+with the purpose to enable common subexpression elimination
+(see \cref{sec:analysis:coh} for details).
 
 \paragraph{Java Access Modes}
 
