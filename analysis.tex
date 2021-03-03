@@ -220,7 +220,7 @@ Consider the following variation of the load buffering program.
   \readInst{}{r_2}{y}   \\
   \writeInst{}{x}{r_2}  \\
 }
-\label{ex:lb-dep}
+\tag{LB+data}\label{ex:lb+data}
 \end{equation*}
 
 Here, a hypothetical abstract machine can speculate 
@@ -384,6 +384,12 @@ Constant folding is one of the basic kind of optimizations that
 any compiler might want to apply, 
 and the fact that it is unsound  
 makes the adoption of this class of models problematic.
+Ou and Demsky~\cite{Ou-Demsky:OOPSLA18} adjusted 
+the compiler optimization passes to preserve
+dependencies between non-atomic accesses 
+and reported a moderate slowdown compared 
+to the unofified version of the compiler  
+(see \ref{sec:catalog:pporf} for details).
 
 Note that harware models apply a similar approach 
 and usually have a notion of dependencies between 
@@ -391,6 +397,7 @@ the memory operations~\cite{Sarkar-al:PLDI11, Alglave-al:TOPLAS14, Pulte-al:POPL
 Yet in this setting the unsoundness of 
 trace preserving transformation is not a problem,
 since the hardware does not perform such complex optimizations.
+
 
 \subsection{no-OOTA Models}
 \label{sec:prm-cert}
@@ -412,9 +419,18 @@ reasoning guarantees like external DRF.
 It turns out that this task is quite challenging 
 and to this date there is no strong consensus on how to achieve it.
 In order to give a satisfactory definition of semantic dependencies 
-the researchers had to resort to conceptually complex memory models.
+the researchers had to resort to conceptually complex memory models%
+~\cite{Jagadeesan-al:ESOP10, Kang-al:POPL17, Jeffrey-Riely:LICS16, 
+PichonPharabod-Sewell:POPL16, Chakraborty-Vafeiadis:POPL19, Paviotti-al:ESOP20}.
 The main challenge in this line of work was to formally prove 
 that these complex models indeed satisfy all the desired properties. 
+
+Currently the most complete approach of this class 
+is the \Promising semantics~\cite{Kang-al:POPL17, Lee-al:PLDI20}. 
+This model was proven to enable optimal compilation schemes~\cite{Podkopaev-al:POPL19}, 
+and permit most local and global program transformations
+(with the notable exception of thread inlining), 
+while still preserving the external DRF-SC guarantee.
 
 \subsection{Secondary Classes}
 \label{sec:other-classes}
