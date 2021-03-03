@@ -346,7 +346,7 @@ or else the control-flow path lead to the store was dependent
 on this value (\emph{control dependency}).
 For example, giving the program \ref{ex:lb+data} 
 the store $\writeInst{}{y}{r_1}$ depends 
-on the load $\writeInst{}{x}{r_1}$ since 
+on the load $\readInst{}{x}{r_1}$ since 
 it writes the value read by the load.
 
 Note that these kind of dependencies are computed following the 
@@ -388,7 +388,7 @@ Ou and Demsky~\cite{Ou-Demsky:OOPSLA18} adjusted
 the compiler optimization passes to preserve
 dependencies between non-atomic accesses 
 and reported a moderate slowdown compared 
-to the unofified version of the compiler  
+to the unmodified version of the compiler  
 (see \ref{sec:catalog:pporf} for details).
 
 Note that harware models apply a similar approach 
