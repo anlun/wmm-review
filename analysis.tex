@@ -200,10 +200,7 @@ To see this consider yet another program.
 For the memory model admitting thin-air values 
 (as \eg \CMM~\cite{Batty-al:POPL11}), 
 the outcome $[r_1=1, r_2=1]$ is valid
-(one can see that the program above is analogous 
-to the \ref{ex:lb+data}, except it has 
-control dependencies between instructions 
-in place of data dependencies).
+(the justification is the same as for the \ref{ex:lb+data} example).
 Not only this outcome is completely unintuitive,
 but it also contradicts to the external DRF-SC guarantee.
 Indeed, under \SC model the program above has 
