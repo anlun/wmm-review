@@ -35,11 +35,11 @@
  \multicolumn{4}{c|}{\rotatebox[origin=c]{270}{RI}}   &
  \multicolumn{4}{c|}{\rotatebox[origin=c]{270}{RE}}   &
 
- \rotatebox[origin=c]{270}{TP}     &
  \rotatebox[origin=c]{270}{ILE}    &
  \rotatebox[origin=c]{270}{SLI}    &
- \rotatebox[origin=c]{270}{S}      &
  \rotatebox[origin=c]{270}{RM}     &
+ \rotatebox[origin=c]{270}{S}      &
+ \rotatebox[origin=c]{270}{TP}     &
  \rotatebox[origin=c]{270}{RP}     &
  \rotatebox[origin=c]{270}{VR}     &
  \rotatebox[origin=c]{270}{TI}     &
@@ -75,63 +75,214 @@
  
  \multirow{3}{*}{\rotatebox[origin=c]{270}{\makecell{SeqCst}}}   
 
- & SC             & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & \\ \cline{2-35}
- & SC-Hs          & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & \\ \cline{2-35}
- & DRFx           & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & \\ \Xhline{2\arrayrulewidth}
+ & SC 
+     &             
+     % compilation 
+     \badcell & \badcell & \badcell & \badcell & 
+     % reorderings
+     \badcell & \badcell & \badcell & \badcell &                                               
+     & & & & & & & & & & & & & & & & & & & & & & & & \\ \cline{2-35}
+
+ & SC-Hs 
+     &
+     % compilation 
+     \badcell & \badcell & \badcell & \badcell & 
+     % reorderings
+     \unkwcell & \unkwcell & \unkwcell & \unkwcell &  
+     & & & & & & & & & & & & & & & & & & & & & & & & \\ \cline{2-35}
+
+ & DRFx
+     &           
+     % compilation 
+     \badcell & \badcell & \badcell & \badcell & 
+     % reorderings
+     \okcell & \okcell & \okcell & \okcell & 
+     & & & & & & & & & & & & & & & & & & & & & & & & \\ \Xhline{2\arrayrulewidth}
 
  \multirow{2}{*}{\rotatebox[origin=c]{270}{\makecell{TSO\\PSO}}}   
 
- & BMM            & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & \\ \cline{2-35}
+ & BMM
+     &
+     % compilation 
+     \okcell & \badcell & \badcell & \badcell & 
+     % reorderings
+     \okcell & \badcell & \badcell & \badcell & 
+     & & & & & & & & & & & & & & & & & & & & & & & & \\ \cline{2-35}
 
- & RMMOA          & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & \\ \Xhline{2\arrayrulewidth}
+ & RMMOA
+     &
+     % compilation 
+     \okcell & \badcell & \badcell & \badcell & 
+     % reorderings
+     \okcell & \okcell & \badcell & \badcell & 
+     & & & & & & & & & & & & & & & & & & & & & & & & \\ \Xhline{2\arrayrulewidth}
 
  \multirow{5}{*}{\rotatebox[origin=c]{270}{\makecell{$\lPO\lRF$\\acyc}}}   
 
- & RC11           & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & \\ \cline{2-35}
+ & RC11
+     &
+     % compilation 
+     \okcell & \badcell & \badcell & \badcell &  
+     % reorderings
+     \okcell & \okcell & \okcell & \badcell & 
+     & & & & & & & & & & & & & & & & & & & & & & & & \\ \cline{2-35}
 
- & ORC11          & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & \\ \cline{2-35}
+ & ORC11
+     &
+     % compilation 
+     \okcell & \badcell & \badcell & \badcell &  
+     % reorderings
+     \okcell & \okcell & \okcell & \badcell & 
+     & & & & & & & & & & & & & & & & & & & & & & & & \\ \cline{2-35}
 
- & RAR            & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & \\ \cline{2-35}
+ & RAR
+     & 
+     % compilation 
+     \okcell & \badcell & \badcell & \badcell &  
+     % reorderings
+     \okcell & \okcell & \okcell & \badcell & 
+     & & & & & & & & & & & & & & & & & & & & & & & & \\ \cline{2-35}
 
- & OCMM           & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & \\ \cline{2-35}
+ & OCMM
+     & 
+     % compilation 
+     \okcell & \badcell & \badcell & \badcell &  
+     % reorderings
+     \okcell & \okcell & \okcell & \badcell & 
+     & & & & & & & & & & & & & & & & & & & & & & & & \\ \cline{2-35}
 
- & JAM            & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & \\ \cline{2-35}
+ & JAM
+     & 
+     % compilation 
+     \okcell & \badcell & \badcell & \badcell &  
+     % reorderings
+     \unkwcell & \unkwcell & \unkwcell & \unkwcell &  
+     & & & & & & & & & & & & & & & & & & & & & & & & \\ \cline{2-35}
 
- & CRC            & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & \\ \Xhline{2\arrayrulewidth}
+ & CRC
+     &
+     % compilation 
+     \unkwcell & \unkwcell & \unkwcell & \unkwcell &  
+     % reorderings
+     \okcell & \badcell & \badcell & \badcell &  
+     & & & & & & & & & & & & & & & & & & & & & & & & \\ \Xhline{2\arrayrulewidth}
 
  \multirow{2}{*}{\rotatebox[origin=c]{270}{\makecell{$\lPPO\lRF$\\acyc}}}   
 
- & LKMM           & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & \\ \cline{2-35}
+ & LKMM
+     &           
+     % compilation 
+     \okcell & \okcell & \okcell & \okcell &  
+     % reorderings
+     \okcell & \okcell & \okcell & \okcell &  
+     & & & & & & & & & & & & & & & & & & & & & & & & \\ \cline{2-35}
 
- & OHMM           & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & \\ \Xhline{2\arrayrulewidth}
+ & OHMM
+     &
+     % compilation 
+     \unkwcell & \unkwcell & \unkwcell & \unkwcell &
+     % reorderings
+     \okcell & \okcell & \okcell & \okcell &
+     & & & & & & & & & & & & & & & & & & & & & & & & \\ \Xhline{2\arrayrulewidth}
 
  \multirow{7}{*}{\rotatebox[origin=c]{270}{\makecell{no-OOTA}}}   
 
- & JMM            & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & \\ \cline{2-35}
+ & JMM
+     &            
+     % compilation 
+     & & & &
+     % reorderings
+     \okcell & \okcell & \okcell & \okcell &
+     & & & & & & & & & & & & & & & & & & & & & & & & \\ \cline{2-35}
 
- & Prm            & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & \\ \cline{2-35}
+ & Prm
+     &
+     % compilation 
+     \okcell & \okcell & \okcell & \okcell &  
+     % reorderings
+     \okcell & \okcell & \okcell & \okcell &
+     & & & & & & & & & & & & & & & & & & & & & & & & \\ \cline{2-35}
 
- & Wkmo           & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & \\ \cline{2-35}
+ & Wkmo
+     &
+     % compilation 
+     \okcell & \okcell & \okcell & \okcell &
+     % reorderings
+     \okcell & \okcell & \okcell & \okcell &
+     & & & & & & & & & & & & & & & & & & & & & & & & \\ \cline{2-35}
 
- & MRD            & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & \\ \cline{2-35}
+ & MRD
+     &
+     % compilation 
+     \okcell & \okcell & \okcell & \okcell &
+     % reorderings
+     \okcell & \okcell & \okcell & \okcell &
+     & & & & & & & & & & & & & & & & & & & & & & & & \\ \cline{2-35}
 
- & P-P/S          & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & \\ \cline{2-35}
+ & P-P/S
+     &
+     % compilation 
+     \okcell & \okcell & \badcell & \badcell &
+     % reorderings 
+     \okcell & \okcell & \okcell & \okcell &
+     & & & & & & & & & & & & & & & & & & & & & & & & \\ \cline{2-35}
 
- & J/R            & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & \\ \cline{2-35}
+ & J/R
+     &
+     % compilation 
+     \unkwcell & \badcell & \badcell & \badcell &
+     % reorderings
+     \unkwcell & \unkwcell & \badcell & \unkwcell &
+     & & & & & & & & & & & & & & & & & & & & & & & & \\ \cline{2-35}
 
- & GOS            & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & \\ \Xhline{2\arrayrulewidth}
+ & GOS
+     &
+     % compilation 
+     \unkwcell & \unkwcell & \unkwcell & \unkwcell &
+     % reorderings 
+     \unkwcell & \unkwcell & \unkwcell & \unkwcell &
+     & & & & & & & & & & & & & & & & & & & & & & & & \\ \Xhline{2\arrayrulewidth}
 
  \multirow{5}{*}{\rotatebox[origin=c]{270}{\makecell{OOTA}}}   
 
- & C11            & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & \\ \cline{2-35}
+ & C11
+     &            
+     % compilation 
+     \okcell & \okcell & \okcell & \okcell &
+     % reorderings
+     \okcell & \okcell & \okcell & \okcell &
+     & & & & & & & & & & & & & & & & & & & & & & & & \\ \cline{2-35}  
 
- & JSMM           & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & \\ \cline{2-35}
+ & JSMM
+     &
+     % compilation 
+     \okcell & \okcell & \okcell & \okcell &
+     % reorderings
+     \unkwcell & \unkwcell & \unkwcell & \unkwcell &
+     & & & & & & & & & & & & & & & & & & & & & & & & \\ \cline{2-35}
 
- & RMC            & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & \\ \cline{2-35}
+ & RMC
+     &
+     % compilation 
+     \okcell & \okcell & \okcell & \okcell &
+     % reorderings
+     \unkwcell & \unkwcell & \unkwcell & \unkwcell &
+     & & & & & & & & & & & & & & & & & & & & & & & & \\ \cline{2-35}
 
- & RAO            & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & \\ \cline{2-35}
+ & RAO
+     &
+     % compilation 
+     \unkwcell & \unkwcell & \unkwcell & \unkwcell &
+     % reorderings
+     \okcell & \okcell & \okcell & \okcell &
+     & & & & & & & & & & & & & & & & & & & & & & & & \\ \cline{2-35}
 
- & TSC            & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & \\ \Xhline{2\arrayrulewidth}
+ & TSC
+     % compilation 
+     & \unkwcell & \unkwcell & \unkwcell & \unkwcell &
+     % reorderings
+     \unkwcell & \unkwcell & \unkwcell & \unkwcell &
+     & & & & & & & & & & & & & & & & & & & & & & & & \\ \Xhline{2\arrayrulewidth}
 
 
 \end{tabular}
@@ -159,3 +310,4 @@
 \end{landscape}
 
 \twocolumn
+

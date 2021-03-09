@@ -192,9 +192,12 @@
 \newcommand{\lSC}{{\color{colorSC}\mathtt{sc}}}
 \newcommand{\lXO}{{\color{colorXO}\mathtt{xo}}}
 
-% check-mark and cross-mark
-\colorlet{colorGood}{green!50!black}
-\colorlet{colorBad}{red!50!black}
+%% check-mark and cross-mark
 
-\newcommand{\cmark}{\text{\color{colorGood}\ding{51}}}
-\newcommand{\xmark}{\text{\color{colorBad}\ding{55}}}
+\newcommand{\cmark}{\text{\color{green!50!black}\ding{51}}}
+\newcommand{\xmark}{\text{\color{red!50!black}\ding{55}}}
+\newcommand{\qmark}{\text{\color{gray!50!black}\textbf{?}}}
+
+\newcommand{\okcell}{\cellcolor{green!10}\cmark}
+\newcommand{\badcell}{\cellcolor{red!10}\xmark}
+\newcommand{\unkwcell}{\cellcolor{gray!10}\qmark}
