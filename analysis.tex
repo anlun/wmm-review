@@ -458,26 +458,24 @@ It is because the hardware already guarantee coherence%
 \begin{landscape}
 
 \begin{table*}
-\begin{tabular}{|c|l|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}
+\footnotesize
+\begin{tabular}{|c|l|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|} % 35
  \hline
 
                                                       &
  \multirow{3}{*}{Model}                               & 
  \multicolumn{ 4}{c|}{\multirow{2}{*}{Compilation}}   &
- \multicolumn{10}{c|}{Transformations}                &
- \multicolumn{ 6}{c|}{Reasoning}                      &
+ \multicolumn{16}{c|}{Transformations}                &
+ \multicolumn{ 4}{c|}{\multirow{2}{*}{Reasoning}}     &
  \multicolumn{ 9}{c|}{\multirow{2}{*}{Features}}      \\ 
 
  \cline{7-22}
-
                              &
                              &
  \multicolumn{4}{c|}{}       &
- \multicolumn{7}{c|}{Local}  &
+ \multicolumn{13}{c|}{Local} &
  \multicolumn{3}{c|}{Global} &
-
- \multicolumn{3}{c|}{DRF}    &
- \multicolumn{3}{c|}{}       &
+ \multicolumn{4}{c|}{}       &
  \multicolumn{9}{c|}{}       \\ 
  
  \hline
@@ -488,9 +486,10 @@ It is because the hardware already guarantee coherence%
  \rotatebox[origin=c]{270}{ARMv7}    & 
  \rotatebox[origin=c]{270}{ARMv8}    & 
  
+ \multicolumn{4}{c|}{\rotatebox[origin=c]{270}{RI}}   &
+ \multicolumn{4}{c|}{\rotatebox[origin=c]{270}{RE}}   &
+
  \rotatebox[origin=c]{270}{TP}     &
- \rotatebox[origin=c]{270}{RI}     &
- \rotatebox[origin=c]{270}{RE}     &
  \rotatebox[origin=c]{270}{ILE}    &
  \rotatebox[origin=c]{270}{SLI}    &
  \rotatebox[origin=c]{270}{S}      &
@@ -499,14 +498,10 @@ It is because the hardware already guarantee coherence%
  \rotatebox[origin=c]{270}{VR}     &
  \rotatebox[origin=c]{270}{TI}     &
  
- \rotatebox[origin=c]{270}{Int}    &
- \rotatebox[origin=c]{270}{Ext}    &
- \rotatebox[origin=c]{270}{Loc}    &
-
+ \rotatebox[origin=c]{270}{DRF}                                &
  \rotatebox[origin=c]{270}{UB}                                 &
- \rotatebox[origin=c]{270}{\makecell{$\lPO\cup\lRF$ \\ acyc.}} & 
+ \rotatebox[origin=c]{270}{\makecell{$\lPO\lRF$}}              & 
  \rotatebox[origin=c]{270}{OOTA}                               &                              
-
 
  \rotatebox[origin=c]{270}{NA}                      &
  \rotatebox[origin=c]{270}{RLX}                     &
@@ -517,66 +512,80 @@ It is because the hardware already guarantee coherence%
  \rotatebox[origin=c]{270}{RMW}                     &
  \rotatebox[origin=c]{270}{Lock}                    &
  \rotatebox[origin=c]{270}{\makecell{Mix.Sz.}}      \\ 
- 
+
+ \hline
+  & & & & & &
+ \rotatebox[origin=c]{270}{SL}       &
+ \rotatebox[origin=c]{270}{SS}       &
+ \rotatebox[origin=c]{270}{LL}       &
+ \rotatebox[origin=c]{270}{LS}       &
+ \rotatebox[origin=c]{270}{SL}       &
+ \rotatebox[origin=c]{270}{SS}       &
+ \rotatebox[origin=c]{270}{LL}       &
+ \rotatebox[origin=c]{270}{LS}       &
+  & & & & & & & & & & & & & & & & & & & & \\
+  
  \Xhline{2\arrayrulewidth}
  
  \multirow{3}{*}{\rotatebox[origin=c]{270}{\makecell{SeqCst}}}   
 
- & SC             & & & & & & & & & & & & & & & & & & & & & & & & & & & & & \\ \cline{2-31}
- & SC-Haskell     & & & & & & & & & & & & & & & & & & & & & & & & & & & & & \\ \cline{2-31}
- & DRFx           & & & & & & & & & & & & & & & & & & & & & & & & & & & & & \\ \Xhline{2\arrayrulewidth}
+ & SC             & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & \\ \cline{2-35}
+ & SC-Hs          & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & \\ \cline{2-35}
+ & DRFx           & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & \\ \Xhline{2\arrayrulewidth}
 
  \multirow{2}{*}{\rotatebox[origin=c]{270}{\makecell{TSO\\PSO}}}   
 
- & BMM            & & & & & & & & & & & & & & & & & & & & & & & & & & & & & \\ \cline{2-31}
+ & BMM            & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & \\ \cline{2-35}
 
- & Rlx Op.Sem.    & & & & & & & & & & & & & & & & & & & & & & & & & & & & & \\ \Xhline{2\arrayrulewidth}
+ & RMMOA          & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & \\ \Xhline{2\arrayrulewidth}
 
  \multirow{5}{*}{\rotatebox[origin=c]{270}{\makecell{$\lPO\lRF$\\acyc}}}   
 
- & RC11           & & & & & & & & & & & & & & & & & & & & & & & & & & & & & \\ \cline{2-31}
+ & RC11           & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & \\ \cline{2-35}
 
- & ORC11          & & & & & & & & & & & & & & & & & & & & & & & & & & & & & \\ \cline{2-31}
+ & ORC11          & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & \\ \cline{2-35}
 
- & OCaml MM       & & & & & & & & & & & & & & & & & & & & & & & & & & & & & \\ \cline{2-31}
+ & RAR            & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & \\ \cline{2-35}
 
- & JAM            & & & & & & & & & & & & & & & & & & & & & & & & & & & & & \\ \cline{2-31}
+ & OCMM           & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & \\ \cline{2-35}
 
- & Rlx Compos.    & & & & & & & & & & & & & & & & & & & & & & & & & & & & & \\ \Xhline{2\arrayrulewidth}
+ & JAM            & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & \\ \cline{2-35}
+
+ & CRC            & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & \\ \Xhline{2\arrayrulewidth}
 
  \multirow{2}{*}{\rotatebox[origin=c]{270}{\makecell{$\lPPO\lRF$\\acyc}}}   
 
- & LKMM           & & & & & & & & & & & & & & & & & & & & & & & & & & & & & \\ \cline{2-31}
+ & LKMM           & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & \\ \cline{2-35}
 
- & OHMM           & & & & & & & & & & & & & & & & & & & & & & & & & & & & & \\ \Xhline{2\arrayrulewidth}
+ & OHMM           & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & \\ \Xhline{2\arrayrulewidth}
 
  \multirow{7}{*}{\rotatebox[origin=c]{270}{\makecell{no-OOTA}}}   
 
- & JMM            & & & & & & & & & & & & & & & & & & & & & & & & & & & & & \\ \cline{2-31}
+ & JMM            & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & \\ \cline{2-35}
 
- & Promising      & & & & & & & & & & & & & & & & & & & & & & & & & & & & & \\ \cline{2-31}
+ & Prm            & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & \\ \cline{2-35}
 
- & Weakestmo      & & & & & & & & & & & & & & & & & & & & & & & & & & & & & \\ \cline{2-31}
+ & Wkmo           & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & \\ \cline{2-35}
 
- & MRD            & & & & & & & & & & & & & & & & & & & & & & & & & & & & & \\ \cline{2-31}
+ & MRD            & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & \\ \cline{2-35}
 
- & P-P/S          & & & & & & & & & & & & & & & & & & & & & & & & & & & & & \\ \cline{2-31}
+ & P-P/S          & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & \\ \cline{2-35}
 
- & J/R            & & & & & & & & & & & & & & & & & & & & & & & & & & & & & \\ \cline{2-31}
+ & J/R            & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & \\ \cline{2-35}
 
- & Generative     & & & & & & & & & & & & & & & & & & & & & & & & & & & & & \\ \Xhline{2\arrayrulewidth}
+ & GOS            & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & \\ \Xhline{2\arrayrulewidth}
 
  \multirow{5}{*}{\rotatebox[origin=c]{270}{\makecell{OOTA}}}   
 
- & C11            & & & & & & & & & & & & & & & & & & & & & & & & & & & & & \\ \cline{2-31}
+ & C11            & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & \\ \cline{2-35}
 
- & JS MM          & & & & & & & & & & & & & & & & & & & & & & & & & & & & & \\ \cline{2-31}
+ & JSMM           & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & \\ \cline{2-35}
 
- & RMC            & & & & & & & & & & & & & & & & & & & & & & & & & & & & & \\ \cline{2-31}
+ & RMC            & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & \\ \cline{2-35}
 
- & RAO            & & & & & & & & & & & & & & & & & & & & & & & & & & & & & \\ \cline{2-31}
+ & RAO            & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & \\ \cline{2-35}
 
- & Spec.Comp.     & & & & & & & & & & & & & & & & & & & & & & & & & & & & & \\ \Xhline{2\arrayrulewidth}
+ & TSC            & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & & \\ \Xhline{2\arrayrulewidth}
 
 
 \end{tabular}
