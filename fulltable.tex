@@ -84,7 +84,7 @@
      \badcell & \badcell & \badcell & \badcell &
      % eliminations
      \okcell & \okcell & \okcell & \okcell &
-     % irrelevant load intro/elim
+     % irrelevant load elim & speculative load intro 
      \okcell & \okcell &
      % roach motel 
      \okcell & 
@@ -103,10 +103,22 @@
      % compilation 
      \badcell & \badcell & \badcell & \badcell & 
      % reorderings
-     \unkwcell & \unkwcell & \unkwcell & \unkwcell &  
+     \badcell & \badcell & \badcell & \badcell & 
      % eliminations
-     \unkwcell & \unkwcell & \unkwcell & \unkwcell &  
-     & & & & & & & & & & & & & & & & & & & & & \\ \cline{2-36}
+     \okcell & \okcell & \okcell & \okcell &
+     % irrelevant load elim & speculative load intro 
+     \okcell & \okcell &
+     % roach motel 
+     \okcell & 
+     % strength.
+     \unkwcell &
+     % trace preserving 
+     \okcell &
+     % common subexpression elimination
+     \badcell &
+     % global: register promotion, value range, thread inlining 
+     \okcell & \unkwcell & \okcell &                                              
+     & & & & & & & & & & & & \\ \cline{2-36}
 
  & DRFx
      &           
@@ -115,8 +127,20 @@
      % reorderings
      \badcell & \badcell & \badcell & \badcell & 
      % eliminations
-     \unkwcell & \unkwcell & \unkwcell & \unkwcell &  
-     & & & & & & & & & & & & & & & & & & & & & \\ \Xhline{2\arrayrulewidth}
+     \okcell & \okcell & \okcell & \okcell &
+     % irrelevant load elim & speculative load intro 
+     \okcell & \badcell &
+     % roach motel 
+     \okcell & 
+     % strength.
+     \unkwcell &
+     % trace preserving 
+     \okcell &
+     % common subexpression elimination
+     \badcell &
+     % global: register promotion, value range, thread inlining 
+     \okcell & \unkwcell & \okcell &                                              
+     & & & & & & & & & & & & \\ \Xhline{2\arrayrulewidth}
 
  \multirow{2}{*}{\rotatebox[origin=c]{270}{\makecell{TSO\\PSO}}}   
 
@@ -128,7 +152,19 @@
      \okcell & \badcell & \badcell & \badcell & 
      % eliminations
      \okcell & \okcell & \okcell & \badcell &  
-     & & & & & & & & & & & & & & & & & & & & & \\ \cline{2-36}
+     % irrelevant load elim & speculative load intro 
+     \okcell & \okcell &
+     % roach motel 
+     \badcell & 
+     % strength.
+     \unkwcell &
+     % trace preserving 
+     \okcell &
+     % common subexpression elimination
+     \badcell &
+     % global: register promotion, value range, thread inlining 
+     \unkwcell & \unkwcell & \badcell &                                              
+     & & & & & & & & & & & & \\ \cline{2-36}
 
  & RMMOA
      &
@@ -138,7 +174,19 @@
      \okcell & \okcell & \badcell & \badcell & 
      % eliminations
      \unkwcell & \unkwcell & \unkwcell & \unkwcell &  
-     & & & & & & & & & & & & & & & & & & & & & \\ \Xhline{2\arrayrulewidth}
+     % irrelevant load elim & speculative load intro 
+     \unkwcell & \unkwcell &
+     % roach motel 
+     \unkwcell & 
+     % strength.
+     \unkwcell &
+     % trace preserving 
+     \unkwcell &
+     % common subexpression elimination
+     \unkwcell &
+     % global: register promotion, value range, thread inlining 
+     \unkwcell & \unkwcell & \unkwcell &                                              
+     & & & & & & & & & & & & \\ \Xhline{2\arrayrulewidth}
 
  \multirow{5}{*}{\rotatebox[origin=c]{270}{\makecell{$\lPO\lRF$\\acyc}}}   
 
@@ -150,7 +198,19 @@
      \okcell & \okcell & \okcell & \badcell & 
      % eliminations
      \okcell & \okcell & \okcell & \badcell & 
-     & & & & & & & & & & & & & & & & & & & & & \\ \cline{2-36}
+     % irrelevant load elim & speculative load intro 
+     \unkwcell & \badcell &
+     % roach motel 
+     \okcell & 
+     % strength.
+     \okcell &
+     % trace preserving 
+     \okcell &
+     % common subexpression elimination
+     \badcell &
+     % global: register promotion, value range, thread inlining 
+     \okcell & \unkwcell & \okcell &                                              
+     & & & & & & & & & & & & \\ \cline{2-36}
 
  & ORC11
      &
@@ -160,7 +220,19 @@
      \okcell & \okcell & \okcell & \badcell & 
      % eliminations
      \okcell & \okcell & \okcell & \badcell & 
-     & & & & & & & & & & & & & & & & & & & & & \\ \cline{2-36}
+     % irrelevant load elim & speculative load intro 
+     \unkwcell & \badcell &
+     % roach motel 
+     \okcell & 
+     % strength.
+     \okcell &
+     % trace preserving 
+     \okcell &
+     % common subexpression elimination
+     \badcell &
+     % global: register promotion, value range, thread inlining 
+     \okcell & \unkwcell & \okcell &
+     & & & & & & & & & & & & \\ \cline{2-36}
 
  & RAR
      & 
@@ -170,7 +242,19 @@
      \okcell & \okcell & \okcell & \badcell & 
      % eliminations
      \okcell & \okcell & \okcell & \badcell & 
-     & & & & & & & & & & & & & & & & & & & & & \\ \cline{2-36}
+     % irrelevant load elim & speculative load intro 
+     \unkwcell & \badcell &
+     % roach motel 
+     \okcell & 
+     % strength.
+     \okcell &
+     % trace preserving 
+     \okcell &
+     % common subexpression elimination
+     \badcell &
+     % global: register promotion, value range, thread inlining 
+     \okcell & \unkwcell & \okcell &
+     & & & & & & & & & & & & \\ \cline{2-36}
 
  & OCMM
      & 
@@ -180,7 +264,19 @@
      \okcell & \okcell & \okcell & \badcell & 
      % eliminations
      \okcell & \okcell & \okcell & \badcell & 
-     & & & & & & & & & & & & & & & & & & & & & \\ \cline{2-36}
+     % irrelevant load elim & speculative load intro  
+     \unkwcell & \unkwcell &
+     % roach motel 
+     \unkwcell & 
+     % strength.
+     \unkwcell &
+     % trace preserving 
+     \okcell &
+     % common subexpression elimination
+     \okcell &
+     % global: register promotion, value range, thread inlining 
+     \unkwcell & \unkwcell & \unkwcell &
+     & & & & & & & & & & & & \\ \cline{2-36}
 
  & JAM
      & 
@@ -189,18 +285,42 @@
      % reorderings
      \unkwcell & \unkwcell & \unkwcell & \unkwcell &  
      % eliminations
-     \unkwcell & \unkwcell & \unkwcell & \unkwcell &  
-     & & & & & & & & & & & & & & & & & & & & & \\ \cline{2-36}
+     \unkwcell & \unkwcell & \unkwcell & \unkwcell & 
+     % irrelevant load elim & speculative load intro  
+     \unkwcell & \unkwcell &
+     % roach motel 
+     \unkwcell & 
+     % strength.
+     \okcell &
+     % trace preserving 
+     \unkwcell &
+     % common subexpression elimination
+     \badcell &
+     % global: register promotion, value range, thread inlining 
+     \unkwcell & \unkwcell & \unkwcell &
+     & & & & & & & & & & & & \\ \cline{2-36}
 
  & CRC
      &
      % compilation 
-     \unkwcell & \unkwcell & \unkwcell & \unkwcell &  
+     \okcell & \badcell & \badcell & \badcell &  
      % reorderings
      \okcell & \badcell & \badcell & \badcell &  
      % eliminations
      \okcell & \okcell & \okcell & \badcell &  
-     & & & & & & & & & & & & & & & & & & & & & \\ \Xhline{2\arrayrulewidth}
+     % irrelevant load elim & speculative load intro  
+     \badcell & \badcell &
+     % roach motel 
+     \unkwcell & 
+     % strength.
+     \unkwcell &
+     % trace preserving 
+     \unkwcell &
+     % common subexpression elimination
+     \badcell &
+     % global: register promotion, value range, thread inlining 
+     \unkwcell & \unkwcell & \unkwcell &
+     & & & & & & & & & & & & \\ \Xhline{2\arrayrulewidth}
 
  \multirow{2}{*}{\rotatebox[origin=c]{270}{\makecell{$\lPPO\lRF$\\acyc}}}   
 
@@ -212,7 +332,19 @@
      \okcell & \okcell & \okcell & \okcell &
      % eliminations
      \unkwcell & \unkwcell & \unkwcell & \unkwcell &  
-     & & & & & & & & & & & & & & & & & & & & & \\ \cline{2-36}
+     % irrelevant load elim & speculative load intro 
+     \unkwcell & \unkwcell &
+     % roach motel 
+     \unkwcell & 
+     % strength.
+     \unkwcell &
+     % trace preserving 
+     \badcell &
+     % common subexpression elimination
+     \badcell &
+     % global: register promotion, value range, thread inlining 
+     \unkwcell & \unkwcell & \unkwcell &                                              
+     & & & & & & & & & & & & \\ \cline{2-36}
 
  & OHMM
      &
@@ -222,7 +354,19 @@
      \okcell & \okcell & \okcell & \okcell &
      % eliminations
      \okcell & \okcell & \okcell & \okcell &
-     & & & & & & & & & & & & & & & & & & & & & \\ \Xhline{2\arrayrulewidth}
+     % irrelevant load elim & speculative load intro 
+     \okcell & \okcell &
+     % roach motel 
+     \okcell & 
+     % strength.
+     \unkwcell &
+     % trace preserving 
+     \badcell &
+     % common subexpression elimination
+     \unkwcell &
+     % global: register promotion, value range, thread inlining 
+     \unkwcell & \unkwcell & \unkwcell &         
+     & & & & & & & & & & & & \\ \Xhline{2\arrayrulewidth}
 
  \multirow{7}{*}{\rotatebox[origin=c]{270}{\makecell{no-OOTA}}}   
 
@@ -234,7 +378,19 @@
      \okcell & \okcell & \okcell & \okcell &
      % eliminations
      \okcell & \okcell & \badcell & \badcell &
-     & & & & & & & & & & & & & & & & & & & & & \\ \cline{2-36}
+     % irrelevant load elim & speculative load intro  
+     \okcell & \badcell &
+     % roach motel 
+     \badcell & 
+     % strength.
+     \unkwcell &
+     % trace preserving 
+     \okcell &
+     % common subexpression elimination
+     \badcell &
+     % global: register promotion, value range, thread inlining 
+     \unkwcell & \unkwcell & \badcell &
+     & & & & & & & & & & & & \\ \cline{2-36}
 
  & Prm
      &
@@ -243,8 +399,20 @@
      % reorderings
      \okcell & \okcell & \okcell & \okcell &
      % eliminations
-     \okcell & \okcell & \okcell & \badcell &  
-     & & & & & & & & & & & & & & & & & & & & & \\ \cline{2-36}
+     \okcell & \okcell & \okcell & \okcell &  
+     % irrelevant load elim & speculative load intro  
+     \okcell & \okcell &
+     % roach motel 
+     \okcell & 
+     % strength.
+     \okcell &
+     % trace preserving 
+     \okcell &
+     % common subexpression elimination
+     \okcell &
+     % global: register promotion, value range, thread inlining 
+     \okcell & \okcell & \badcell &
+     & & & & & & & & & & & & \\ \cline{2-36}
 
  & Wkmo
      &
@@ -253,8 +421,20 @@
      % reorderings
      \okcell & \okcell & \okcell & \okcell &
      % eliminations
-     \okcell & \okcell & \okcell & \badcell &  
-     & & & & & & & & & & & & & & & & & & & & & \\ \cline{2-36}
+     \okcell & \okcell & \okcell & \okcell &  
+     % irrelevant load elim & speculative load intro  
+     \unkwcell & \okcell &
+     % roach motel 
+     \badcell & 
+     % strength.
+     \okcell &
+     % trace preserving 
+     \unkwcell &
+     % common subexpression elimination
+     \badcell &
+     % global: register promotion, value range, thread inlining 
+     \unkwcell & \unkwcell & \badcell &
+     & & & & & & & & & & & & \\ \cline{2-36}
 
  & MRD
      &
@@ -264,7 +444,19 @@
      \unkwcell & \unkwcell & \unkwcell & \unkwcell &
      % eliminations
      \unkwcell & \unkwcell & \unkwcell & \unkwcell &
-     & & & & & & & & & & & & & & & & & & & & & \\ \cline{2-36}
+     % irrelevant load elim & speculative load intro 
+     \unkwcell & \unkwcell &
+     % roach motel 
+     \unkwcell & 
+     % strength.
+     \unkwcell &
+     % trace preserving 
+     \unkwcell &
+     % common subexpression elimination
+     \unkwcell &
+     % global: register promotion, value range, thread inlining 
+     \unkwcell & \unkwcell & \unkwcell &                                              
+     & & & & & & & & & & & & \\ \cline{2-36}
 
  & P-P/S
      &
@@ -274,7 +466,19 @@
      \okcell & \okcell & \okcell & \okcell &
      % eliminations
      \okcell & \okcell & \okcell & \badcell &  
-     & & & & & & & & & & & & & & & & & & & & & \\ \cline{2-36}
+     % irrelevant load elim & speculative load intro  
+     \okcell & \badcell &
+     % roach motel 
+     \okcell & 
+     % strength.
+     \badcell &
+     % trace preserving 
+     \unkwcell &
+     % common subexpression elimination
+     \badcell &
+     % global: register promotion, value range, thread inlining 
+     \unkwcell & \okcell & \badcell &
+     & & & & & & & & & & & & \\ \cline{2-36}
 
  & J/R
      &
@@ -284,7 +488,19 @@
      \unkwcell & \unkwcell & \badcell & \unkwcell &
      % eliminations
      \unkwcell & \unkwcell & \badcell & \badcell &  
-     & & & & & & & & & & & & & & & & & & & & & \\ \cline{2-36}
+     % irrelevant load elim & speculative load intro 
+     \unkwcell & \unkwcell &
+     % roach motel 
+     \unkwcell & 
+     % strength.
+     \unkwcell &
+     % trace preserving 
+     \unkwcell &
+     % common subexpression elimination
+     \unkwcell &
+     % global: register promotion, value range, thread inlining 
+     \unkwcell & \unkwcell & \unkwcell &                                              
+     & & & & & & & & & & & & \\ \cline{2-36}
 
  & GOS
      &
@@ -294,7 +510,19 @@
      \unkwcell & \unkwcell & \unkwcell & \unkwcell &
      % eliminations 
      \unkwcell & \unkwcell & \unkwcell & \unkwcell &
-     & & & & & & & & & & & & & & & & & & & & & \\ \Xhline{2\arrayrulewidth}
+     % irrelevant load elim & speculative load intro 
+     \unkwcell & \unkwcell &
+     % roach motel 
+     \unkwcell & 
+     % strength.
+     \unkwcell &
+     % trace preserving 
+     \unkwcell &
+     % common subexpression elimination
+     \unkwcell &
+     % global: register promotion, value range, thread inlining 
+     \unkwcell & \unkwcell & \unkwcell &                                              
+     & & & & & & & & & & & & \\ \Xhline{2\arrayrulewidth}
 
  \multirow{5}{*}{\rotatebox[origin=c]{270}{\makecell{OOTA}}}   
 
@@ -306,7 +534,19 @@
      \okcell & \okcell & \okcell & \okcell &
      % eliminations
      \okcell & \okcell & \okcell & \badcell &  
-     & & & & & & & & & & & & & & & & & & & & & \\ \cline{2-36}  
+     % irrelevant load elim & speculative load intro 
+     \unkwcell & \badcell &
+     % roach motel 
+     \badcell & 
+     % strength.
+     \badcell &
+     % trace preserving 
+     \okcell &
+     % common subexpression elimination
+     \badcell &
+     % global: register promotion, value range, thread inlining 
+     \unkwcell & \unkwcell & \badcell &                                              
+     & & & & & & & & & & & & \\ \cline{2-36}
 
  & JSMM
      &
@@ -316,7 +556,19 @@
      \unkwcell & \unkwcell & \unkwcell & \unkwcell &
      % eliminations
      \unkwcell & \unkwcell & \unkwcell & \unkwcell &
-     & & & & & & & & & & & & & & & & & & & & & \\ \cline{2-36}
+     % irrelevant load elim & speculative load intro 
+     \unkwcell & \unkwcell &
+     % roach motel 
+     \unkwcell & 
+     % strength.
+     \unkwcell &
+     % trace preserving 
+     \unkwcell &
+     % common subexpression elimination
+     \unkwcell &
+     % global: register promotion, value range, thread inlining 
+     \unkwcell & \unkwcell & \unkwcell &                                              
+     & & & & & & & & & & & & \\ \cline{2-36}
 
  & RMC
      &
@@ -326,7 +578,20 @@
      \unkwcell & \unkwcell & \unkwcell & \unkwcell &
      % eliminations
      \unkwcell & \unkwcell & \unkwcell & \unkwcell &
-     & & & & & & & & & & & & & & & & & & & & & \\ \cline{2-36}
+     % irrelevant load elim & speculative load intro 
+     \unkwcell & \unkwcell &
+     % roach motel 
+     \unkwcell & 
+     % strength.
+     \unkwcell &
+     % trace preserving 
+     \unkwcell &
+     % common subexpression elimination
+     \unkwcell &
+     % global: register promotion, value range, thread inlining 
+     \unkwcell & \unkwcell & \unkwcell &                                              
+     & & & & & & & & & & & & \\ \cline{2-36}
+
 
  & RAO
      &
@@ -336,7 +601,19 @@
      \unkwcell & \unkwcell & \unkwcell & \unkwcell &
      % eliminations
      \unkwcell & \unkwcell & \unkwcell & \unkwcell &
-     & & & & & & & & & & & & & & & & & & & & & \\ \cline{2-36}
+     % irrelevant load elim & speculative load intro 
+     \unkwcell & \unkwcell &
+     % roach motel 
+     \unkwcell & 
+     % strength.
+     \unkwcell &
+     % trace preserving 
+     \unkwcell &
+     % common subexpression elimination
+     \unkwcell &
+     % global: register promotion, value range, thread inlining 
+     \unkwcell & \unkwcell & \unkwcell &                                              
+     & & & & & & & & & & & & \\ \cline{2-36}
 
  & TSC
      % compilation 
@@ -345,7 +622,19 @@
      \unkwcell & \unkwcell & \unkwcell & \unkwcell &
      % eliminations
      \unkwcell & \unkwcell & \unkwcell & \unkwcell &
-     & & & & & & & & & & & & & & & & & & & & & \\ \Xhline{2\arrayrulewidth}
+     % irrelevant load elim & speculative load intro 
+     \unkwcell & \unkwcell &
+     % roach motel 
+     \unkwcell & 
+     % strength.
+     \unkwcell &
+     % trace preserving 
+     \unkwcell &
+     % common subexpression elimination
+     \unkwcell &
+     % global: register promotion, value range, thread inlining 
+     \unkwcell & \unkwcell & \unkwcell &                                              
+     & & & & & & & & & & & & \\ \Xhline{2\arrayrulewidth}
 
 
 \end{tabular}

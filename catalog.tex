@@ -62,6 +62,12 @@ They reported 0.4\% geometric mean slowdown,
 and noticed that only 12 benchmarks experienced 
 slowdown greater than 10\%.
 
+\todo{Explain why we count transformation as sound in the table. 
+Tip: we borrow everything from SC because the authors prove 
+their semantics is equivalent to SC.
+Note in the formal model they assume TSO like 
+underlying hardware model.}
+
 \paragraph{\DRFx}
 
 The \DRFx~\cite{Marino-al:PLDI10} is another 
@@ -87,7 +93,7 @@ assuming the efficient implementation
 of data-race detection in hardware. 
 (compared to stock compiler and x86 hardware). 
 
-\todo{Explain why we count transformation as unsound in the table. 
+\todo{Explain why we count reorderings as unsound in the table. 
 Tip: because of catch-fire semantics.}
 
 \subsection{Total and Partial Store Order}
@@ -412,6 +418,8 @@ it does not support sequentially consistent accesses.
 Several authors proposed to use \emph{event structures}~\cite{Winskel:86}
 to resolve thin-air problem. Event structures allow to represent 
 multiple conflicting executions of the program in one mathematical structure.  
+
+\todo{Mention that semantics of plain accesses does not enforce coherence.}
 
 \paragraph{Well-Justified Event Structures}
 
