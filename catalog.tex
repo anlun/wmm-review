@@ -87,6 +87,9 @@ assuming the efficient implementation
 of data-race detection in hardware. 
 (compared to stock compiler and x86 hardware). 
 
+\todo{Explain why we count transformation as unsound in the table. 
+Tip: because of catch-fire semantics.}
+
 \subsection{Total and Partial Store Order}
 
 \paragraph{Buffered Memory Model}
@@ -206,8 +209,11 @@ over sequentially consistent execution.
 Depending on the exact choice of transformations 
 their model is either (1) permits thin-air values or 
 (2) preserves external DRF-SC. 
-Since the transformations (\eg reorderings, value range based, \etc)
-are baked into the model, their soundness follows immediatelly.  
+
+% Since the transformations (\eg reorderings, value range based, \etc)
+% are baked into the model, their soundness follows immediatelly.  
+\todo{We will not assume soundness of transformations from the fact 
+that some of them are ``baked into the model''.}
 
 \paragraph{A theory of speculative computation}
 

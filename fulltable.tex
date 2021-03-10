@@ -4,22 +4,22 @@
 \begin{landscape}
 
 \begin{table*}
-\footnotesize
-\begin{tabular}{|c|l|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|} % 35
+\scriptsize
+\begin{tabular}{|c|l|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|} % 35
  \hline
 
                                                       &
  \multirow{3}{*}{Model}                               & 
  \multicolumn{ 4}{c|}{\multirow{2}{*}{Compilation}}   &
- \multicolumn{16}{c|}{Transformations}                &
+ \multicolumn{17}{c|}{Transformations}                &
  \multicolumn{ 4}{c|}{\multirow{2}{*}{Reasoning}}     &
  \multicolumn{ 9}{c|}{\multirow{2}{*}{Features}}      \\ 
 
- \cline{7-22}
+ \cline{7-23}
                              &
                              &
  \multicolumn{4}{c|}{}       &
- \multicolumn{13}{c|}{Local} &
+ \multicolumn{14}{c|}{Local} &
  \multicolumn{3}{c|}{Global} &
  \multicolumn{4}{c|}{}       &
  \multicolumn{9}{c|}{}       \\ 
@@ -40,6 +40,7 @@
  \rotatebox[origin=c]{270}{RM}     &
  \rotatebox[origin=c]{270}{S}      &
  \rotatebox[origin=c]{270}{TP}     &
+ \rotatebox[origin=c]{270}{CSE}    &
  \rotatebox[origin=c]{270}{RP}     &
  \rotatebox[origin=c]{270}{VR}     &
  \rotatebox[origin=c]{270}{TI}     &
@@ -69,7 +70,7 @@
  \rotatebox[origin=c]{270}{SS}       &
  \rotatebox[origin=c]{270}{LL}       &
  \rotatebox[origin=c]{270}{LS}       &
-  & & & & & & & & & & & & & & & & & & & & \\
+ & & & & & & & & & & & & & & & & & & & & & \\
   
  \Xhline{2\arrayrulewidth}
  
@@ -80,8 +81,22 @@
      % compilation 
      \badcell & \badcell & \badcell & \badcell & 
      % reorderings
-     \badcell & \badcell & \badcell & \badcell &                                               
-     & & & & & & & & & & & & & & & & & & & & & & & & \\ \cline{2-35}
+     \badcell & \badcell & \badcell & \badcell &
+     % eliminations
+     \okcell & \okcell & \okcell & \okcell &
+     % irrelevant load intro/elim
+     \okcell & \okcell &
+     % roach motel 
+     \okcell & 
+     % strength.
+     \unkwcell &
+     % trace preserving 
+     \okcell &
+     % common subexpression elimination
+     \badcell &
+     % global: register promotion, value range, thread inlining 
+     \okcell & \unkwcell & \okcell &                                              
+     & & & & & & & & & & & & \\ \cline{2-36}
 
  & SC-Hs 
      &
@@ -89,15 +104,19 @@
      \badcell & \badcell & \badcell & \badcell & 
      % reorderings
      \unkwcell & \unkwcell & \unkwcell & \unkwcell &  
-     & & & & & & & & & & & & & & & & & & & & & & & & \\ \cline{2-35}
+     % eliminations
+     \unkwcell & \unkwcell & \unkwcell & \unkwcell &  
+     & & & & & & & & & & & & & & & & & & & & & \\ \cline{2-36}
 
  & DRFx
      &           
      % compilation 
      \badcell & \badcell & \badcell & \badcell & 
      % reorderings
-     \okcell & \okcell & \okcell & \okcell & 
-     & & & & & & & & & & & & & & & & & & & & & & & & \\ \Xhline{2\arrayrulewidth}
+     \badcell & \badcell & \badcell & \badcell & 
+     % eliminations
+     \unkwcell & \unkwcell & \unkwcell & \unkwcell &  
+     & & & & & & & & & & & & & & & & & & & & & \\ \Xhline{2\arrayrulewidth}
 
  \multirow{2}{*}{\rotatebox[origin=c]{270}{\makecell{TSO\\PSO}}}   
 
@@ -107,7 +126,9 @@
      \okcell & \badcell & \badcell & \badcell & 
      % reorderings
      \okcell & \badcell & \badcell & \badcell & 
-     & & & & & & & & & & & & & & & & & & & & & & & & \\ \cline{2-35}
+     % eliminations
+     \okcell & \okcell & \okcell & \badcell &  
+     & & & & & & & & & & & & & & & & & & & & & \\ \cline{2-36}
 
  & RMMOA
      &
@@ -115,7 +136,9 @@
      \okcell & \badcell & \badcell & \badcell & 
      % reorderings
      \okcell & \okcell & \badcell & \badcell & 
-     & & & & & & & & & & & & & & & & & & & & & & & & \\ \Xhline{2\arrayrulewidth}
+     % eliminations
+     \unkwcell & \unkwcell & \unkwcell & \unkwcell &  
+     & & & & & & & & & & & & & & & & & & & & & \\ \Xhline{2\arrayrulewidth}
 
  \multirow{5}{*}{\rotatebox[origin=c]{270}{\makecell{$\lPO\lRF$\\acyc}}}   
 
@@ -125,7 +148,9 @@
      \okcell & \badcell & \badcell & \badcell &  
      % reorderings
      \okcell & \okcell & \okcell & \badcell & 
-     & & & & & & & & & & & & & & & & & & & & & & & & \\ \cline{2-35}
+     % eliminations
+     \okcell & \okcell & \okcell & \badcell & 
+     & & & & & & & & & & & & & & & & & & & & & \\ \cline{2-36}
 
  & ORC11
      &
@@ -133,7 +158,9 @@
      \okcell & \badcell & \badcell & \badcell &  
      % reorderings
      \okcell & \okcell & \okcell & \badcell & 
-     & & & & & & & & & & & & & & & & & & & & & & & & \\ \cline{2-35}
+     % eliminations
+     \okcell & \okcell & \okcell & \badcell & 
+     & & & & & & & & & & & & & & & & & & & & & \\ \cline{2-36}
 
  & RAR
      & 
@@ -141,7 +168,9 @@
      \okcell & \badcell & \badcell & \badcell &  
      % reorderings
      \okcell & \okcell & \okcell & \badcell & 
-     & & & & & & & & & & & & & & & & & & & & & & & & \\ \cline{2-35}
+     % eliminations
+     \okcell & \okcell & \okcell & \badcell & 
+     & & & & & & & & & & & & & & & & & & & & & \\ \cline{2-36}
 
  & OCMM
      & 
@@ -149,7 +178,9 @@
      \okcell & \badcell & \badcell & \badcell &  
      % reorderings
      \okcell & \okcell & \okcell & \badcell & 
-     & & & & & & & & & & & & & & & & & & & & & & & & \\ \cline{2-35}
+     % eliminations
+     \okcell & \okcell & \okcell & \badcell & 
+     & & & & & & & & & & & & & & & & & & & & & \\ \cline{2-36}
 
  & JAM
      & 
@@ -157,7 +188,9 @@
      \okcell & \badcell & \badcell & \badcell &  
      % reorderings
      \unkwcell & \unkwcell & \unkwcell & \unkwcell &  
-     & & & & & & & & & & & & & & & & & & & & & & & & \\ \cline{2-35}
+     % eliminations
+     \unkwcell & \unkwcell & \unkwcell & \unkwcell &  
+     & & & & & & & & & & & & & & & & & & & & & \\ \cline{2-36}
 
  & CRC
      &
@@ -165,7 +198,9 @@
      \unkwcell & \unkwcell & \unkwcell & \unkwcell &  
      % reorderings
      \okcell & \badcell & \badcell & \badcell &  
-     & & & & & & & & & & & & & & & & & & & & & & & & \\ \Xhline{2\arrayrulewidth}
+     % eliminations
+     \okcell & \okcell & \okcell & \badcell &  
+     & & & & & & & & & & & & & & & & & & & & & \\ \Xhline{2\arrayrulewidth}
 
  \multirow{2}{*}{\rotatebox[origin=c]{270}{\makecell{$\lPPO\lRF$\\acyc}}}   
 
@@ -174,8 +209,10 @@
      % compilation 
      \okcell & \okcell & \okcell & \okcell &  
      % reorderings
-     \okcell & \okcell & \okcell & \okcell &  
-     & & & & & & & & & & & & & & & & & & & & & & & & \\ \cline{2-35}
+     \okcell & \okcell & \okcell & \okcell &
+     % eliminations
+     \unkwcell & \unkwcell & \unkwcell & \unkwcell &  
+     & & & & & & & & & & & & & & & & & & & & & \\ \cline{2-36}
 
  & OHMM
      &
@@ -183,7 +220,9 @@
      \unkwcell & \unkwcell & \unkwcell & \unkwcell &
      % reorderings
      \okcell & \okcell & \okcell & \okcell &
-     & & & & & & & & & & & & & & & & & & & & & & & & \\ \Xhline{2\arrayrulewidth}
+     % eliminations
+     \okcell & \okcell & \okcell & \okcell &
+     & & & & & & & & & & & & & & & & & & & & & \\ \Xhline{2\arrayrulewidth}
 
  \multirow{7}{*}{\rotatebox[origin=c]{270}{\makecell{no-OOTA}}}   
 
@@ -193,7 +232,9 @@
      & & & &
      % reorderings
      \okcell & \okcell & \okcell & \okcell &
-     & & & & & & & & & & & & & & & & & & & & & & & & \\ \cline{2-35}
+     % eliminations
+     \okcell & \okcell & \badcell & \badcell &
+     & & & & & & & & & & & & & & & & & & & & & \\ \cline{2-36}
 
  & Prm
      &
@@ -201,7 +242,9 @@
      \okcell & \okcell & \okcell & \okcell &  
      % reorderings
      \okcell & \okcell & \okcell & \okcell &
-     & & & & & & & & & & & & & & & & & & & & & & & & \\ \cline{2-35}
+     % eliminations
+     \okcell & \okcell & \okcell & \badcell &  
+     & & & & & & & & & & & & & & & & & & & & & \\ \cline{2-36}
 
  & Wkmo
      &
@@ -209,15 +252,19 @@
      \okcell & \okcell & \okcell & \okcell &
      % reorderings
      \okcell & \okcell & \okcell & \okcell &
-     & & & & & & & & & & & & & & & & & & & & & & & & \\ \cline{2-35}
+     % eliminations
+     \okcell & \okcell & \okcell & \badcell &  
+     & & & & & & & & & & & & & & & & & & & & & \\ \cline{2-36}
 
  & MRD
      &
      % compilation 
      \okcell & \okcell & \okcell & \okcell &
      % reorderings
-     \okcell & \okcell & \okcell & \okcell &
-     & & & & & & & & & & & & & & & & & & & & & & & & \\ \cline{2-35}
+     \unkwcell & \unkwcell & \unkwcell & \unkwcell &
+     % eliminations
+     \unkwcell & \unkwcell & \unkwcell & \unkwcell &
+     & & & & & & & & & & & & & & & & & & & & & \\ \cline{2-36}
 
  & P-P/S
      &
@@ -225,7 +272,9 @@
      \okcell & \okcell & \badcell & \badcell &
      % reorderings 
      \okcell & \okcell & \okcell & \okcell &
-     & & & & & & & & & & & & & & & & & & & & & & & & \\ \cline{2-35}
+     % eliminations
+     \okcell & \okcell & \okcell & \badcell &  
+     & & & & & & & & & & & & & & & & & & & & & \\ \cline{2-36}
 
  & J/R
      &
@@ -233,7 +282,9 @@
      \unkwcell & \badcell & \badcell & \badcell &
      % reorderings
      \unkwcell & \unkwcell & \badcell & \unkwcell &
-     & & & & & & & & & & & & & & & & & & & & & & & & \\ \cline{2-35}
+     % eliminations
+     \unkwcell & \unkwcell & \badcell & \badcell &  
+     & & & & & & & & & & & & & & & & & & & & & \\ \cline{2-36}
 
  & GOS
      &
@@ -241,7 +292,9 @@
      \unkwcell & \unkwcell & \unkwcell & \unkwcell &
      % reorderings 
      \unkwcell & \unkwcell & \unkwcell & \unkwcell &
-     & & & & & & & & & & & & & & & & & & & & & & & & \\ \Xhline{2\arrayrulewidth}
+     % eliminations 
+     \unkwcell & \unkwcell & \unkwcell & \unkwcell &
+     & & & & & & & & & & & & & & & & & & & & & \\ \Xhline{2\arrayrulewidth}
 
  \multirow{5}{*}{\rotatebox[origin=c]{270}{\makecell{OOTA}}}   
 
@@ -251,7 +304,9 @@
      \okcell & \okcell & \okcell & \okcell &
      % reorderings
      \okcell & \okcell & \okcell & \okcell &
-     & & & & & & & & & & & & & & & & & & & & & & & & \\ \cline{2-35}  
+     % eliminations
+     \okcell & \okcell & \okcell & \badcell &  
+     & & & & & & & & & & & & & & & & & & & & & \\ \cline{2-36}  
 
  & JSMM
      &
@@ -259,7 +314,9 @@
      \okcell & \okcell & \okcell & \okcell &
      % reorderings
      \unkwcell & \unkwcell & \unkwcell & \unkwcell &
-     & & & & & & & & & & & & & & & & & & & & & & & & \\ \cline{2-35}
+     % eliminations
+     \unkwcell & \unkwcell & \unkwcell & \unkwcell &
+     & & & & & & & & & & & & & & & & & & & & & \\ \cline{2-36}
 
  & RMC
      &
@@ -267,22 +324,28 @@
      \okcell & \okcell & \okcell & \okcell &
      % reorderings
      \unkwcell & \unkwcell & \unkwcell & \unkwcell &
-     & & & & & & & & & & & & & & & & & & & & & & & & \\ \cline{2-35}
+     % eliminations
+     \unkwcell & \unkwcell & \unkwcell & \unkwcell &
+     & & & & & & & & & & & & & & & & & & & & & \\ \cline{2-36}
 
  & RAO
      &
      % compilation 
      \unkwcell & \unkwcell & \unkwcell & \unkwcell &
      % reorderings
-     \okcell & \okcell & \okcell & \okcell &
-     & & & & & & & & & & & & & & & & & & & & & & & & \\ \cline{2-35}
+     \unkwcell & \unkwcell & \unkwcell & \unkwcell &
+     % eliminations
+     \unkwcell & \unkwcell & \unkwcell & \unkwcell &
+     & & & & & & & & & & & & & & & & & & & & & \\ \cline{2-36}
 
  & TSC
      % compilation 
      & \unkwcell & \unkwcell & \unkwcell & \unkwcell &
      % reorderings
      \unkwcell & \unkwcell & \unkwcell & \unkwcell &
-     & & & & & & & & & & & & & & & & & & & & & & & & \\ \Xhline{2\arrayrulewidth}
+     % eliminations
+     \unkwcell & \unkwcell & \unkwcell & \unkwcell &
+     & & & & & & & & & & & & & & & & & & & & & \\ \Xhline{2\arrayrulewidth}
 
 
 \end{tabular}
