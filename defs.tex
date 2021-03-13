@@ -192,12 +192,18 @@
 \newcommand{\lSC}{{\color{colorSC}\mathtt{sc}}}
 \newcommand{\lXO}{{\color{colorXO}\mathtt{xo}}}
 
-%% check-mark and cross-mark
+%% check-mark, cross-mark and other symbols used in the tables
 
 \newcommand{\cmark}{\text{\color{green!50!black}\ding{51}}}
 \newcommand{\xmark}{\text{\color{red!50!black}\ding{55}}}
+\newcommand{\wmark}{\text{\color{yellow!30!black}\ding{55}}}
 \newcommand{\qmark}{\text{\color{gray!50!black}\textbf{?}}}
 
-\newcommand{\okcell}{\cellcolor{green!10}\cmark}
+\newcommand{\okcell}{\cellcolor{green!20}\cmark}
 \newcommand{\badcell}{\cellcolor{red!10}\xmark}
 \newcommand{\unkwcell}{\cellcolor{gray!10}\qmark}
+\newcommand{\warncell}{\cellcolor{yellow!20}\wmark}
+
+\newcommand{\ldrf}{\cellcolor{green!20}\textsf{loc}}
+\newcommand{\edrf}{\cellcolor{green!10}\textsf{ext}}
+\newcommand{\idrf}{\cellcolor{yellow!20}\textsf{int}}
