@@ -1,0 +1,250 @@
+
+
+% \begin{landscape}
+\begin{center}
+
+\begin{table*}[t]
+\scriptsize
+
+\def\arraystretch{1}
+\setlength\tabcolsep{2pt}
+\setlength\extrarowheight{6pt}
+
+\begin{tabular}{|c|l|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|} % 35
+ 
+ \hline
+  
+ \multicolumn{ 2}{|c|}{\multirow{3}{*}{Class}}        &
+ % \multicolumn{ 1}{c|}{\multirow{3}{*}{Model}}       &
+ \multicolumn{ 4}{c|}{\multirow{2}{*}{Compilation}}   &
+ \multicolumn{17}{c|}{Transformations}                &
+ \multicolumn{ 4}{c|}{\multirow{2}{*}{Reasoning}}     % &
+ % \multicolumn{ 9}{c|}{\multirow{2}{*}{Features}}      
+ \\ 
+
+ \cline{7-23}
+
+ \multicolumn{2}{|c|}{}      &
+ \multicolumn{4}{c|}{}       &
+ \multicolumn{14}{c|}{Local} &
+ \multicolumn{3}{c|}{Global} &
+ \multicolumn{4}{c|}{}       % &
+ % \multicolumn{9}{c|}{}       
+ \\ 
+ 
+ \cline{3-\lastcol}
+
+ \multicolumn{2}{|c|}{}                                              &
+ \multirow{2}{*}[-6pt]{\rotatebox[origin=c]{\rotateAngle}{x86}}      & 
+ \multirow{2}{*}[-6pt]{\rotatebox[origin=c]{\rotateAngle}{Power}}    & 
+ \multirow{2}{*}[-5pt]{\rotatebox[origin=c]{\rotateAngle}{ARMv7}}    & 
+ \multirow{2}{*}[-5pt]{\rotatebox[origin=c]{\rotateAngle}{ARMv8}}    & 
+ 
+ \multicolumn{4}{c|}{Reordering}    &
+ \multicolumn{4}{c|}{Elimination}   &
+
+ \multirow{2}{*}[-6pt]{\rotatebox[origin=c]{\rotateAngle}{ILE}}    &
+ \multirow{2}{*}[-6pt]{\rotatebox[origin=c]{\rotateAngle}{SLI}}    &
+ \multirow{2}{*}[-6pt]{\rotatebox[origin=c]{\rotateAngle}{RM}}     &
+ \multirow{2}{*}[-6pt]{\rotatebox[origin=c]{\rotateAngle}{S}}      &
+ \multirow{2}{*}[-6pt]{\rotatebox[origin=c]{\rotateAngle}{TP}}     &
+ \multirow{2}{*}[-6pt]{\rotatebox[origin=c]{\rotateAngle}{CSE}}    &
+ \multirow{2}{*}[-6pt]{\rotatebox[origin=c]{\rotateAngle}{RP}}     &
+ \multirow{2}{*}[-6pt]{\rotatebox[origin=c]{\rotateAngle}{TI}}     &
+ \multirow{2}{*}[-6pt]{\rotatebox[origin=c]{\rotateAngle}{VR}}     &
+ 
+ \multirow{2}{*}[-6pt]{\rotatebox[origin=c]{\rotateAngle}{DRF}}               &
+ \multirow{2}{*}[-6pt]{\rotatebox[origin=c]{\rotateAngle}{COH}}               &
+ \multirow{2}{*}[-6pt]{\rotatebox[origin=c]{\rotateAngle}{no-UB}}             &
+ \multirow{2}{*}[-2pt]{\rotatebox[origin=c]{\rotateAngle}{no-OOTA}}         % &               
+
+ % \multirow{2}{*}[-6pt]{\rotatebox[origin=c]{\rotateAngle}{NA}}                      &
+ % \multirow{2}{*}[-6pt]{\rotatebox[origin=c]{\rotateAngle}{RLX}}                     &
+ % \multirow{2}{*}[-6pt]{\rotatebox[origin=c]{\rotateAngle}{RA}}                      &
+ % \multirow{2}{*}[-6pt]{\rotatebox[origin=c]{\rotateAngle}{SC}}                      &
+ % \multirow{2}{*}[-6pt]{\rotatebox[origin=c]{\rotateAngle}{F-RA}}                    &
+ % \multirow{2}{*}[-6pt]{\rotatebox[origin=c]{\rotateAngle}{F-SC}}                    &
+ % \multirow{2}{*}[-6pt]{\rotatebox[origin=c]{\rotateAngle}{RMW}}                     &
+ % \multirow{2}{*}[-6pt]{\rotatebox[origin=c]{\rotateAngle}{Lock}}                    &
+ % \multirow{2}{*}[-6pt]{\rotatebox[origin=c]{\rotateAngle}{\makecell{Mix.Sz.}}}      
+ \\[9pt] 
+
+ \cline{7-14}
+ \multicolumn{2}{|c|}{} &
+      & & & &
+ SL         &
+ SS         &
+ LL         &
+ LS         &
+ SL         &
+ SS         &
+ LL         &
+ LS         &
+  & & & & & & & & & & & & \\[3pt]
+  
+  \Xhline{2\arrayrulewidth}
+
+  \multicolumn{2}{|c|}{\makecell{Sequential\\Consistency}} 
+     &             
+     % compilation 
+     \badcelln{0}{3} & \badcelln{0}{3} & \badcelln{0}{3} & \badcelln{0}{3} & 
+     % reorderings
+     \badcelln{0}{3} & \badcelln{0}{3} & \badcelln{0}{3} & \badcelln{0}{3} &
+     % eliminations
+     \okcelln{3}{3} & \okcelln{3}{3} & \okcelln{3}{3} & \okcelln{3}{3} &
+     % irrelevant load elim & speculative load intro 
+     \okcelln{3}{3} & \warncelln{2}{3} &
+     % roach motel 
+     \okcelln{3}{3} & 
+     % strength.
+     \nacell &
+     % trace preserving 
+     \okcelln{3}{3} &
+     % common subexpression elimination
+     \badcelln{0}{3} &
+     % global: register promotion, thread inlining, value range 
+     \okcelln{3}{3} & \okcelln{3}{3} & \unkwcell & 
+     % DRF, COH, no-UB, no-OOTA
+     \okcelln{3}{3} & \okcelln{3}{3} & \warncelln{2}{3} & \okcelln{3}{3} % &
+     \\ \hline
+
+  \multicolumn{2}{|c|}{\makecell{Total/Partial\\Store Order}} 
+     &
+     % compilation 
+     \okcelln{2}{2} & \badcelln{0}{2} & \badcelln{0}{2} & \badcelln{0}{2} & 
+     % reorderings
+     \okcelln{2}{2} & \warncelln{1}{2} & \badcelln{0}{2} & \badcelln{0}{2} & 
+     % eliminations
+     \okcelln{1}{1} & \okcelln{1}{1} & \okcelln{1}{1} & \badcelln{0}{1} &  
+     % irrelevant load elim & speculative load intro 
+     \okcelln{1}{1} & \okcelln{1}{1} &
+     % roach motel 
+     \badcelln{0}{1} & 
+     % strength.
+     \unkwcell &
+     % trace preserving 
+     \okcelln{1}{1} &
+     % common subexpression elimination
+     \badcelln{0}{1} &
+     % global: register promotion, thread inlining, value range 
+     \unkwcell & \badcelln{0}{1} & \unkwcell &
+     % DRF, COH, no-UB, no-OOTA
+     \okcelln{2}{2} & \okcelln{1}{1} & \okcelln{2}{2} & \okcelln{2}{2} % &
+     \\ \hline
+
+  \multicolumn{2}{|c|}{\makecell{Program Order\\Preserving}} 
+     &
+     % compilation 
+     \okcelln{6}{6} & \badcelln{0}{6} & \badcelln{0}{6} & \badcelln{0}{6} &  
+     % reorderings
+     \okcelln{5}{5} & \okcelln{4}{5} & \okcelln{4}{5} & \badcelln{0}{5} & 
+     % eliminations
+     \okcelln{5}{5} & \okcelln{5}{5} & \okcelln{5}{5} & \badcelln{0}{5} & 
+     % irrelevant load elim & speculative load intro 
+     \unkwcell & \badcelln{0}{4} &
+     % roach motel 
+     \okcelln{3}{3} & 
+     % strength.
+     \okcelln{4}{4} &
+     % trace preserving 
+     \okcelln{4}{4} &
+     % common subexpression elimination
+     \warncelln{1}{6} &
+     % global: register promotion, thread inlining, value range 
+     \okcelln{3}{3} & \okcelln{3}{3} & \unkwcell & 
+     % DRF, COH, no-UB, no-OOTA
+     \okcelln{6}{6} & \warncelln{5}{6} & \warncelln{3}{6} & \okcelln{6}{6} % &
+     \\ \hline
+
+  \multicolumn{2}{|c|}{\makecell{Syntax. Dep.\\Preserving}} 
+     &
+     % compilation 
+     \okcelln{1}{1} & \okcelln{1}{1} & \okcelln{1}{1} & \okcelln{1}{1} &
+     % reorderings
+     \okcelln{1}{1} & \okcelln{1}{1} & \okcelln{1}{1} & \okcelln{1}{1} &
+     % eliminations
+     \okcelln{1}{1} & \okcelln{1}{1} & \okcelln{1}{1} & \okcelln{1}{1} &
+     % irrelevant load elim & speculative load intro 
+     \okcelln{1}{1} & \okcelln{1}{1} &
+     % roach motel 
+     \okcelln{1}{1} & 
+     % strength.
+     \unkwcell &
+     % trace preserving 
+     \badcelln{0}{2} &
+     % common subexpression elimination
+     \badcelln{0}{1} &
+     % global: register promotion, thread inlining, value range 
+     \unkwcell & \unkwcell & \unkwcell & 
+     % DRF, COH, no-UB, no-OOTA
+     \okcelln{1}{1} & \okcelln{1}{1} & \okcelln{2}{2} & \okcelln{2}{2} % &
+     % % NA, RLX, RA, SC 
+     % \okcell & \badcell & \badcell & \okcell & 
+     % % F-RA, F-SC
+     % \badcell & \badcell & 
+     % % RMW, Lock
+     % \badcell & \okcell & 
+     % % Mix.sz.
+     % \badcell 
+     \\ \hline
+
+
+  \multicolumn{2}{|c|}{\makecell{Semantic Dep.\\Preserving}} 
+     &
+     % compilation 
+     \okcelln{5}{5} & \warncelln{4}{6} & \warncelln{4}{6} & \warncelln{4}{6} &  
+     % reorderings
+     \okcelln{4}{4} & \okcelln{4}{4} & \warncelln{4}{5} & \okcelln{4}{4} &
+     % eliminations
+     \okcelln{4}{4} & \okcelln{4}{4} & \warncelln{3}{5} & \warncelln{2}{5} &  
+     % irrelevant load elim & speculative load intro  
+     \okcelln{3}{3} & \warncelln{2}{4} &
+     % roach motel 
+     \warncelln{2}{4} & 
+     % strength.
+     \warncelln{2}{3} &
+     % trace preserving 
+     \okcelln{2}{2} &
+     % common subexpression elimination
+     \warncelln{1}{4} &
+     % global: register promotion, thread inlining, value range 
+     \okcelln{1}{1} & \badcelln{0}{4} & \okcelln{2}{2} & 
+     % DRF, COH, no-UB, no-OOTA
+     \okcelln{6}{6} & \warncelln{4}{6} & \warncelln{6}{7} & \okcelln{7}{7} % &
+     \\ \hline
+
+  \multicolumn{2}{|c|}{\makecell{Out of\\Thin-Air}} 
+     &            
+     % compilation 
+     \okcelln{3}{3} & \okcelln{3}{3} & \okcelln{3}{3} & \okcelln{3}{3} &
+     % reorderings
+     \okcelln{1}{1} & \okcelln{1}{1} & \okcelln{1}{1} & \okcelln{1}{1} &
+     % eliminations
+     \okcelln{1}{1} & \okcelln{1}{1} & \okcelln{1}{1} & \badcelln{0}{1} &  
+     % irrelevant load elim & speculative load intro 
+     \unkwcell & \badcelln{0}{1} &
+     % roach motel 
+     \badcelln{0}{1} & 
+     % strength.
+     \badcelln{0}{1} &
+     % trace preserving 
+     \okcelln{1}{1} &
+     % common subexpression elimination
+     \badcelln{0}{1} &
+     % global: register promotion, thread inlining, value range
+     \unkwcell & \badcelln{0}{1} & \unkwcell & 
+     % DRF, COH, no-UB, no-OOTA
+     \badcelln{0}{4} & \warncelln{2}{4} & \warncelln{4}{5} & \badcelln{0}{5} % &
+     \\ \hline
+
+
+\end{tabular}
+\caption{}
+\label{table:cmp-cls}
+\end{table*}
+
+% \end{landscape}
+
+\end{center}
+
+

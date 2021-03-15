@@ -3,20 +3,17 @@
 
 \begin{landscape}
 
-\newcommand{\rotateAngle}{270}
-\newcommand{\lastcol}{27}
-
 \begin{table*}
 \footnotesize
 
-\setlength\extrarowheight{4pt}
+\setlength\extrarowheight{5pt}
 
 \begin{tabular}{|c|l|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|} % 26
   
  \hline
 
  \multirow{3}{*}{Class}                               &
- \multicolumn{ 1}{c|}{\multirow{3}{*}{Model}}         & 
+ \multicolumn{ 1}{c|}{\multirow{3}{*}{Model}}         &
  \multicolumn{ 4}{c|}{\multirow{2}{*}{Compilation}}   &
  \multicolumn{17}{c|}{Transformations}                &
  \multicolumn{ 4}{c|}{\multirow{2}{*}{Reasoning}}     % &
@@ -24,6 +21,7 @@
  \\ 
 
  \cline{7-23}
+
                              &
                              &
  \multicolumn{4}{c|}{}       &
@@ -34,6 +32,7 @@
  \\ 
  
  \cline{3-\lastcol}
+
                                      &
                                      &
  \multirow{2}{*}[-6pt]{\rotatebox[origin=c]{\rotateAngle}{x86}}      & 
@@ -51,8 +50,8 @@
  \multirow{2}{*}[-6pt]{\rotatebox[origin=c]{\rotateAngle}{TP}}     &
  \multirow{2}{*}[-6pt]{\rotatebox[origin=c]{\rotateAngle}{CSE}}    &
  \multirow{2}{*}[-6pt]{\rotatebox[origin=c]{\rotateAngle}{RP}}     &
- \multirow{2}{*}[-6pt]{\rotatebox[origin=c]{\rotateAngle}{VR}}     &
  \multirow{2}{*}[-6pt]{\rotatebox[origin=c]{\rotateAngle}{TI}}     &
+ \multirow{2}{*}[-6pt]{\rotatebox[origin=c]{\rotateAngle}{VR}}     &
  
  \multirow{2}{*}[-6pt]{\rotatebox[origin=c]{\rotateAngle}{DRF}}               &
  \multirow{2}{*}[-6pt]{\rotatebox[origin=c]{\rotateAngle}{COH}}               &
@@ -81,10 +80,13 @@
  LL         &
  LS         &
  & & & & & & & & & & & & \\[3pt]
+
   
  \Xhline{2\arrayrulewidth}
  
- \multirow{3}{*}{\makecell{Sequential\\Consistency}}   
+ \multirow{3}{*}{\makecell{Sequential\\Consistency}}
+
+ %% TODO: consider merging SC and SC-Hs
 
  & SC 
      &             
@@ -104,8 +106,8 @@
      \okcell &
      % common subexpression elimination
      \badcell &
-     % global: register promotion, value range, thread inlining 
-     \okcell & \unkwcell & \okcell &
+     % global: register promotion, thread inlining, value range
+     \okcell & \okcell & \unkwcell & 
      % DRF, COH, no-UB, no-OOTA
      \ldrf & \okcell & \okcell & \okcell % &
      % % NA, RLX, RA, SC 
@@ -136,8 +138,8 @@
      \okcell &
      % common subexpression elimination
      \badcell &
-     % global: register promotion, value range, thread inlining 
-     \okcell & \unkwcell & \okcell & 
+     % global: register promotion, thread inlining, value range 
+     \okcell & \okcell & \unkwcell & 
      % DRF, COH, no-UB, no-OOTA
      \ldrf & \okcell & \okcell & \okcell % &
      % % NA, RLX, RA, SC 
@@ -168,8 +170,8 @@
      \okcell &
      % common subexpression elimination
      \badcell &
-     % global: register promotion, value range, thread inlining 
-     \okcell & \unkwcell & \okcell &
+     % global: register promotion, thread inlining, value range 
+     \okcell & \okcell & \unkwcell & 
      % % DRF, COH, no-UB, no-OOTA
      \ldrf & \okcell & \warncell & \okcell % &
      % % NA, RLX, RA, SC 
@@ -202,8 +204,8 @@
      \okcell &
      % common subexpression elimination
      \badcell &
-     % global: register promotion, value range, thread inlining 
-     \unkwcell & \unkwcell & \badcell &
+     % global: register promotion, thread inlining, value range 
+     \unkwcell & \badcell & \unkwcell & 
      % DRF, COH, no-UB, no-OOTA
      \edrf & \okcell & \okcell & \okcell % &
      % % NA, RLX, RA, SC 
@@ -234,7 +236,7 @@
      \unkwcell &
      % common subexpression elimination
      \unkwcell &
-     % global: register promotion, value range, thread inlining 
+     % global: register promotion, thread inlining, value range 
      \unkwcell & \unkwcell & \unkwcell &
      % % DRF, COH, no-UB, no-OOTA
      \edrf & \unkwcell & \okcell & \okcell % &
@@ -249,6 +251,8 @@
      \\ \Xhline{2\arrayrulewidth}
 
  \multirow{5}{*}{\makecell{Program\\Order\\Preserving}}   
+
+ %% TODO: consider merging RC11, ORC11, RAR, CRC
 
  & RC11
      &
@@ -268,8 +272,8 @@
      \okcell &
      % common subexpression elimination
      \badcell &
-     % global: register promotion, value range, thread inlining 
-     \okcell & \unkwcell & \okcell &                                              
+     % global: register promotion, thread inlining, value range 
+     \okcell & \okcell & \unkwcell &                  
      % DRF, COH, no-UB, no-OOTA
      \edrf & \okcell & \warncell & \okcell % &
      % % NA, RLX, RA, SC 
@@ -300,8 +304,8 @@
      \okcell &
      % common subexpression elimination
      \badcell &
-     % global: register promotion, value range, thread inlining 
-     \okcell & \unkwcell & \okcell &
+     % global: register promotion, thread inlining, value range 
+     \okcell & \okcell & \unkwcell & 
      % DRF, COH, no-UB, no-OOTA
      \edrf & \okcell & \warncell & \okcell % &
      % % NA, RLX, RA, SC 
@@ -332,8 +336,8 @@
      \okcell &
      % common subexpression elimination
      \badcell &
-     % global: register promotion, value range, thread inlining 
-     \okcell & \unkwcell & \okcell &
+     % global: register promotion, thread inlining, value range 
+     \okcell & \okcell & \unkwcell & 
      % DRF, COH, no-UB, no-OOTA
      \edrf & \okcell & \okcell & \okcell % &
      % % NA, RLX, RA, SC 
@@ -364,8 +368,8 @@
      \okcell &
      % common subexpression elimination
      \okcell &
-     % global: register promotion, value range, thread inlining 
-     \unkwcell & \unkwcell & \unkwcell &
+     % global: register promotion, thread inlining, value range 
+     \unkwcell & \unkwcell & \unkwcell & 
      % DRF, COH, no-UB, no-OOTA
      \ldrf & \warncell & \okcell & \okcell % &
      % % NA, RLX, RA, SC 
@@ -396,8 +400,8 @@
      \unkwcell &
      % common subexpression elimination
      \badcell &
-     % global: register promotion, value range, thread inlining 
-     \unkwcell & \unkwcell & \unkwcell &
+     % global: register promotion, thread inlining, value range 
+     \unkwcell & \unkwcell & \unkwcell & 
      % DRF, COH, no-UB, no-OOTA
      \edrf & \okcell & \okcell & \okcell % &
      % % NA, RLX, RA, SC 
@@ -428,8 +432,8 @@
      \unkwcell &
      % common subexpression elimination
      \badcell &
-     % global: register promotion, value range, thread inlining 
-     \unkwcell & \unkwcell & \unkwcell &
+     % global: register promotion, thread inlining, value range 
+     \unkwcell & \unkwcell & \unkwcell & 
      % DRF, COH, no-UB, no-OOTA
      \edrf & \okcell & \warncell & \okcell % &
      % % NA, RLX, RA, SC 
@@ -462,10 +466,10 @@
      \badcell &
      % common subexpression elimination
      \badcell &
-     % global: register promotion, value range, thread inlining 
-     \unkwcell & \unkwcell & \unkwcell &
+     % global: register promotion, thread inlining, value range 
+     \unkwcell & \unkwcell & \unkwcell & 
      % DRF, COH, no-UB, no-OOTA
-     \edrf & \okcell & \okcell & \okcell % &
+     \unkwcell & \okcell & \okcell & \okcell % &
      % % NA, RLX, RA, SC 
      % \badcell & \okcell & \okcell & \badcell & 
      % % F-RA, F-SC
@@ -494,8 +498,8 @@
      \badcell &
      % common subexpression elimination
      \unkwcell &
-     % global: register promotion, value range, thread inlining 
-     \unkwcell & \unkwcell & \unkwcell &         
+     % global: register promotion, thread inlining, value range 
+     \unkwcell & \unkwcell & \unkwcell & 
      % DRF, COH, no-UB, no-OOTA
      \edrf & \unkwcell & \okcell & \okcell % &
      % % NA, RLX, RA, SC 
@@ -528,8 +532,8 @@
      \okcell &
      % common subexpression elimination
      \badcell &
-     % global: register promotion, value range, thread inlining 
-     \unkwcell & \unkwcell & \badcell &
+     % global: register promotion, thread inlining, value range 
+     \unkwcell & \badcell & \unkwcell & 
      % DRF, COH, no-UB, no-OOTA
      \edrf & \warncell & \okcell & \okcell % &
      % % NA, RLX, RA, SC 
@@ -560,8 +564,8 @@
      \okcell &
      % common subexpression elimination
      \okcell &
-     % global: register promotion, value range, thread inlining 
-     \okcell & \okcell & \badcell &
+     % global: register promotion, thread inlining, value range 
+     \okcell & \badcell & \okcell & 
      % DRF, COH, no-UB, no-OOTA
      \edrf & \okcell & \okcell & \okcell % &
      % % NA, RLX, RA, SC 
@@ -592,8 +596,8 @@
      \unkwcell &
      % common subexpression elimination
      \badcell &
-     % global: register promotion, value range, thread inlining 
-     \unkwcell & \unkwcell & \badcell &
+     % global: register promotion, thread inlining, value range 
+     \unkwcell & \badcell & \unkwcell & 
      % DRF, COH, no-UB, no-OOTA
      \edrf & \okcell & \okcell & \okcell % &
      % % NA, RLX, RA, SC 
@@ -624,8 +628,8 @@
      \unkwcell &
      % common subexpression elimination
      \unkwcell &
-     % global: register promotion, value range, thread inlining 
-     \unkwcell & \unkwcell & \unkwcell &                                              
+     % global: register promotion, thread inlining, value range 
+     \unkwcell & \unkwcell & \unkwcell & 
      % DRF, COH, no-UB, no-OOTA
      \edrf & \okcell & \okcell & \okcell % &
      % % NA, RLX, RA, SC 
@@ -656,8 +660,8 @@
      \unkwcell &
      % common subexpression elimination
      \badcell &
-     % global: register promotion, value range, thread inlining 
-     \unkwcell & \okcell & \badcell &
+     % global: register promotion, thread inlining, value range 
+     \unkwcell & \badcell & \okcell & 
      % DRF, COH, no-UB, no-OOTA
      \unkwcell & \okcell & \warncell & \okcell % &
      % % NA, RLX, RA, SC 
@@ -688,8 +692,8 @@
      \unkwcell &
      % common subexpression elimination
      \unkwcell &
-     % global: register promotion, value range, thread inlining 
-     \unkwcell & \unkwcell & \unkwcell &                                              
+     % global: register promotion, thread inlining, value range 
+     \unkwcell & \unkwcell & \unkwcell & 
      % DRF, COH, no-UB, no-OOTA
      \edrf & \warncell & \okcell & \okcell % &
      % % NA, RLX, RA, SC 
@@ -720,8 +724,8 @@
      \unkwcell &
      % common subexpression elimination
      \unkwcell &
-     % global: register promotion, value range, thread inlining 
-     \unkwcell & \unkwcell & \unkwcell &                                              
+     % global: register promotion, thread inlining, value range
+     \unkwcell & \unkwcell & \unkwcell & 
      % DRF, COH, no-UB, no-OOTA
      \edrf & \unkwcell & \okcell & \okcell % &
      % % NA, RLX, RA, SC 
@@ -754,8 +758,8 @@
      \okcell &
      % common subexpression elimination
      \badcell &
-     % global: register promotion, value range, thread inlining 
-     \unkwcell & \unkwcell & \badcell &
+     % global: register promotion, thread inlining, value range
+     \unkwcell & \badcell & \unkwcell & 
      % DRF, COH, no-UB, no-OOTA
      \idrf & \okcell & \warncell & \badcell % &
      % % NA, RLX, RA, SC 
@@ -786,8 +790,8 @@
      \unkwcell &
      % common subexpression elimination
      \unkwcell &
-     % global: register promotion, value range, thread inlining 
-     \unkwcell & \unkwcell & \unkwcell &
+     % global: register promotion, thread inlining, value range 
+     \unkwcell & \unkwcell & \unkwcell & 
      % DRF, COH, no-UB, no-OOTA
      \idrf & \warncell & \okcell & \badcell % &
      % % NA, RLX, RA, SC 
@@ -818,7 +822,7 @@
      \unkwcell &
      % common subexpression elimination
      \unkwcell &
-     % global: register promotion, value range, thread inlining 
+     % global: register promotion, thread inlining, value range 
      \unkwcell & \unkwcell & \unkwcell &
      % DRF, COH, no-UB, no-OOTA
      \idrf & \okcell & \okcell & \badcell % &
@@ -851,7 +855,7 @@
      \unkwcell &
      % common subexpression elimination
      \unkwcell &
-     % global: register promotion, value range, thread inlining 
+     % global: register promotion, thread inlining, value range
      \unkwcell & \unkwcell & \unkwcell & 
      % DRF, COH, no-UB, no-OOTA
      \unkwcell & \warncell & \okcell & \badcell % &
@@ -882,7 +886,7 @@
      \unkwcell &
      % common subexpression elimination
      \unkwcell &
-     % global: register promotion, value range, thread inlining 
+     % global: register promotion, thread inlining, value range 
      \unkwcell & \unkwcell & \unkwcell & 
      % DRF, COH, no-UB, no-OOTA
      \idrf & \unkwcell & \okcell & \badcell % &
