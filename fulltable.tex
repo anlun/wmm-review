@@ -4,21 +4,24 @@
 \begin{landscape}
 
 \newcommand{\rotateAngle}{270}
+\newcommand{\lastcol}{27}
 
 \begin{table*}
-\tiny
+\footnotesize
 
 \setlength\extrarowheight{4pt}
 
-\begin{tabular}{|c|l|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|} % 35
+\begin{tabular}{|c|l|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|} % 26
+  
  \hline
 
  \multirow{3}{*}{Class}                               &
  \multicolumn{ 1}{c|}{\multirow{3}{*}{Model}}         & 
  \multicolumn{ 4}{c|}{\multirow{2}{*}{Compilation}}   &
  \multicolumn{17}{c|}{Transformations}                &
- \multicolumn{ 4}{c|}{\multirow{2}{*}{Reasoning}}     &
- \multicolumn{ 9}{c|}{\multirow{2}{*}{Features}}      \\ 
+ \multicolumn{ 4}{c|}{\multirow{2}{*}{Reasoning}}     % &
+ % \multicolumn{ 9}{c|}{\multirow{2}{*}{Features}}      
+ \\ 
 
  \cline{7-23}
                              &
@@ -26,10 +29,11 @@
  \multicolumn{4}{c|}{}       &
  \multicolumn{14}{c|}{Local} &
  \multicolumn{3}{c|}{Global} &
- \multicolumn{4}{c|}{}       &
- \multicolumn{9}{c|}{}       \\ 
+ \multicolumn{4}{c|}{}       % &
+ % \multicolumn{9}{c|}{}       
+ \\ 
  
- \cline{3-36}
+ \cline{3-\lastcol}
                                      &
                                      &
  \multirow{2}{*}[-6pt]{\rotatebox[origin=c]{\rotateAngle}{x86}}      & 
@@ -53,18 +57,18 @@
  \multirow{2}{*}[-6pt]{\rotatebox[origin=c]{\rotateAngle}{DRF}}               &
  \multirow{2}{*}[-6pt]{\rotatebox[origin=c]{\rotateAngle}{COH}}               &
  \multirow{2}{*}[-6pt]{\rotatebox[origin=c]{\rotateAngle}{no-UB}}             &
- % \rotatebox[origin=c]{\rotateAngle}{\makecell{$\lPO\lRF$}}            & 
- \multirow{2}{*}{\rotatebox[origin=c]{\rotateAngle}{no-OOTA}}           &                              
+ \multirow{2}{*}{\rotatebox[origin=c]{\rotateAngle}{no-OOTA}}           % &                              
 
- \multirow{2}{*}[-6pt]{\rotatebox[origin=c]{\rotateAngle}{NA}}                      &
- \multirow{2}{*}[-6pt]{\rotatebox[origin=c]{\rotateAngle}{RLX}}                     &
- \multirow{2}{*}[-6pt]{\rotatebox[origin=c]{\rotateAngle}{RA}}                      &
- \multirow{2}{*}[-6pt]{\rotatebox[origin=c]{\rotateAngle}{SC}}                      &
- \multirow{2}{*}[-6pt]{\rotatebox[origin=c]{\rotateAngle}{F-RA}}                    &
- \multirow{2}{*}[-6pt]{\rotatebox[origin=c]{\rotateAngle}{F-SC}}                    &
- \multirow{2}{*}[-6pt]{\rotatebox[origin=c]{\rotateAngle}{RMW}}                     &
- \multirow{2}{*}[-6pt]{\rotatebox[origin=c]{\rotateAngle}{Lock}}                    &
- \multirow{2}{*}[-6pt]{\rotatebox[origin=c]{\rotateAngle}{\makecell{Mix.Sz.}}}      \\[9pt] 
+ % \multirow{2}{*}[-6pt]{\rotatebox[origin=c]{\rotateAngle}{NA}}                      &
+ % \multirow{2}{*}[-6pt]{\rotatebox[origin=c]{\rotateAngle}{RLX}}                     &
+ % \multirow{2}{*}[-6pt]{\rotatebox[origin=c]{\rotateAngle}{RA}}                      &
+ % \multirow{2}{*}[-6pt]{\rotatebox[origin=c]{\rotateAngle}{SC}}                      &
+ % \multirow{2}{*}[-6pt]{\rotatebox[origin=c]{\rotateAngle}{F-RA}}                    &
+ % \multirow{2}{*}[-6pt]{\rotatebox[origin=c]{\rotateAngle}{F-SC}}                    &
+ % \multirow{2}{*}[-6pt]{\rotatebox[origin=c]{\rotateAngle}{RMW}}                     &
+ % \multirow{2}{*}[-6pt]{\rotatebox[origin=c]{\rotateAngle}{Lock}}                    &
+ % \multirow{2}{*}[-6pt]{\rotatebox[origin=c]{\rotateAngle}{\makecell{Mix.Sz.}}}      
+ \\[9pt] 
 
  \cline{7-14}
   & & & & & &
@@ -76,7 +80,7 @@
  SS         &
  LL         &
  LS         &
- & & & & & & & & & & & & & & & & & & & & & \\[3pt]
+ & & & & & & & & & & & & \\[3pt]
   
  \Xhline{2\arrayrulewidth}
  
@@ -103,16 +107,16 @@
      % global: register promotion, value range, thread inlining 
      \okcell & \unkwcell & \okcell &
      % DRF, COH, no-UB, no-OOTA
-     \ldrf & \okcell & \okcell & \okcell &
-     % NA, RLX, RA, SC 
-     \badcell & \badcell & \badcell & \okcell & 
-     % F-RA, F-SC
-     \badcell & \badcell & 
-     % RMW, Lock
-     \badcell & \badcell & 
-     % Mix.sz.
-     \badcell 
-     \\ \cline{2-36}
+     \ldrf & \okcell & \okcell & \okcell % &
+     % % NA, RLX, RA, SC 
+     % \badcell & \badcell & \badcell & \okcell & 
+     % % F-RA, F-SC
+     % \badcell & \badcell & 
+     % % RMW, Lock
+     % \badcell & \badcell & 
+     % % Mix.sz.
+     % \badcell 
+     \\ \cline{2-\lastcol}
 
  & SC-Hs 
      &
@@ -135,16 +139,16 @@
      % global: register promotion, value range, thread inlining 
      \okcell & \unkwcell & \okcell & 
      % DRF, COH, no-UB, no-OOTA
-     \ldrf & \okcell & \okcell & \okcell &
-     % NA, RLX, RA, SC 
-     \okcell & \badcell & \badcell & \okcell & 
-     % F-RA, F-SC
-     \badcell & \badcell & 
-     % RMW, Lock
-     \okcell & \badcell &
-     % Mix.sz. 
-     \badcell 
-     \\ \cline{2-36}
+     \ldrf & \okcell & \okcell & \okcell % &
+     % % NA, RLX, RA, SC 
+     % \okcell & \badcell & \badcell & \okcell & 
+     % % F-RA, F-SC
+     % \badcell & \badcell & 
+     % % RMW, Lock
+     % \okcell & \badcell &
+     % % Mix.sz. 
+     % \badcell 
+     \\ \cline{2-\lastcol}
 
  & DRFx
      &           
@@ -165,17 +169,17 @@
      % common subexpression elimination
      \badcell &
      % global: register promotion, value range, thread inlining 
-     \okcell & \unkwcell & \okcell &                                              
-     % DRF, COH, no-UB, no-OOTA
-     \ldrf & \okcell & \warncell & \okcell &
-     % NA, RLX, RA, SC 
-     \okcell & \badcell & \badcell & \okcell & 
-     % F-RA, F-SC
-     \badcell & \badcell & 
-     % RMW, Lock
-     \badcell & \badcell & 
-     % Mix.sz.
-     \badcell 
+     \okcell & \unkwcell & \okcell &
+     % % DRF, COH, no-UB, no-OOTA
+     \ldrf & \okcell & \warncell & \okcell % &
+     % % NA, RLX, RA, SC 
+     % \okcell & \badcell & \badcell & \okcell & 
+     % % F-RA, F-SC
+     % \badcell & \badcell & 
+     % % RMW, Lock
+     % \badcell & \badcell & 
+     % % Mix.sz.
+     % \badcell 
      \\ \Xhline{2\arrayrulewidth}
 
  \multirow{2}{*}{\makecell{Total/Partial\\Store Order}}   
@@ -201,16 +205,16 @@
      % global: register promotion, value range, thread inlining 
      \unkwcell & \unkwcell & \badcell &
      % DRF, COH, no-UB, no-OOTA
-     \edrf & \okcell & \okcell & \okcell &
-     % NA, RLX, RA, SC 
-     \okcell & \badcell & \badcell & \okcell & 
-     % F-RA, F-SC
-     \badcell & \badcell & 
-     % RMW, Lock
-     \badcell & \okcell & 
-     % Mix.sz.
-     \badcell 
-     \\ \cline{2-36}
+     \edrf & \okcell & \okcell & \okcell % &
+     % % NA, RLX, RA, SC 
+     % \okcell & \badcell & \badcell & \okcell & 
+     % % F-RA, F-SC
+     % \badcell & \badcell & 
+     % % RMW, Lock
+     % \badcell & \okcell & 
+     % % Mix.sz.
+     % \badcell 
+     \\ \cline{2-\lastcol}
 
  & RMMOA
      &
@@ -232,16 +236,16 @@
      \unkwcell &
      % global: register promotion, value range, thread inlining 
      \unkwcell & \unkwcell & \unkwcell &
-     % DRF, COH, no-UB, no-OOTA
-     \edrf & \unkwcell & \okcell & \okcell &
-     % NA, RLX, RA, SC 
-     \okcell & \badcell & \badcell & \badcell & 
-     % F-RA, F-SC
-     \badcell & \badcell & 
-     % RMW, Lock
-     \badcell & \okcell & 
-     % Mix.sz.
-     \badcell 
+     % % DRF, COH, no-UB, no-OOTA
+     \edrf & \unkwcell & \okcell & \okcell % &
+     % % NA, RLX, RA, SC 
+     % \okcell & \badcell & \badcell & \badcell & 
+     % % F-RA, F-SC
+     % \badcell & \badcell & 
+     % % RMW, Lock
+     % \badcell & \okcell & 
+     % % Mix.sz.
+     % \badcell 
      \\ \Xhline{2\arrayrulewidth}
 
  \multirow{5}{*}{\makecell{Program\\Order\\Preserving}}   
@@ -267,16 +271,16 @@
      % global: register promotion, value range, thread inlining 
      \okcell & \unkwcell & \okcell &                                              
      % DRF, COH, no-UB, no-OOTA
-     \edrf & \okcell & \warncell & \okcell &
-     % NA, RLX, RA, SC 
-     \okcell & \okcell & \okcell & \okcell & 
-     % F-RA, F-SC
-     \okcell & \okcell & 
-     % RMW, Lock
-     \okcell & \badcell & 
-     % Mix.sz.
-     \badcell 
-     \\ \cline{2-36}
+     \edrf & \okcell & \warncell & \okcell % &
+     % % NA, RLX, RA, SC 
+     % \okcell & \okcell & \okcell & \okcell & 
+     % % F-RA, F-SC
+     % \okcell & \okcell & 
+     % % RMW, Lock
+     % \okcell & \badcell & 
+     % % Mix.sz.
+     % \badcell 
+     \\ \cline{2-\lastcol}
 
  & ORC11
      &
@@ -299,16 +303,16 @@
      % global: register promotion, value range, thread inlining 
      \okcell & \unkwcell & \okcell &
      % DRF, COH, no-UB, no-OOTA
-     \edrf & \okcell & \warncell & \okcell &
-     % NA, RLX, RA, SC 
-     \okcell & \okcell & \okcell & \badcell & 
-     % F-RA, F-SC
-     \okcell & \badcell & 
-     % RMW, Lock
-     \okcell & \badcell & 
-     % Mix.sz.
-     \badcell 
-     \\ \cline{2-36}
+     \edrf & \okcell & \warncell & \okcell % &
+     % % NA, RLX, RA, SC 
+     % \okcell & \okcell & \okcell & \badcell & 
+     % % F-RA, F-SC
+     % \okcell & \badcell & 
+     % % RMW, Lock
+     % \okcell & \badcell & 
+     % % Mix.sz.
+     % \badcell 
+     \\ \cline{2-\lastcol}
 
  & RAR
      & 
@@ -331,16 +335,16 @@
      % global: register promotion, value range, thread inlining 
      \okcell & \unkwcell & \okcell &
      % DRF, COH, no-UB, no-OOTA
-     \edrf & \okcell & \okcell & \okcell &
-     % NA, RLX, RA, SC 
-     \badcell & \okcell & \okcell & \badcell & 
-     % F-RA, F-SC
-     \badcell & \badcell & 
-     % RMW, Lock
-     \okcell & \badcell & 
-     % Mix.sz.
-     \badcell 
-     \\ \cline{2-36}
+     \edrf & \okcell & \okcell & \okcell % &
+     % % NA, RLX, RA, SC 
+     % \badcell & \okcell & \okcell & \badcell & 
+     % % F-RA, F-SC
+     % \badcell & \badcell & 
+     % % RMW, Lock
+     % \okcell & \badcell & 
+     % % Mix.sz.
+     % \badcell 
+     \\ \cline{2-\lastcol}
 
  & OCMM
      & 
@@ -363,16 +367,16 @@
      % global: register promotion, value range, thread inlining 
      \unkwcell & \unkwcell & \unkwcell &
      % DRF, COH, no-UB, no-OOTA
-     \ldrf & \warncell & \okcell & \okcell &
-     % NA, RLX, RA, SC 
-     \okcell & \badcell & \badcell & \okcell & 
-     % F-RA, F-SC
-     \badcell & \badcell & 
-     % RMW, Lock
-     \okcell & \badcell & 
-     % Mix.sz.
-     \badcell 
-     \\ \cline{2-36}
+     \ldrf & \warncell & \okcell & \okcell % &
+     % % NA, RLX, RA, SC 
+     % \okcell & \badcell & \badcell & \okcell & 
+     % % F-RA, F-SC
+     % \badcell & \badcell & 
+     % % RMW, Lock
+     % \okcell & \badcell & 
+     % % Mix.sz.
+     % \badcell 
+     \\ \cline{2-\lastcol}
 
  & JAM
      & 
@@ -395,16 +399,16 @@
      % global: register promotion, value range, thread inlining 
      \unkwcell & \unkwcell & \unkwcell &
      % DRF, COH, no-UB, no-OOTA
-     \edrf & \okcell & \okcell & \okcell &
-     % NA, RLX, RA, SC 
-     \okcell & \okcell & \okcell & \okcell & 
-     % F-RA, F-SC
-     \okcell & \okcell & 
-     % RMW, Lock
-     \okcell & \badcell & 
-     % Mix.sz.
-     \badcell 
-     \\ \cline{2-36}
+     \edrf & \okcell & \okcell & \okcell % &
+     % % NA, RLX, RA, SC 
+     % \okcell & \okcell & \okcell & \okcell & 
+     % % F-RA, F-SC
+     % \okcell & \okcell & 
+     % % RMW, Lock
+     % \okcell & \badcell & 
+     % % Mix.sz.
+     % \badcell 
+     \\ \cline{2-\lastcol}
 
  & CRC
      &
@@ -427,15 +431,15 @@
      % global: register promotion, value range, thread inlining 
      \unkwcell & \unkwcell & \unkwcell &
      % DRF, COH, no-UB, no-OOTA
-     \edrf & \okcell & \warncell & \okcell &
-     % NA, RLX, RA, SC 
-     \okcell & \badcell & \okcell & \badcell & 
-     % F-RA, F-SC
-     \badcell & \okcell & 
-     % RMW, Lock
-     \okcell & \badcell & 
-     % Mix.sz.
-     \badcell 
+     \edrf & \okcell & \warncell & \okcell % &
+     % % NA, RLX, RA, SC 
+     % \okcell & \badcell & \okcell & \badcell & 
+     % % F-RA, F-SC
+     % \badcell & \okcell & 
+     % % RMW, Lock
+     % \okcell & \badcell & 
+     % % Mix.sz.
+     % \badcell 
      \\ \Xhline{2\arrayrulewidth}
 
  \multirow{2}{*}{\makecell{Syntactic\\Dependency\\Preserving}}   
@@ -461,16 +465,16 @@
      % global: register promotion, value range, thread inlining 
      \unkwcell & \unkwcell & \unkwcell &
      % DRF, COH, no-UB, no-OOTA
-     \edrf & \okcell & \okcell & \okcell &
-     % NA, RLX, RA, SC 
-     \badcell & \okcell & \okcell & \badcell & 
-     % F-RA, F-SC
-     \okcell & \okcell & 
-     % RMW, Lock
-     \okcell & \badcell & 
-     % Mix.sz.
-     \badcell 
-     \\ \cline{2-36}
+     \edrf & \okcell & \okcell & \okcell % &
+     % % NA, RLX, RA, SC 
+     % \badcell & \okcell & \okcell & \badcell & 
+     % % F-RA, F-SC
+     % \okcell & \okcell & 
+     % % RMW, Lock
+     % \okcell & \badcell & 
+     % % Mix.sz.
+     % \badcell 
+     \\ \cline{2-\lastcol}
 
  & OHMM
      &
@@ -493,15 +497,15 @@
      % global: register promotion, value range, thread inlining 
      \unkwcell & \unkwcell & \unkwcell &         
      % DRF, COH, no-UB, no-OOTA
-     \edrf & \unkwcell & \okcell & \okcell &
-     % NA, RLX, RA, SC 
-     \okcell & \badcell & \badcell & \okcell & 
-     % F-RA, F-SC
-     \badcell & \badcell & 
-     % RMW, Lock
-     \badcell & \okcell & 
-     % Mix.sz.
-     \badcell 
+     \edrf & \unkwcell & \okcell & \okcell % &
+     % % NA, RLX, RA, SC 
+     % \okcell & \badcell & \badcell & \okcell & 
+     % % F-RA, F-SC
+     % \badcell & \badcell & 
+     % % RMW, Lock
+     % \badcell & \okcell & 
+     % % Mix.sz.
+     % \badcell 
      \\ \Xhline{2\arrayrulewidth}
 
  \multirow{7}{*}{\makecell{Semantic\\Dependency\\Preserving}}   
@@ -527,16 +531,16 @@
      % global: register promotion, value range, thread inlining 
      \unkwcell & \unkwcell & \badcell &
      % DRF, COH, no-UB, no-OOTA
-     \edrf & \warncell & \okcell & \okcell &
-     % NA, RLX, RA, SC 
-     \okcell & \badcell & \badcell & \okcell & 
-     % F-RA, F-SC
-     \badcell & \badcell & 
-     % RMW, Lock
-     \okcell & \okcell & 
-     % Mix.sz.
-     \badcell 
-     \\ \cline{2-36}
+     \edrf & \warncell & \okcell & \okcell % &
+     % % NA, RLX, RA, SC 
+     % \okcell & \badcell & \badcell & \okcell & 
+     % % F-RA, F-SC
+     % \badcell & \badcell & 
+     % % RMW, Lock
+     % \okcell & \okcell & 
+     % % Mix.sz.
+     % \badcell 
+     \\ \cline{2-\lastcol}
 
  & Prm
      &
@@ -559,16 +563,16 @@
      % global: register promotion, value range, thread inlining 
      \okcell & \okcell & \badcell &
      % DRF, COH, no-UB, no-OOTA
-     \edrf & \okcell & \okcell & \okcell &
-     % NA, RLX, RA, SC 
-     \okcell & \okcell & \okcell & \badcell & 
-     % F-RA, F-SC
-     \okcell & \okcell & 
-     % RMW, Lock
-     \okcell & \okcell & 
-     % Mix.sz.
-     \badcell 
-     \\ \cline{2-36}
+     \edrf & \okcell & \okcell & \okcell % &
+     % % NA, RLX, RA, SC 
+     % \okcell & \okcell & \okcell & \badcell & 
+     % % F-RA, F-SC
+     % \okcell & \okcell & 
+     % % RMW, Lock
+     % \okcell & \okcell & 
+     % % Mix.sz.
+     % \badcell 
+     \\ \cline{2-\lastcol}
 
  & Wkmo
      &
@@ -591,16 +595,16 @@
      % global: register promotion, value range, thread inlining 
      \unkwcell & \unkwcell & \badcell &
      % DRF, COH, no-UB, no-OOTA
-     \edrf & \okcell & \okcell & \okcell &
-     % NA, RLX, RA, SC 
-     \okcell & \okcell & \okcell & \okcell & 
-     % F-RA, F-SC
-     \okcell & \okcell & 
-     % RMW, Lock
-     \okcell & \badcell & 
-     % Mix.sz.
-     \badcell 
-     \\ \cline{2-36}
+     \edrf & \okcell & \okcell & \okcell % &
+     % % NA, RLX, RA, SC 
+     % \okcell & \okcell & \okcell & \okcell & 
+     % % F-RA, F-SC
+     % \okcell & \okcell & 
+     % % RMW, Lock
+     % \okcell & \badcell & 
+     % % Mix.sz.
+     % \badcell 
+     \\ \cline{2-\lastcol}
 
  & MRD
      &
@@ -623,16 +627,16 @@
      % global: register promotion, value range, thread inlining 
      \unkwcell & \unkwcell & \unkwcell &                                              
      % DRF, COH, no-UB, no-OOTA
-     \edrf & \okcell & \okcell & \okcell &
-     % NA, RLX, RA, SC 
-     \badcell & \okcell & \badcell & \badcell & 
-     % F-RA, F-SC
-     \badcell & \badcell & 
-     % RMW, Lock
-     \badcell & \okcell & 
-     % Mix.sz.
-     \badcell 
-     \\ \cline{2-36}
+     \edrf & \okcell & \okcell & \okcell % &
+     % % NA, RLX, RA, SC 
+     % \badcell & \okcell & \badcell & \badcell & 
+     % % F-RA, F-SC
+     % \badcell & \badcell & 
+     % % RMW, Lock
+     % \badcell & \okcell & 
+     % % Mix.sz.
+     % \badcell 
+     \\ \cline{2-\lastcol}
 
  & P-P/S
      &
@@ -655,16 +659,16 @@
      % global: register promotion, value range, thread inlining 
      \unkwcell & \okcell & \badcell &
      % DRF, COH, no-UB, no-OOTA
-     \unkwcell & \okcell & \warncell & \okcell &
-     % NA, RLX, RA, SC 
-     \okcell & \okcell & \okcell & \badcell & 
-     % F-RA, F-SC
-     \badcell & \badcell & 
-     % RMW, Lock
-     \okcell & \okcell & 
-     % Mix.sz.
-     \badcell 
-     \\ \cline{2-36}
+     \unkwcell & \okcell & \warncell & \okcell % &
+     % % NA, RLX, RA, SC 
+     % \okcell & \okcell & \okcell & \badcell & 
+     % % F-RA, F-SC
+     % \badcell & \badcell & 
+     % % RMW, Lock
+     % \okcell & \okcell & 
+     % % Mix.sz.
+     % \badcell 
+     \\ \cline{2-\lastcol}
 
  & J/R
      &
@@ -687,16 +691,16 @@
      % global: register promotion, value range, thread inlining 
      \unkwcell & \unkwcell & \unkwcell &                                              
      % DRF, COH, no-UB, no-OOTA
-     \edrf & \warncell & \okcell & \okcell &
-     % NA, RLX, RA, SC 
-     \badcell & \okcell & \badcell & \badcell & 
-     % F-RA, F-SC
-     \badcell & \badcell & 
-     % RMW, Lock
-     \okcell & \okcell & 
-     % Mix.sz.
-     \badcell 
-     \\ \cline{2-36}
+     \edrf & \warncell & \okcell & \okcell % &
+     % % NA, RLX, RA, SC 
+     % \badcell & \okcell & \badcell & \badcell & 
+     % % F-RA, F-SC
+     % \badcell & \badcell & 
+     % % RMW, Lock
+     % \okcell & \okcell & 
+     % % Mix.sz.
+     % \badcell 
+     \\ \cline{2-\lastcol}
 
  & GOS
      &
@@ -719,15 +723,15 @@
      % global: register promotion, value range, thread inlining 
      \unkwcell & \unkwcell & \unkwcell &                                              
      % DRF, COH, no-UB, no-OOTA
-     \edrf & \unkwcell & \okcell & \okcell &
-     % NA, RLX, RA, SC 
-     \okcell & \badcell & \badcell & \badcell & 
-     % F-RA, F-SC
-     \badcell & \badcell & 
-     % RMW, Lock
-     \badcell & \okcell & 
-     % Mix.sz.
-     \badcell 
+     \edrf & \unkwcell & \okcell & \okcell % &
+     % % NA, RLX, RA, SC 
+     % \okcell & \badcell & \badcell & \badcell & 
+     % % F-RA, F-SC
+     % \badcell & \badcell & 
+     % % RMW, Lock
+     % \badcell & \okcell & 
+     % % Mix.sz.
+     % \badcell 
      \\ \Xhline{2\arrayrulewidth}
 
  \multirow{5}{*}{\makecell{Out of\\Thin-Air}}   
@@ -753,16 +757,16 @@
      % global: register promotion, value range, thread inlining 
      \unkwcell & \unkwcell & \badcell &
      % DRF, COH, no-UB, no-OOTA
-     \idrf & \okcell & \warncell & \badcell &
-     % NA, RLX, RA, SC 
-     \okcell & \okcell & \okcell & \okcell & 
-     % F-RA, F-SC
-     \okcell & \okcell & 
-     % RMW, Lock
-     \okcell & \okcell & 
-     % Mix.sz.
-     \okcell 
-     \\ \cline{2-36}
+     \idrf & \okcell & \warncell & \badcell % &
+     % % NA, RLX, RA, SC 
+     % \okcell & \okcell & \okcell & \okcell & 
+     % % F-RA, F-SC
+     % \okcell & \okcell & 
+     % % RMW, Lock
+     % \okcell & \okcell & 
+     % % Mix.sz.
+     % \okcell 
+     \\ \cline{2-\lastcol}
 
  & JSMM
      &
@@ -785,16 +789,16 @@
      % global: register promotion, value range, thread inlining 
      \unkwcell & \unkwcell & \unkwcell &
      % DRF, COH, no-UB, no-OOTA
-     \idrf & \warncell & \okcell & \badcell &
-     % NA, RLX, RA, SC 
-     \okcell & \badcell & \badcell & \okcell & 
-     % F-RA, F-SC
-     \badcell & \badcell & 
-     % RMW, Lock
-     \okcell & \okcell & 
-     % Mix.sz.
-     \okcell 
-     \\ \cline{2-36}
+     \idrf & \warncell & \okcell & \badcell % &
+     % % NA, RLX, RA, SC 
+     % \okcell & \badcell & \badcell & \okcell & 
+     % % F-RA, F-SC
+     % \badcell & \badcell & 
+     % % RMW, Lock
+     % \okcell & \okcell & 
+     % % Mix.sz.
+     % \okcell 
+     \\ \cline{2-\lastcol}
 
  & RMC
      &
@@ -817,16 +821,16 @@
      % global: register promotion, value range, thread inlining 
      \unkwcell & \unkwcell & \unkwcell &
      % DRF, COH, no-UB, no-OOTA
-     \idrf & \okcell & \okcell & \badcell &
-     % NA, RLX, RA, SC 
-     \badcell & \okcell & \okcell & \okcell & 
-     % F-RA, F-SC
-     \okcell & \okcell & 
-     % RMW, Lock
-     \okcell & \badcell & 
-     % Mix.sz.
-     \badcell 
-     \\ \cline{2-36}
+     \idrf & \okcell & \okcell & \badcell % &
+     % % NA, RLX, RA, SC 
+     % \badcell & \okcell & \okcell & \okcell & 
+     % % F-RA, F-SC
+     % \okcell & \okcell & 
+     % % RMW, Lock
+     % \okcell & \badcell & 
+     % % Mix.sz.
+     % \badcell 
+     \\ \cline{2-\lastcol}
 
 
  & RAO
@@ -850,16 +854,16 @@
      % global: register promotion, value range, thread inlining 
      \unkwcell & \unkwcell & \unkwcell & 
      % DRF, COH, no-UB, no-OOTA
-     \unkwcell & \warncell & \okcell & \badcell &
-     % NA, RLX, RA, SC 
-     \okcell & \badcell & \badcell & \okcell & 
-     % F-RA, F-SC
-     \badcell & \badcell & 
-     % RMW, Lock
-     \badcell & \badcell & 
-     % Mix.sz.
-     \badcell 
-     \\ \cline{2-36}
+     \unkwcell & \warncell & \okcell & \badcell % &
+     % % NA, RLX, RA, SC 
+     % \okcell & \badcell & \badcell & \okcell & 
+     % % F-RA, F-SC
+     % \badcell & \badcell & 
+     % % RMW, Lock
+     % \badcell & \badcell & 
+     % % Mix.sz.
+     % \badcell 
+     \\ \cline{2-\lastcol}
 
  & TSC
      % compilation 
@@ -881,15 +885,15 @@
      % global: register promotion, value range, thread inlining 
      \unkwcell & \unkwcell & \unkwcell & 
      % DRF, COH, no-UB, no-OOTA
-     \idrf & \unkwcell & \okcell & \badcell &
-     % NA, RLX, RA, SC 
-     \okcell & \badcell & \badcell & \okcell & 
-     % F-RA, F-SC
-     \badcell & \badcell & 
-     % RMW, Lock
-     \badcell & \okcell & 
-     % Mix.sz.
-     \badcell 
+     \idrf & \unkwcell & \okcell & \badcell % &
+     % % NA, RLX, RA, SC 
+     % \okcell & \badcell & \badcell & \okcell & 
+     % % F-RA, F-SC
+     % \badcell & \badcell & 
+     % % RMW, Lock
+     % \badcell & \okcell & 
+     % % Mix.sz.
+     % \badcell 
      \\ \Xhline{2\arrayrulewidth}
 
 
