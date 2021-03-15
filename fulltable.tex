@@ -3,13 +3,18 @@
 
 \begin{landscape}
 
+\newcommand{\rotateAngle}{270}
+
 \begin{table*}
-\scriptsize
+\tiny
+
+\setlength\extrarowheight{3pt}
+
 \begin{tabular}{|c|l|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|} % 35
  \hline
 
-                                                      &
- \multirow{3}{*}{Model}                               & 
+ \multirow{3}{*}{Class}                               &
+ \multicolumn{ 1}{c|}{\multirow{3}{*}{Model}}         & 
  \multicolumn{ 4}{c|}{\multirow{2}{*}{Compilation}}   &
  \multicolumn{17}{c|}{Transformations}                &
  \multicolumn{ 4}{c|}{\multirow{2}{*}{Reasoning}}     &
@@ -24,58 +29,58 @@
  \multicolumn{4}{c|}{}       &
  \multicolumn{9}{c|}{}       \\ 
  
- \hline
+ \cline{3-36}
                                      &
                                      &
- \rotatebox[origin=c]{270}{x86}      & 
- \rotatebox[origin=c]{270}{Power}    & 
- \rotatebox[origin=c]{270}{ARMv7}    & 
- \rotatebox[origin=c]{270}{ARMv8}    & 
+ \multirow{2}{*}[-6pt]{\rotatebox[origin=c]{\rotateAngle}{x86}}      & 
+ \multirow{2}{*}[-6pt]{\rotatebox[origin=c]{\rotateAngle}{Power}}    & 
+ \multirow{2}{*}[-4pt]{\rotatebox[origin=c]{\rotateAngle}{ARMv7}}    & 
+ \multirow{2}{*}[-4pt]{\rotatebox[origin=c]{\rotateAngle}{ARMv8}}    & 
  
- \multicolumn{4}{c|}{\rotatebox[origin=c]{270}{RI}}   &
- \multicolumn{4}{c|}{\rotatebox[origin=c]{270}{RE}}   &
+ \multicolumn{4}{c|}{Reordering}   &
+ \multicolumn{4}{c|}{Elimination}   &
 
- \rotatebox[origin=c]{270}{ILE}    &
- \rotatebox[origin=c]{270}{SLI}    &
- \rotatebox[origin=c]{270}{RM}     &
- \rotatebox[origin=c]{270}{S}      &
- \rotatebox[origin=c]{270}{TP}     &
- \rotatebox[origin=c]{270}{CSE}    &
- \rotatebox[origin=c]{270}{RP}     &
- \rotatebox[origin=c]{270}{VR}     &
- \rotatebox[origin=c]{270}{TI}     &
+ \multirow{2}{*}[-6pt]{\rotatebox[origin=c]{\rotateAngle}{ILE}}    &
+ \multirow{2}{*}[-6pt]{\rotatebox[origin=c]{\rotateAngle}{SLI}}    &
+ \multirow{2}{*}[-6pt]{\rotatebox[origin=c]{\rotateAngle}{RM}}     &
+ \multirow{2}{*}[-6pt]{\rotatebox[origin=c]{\rotateAngle}{S}}      &
+ \multirow{2}{*}[-6pt]{\rotatebox[origin=c]{\rotateAngle}{TP}}     &
+ \multirow{2}{*}[-6pt]{\rotatebox[origin=c]{\rotateAngle}{CSE}}    &
+ \multirow{2}{*}[-6pt]{\rotatebox[origin=c]{\rotateAngle}{RP}}     &
+ \multirow{2}{*}[-6pt]{\rotatebox[origin=c]{\rotateAngle}{VR}}     &
+ \multirow{2}{*}[-6pt]{\rotatebox[origin=c]{\rotateAngle}{TI}}     &
  
- \rotatebox[origin=c]{270}{DRF}                                &
- \rotatebox[origin=c]{270}{COH}                                &
- \rotatebox[origin=c]{270}{no-UB}                              &
- % \rotatebox[origin=c]{270}{\makecell{$\lPO\lRF$}}              & 
- \rotatebox[origin=c]{270}{no-OOTA}                            &                              
+ \multirow{2}{*}[-6pt]{\rotatebox[origin=c]{\rotateAngle}{DRF}}               &
+ \multirow{2}{*}[-6pt]{\rotatebox[origin=c]{\rotateAngle}{COH}}               &
+ \multirow{2}{*}[-6pt]{\rotatebox[origin=c]{\rotateAngle}{no-UB}}             &
+ % \rotatebox[origin=c]{\rotateAngle}{\makecell{$\lPO\lRF$}}            & 
+ \multirow{2}{*}{\rotatebox[origin=c]{\rotateAngle}{no-OOTA}}           &                              
 
- \rotatebox[origin=c]{270}{NA}                      &
- \rotatebox[origin=c]{270}{RLX}                     &
- \rotatebox[origin=c]{270}{RA}                      &
- \rotatebox[origin=c]{270}{SC}                      &
- \rotatebox[origin=c]{270}{F-RA}                    &
- \rotatebox[origin=c]{270}{F-SC}                    &
- \rotatebox[origin=c]{270}{RMW}                     &
- \rotatebox[origin=c]{270}{Lock}                    &
- \rotatebox[origin=c]{270}{\makecell{Mix.Sz.}}      \\ 
+ \multirow{2}{*}[-6pt]{\rotatebox[origin=c]{\rotateAngle}{NA}}                      &
+ \multirow{2}{*}[-6pt]{\rotatebox[origin=c]{\rotateAngle}{RLX}}                     &
+ \multirow{2}{*}[-6pt]{\rotatebox[origin=c]{\rotateAngle}{RA}}                      &
+ \multirow{2}{*}[-6pt]{\rotatebox[origin=c]{\rotateAngle}{SC}}                      &
+ \multirow{2}{*}[-6pt]{\rotatebox[origin=c]{\rotateAngle}{F-RA}}                    &
+ \multirow{2}{*}[-6pt]{\rotatebox[origin=c]{\rotateAngle}{F-SC}}                    &
+ \multirow{2}{*}[-6pt]{\rotatebox[origin=c]{\rotateAngle}{RMW}}                     &
+ \multirow{2}{*}[-6pt]{\rotatebox[origin=c]{\rotateAngle}{Lock}}                    &
+ \multirow{2}{*}[-6pt]{\rotatebox[origin=c]{\rotateAngle}{\makecell{Mix.Sz.}}}      \\[9pt] 
 
- \hline
+ \cline{7-14}
   & & & & & &
- \rotatebox[origin=c]{270}{SL}       &
- \rotatebox[origin=c]{270}{SS}       &
- \rotatebox[origin=c]{270}{LL}       &
- \rotatebox[origin=c]{270}{LS}       &
- \rotatebox[origin=c]{270}{SL}       &
- \rotatebox[origin=c]{270}{SS}       &
- \rotatebox[origin=c]{270}{LL}       &
- \rotatebox[origin=c]{270}{LS}       &
- & & & & & & & & & & & & & & & & & & & & & \\
+ SL         &
+ SS         &
+ LL         &
+ LS         &
+ SL         &
+ SS         &
+ LL         &
+ LS         &
+ & & & & & & & & & & & & & & & & & & & & & \\[3pt]
   
  \Xhline{2\arrayrulewidth}
  
- \multirow{3}{*}{\rotatebox[origin=c]{270}{\makecell{SeqCst}}}   
+ \multirow{3}{*}{\rotatebox[origin=c]{\rotateAngle}{\makecell{SeqCst}}}   
 
  & SC 
      &             
@@ -173,7 +178,7 @@
      \badcell 
      \\ \Xhline{2\arrayrulewidth}
 
- \multirow{2}{*}{\rotatebox[origin=c]{270}{\makecell{TSO\\PSO}}}   
+ \multirow{2}{*}{\rotatebox[origin=c]{\rotateAngle}{\makecell{TSO\\PSO}}}   
 
  & BMM
      &
@@ -239,12 +244,12 @@
      \badcell 
      \\ \Xhline{2\arrayrulewidth}
 
- \multirow{5}{*}{\rotatebox[origin=c]{270}{\makecell{$\lPO\lRF$\\acyc}}}   
+ \multirow{5}{*}{\rotatebox[origin=c]{\rotateAngle}{\makecell{$\lPO\lRF$\\acyc}}}   
 
  & RC11
      &
      % compilation 
-     \okcell & \badcell & \badcell & \badcell &  
+     \okcell & \warncell & \warncell & \warncell &  
      % reorderings
      \okcell & \okcell & \okcell & \badcell & 
      % eliminations
@@ -276,7 +281,7 @@
  & ORC11
      &
      % compilation 
-     \okcell & \badcell & \badcell & \badcell &  
+     \okcell & \warncell & \warncell & \warncell &  
      % reorderings
      \okcell & \okcell & \okcell & \badcell & 
      % eliminations
@@ -308,7 +313,7 @@
  & RAR
      & 
      % compilation 
-     \okcell & \badcell & \badcell & \badcell &  
+     \okcell & \warncell & \warncell & \warncell &  
      % reorderings
      \okcell & \okcell & \okcell & \badcell & 
      % eliminations
@@ -340,7 +345,7 @@
  & OCMM
      & 
      % compilation 
-     \okcell & \badcell & \badcell & \badcell &  
+     \okcell & \warncell & \warncell & \warncell &  
      % reorderings
      \okcell & \okcell & \okcell & \badcell & 
      % eliminations
@@ -372,7 +377,7 @@
  & JAM
      & 
      % compilation 
-     \okcell & \badcell & \badcell & \badcell &  
+     \okcell & \warncell & \warncell & \warncell &  
      % reorderings
      \unkwcell & \unkwcell & \unkwcell & \unkwcell &  
      % eliminations
@@ -433,7 +438,7 @@
      \badcell 
      \\ \Xhline{2\arrayrulewidth}
 
- \multirow{2}{*}{\rotatebox[origin=c]{270}{\makecell{$\lPPO\lRF$\\acyc}}}   
+ \multirow{2}{*}{\rotatebox[origin=c]{\rotateAngle}{\makecell{$\lPPO\lRF$\\acyc}}}   
 
  & LKMM
      &           
@@ -499,7 +504,7 @@
      \badcell 
      \\ \Xhline{2\arrayrulewidth}
 
- \multirow{7}{*}{\rotatebox[origin=c]{270}{\makecell{no-OOTA}}}   
+ \multirow{7}{*}{\rotatebox[origin=c]{\rotateAngle}{\makecell{no-OOTA}}}   
 
  & JMM
      &            
@@ -725,7 +730,7 @@
      \badcell 
      \\ \Xhline{2\arrayrulewidth}
 
- \multirow{5}{*}{\rotatebox[origin=c]{270}{\makecell{OOTA}}}   
+ \multirow{5}{*}{\rotatebox[origin=c]{\rotateAngle}{\makecell{OOTA}}}   
 
  & C11
      &            
