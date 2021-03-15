@@ -504,7 +504,7 @@
  & JMM
      &            
      % compilation 
-     & & & &
+     \okcell & \badcell & \okcell & \okcell &
      % reorderings
      \okcell & \okcell & \okcell & \okcell &
      % eliminations
@@ -780,7 +780,7 @@
      % global: register promotion, value range, thread inlining 
      \unkwcell & \unkwcell & \unkwcell &
      % DRF, COH, no-UB, no-OOTA
-     \idrf & & \okcell & \badcell &
+     \idrf & \warncell & \okcell & \badcell &
      % NA, RLX, RA, SC 
      \okcell & \badcell & \badcell & \okcell & 
      % F-RA, F-SC
@@ -845,7 +845,7 @@
      % global: register promotion, value range, thread inlining 
      \unkwcell & \unkwcell & \unkwcell & 
      % DRF, COH, no-UB, no-OOTA
-      & \warncell & \okcell & \badcell &
+     \unkwcell & \warncell & \okcell & \badcell &
      % NA, RLX, RA, SC 
      \okcell & \badcell & \badcell & \okcell & 
      % F-RA, F-SC
