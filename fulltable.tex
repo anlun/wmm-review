@@ -6,6 +6,9 @@
 \begin{table*}
 \footnotesize
 
+\newcommand{\rotateAngle}{270}
+\newcommand{\lastcol}{27}
+
 \setlength\extrarowheight{5pt}
 
 \begin{tabular}{|c|l|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|} % 26
@@ -84,7 +87,7 @@
   
  \Xhline{2\arrayrulewidth}
  
- \multirow{3}{*}{\makecell{Sequential\\Consistency}}
+ \multirow{3}{*}{\clsSC}
 
  %% TODO: consider merging SC and SC-Hs
 
@@ -184,7 +187,7 @@
      % \badcell 
      \\ \Xhline{2\arrayrulewidth}
 
- \multirow{2}{*}{\makecell{Total/Partial\\Store Order}}   
+ \multirow{2}{*}{\clsTSO}   
 
  & BMM
      &
@@ -250,7 +253,7 @@
      % \badcell 
      \\ \Xhline{2\arrayrulewidth}
 
- \multirow{5}{*}{\makecell{Program\\Order\\Preserving}}   
+ \multirow{5}{*}{\clsPO}   
 
  %% TODO: consider merging RC11, ORC11, RAR, CRC
 
@@ -446,7 +449,7 @@
      % \badcell 
      \\ \Xhline{2\arrayrulewidth}
 
- \multirow{2}{*}{\makecell{Syntactic\\Dependency\\Preserving}}   
+ \multirow{2}{*}{\clsSyDEP}   
 
  & LKMM
      &           
@@ -512,7 +515,7 @@
      % \badcell 
      \\ \Xhline{2\arrayrulewidth}
 
- \multirow{7}{*}{\makecell{Semantic\\Dependency\\Preserving}}   
+ \multirow{7}{*}{\clsSemDEP}   
 
  & JMM
      &            
@@ -738,7 +741,7 @@
      % \badcell 
      \\ \Xhline{2\arrayrulewidth}
 
- \multirow{5}{*}{\makecell{Out of\\Thin-Air}}   
+ \multirow{5}{*}{\clsOOTA}   
 
  & C11
      &            

@@ -1,0 +1,350 @@
+\begin{table}[t]
+
+\newcommand{\rotateAngle}{270}
+\newcommand{\lastcol}{11}
+
+\def\arraystretch{1}
+\setlength\tabcolsep{2pt}
+
+\begin{tabular}{|c|l|c|c|c|c|c|c|c|c|c|} 
+
+  \hline
+
+  \multirow{2}{*}{Class}          &
+  \multirow{2}{*}{Model}          &
+  \multicolumn{ 9}{c|}{Features}   
+  \\ 
+
+  \cline{3-\lastcol}
+
+                                                            &
+                                                            &
+  \rotatebox[origin=c]{\rotateAngle}{NA}                    &
+  \rotatebox[origin=c]{\rotateAngle}{RLX}                   &
+  \rotatebox[origin=c]{\rotateAngle}{RA}                    &
+  \rotatebox[origin=c]{\rotateAngle}{SC}                    &
+  \rotatebox[origin=c]{\rotateAngle}{F-RA}                  &
+  \rotatebox[origin=c]{\rotateAngle}{F-SC}                  &
+  \rotatebox[origin=c]{\rotateAngle}{RMW}                   &
+  \rotatebox[origin=c]{\rotateAngle}{LK}                    &
+  \rotatebox[origin=c]{\rotateAngle}{MIX}      
+  \\[9pt] 
+
+  \Xhline{2\arrayrulewidth}
+
+  \multirow{3}{*}{\clsSC}
+
+  & EtE-SC
+     & 
+     % NA, RLX, RA, SC 
+     \badcell & \badcell & \badcell & \okcell & 
+     % F-RA, F-SC
+     \badcell & \badcell & 
+     % RMW, LK
+     \badcell & \badcell & 
+     % MIX
+     \badcell 
+     \\ \cline{2-\lastcol}
+
+  & SC-Hs 
+     &
+     % NA, RLX, RA, SC 
+     \okcell & \badcell & \badcell & \okcell & 
+     % F-RA, F-SC
+     \badcell & \badcell & 
+     % RMW, LK
+     \okcell & \badcell &
+     % MIX 
+     \badcell 
+     \\ \cline{2-\lastcol}
+
+  & DRFx
+     &           
+     % NA, RLX, RA, SC 
+     \okcell & \badcell & \badcell & \okcell & 
+     % F-RA, F-SC
+     \badcell & \badcell & 
+     % RMW, LK
+     \badcell & \badcell & 
+     % MIX
+     \badcell 
+     \\ \Xhline{2\arrayrulewidth}
+
+  \multirow{2}{*}{\clsTSO}
+
+  & BMM
+     &
+     % NA, RLX, RA, SC 
+     \okcell & \badcell & \badcell & \okcell & 
+     % F-RA, F-SC
+     \badcell & \badcell & 
+     % RMW, Lock
+     \badcell & \okcell & 
+     % Mix.sz.
+     \badcell 
+     \\ \cline{2-\lastcol}
+
+  & RMMOA
+     &
+     % NA, RLX, RA, SC 
+     \okcell & \badcell & \badcell & \badcell & 
+     % F-RA, F-SC
+     \badcell & \badcell & 
+     % RMW, Lock
+     \badcell & \okcell & 
+     % Mix.sz.
+     \badcell 
+     \\ \Xhline{2\arrayrulewidth}
+
+  \multirow{6}{*}{\clsPO}   
+
+  & RC11
+     &
+     % NA, RLX, RA, SC 
+     \okcell & \okcell & \okcell & \okcell & 
+     % F-RA, F-SC
+     \okcell & \okcell & 
+     % RMW, Lock
+     \okcell & \badcell & 
+     % Mix.sz.
+     \badcell 
+     \\ \cline{2-\lastcol}
+
+  & ORC11
+     &
+     % NA, RLX, RA, SC 
+     \okcell & \okcell & \okcell & \badcell & 
+     % F-RA, F-SC
+     \okcell & \badcell & 
+     % RMW, Lock
+     \okcell & \badcell & 
+     % Mix.sz.
+     \badcell 
+     \\ \cline{2-\lastcol}
+
+  & RAR
+     & 
+     % NA, RLX, RA, SC 
+     \badcell & \okcell & \okcell & \badcell & 
+     % F-RA, F-SC
+     \badcell & \badcell & 
+     % RMW, Lock
+     \okcell & \badcell & 
+     % Mix.sz.
+     \badcell 
+     \\ \cline{2-\lastcol}
+
+  & CRC
+     &
+     % NA, RLX, RA, SC 
+     \okcell & \badcell & \okcell & \badcell & 
+     % F-RA, F-SC
+     \badcell & \okcell & 
+     % RMW, Lock
+     \okcell & \badcell & 
+     % Mix.sz.
+     \badcell 
+     \\ \cline{2-\lastcol}
+
+  & OCMM
+     & 
+     % NA, RLX, RA, SC 
+     \okcell & \badcell & \badcell & \okcell & 
+     % F-RA, F-SC
+     \badcell & \badcell & 
+     % RMW, Lock
+     \okcell & \badcell & 
+     % Mix.sz.
+     \badcell 
+     \\ \cline{2-\lastcol}
+
+  & JAM
+     &
+     % NA, RLX, RA, SC 
+     \okcell & \okcell & \okcell & \okcell & 
+     % F-RA, F-SC
+     \okcell & \okcell & 
+     % RMW, Lock
+     \okcell & \badcell & 
+     % Mix.sz.
+     \badcell 
+     \\ \Xhline{2\arrayrulewidth}
+
+  \multirow{2}{*}{\clsSyDEP}   
+
+  & LKMM
+     &           
+     % NA, RLX, RA, SC 
+     \badcell & \okcell & \okcell & \badcell & 
+     % F-RA, F-SC
+     \okcell & \okcell & 
+     % RMW, Lock
+     \okcell & \badcell & 
+     % Mix.sz.
+     \badcell 
+     \\ \cline{2-\lastcol}
+
+  & OHMM
+     &
+     % NA, RLX, RA, SC 
+     \okcell & \badcell & \badcell & \okcell & 
+     % F-RA, F-SC
+     \badcell & \badcell & 
+     % RMW, Lock
+     \badcell & \okcell & 
+     % Mix.sz.
+     \badcell 
+     \\ \Xhline{2\arrayrulewidth}
+
+  \multirow{7}{*}{\clsSemDEP}   
+
+  & JMM
+     &            
+     % NA, RLX, RA, SC 
+     \okcell & \badcell & \badcell & \okcell & 
+     % F-RA, F-SC
+     \badcell & \badcell & 
+     % RMW, Lock
+     \okcell & \okcell & 
+     % Mix.sz.
+     \badcell 
+     \\ \cline{2-\lastcol}
+
+  & Prm
+     &
+     % NA, RLX, RA, SC 
+     \okcell & \okcell & \okcell & \badcell & 
+     % F-RA, F-SC
+     \okcell & \okcell & 
+     % RMW, Lock
+     \okcell & \okcell & 
+     % Mix.sz.
+     \badcell 
+     \\ \cline{2-\lastcol}
+
+  & Wkmo
+     &
+     % NA, RLX, RA, SC 
+     \okcell & \okcell & \okcell & \okcell & 
+     % F-RA, F-SC
+     \okcell & \okcell & 
+     % RMW, Lock
+     \okcell & \badcell & 
+     % Mix.sz.
+     \badcell 
+     \\ \cline{2-\lastcol}
+
+  & MRD
+     &
+     % NA, RLX, RA, SC 
+     \badcell & \okcell & \badcell & \badcell & 
+     % F-RA, F-SC
+     \badcell & \badcell & 
+     % RMW, Lock
+     \badcell & \okcell & 
+     % Mix.sz.
+     \badcell 
+     \\ \cline{2-\lastcol}
+
+  & P-P/S
+     &
+     % NA, RLX, RA, SC 
+     \okcell & \okcell & \okcell & \badcell & 
+     % F-RA, F-SC
+     \badcell & \badcell & 
+     % RMW, Lock
+     \okcell & \okcell & 
+     % Mix.sz.
+     \badcell 
+     \\ \cline{2-\lastcol}
+
+  & J/R
+     &
+     % NA, RLX, RA, SC 
+     \badcell & \okcell & \badcell & \badcell & 
+     % F-RA, F-SC
+     \badcell & \badcell & 
+     % RMW, Lock
+     \okcell & \okcell & 
+     % Mix.sz.
+     \badcell 
+     \\ \cline{2-\lastcol}
+
+  & GOS
+     &
+     % NA, RLX, RA, SC 
+     \okcell & \badcell & \badcell & \badcell & 
+     % F-RA, F-SC
+     \badcell & \badcell & 
+     % RMW, Lock
+     \badcell & \okcell & 
+     % Mix.sz.
+     \badcell 
+     \\ \Xhline{2\arrayrulewidth}
+
+  \multirow{5}{*}{\clsOOTA}   
+
+  & C11
+     &            
+     % NA, RLX, RA, SC 
+     \okcell & \okcell & \okcell & \okcell & 
+     % F-RA, F-SC
+     \okcell & \okcell & 
+     % RMW, Lock
+     \okcell & \okcell & 
+     % Mix.sz.
+     \okcell 
+     \\ \cline{2-\lastcol}
+
+  & JSMM
+     &
+     % NA, RLX, RA, SC 
+     \okcell & \badcell & \badcell & \okcell & 
+     % F-RA, F-SC
+     \badcell & \badcell & 
+     % RMW, Lock
+     \okcell & \okcell & 
+     % Mix.sz.
+     \okcell 
+     \\ \cline{2-\lastcol}
+
+  & RMC
+     &
+     % NA, RLX, RA, SC 
+     \badcell & \okcell & \okcell & \okcell & 
+     % F-RA, F-SC
+     \okcell & \okcell & 
+     % RMW, Lock
+     \okcell & \badcell & 
+     % Mix.sz.
+     \badcell 
+     \\ \cline{2-\lastcol}
+
+
+  & RAO
+     &
+     % NA, RLX, RA, SC 
+     \okcell & \badcell & \badcell & \okcell & 
+     % F-RA, F-SC
+     \badcell & \badcell & 
+     % RMW, Lock
+     \badcell & \badcell & 
+     % Mix.sz.
+     \badcell 
+     \\ \cline{2-\lastcol}
+
+  & TSC
+     &
+     % NA, RLX, RA, SC 
+     \okcell & \badcell & \badcell & \okcell & 
+     % F-RA, F-SC
+     \badcell & \badcell & 
+     % RMW, Lock
+     \badcell & \okcell & 
+     % Mix.sz.
+     \badcell 
+     \\ \Xhline{2\arrayrulewidth}
+
+\end{tabular}
+
+\end{table}

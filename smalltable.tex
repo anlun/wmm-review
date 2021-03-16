@@ -1,10 +1,11 @@
-
-
 % \begin{landscape}
 \begin{center}
 
 \begin{table*}[t]
 \scriptsize
+
+\newcommand{\rotateAngle}{270}
+\newcommand{\lastcol}{27}
 
 \def\arraystretch{1}
 \setlength\tabcolsep{2pt}
@@ -84,7 +85,7 @@
   
   \Xhline{2\arrayrulewidth}
 
-  \multicolumn{2}{|c|}{\makecell{Sequential\\Consistency}} 
+  \multicolumn{2}{|c|}{\clsSC} 
      &             
      % compilation 
      \badcelln{0}{3} & \badcelln{0}{3} & \badcelln{0}{3} & \badcelln{0}{3} & 
@@ -132,7 +133,7 @@
      \okcelln{2}{2} & \okcelln{1}{1} & \okcelln{2}{2} & \okcelln{2}{2} % &
      \\ \hline
 
-  \multicolumn{2}{|c|}{\makecell{Program Order\\Preserving}} 
+  \multicolumn{2}{|c|}{\clsPO} 
      &
      % compilation 
      \okcelln{6}{6} & \badcelln{0}{6} & \badcelln{0}{6} & \badcelln{0}{6} &  
@@ -156,7 +157,7 @@
      \okcelln{6}{6} & \warncelln{5}{6} & \warncelln{3}{6} & \okcelln{6}{6} % &
      \\ \hline
 
-  \multicolumn{2}{|c|}{\makecell{Syntax. Dep.\\Preserving}} 
+  \multicolumn{2}{|c|}{\clsSyDEP}
      &
      % compilation 
      \okcelln{1}{1} & \okcelln{1}{1} & \okcelln{1}{1} & \okcelln{1}{1} &
@@ -189,7 +190,7 @@
      \\ \hline
 
 
-  \multicolumn{2}{|c|}{\makecell{Semantic Dep.\\Preserving}} 
+  \multicolumn{2}{|c|}{\clsSemDEP}
      &
      % compilation 
      \okcelln{5}{5} & \warncelln{4}{6} & \warncelln{4}{6} & \warncelln{4}{6} &  
@@ -213,7 +214,7 @@
      \okcelln{6}{6} & \warncelln{4}{6} & \warncelln{6}{7} & \okcelln{7}{7} % &
      \\ \hline
 
-  \multicolumn{2}{|c|}{\makecell{Out of\\Thin-Air}} 
+  \multicolumn{2}{|c|}{\clsOOTA}
      &            
      % compilation 
      \okcelln{3}{3} & \okcelln{3}{3} & \okcelln{3}{3} & \okcelln{3}{3} &
