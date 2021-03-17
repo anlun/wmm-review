@@ -1,14 +1,16 @@
-\newpage
-\onecolumn
+% \newpage
+% \onecolumn
 
-\begin{landscape}
+% \begin{landscape}
 
-\begin{table*}
+\begin{table*}[t]
 \footnotesize
 
 \newcommand{\rotateAngle}{270}
 \newcommand{\lastcol}{27}
 
+\def\arraystretch{1}
+\setlength\tabcolsep{3pt}
 \setlength\extrarowheight{5pt}
 
 \begin{tabular}{|c|l|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|} % 26
@@ -87,7 +89,7 @@
   
  \Xhline{2\arrayrulewidth}
  
- \multirow{3}{*}{\clsSC}
+ \multirow{2}{*}{\clsSC}
 
  %% TODO: consider merging SC and SC-Hs
 
@@ -104,7 +106,7 @@
      % roach motel 
      \okcell & 
      % strength.
-     \unkwcell &
+     \okcell &
      % trace preserving 
      \okcell &
      % common subexpression elimination
@@ -123,38 +125,6 @@
      % \badcell 
      \\ \cline{2-\lastcol}
 
- & SC-Hs 
-     &
-     % compilation 
-     \badcell & \badcell & \badcell & \badcell & 
-     % reorderings
-     \badcell & \badcell & \badcell & \badcell & 
-     % eliminations
-     \okcell & \okcell & \okcell & \okcell &
-     % irrelevant load elim & speculative load intro 
-     \okcell & \okcell &
-     % roach motel 
-     \okcell & 
-     % strength.
-     \unkwcell &
-     % trace preserving 
-     \okcell &
-     % common subexpression elimination
-     \badcell &
-     % global: register promotion, thread inlining, value range 
-     \okcell & \okcell & \unkwcell & 
-     % DRF, COH, no-UB, no-OOTA
-     \ldrf & \okcell & \okcell & \okcell % &
-     % % NA, RLX, RA, SC 
-     % \okcell & \badcell & \badcell & \okcell & 
-     % % F-RA, F-SC
-     % \badcell & \badcell & 
-     % % RMW, Lock
-     % \okcell & \badcell &
-     % % Mix.sz. 
-     % \badcell 
-     \\ \cline{2-\lastcol}
-
  & DRFx
      &           
      % compilation 
@@ -168,7 +138,7 @@
      % roach motel 
      \okcell & 
      % strength.
-     \unkwcell &
+     \okcell &
      % trace preserving 
      \okcell &
      % common subexpression elimination
@@ -253,7 +223,7 @@
      % \badcell 
      \\ \Xhline{2\arrayrulewidth}
 
- \multirow{5}{*}{\clsPO}   
+ \multirow{3}{*}{\clsPO}   
 
  %% TODO: consider merging RC11, ORC11, RAR, CRC
 
@@ -288,71 +258,7 @@
      % % Mix.sz.
      % \badcell 
      \\ \cline{2-\lastcol}
-
- & ORC11
-     &
-     % compilation 
-     \okcell & \warncell & \warncell & \warncell &  
-     % reorderings
-     \okcell & \okcell & \okcell & \badcell & 
-     % eliminations
-     \okcell & \okcell & \okcell & \badcell & 
-     % irrelevant load elim & speculative load intro 
-     \unkwcell & \badcell &
-     % roach motel 
-     \okcell & 
-     % strength.
-     \okcell &
-     % trace preserving 
-     \okcell &
-     % common subexpression elimination
-     \badcell &
-     % global: register promotion, thread inlining, value range 
-     \okcell & \okcell & \unkwcell & 
-     % DRF, COH, no-UB, no-OOTA
-     \edrf & \okcell & \warncell & \okcell % &
-     % % NA, RLX, RA, SC 
-     % \okcell & \okcell & \okcell & \badcell & 
-     % % F-RA, F-SC
-     % \okcell & \badcell & 
-     % % RMW, Lock
-     % \okcell & \badcell & 
-     % % Mix.sz.
-     % \badcell 
-     \\ \cline{2-\lastcol}
-
- & RAR
-     & 
-     % compilation 
-     \okcell & \warncell & \warncell & \warncell &  
-     % reorderings
-     \okcell & \okcell & \okcell & \badcell & 
-     % eliminations
-     \okcell & \okcell & \okcell & \badcell & 
-     % irrelevant load elim & speculative load intro 
-     \unkwcell & \badcell &
-     % roach motel 
-     \okcell & 
-     % strength.
-     \okcell &
-     % trace preserving 
-     \okcell &
-     % common subexpression elimination
-     \badcell &
-     % global: register promotion, thread inlining, value range 
-     \okcell & \okcell & \unkwcell & 
-     % DRF, COH, no-UB, no-OOTA
-     \edrf & \okcell & \okcell & \okcell % &
-     % % NA, RLX, RA, SC 
-     % \badcell & \okcell & \okcell & \badcell & 
-     % % F-RA, F-SC
-     % \badcell & \badcell & 
-     % % RMW, Lock
-     % \okcell & \badcell & 
-     % % Mix.sz.
-     % \badcell 
-     \\ \cline{2-\lastcol}
-
+ 
  & OCMM
      & 
      % compilation 
@@ -411,38 +317,6 @@
      % \okcell & \okcell & \okcell & \okcell & 
      % % F-RA, F-SC
      % \okcell & \okcell & 
-     % % RMW, Lock
-     % \okcell & \badcell & 
-     % % Mix.sz.
-     % \badcell 
-     \\ \cline{2-\lastcol}
-
- & CRC
-     &
-     % compilation 
-     \okcell & \badcell & \badcell & \badcell &  
-     % reorderings
-     \okcell & \badcell & \badcell & \badcell &  
-     % eliminations
-     \okcell & \okcell & \okcell & \badcell &  
-     % irrelevant load elim & speculative load intro  
-     \badcell & \badcell &
-     % roach motel 
-     \unkwcell & 
-     % strength.
-     \unkwcell &
-     % trace preserving 
-     \unkwcell &
-     % common subexpression elimination
-     \badcell &
-     % global: register promotion, thread inlining, value range 
-     \unkwcell & \unkwcell & \unkwcell & 
-     % DRF, COH, no-UB, no-OOTA
-     \edrf & \okcell & \warncell & \okcell % &
-     % % NA, RLX, RA, SC 
-     % \okcell & \badcell & \okcell & \badcell & 
-     % % F-RA, F-SC
-     % \badcell & \okcell & 
      % % RMW, Lock
      % \okcell & \badcell & 
      % % Mix.sz.
@@ -926,7 +800,7 @@
 \label{table:cmp-mms}
 \end{table*}
 
-\end{landscape}
+% \end{landscape}
 
-\twocolumn
+% \twocolumn
 
