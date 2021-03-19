@@ -1,10 +1,92 @@
 \section{Criteria for Memory Models}
 \label{sec:background}
 
-In this section we will have a closer look into the requirements 
-that a programming language memory model should satisfy, 
-namely the existence of sound and efficient compilation scheme, 
-soundness of common optimizations, and guarantees for formal and informal reasoning.  
+In this section we will have a closer look on criteria for 
+programming language memory models, 
+namely an optimality of the compilation scheme, 
+soundness of common program transformations, 
+and provided reasoning guarantees.  
+% But first we need to specify 
+
+\subsection{Abstractions and Interfaces}
+
+The memory model defines the semantics of the shared memory 
+in the presence of concurrently executing threads. 
+More concretly, the memory model 
+defines which values reads of shared variables 
+can observe at each point of execution. 
+Therefore the main abstraction of the memory model 
+is the shared memory itself. 
+
+The shared memory consists of a individual shared variables, 
+each having unique address~\footnote{
+Throughout the rest of paper, we use terms 
+memory address and memory location interchangeably}.
+Threads can access these variables by performing 
+loads or stores~\footnote{We also use the terms 
+load/stores and reads/writes interchangeably}.
+
+% \begin{minipage}{0.45\linewidth}
+% \begin{equation*}
+%   \readInst{}{r}{x}     
+% \tag{Load}\label{ex:load}
+% \end{equation*}
+% \end{minipage}\hfill%
+% \begin{minipage}{0.45\linewidth}
+% \begin{equation*}
+%   \writeInst{}{x}{1}    
+% \tag{Store}\label{ex:store}
+% \end{equation*}
+% \end{minipage}
+
+Most programming language memory models distinguish 
+\emph{non-atomic} (sometimes also called \emph{plain})
+and \emph{atomic} variables. 
+The former generally should not be accessed 
+concurrently from parallel threads. 
+Depending on the particular programming language, 
+concurrent accesses to non-atomic variables 
+can be either prevented by the type-system 
+(\eg \Haskell~\cite{Marlow-al:Haskell10, Vollmer-al:PPoPP17}, \Rust~\cite{RustBook:19}), 
+have undefined behavior (\eg \CPP~\cite{Boehm-Adve:PLDI08, Batty-al:POPL11}), 
+or have defined but very weak semantics with almost 
+no guarantees on the order of accesses to non-atomics
+that concurrent threads can observe (\eg \Java~\cite{Manson-al:POPL05}).
+
+In addition to this some memory models distinguish 
+several kinds of accesses to atomic variables.
+In these models the accesses to shared memory are annotated by the 
+so-called \emph{access modes}.
+For example, the \CPP model (and a later revision of 
+\Java~\cite{Bender-Palsberg:OOPSLA19}), distinguish 
+three modes: \emph{relaxed} (\emph{opaque} in \Java terminology), 
+\emph{acquire/release}, and \emph{sequentially consistent}.
+They are denoted as $\rlx$, $\opq$, $\acqrel$, and $\sco$ correspondingly.
+Non-atomic accesses are often considered to be the fourth access mode $\na$, 
+but note that mixing of non-atomic and atomic accesses to the same variable 
+entails undefined behavior in \CPP.
+The access modes are ordered by the guarantees they provide
+in exchange of optimization opportunities, as the following 
+diagram shows.
+
+$$ \na \sqsubseteq \rlx \sqsubseteq \acqrel \sqsubseteq \sco $$
+
+On the one end of the spectrum are sequentially consistent accesses. 
+They guarantee to restore the \SC semantics, if used properly 
+(see \cref{sec:background-drf} for details).
+Non-atomic accesses, as we have already discussed, give 
+from little to no guarantee. 
+Relaxed accesses also have very weak guarantees, 
+usually they provide the so-called \emph{coherence} property
+(see \cref{sec:background-coh} for details).
+Finally, in the middle there are the acquire/release accesses. 
+They are designed to support the message passing idiom~\cite{Lahav-al:POPL16}.
+The thread sends the message by performing a release write, 
+the thread expecting a message can perform an acquire read. 
+If the acquire read observes the release write, the two 
+threads ``synchronize''. 
+
+
 
 % Taking as an examples three memory models: 
 % sequential consistency, Java memory model and C/C++ memory model
@@ -204,7 +286,7 @@ soundness of common optimizations, and guarantees for formal and informal reason
 \subsection{Reasoning Guarantees}
 
 \subsubsection{DRF Theorems}
-\label{sec:bgrnd-drf}
+\label{sec:background-drf}
 
 \begin{itemize}
   \item Motivation: no weak behaviors for well-sync programs.
@@ -289,7 +371,7 @@ soundness of common optimizations, and guarantees for formal and informal reason
 \end{itemize}
 
 \subsubsection{Coherence (?)}
-\label{sec:background:coh}
+\label{sec:background-coh}
 
 \subsection{Supported Features and Interfaces}
 
