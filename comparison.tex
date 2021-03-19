@@ -14,7 +14,12 @@ then give a more detailed comparison with respect to individual models
 (see \cref{table:cmp-mms} and \cref{sec:catalog}).
 Thus we have an opportunity to first discuss the common principles
 behind the PL relaxed memory models in general, and then dive deeper 
-into details of each particular model.  
+into details of each particular model. 
+
+In both \cref{table:cmp-cls} and \cref{table:cmp-mms} we order
+the classes by the weakness of the memory models they consist of.  
+The strongest models are located at the top rows of the table, 
+while the weakest are at the bottom.  
 
 Columns of both tables correspond to the properties 
 of the models discussed in~\cref{sec:background}.
@@ -67,25 +72,3 @@ Whether the model permits out-of-thin-air values (see~\cref{sec:bgrnd-oota}).
 Finally, the last group enumerates the list of memory access modes 
 and fences supported by the model, as well as whether the model 
 supports read-modify-write operations, locks, and mixed-size accesses.
-
-We partitioned all models into six primary classes: 
-sequentially consistent models, models with total or partial order on stores, 
-program order preserving models, syntactic dependency preserving models, 
-semantic dependency preserving models, and model with out of thin-air values.
-In both \cref{table:cmp-cls} and \cref{table:cmp-mms} we order
-the classes by the weakness of the memory models they consist of.  
-The strongest models are located at the top rows of the table, 
-while the weakest are at the bottom. 
-
-We next discuss each class in more details.
-Note that the order is different from the one 
-in \cref{table:cmp-cls} and \cref{table:cmp-mms}.
-This is because we wanted to first introduce the problem 
-of thin-air (\cref{sec:analysis:oota}) and then describe 
-various solutions of this problem
-(\cref{sec:analysis:porf,sec:analysis:deprf,sec:analysis:sdeprf}).
-We give an insight on the relationship between compilation scheme optimality, 
-soundness of transformations and reasoning guarantees.
-In particular, we explain why the support of some reasoning guarantees 
-disables some program transformations and requires more heavyweight 
-compilation mappings to hardware.

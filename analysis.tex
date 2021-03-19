@@ -1,6 +1,25 @@
 \section{Analysis}
 \label{sec:analysis}
 
+We partitioned all models into six primary classes: 
+sequentially consistent models, models with total or partial order on stores, 
+program order preserving models, syntactic dependency preserving models, 
+semantic dependency preserving models, and model with out of thin-air values.
+
+In this section we discuss each class in more detail.
+We give an insight on the relationship between compilation scheme optimality, 
+soundness of transformations and reasoning guarantees.
+In particular, we explain why the support of some reasoning guarantees 
+disables some program transformations and requires more heavyweight 
+compilation mappings to hardware.
+
+Note that the order of classes is different from the one 
+in \cref{table:cmp-cls} and \cref{table:cmp-mms}.
+This is because we wanted to first introduce the problem 
+of thin-air (\cref{sec:analysis:oota}) and then describe 
+various solutions of this problem
+(\cref{sec:analysis:porf,sec:analysis:deprf,sec:analysis:sdeprf}).
+
 \input{smalltable.tex}
 
 \subsection{Sequential Consistency}
