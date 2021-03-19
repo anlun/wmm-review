@@ -17,7 +17,6 @@ defines which values reads of shared variables
 can observe at each point of execution. 
 Therefore the main abstraction of the memory model 
 is the shared memory itself. 
-
 The shared memory consists of a individual shared variables, 
 each having unique address~\footnote{
 Throughout the rest of paper, we use terms 
@@ -26,18 +25,29 @@ Threads can access these variables by performing
 loads or stores~\footnote{We also use the terms 
 load/stores and reads/writes interchangeably}.
 
-% \begin{minipage}{0.45\linewidth}
-% \begin{equation*}
-%   \readInst{}{r}{x}     
-% \tag{Load}\label{ex:load}
-% \end{equation*}
-% \end{minipage}\hfill%
-% \begin{minipage}{0.45\linewidth}
-% \begin{equation*}
-%   \writeInst{}{x}{1}    
-% \tag{Store}\label{ex:store}
-% \end{equation*}
-% \end{minipage}
+\begin{figure}[t]
+\[\def\arraystretch{1.2}
+  \begin{array}{ll} 
+    \readInst{o}{r}{x}                  & \text{Load}                   \\ 
+    \writeInst{o}{x}{v}                 & \text{Store}                  \\ 
+    \readArrayInst{o}{r}{x}{i}{j}       & \text{Mixed Size Load}        \\ 
+    \writeArrayInst{o}{x}{v}{i}{j}      & \text{Mixed Size Store}       \\ 
+    \casInst{o}{r}{x}{v_e}{v_d}         & \text{Compare-and-Swap}        \\ 
+    \faddInst{o}{r}{x}{v}               & \text{Fetch-and-Add}          \\ 
+    \lockInst{l}                        & \text{Lock}                   \\ 
+    \unlockInst{l}                      & \text{Unlock}                 \\ 
+    \fenceInst{o}                       & \text{Fence}                  \\ 
+    x \in \mathsf{Var}                  & \text{Shared Variables}       \\ 
+    r \in \mathsf{Reg}                  & \text{Thread-Local Registers} \\ 
+    v \in \mathsf{Val}                  & \text{Values}                 \\ 
+    l \in \mathsf{Lock}                 & \text{Locks}                  \\ 
+    i,j \in \mathsf{Index}              & \text{Array Indices}          \\ 
+    o \in \set{\na,\rlx,\acqrel,\sco}   & \text{Access Modes}           \\ 
+  \end{array}
+\]
+\caption{Primitives of relaxed memory models}
+\label{fig:wmm-abs}
+\end{figure}
 
 Most programming language memory models distinguish 
 \emph{non-atomic} (sometimes also called \emph{plain})
@@ -63,8 +73,9 @@ three modes: \emph{relaxed} (\emph{opaque} in \Java terminology),
 \emph{acquire/release}, and \emph{sequentially consistent}.
 They are denoted as $\rlx$, $\opq$, $\acqrel$, and $\sco$ correspondingly.
 Non-atomic accesses are often considered to be the fourth access mode $\na$, 
-but note that mixing of non-atomic and atomic accesses to the same variable 
+but note that mixing non-atomic and atomic accesses to the same variable 
 entails undefined behavior in \CPP.
+
 The access modes are ordered by the guarantees they provide
 in exchange of optimization opportunities, as the following 
 diagram shows.
@@ -86,7 +97,44 @@ the thread expecting a message can perform an acquire read.
 If the acquire read observes the release write, the two 
 threads ``synchronize''. 
 
+The memory model can also provide atomic \emph{read-modify-write} operations.
+These include \emph{compare-and-swap}, and variations of atomic increment,
+\eg \emph{fetch-and-add}, \emph{fetch-and-sub}, \etc 
+Compare-and-swap (\CAS) operation takes the shared variable, the expected 
+and the desired values. It reads the content of the variable
+and compares it with the expected value. If the two are equal,
+it substitutes the content of the variable to desired value. 
+In either case, the value read from the variable is returned as a result. 
+Note that the above operations is guaranteed to be performed atomically, 
+no other write to the shared variable may happen ``in-between'' 
+read and write parts of \CAS.
+Fetch-and-add and similar primitives perfrom 
+the operation (addition, substraction,~\etc)
+atomically and unconditionally, returning 
+the content of the shared variable prior to modification.  
 
+Locks sometimes considered to be a part 
+of the memory model~\cite{Manson-al:POPL05}, 
+as well as memory fence operations~\cite{Batty-al:POPL11},
+corresponding to hardware fence instructions
+(see \cref{sec:background-compile} for details). 
+
+Finally, the memory model can treat the shared memory 
+not as set of disjoint typed variables, but rather as 
+a raw byte sequence, and permit so-called \emph{mixed-size} 
+concurrent accesses~\cite{Flur-al:POPL17}, as in the example below 
+(assume $\declareArray{x}{0}{7}$ is byte array of size~\texttt{8}). 
+
+\begin{align*}
+\inarrIII{
+  \writeArrayInst{}{x}{1}{0}{3}
+}{
+  \writeArrayInst{}{x}{1}{4}{7}
+}{
+  \readArrayInst{}{r}{x}{0}{7}
+}
+\tag{Mixed-Size}\label{ex:mixsz}
+\end{align*}
 
 % Taking as an examples three memory models: 
 % sequential consistency, Java memory model and C/C++ memory model
@@ -153,6 +201,7 @@ threads ``synchronize''.
 % and allow as many optimizations as possible.
 
 \subsection{Optimal Compilation Scheme}
+\label{sec:background-compile}
 
 \subsubsection{Full Memory Fences}
 
