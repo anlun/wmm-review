@@ -140,7 +140,7 @@ concurrent accesses~\cite{Flur-al:POPL17}.
 % \tag{Mixed-Size}\label{ex:mixsz}
 % \end{align*}
 
-\subsection{Optimal Compilation Scheme}
+\subsection{Compilation Scheme}
 \label{sec:background:compile}
 
 We next consider the first criterion for 
@@ -257,24 +257,172 @@ specifications of these models~%
 \cite{Sewell-al:CACM10, Sarkar-al:PLDI11, 
 Flur-al:POPL16, Pulte-al:POPL18}. 
 
-\subsection{Soundness of Program Transformations}
+\subsection{Program Transformations}
 \label{sec:background:trans}
 
+The next criterion for memory model is 
+soundness of program transformations. 
+Program transformations are a source-to-source
+transfromations of the code which are applied 
+during the optimization passes of the compiler. 
+
+\emph{Sound} transformations should preserve the semantics 
+of the program. In our context, similarly to the 
+soundness of compilation scheme, it means that 
+the set of outcomes of the transformed program 
+should be a subset of outcomes of the original one. 
+
+Going back to the \ref{ex:sb} example, 
+assume the sequential consistency model again and
+consider a transformation that reorders 
+a store instruction past the following load 
+instructions, assuming the load and store
+operate on disjoint memory locations.
+
+\begin{minipage}{0.45\linewidth}
+\begin{equation*}
+\inarrII{
+   \writeInst{}{x}{1}   \\
+   \readInst{}{r_1}{y}  \\
+}{
+  \writeInst{}{y}{1}   \\
+  \readInst{}{r_2}{x}  \\
+}
+% \tag{SB}\label{ex:sb-src}
+\end{equation*}
+\end{minipage}\hfill%
+\begin{minipage}{0.05\linewidth}
+\Large~\\ $\leadsto$
+\end{minipage}\hfill%
+\begin{minipage}{0.45\linewidth}
+\begin{equation*}
+\inarrII{
+   \readInst{}{r_1}{y}  \\
+   \writeInst{}{x}{1}   \\
+}{
+  \writeInst{}{y}{1}   \\
+  \readInst{}{r_2}{x}  \\
+}
+% \tag{SBtr}\label{ex:sb-tgt}
+\end{equation*}
+\end{minipage}
+
+For the transformed version of the program (on the right),
+the outcome $[r_1=0, r_2=0]$ is sequentially consistent.
+Yet for the original one (on the left) it is not. 
+It means that the aforementioned program transformation
+is unsound for \SC. 
+
+We next present a comprehensive list of 
+various program transformations considered in
+the literature on weak memory models 
+with a short description of each one.
+These transformations can be split into 
+two subcategories: \emph{local} and \emph{global}.
+Local transformations rewrite a small 
+piece of code within a single thread.
+Global transformations may need to consider 
+the whole program (or a large part of it) 
+spanning multiple threads in order 
+to perform the rewriting.       
+ 
 \subsubsection{Local Transformations}
 
-\paragraph{Trace preserving transformations (TR)}
+\paragraph{Reordering of Independent Instructions} 
 
-\paragraph{Reordering of independent instructions (RI)}
+This transformation reorders two 
+adjucent independent memory accessing instructions
+operating on different memory locations.
+Depending on the particular pair of instructions
+it can be further split into store/load, store/store, 
+load/load, and load/store reorderings.  
+%
+\[\def\arraystretch{1.4}\footnotesize
+  \begin{array}{cccl} 
 
-\paragraph{Redundunt Load/Store Elimination (RE)}
+      \writeInst{}{x}{v} \seq \readInst{}{r}{y} 
+    & \leadsto 
+    & \readInst{}{r}{y} \seq \writeInst{}{x}{v}
+    & \text{store/load}  \\ 
 
-\paragraph{Irrelevant Load Elimination (ILE)}
+      \writeInst{}{x}{v} \seq \writeInst{}{y}{u} 
+    & \leadsto 
+    & \writeInst{}{y}{u} \seq \writeInst{}{x}{v}
+    & \text{store/store}  \\ 
+
+      \readInst{}{r}{x} \seq \readInst{}{s}{y} 
+    & \leadsto 
+    & \readInst{}{s}{y} \seq \readInst{}{r}{x}
+    & \text{load/load}  \\ 
+
+      \readInst{}{r}{x} \seq \writeInst{}{y}{v} 
+    & \leadsto 
+    & \writeInst{}{y}{v} \seq \readInst{}{r}{x}
+    & \text{load/store}  \\ 
+
+  \end{array}
+\]
+
+\paragraph{Elimination of Redundunt Access} 
+
+In a pair of two adjacent memory access instructions 
+one of them can be eliminated if its effect 
+is subsumed by the another. 
+For example, the two stores writing to the same variable 
+can be replaced by a single store.  
+Similarly to reorderings, there exist four kinds 
+of eliminations depicted below. 
+%
+\[\def\arraystretch{1.4}\footnotesize
+  \begin{array}{cccl} 
+
+      \writeInst{}{x}{v} \seq \readInst{}{r}{x} 
+    & \leadsto 
+    & \writeInst{}{x}{v} \seq \assignInst{r}{v}
+    & \text{store/load}  \\ 
+
+      \readInst{}{r}{x} \seq \readInst{}{s}{x} 
+    & \leadsto 
+    & \readInst{}{r}{x} \seq \assignInst{s}{r}
+    & \text{load/load}  \\ 
+
+      \readInst{}{r}{x} \seq \writeInst{}{x}{r} 
+    & \leadsto 
+    & \readInst{}{r}{x} 
+    & \text{load/store}  \\ 
+
+      \writeInst{}{x}{v} \seq \writeInst{}{x}{u} 
+    & \leadsto 
+    & \writeInst{}{x}{u}
+    & \text{store/store}  \\ 
+
+  \end{array}
+\]
+
+\paragraph{Irrelevant Load Elimination}
+
+Yet another elimination transformation 
+which removes the load instruction if its 
+result is never used. 
+%
+\[\def\arraystretch{1.4}\footnotesize
+  \begin{array}{ccc|l} 
+
+      \readInst{}{r}{x} 
+    & \leadsto 
+    & \epsInst
+    & \text{$r$ is never used}  \\ 
+
+  \end{array}
+\]
 
 \paragraph{Speculative Load Introduction (SLI)}
 
+\paragraph{Roach Motel Reordering (RM)}
+
 \paragraph{Strengthening (S)}
 
-\paragraph{Roach Motel Reordering (RM)}
+\paragraph{Trace preserving transformations (TR)}
 
 \subsubsection{Global Transformations}
 
