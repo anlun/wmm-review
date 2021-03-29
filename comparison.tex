@@ -49,7 +49,7 @@ For the memory models that treat racy non-atomic accesses
 as undefined behavior, we consider the compilation mapping
 for most relaxed access types the model provides.
 This is because the catch-fire semantics for racy non-atomics 
-trivially permits the most optimal compilation mappings (see~\cref{sec:bgrnd-ub}).
+trivially permits the most optimal compilation mappings (see~\cref{sec:background:ub}).
 We say that compilation scheme is \emph{optimal} if the 
 accesses annotated by the most relaxed mode 
 can be compiled just as plain load and store instructions 
@@ -57,17 +57,17 @@ of the given hardware architecture (\ie without memory fences or extra dependenc
 
 The second group is dedicated to soundness of various program transformations. 
 The classification is also binary: a transformation is either sound or unsound 
-in the given memory model (in a sense stated in~\cref{sec:bgrnd-opt-sound}).
+in the given memory model (in a sense stated in~\cref{sec:background:trans}).
 Again, to be concise, we do not consider all the combinations 
 of program tranformations and memory access modes. 
 Instead, we consider the weakest possible accesses which have fully defined semantics. 
-We further split the transformations into global and local as in~\cref{sec:bgrnd-opt-sound}.
+We further split the transformations into global and local as in~\cref{sec:background:trans}.
 
 The third group corresponds to reasoning principles guaranteed by the model. 
 It includes the following properties. What kind of DRF guarantee the model provides.
-(we distinguish the internal, external and local DRF theorems, see~\cref{sec:bgrnd-drf}).
-Whether the model has undefined behaviors (see~\cref{sec:bgrnd-ub}).
-Whether the model permits out-of-thin-air values (see~\cref{sec:bgrnd-oota}).
+(we distinguish the internal, external and local DRF theorems, see~\cref{sec:background:drf}).
+Whether the model has undefined behaviors (see~\cref{sec:background:ub}).
+Whether the model permits out-of-thin-air values (see~\cref{sec:background:oota}).
 
 Finally, the last group enumerates the list of memory access modes 
 and fences supported by the model, as well as whether the model 

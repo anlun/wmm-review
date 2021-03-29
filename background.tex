@@ -9,7 +9,7 @@ and provided reasoning guarantees.
 % But first we need to specify 
 
 \subsection{Abstractions and Interfaces}
-\label{sec:background-primitives}
+\label{sec:background:primitives}
 
 
 The memory model defines the semantics of the shared memory 
@@ -86,12 +86,12 @@ $$ \na \sqsubseteq \rlx \sqsubseteq \acqrel \sqsubseteq \sco $$
 
 On the one end of the spectrum are sequentially consistent accesses. 
 They guarantee to restore the \SC semantics, if used properly 
-(see \cref{sec:background-drf} for details).
+(see \cref{sec:background:drf} for details).
 Non-atomic accesses, as we have already discussed, give 
 from little to no guarantee. 
 Relaxed accesses also have very weak guarantees, 
 usually they provide the so-called \emph{coherence} property
-(see \cref{sec:background-coh} for details).
+(see \cref{sec:background:coh} for details).
 Finally, in the middle there are the acquire/release accesses. 
 They are designed to support the message passing idiom~\cite{Lahav-al:POPL16}.
 The thread sends the message by performing a release write, 
@@ -119,27 +119,29 @@ Locks sometimes considered to be a part
 of the memory model~\cite{Manson-al:POPL05}, 
 as well as memory fence operations~\cite{Batty-al:POPL11},
 corresponding to hardware fence instructions
-(see \cref{sec:background-compile} for details). 
+(see \cref{sec:background:compile} for details). 
 
 Finally, the memory model can treat the shared memory 
 not as set of disjoint typed variables, but rather as 
 a raw byte sequence, and permit so-called \emph{mixed-size} 
-concurrent accesses~\cite{Flur-al:POPL17}, as in the example below 
-(assume $\declareArray{x}{0}{7}$ is byte array of size~\texttt{8}). 
+concurrent accesses~\cite{Flur-al:POPL17}. 
 
-\begin{align*}
-\inarrIII{
-  \writeArrayInst{}{x}{1}{0}{3}
-}{
-  \writeArrayInst{}{x}{1}{4}{7}
-}{
-  \readArrayInst{}{r}{x}{0}{7}
-}
-\tag{Mixed-Size}\label{ex:mixsz}
-\end{align*}
+% , as in the example below 
+% (assume $\declareArray{x}{0}{7}$ is byte array of size~\texttt{8}). 
+
+% \begin{align*}
+% \inarrIII{
+%   \writeArrayInst{}{x}{1}{0}{3}
+% }{
+%   \writeArrayInst{}{x}{1}{4}{7}
+% }{
+%   \readArrayInst{}{r}{x}{0}{7}
+% }
+% \tag{Mixed-Size}\label{ex:mixsz}
+% \end{align*}
 
 \subsection{Optimal Compilation Scheme}
-\label{sec:background-compile}
+\label{sec:background:compile}
 
 We next consider the first criterion for 
 programming language memory models --- 
@@ -148,7 +150,7 @@ A compilation scheme is a mapping of
 programming language primitives into 
 instructions of particular hardware architecture. 
 In our setting we consider the primitives 
-mentioned in \cref{sec:background-primitives}.
+mentioned in \cref{sec:background:primitives}.
 The hardware architectures provide a similar set 
 of instructions which usually contain 
 plain load and stores\footnote{Some architectures 
@@ -256,7 +258,7 @@ specifications of these models~%
 Flur-al:POPL16, Pulte-al:POPL18}. 
 
 \subsection{Soundness of Program Transformations}
-\label{sec:bgrnd-opt-sound}
+\label{sec:background:trans}
 
 \subsubsection{Local Transformations}
 
@@ -285,7 +287,7 @@ Flur-al:POPL16, Pulte-al:POPL18}.
 \subsection{Reasoning Guarantees}
 
 \subsubsection{DRF Theorems}
-\label{sec:background-drf}
+\label{sec:background:drf}
 
 \begin{itemize}
   \item Motivation: no weak behaviors for well-sync programs.
@@ -306,7 +308,7 @@ Flur-al:POPL16, Pulte-al:POPL18}.
 \end{itemize}
 
 \subsubsection{Out-of-Thin-Air Values}
-\label{sec:bgrnd-oota}
+\label{sec:background:oota}
 
 \begin{itemize}
   \item Introduce three examples: LB, LB+dep, LB+fakedep.
@@ -360,7 +362,7 @@ Flur-al:POPL16, Pulte-al:POPL18}.
 \end{itemize}
 
 \subsubsection{Undefined Behavior}
-\label{sec:bgrnd-ub}
+\label{sec:background:ub}
 
 \begin{itemize}
   \item Motivation: enable more opts for non-atomics.
@@ -370,7 +372,7 @@ Flur-al:POPL16, Pulte-al:POPL18}.
 \end{itemize}
 
 \subsubsection{Coherence (?)}
-\label{sec:background-coh}
+\label{sec:background:coh}
 
 \subsection{Supported Features and Interfaces}
 
