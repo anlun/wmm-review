@@ -14,6 +14,7 @@
 \newcommand{\writeArrayInst}[5]{#2[#4..#5]\;:=_{#1}\;#3}
 
 \newcommand{\fenceInst}[1]{\mathsf{fence}_{#1}}
+\newcommand{\mfenceInst}{\mathsf{mfence}}
 
 \newcommand{\casInst}[5]{#2 := #3.\mathsf{cas}_{#1}(#4, #5)}
 \newcommand{\faddInst}[4]{#2 := #3.\mathsf{fadd}_{#1}(#4)}
@@ -23,6 +24,8 @@
 
 \newcommand{\writeExclInst}[3]{\textup{\sf atomic-write}(#1, [#2], #3)}
 \newcommand{\assignInst}[2]{#1\;:=\;#2}
+
+\newcommand{\emptyInst}{~}
 
 \newcommand{\inarrC}[1]{\begin{array}{@{}c@{}}#1\end{array}}
 \newcommand{\inpar}[1]{\left(\begin{array}{@{}l@{}}#1\end{array}\right)}

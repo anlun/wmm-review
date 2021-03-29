@@ -9,6 +9,8 @@ and provided reasoning guarantees.
 % But first we need to specify 
 
 \subsection{Abstractions and Interfaces}
+\label{sec:background-primitives}
+
 
 The memory model defines the semantics of the shared memory 
 in the presence of concurrently executing threads. 
@@ -109,7 +111,7 @@ Note that the above operations is guaranteed to be performed atomically,
 no other write to the shared variable may happen ``in-between'' 
 read and write parts of \CAS.
 Fetch-and-add and similar primitives perfrom 
-the operation (addition, substraction,~\etc)
+the operation (addition, substraction,~\emph{etc.}~)
 atomically and unconditionally, returning 
 the content of the shared variable prior to modification.  
 
@@ -136,174 +138,122 @@ concurrent accesses~\cite{Flur-al:POPL17}, as in the example below
 \tag{Mixed-Size}\label{ex:mixsz}
 \end{align*}
 
-% Taking as an examples three memory models: 
-% sequential consistency, Java memory model and C/C++ memory model
-% we will see that each of them fails at least in one aspect.
-
-%% EVGENII: also cite corresponding java and c/c++ specs?
-
-% \subsection{Memory models under consideration}
-
-% We chose to demonstrate the requirements to models on the example of SC, CMM and JMM for reason.
-% Again, SC was picked as a ``baseline''.
-% The other two models, Java and C/C++, was chosen because 
-% (1) they were the first formally specified memory models of industrial programming languages, and
-% (2) they are significantly differ in their design and goals.
-
-% \subsubsection{C/C++ Memory Model}
-
-% Memory model of the C/C++ follows the design principles of the language itself.
-
-% C and C++ languages positions themselves as low-level programming languages
-% that provide zero-cost abstractions that generally do not put any performance penalties. 
-% In other words the abstraction that these languages provide 
-% should be compiled into efficient assembly code,
-% and leave the room for the aggressive optimizations.
-
-% The efficiency of the compiled code however comes with a certain cost.
-% The programmer should strictly obey the rules and conventions
-% established by the language's specification, 
-% otherwise program is said to have \emph{undefined behavior} (UB for short)
-
-% With respect to the memory model, the above means that C/C++ compiler should
-% compile accesses to shared variables as plain memory accesses of the CPU,
-% and provide to the programmer low-level syncronization primitives
-% that can be mapped directly to CPU instructions.
-% Besides that, the compiler should be able to perform 
-% as many optimizations as possible to the code containing shared accesses.
-% As we will see, not all of the optimizations that are sound 
-% for a single thread program reamins sound for concurrent programs that contain data races. 
-% %% TODO: give some example? reordering of reads to the same location, as Anton suggested? 
-
-% For these reasons C/C++ distinguish two kind of memory accesses.
-% Non-atomic accesses are can be used to perform read or write to memory that 
-% is owned exclusively by one thread at the time of the access.
-% Data-races on non-atomic accesses lead to undefined behavior for the whole program
-% (so called \emph{catch-fire} semantics).
-% In contrast, atomic accesses can be used to access memory that can be shared between different threads. 
-% The results of data-races on these accesses are specified by the language and do not lead to undefined behavior.
-% The consequence is that some of the compiler optimization are not applicable to atomic accesses.
-% In addition to two kinds of memory accesses C/C++ also provide fences ---
-% low-level synchronization primitives similar to CPUs fence instructions.
-
-% \subsubsection{Java Memory Model}
-
-% The Java language makes different design choices and has different tradeoffs comparing to C/C++.
-% Unlike the later languages, Java provides safety and security guarantees
-% which are enforced both at compile time and at runtime.  
-% Thus Java language specification cannot tolerate undefined behaviors.
-% Despite that the Java compilers still make a lot of effort 
-% to provide good performance of the compiled code.
-
-% Consequently, Java memory model should follow this design 
-% and do not break any of the language's guarantees
-% while still admit fairly efficient compilation scheme
-% and allow as many optimizations as possible.
-
 \subsection{Optimal Compilation Scheme}
 \label{sec:background-compile}
 
-\subsubsection{Full Memory Fences}
+We next consider the first criterion for 
+programming language memory models --- 
+an optimality of compilation scheme. 
+A compilation scheme is a mapping of 
+programming language primitives into 
+instructions of particular hardware architecture. 
+In our setting we consider the primitives 
+mentioned in \cref{sec:background-primitives}.
+The hardware architectures provide a similar set 
+of instructions which usually contain 
+plain load and stores\footnote{Some architectures 
+also provide various types of load and stores
+matching the access modes annotations, 
+\eg \texttt{lda} --- load acquire, 
+and \texttt{stl} --- store release on \ARMv{8}}, 
+read-modify-write operations, 
+and also various memory fences.    
 
-\begin{itemize}
-  \item Mention x86-TSO again.
-  \item Present SB example again. 
-  \item How to restore SC?
-  \item Introduce \texttt{mfence}. SB+MFENCE example.
-  \item Mention \texttt{sync} (POWER) and \texttt{dmb} (ARM).
-\end{itemize}
+The compilation mapping should be \emph{sound}.
+In the context of this paper it means that 
+the set of outcomes permited by the 
+memory model of the hardware should be 
+a subset of outcomes permited by the 
+programming language model. 
 
-\subsubsection{Lightweight Memory Fences}
+Let us consider an example. 
+The program \ref{ex:sb} below is a 
+fragment of the \ref{ex:Dekker} program 
+from the \cref{sec:intro}.
+Assume the memory model of the programming language
+is sequential consistency, and we want 
+to compile for \xTSO hardware. 
+Then if one compile all loads and stores 
+to plain load and store instructions of \xTSO,
+the outcome $[r_1=0, r_2=0]$ would be 
+allowed for the compiled program 
+(and it can actually be observed in practice), 
+since the memory model of \xTSO permits this outcome. 
+It can be obtained as a result of \emph{store buffering}
+optimization (hence the name of the program \ref{ex:sb}). 
+The store $\writeInst{}{x}{1}$ can be buffered and 
+executed after all other instructions of the program.  
+Yet clearly the outcome $[r_1=0, r_2=0]$ is not sequentially consisestent. 
+Therefore the proposed compilation scheme, 
+which maps all load and stores to the plain one is unsound. 
+As we have demonstrated in \cref{sec:intro} 
+the unsoundness of compilation scheme has 
+dramatic consequences, as it may break 
+the correctness of the program. 
 
-\begin{itemize}
-  \item Mention POWER and ARM (weaker than x86).
-  \item Present MP example. 
-  \item Introduce \texttt{lwsync} (POWER), \texttt{dmb ld} and \texttt{dmb st} (ARM).
-\end{itemize}
+\begin{minipage}{0.45\linewidth}
+\begin{equation*}
+\inarrII{
+   \writeInst{}{x}{1}   \\
+   \emptyInst           \\
+   \readInst{}{r_1}{y}  \\
+}{
+  \writeInst{}{y}{1}   \\
+  \emptyInst           \\
+  \readInst{}{r_2}{x}  \\
+}
+\tag{SB}\label{ex:sb}
+\end{equation*}
+\end{minipage}\hfill%
+\begin{minipage}{0.45\linewidth}
+\begin{equation*}
+\inarrII{
+   \writeInst{}{x}{1}   \\
+   \mfenceInst          \\
+   \readInst{}{r_1}{y}  \\
+}{
+  \writeInst{}{y}{1}   \\
+  \mfenceInst          \\
+  \readInst{}{r_2}{x}  \\
+}
+\tag{SB+MFENCE}\label{ex:sb-mfence}
+\end{equation*}
+\end{minipage}
 
-\subsubsection{Syntactic Dependencies}
+A sound compilation scheme for sequential consistency 
+can compile the stores as plain stores followed 
+by the \texttt{mfence} instruction~\cite{Sewell-al:CACM10, Batty-al:POPL11}, 
+as demonstrated in \ref{ex:sb-mfence}. 
+The \texttt{mfence} is a special memory fence instruction
+of \xTSO architecture which flushes the store buffer of the thread. 
+For the program \ref{ex:sb-mfence} the outcome $[r_1=0, r_2=0]$
+is forbidden by the \xTSO memory model. 
 
-\begin{itemize}
-  \item Mention POWER and ARM again. Mention event weaker archs (e.g. DEC-Alpha) (?).
-  \item Present LB example. 
-  \item Introduce syntactic dependencies and \texttt{isync} (POWER).
-\end{itemize}
-
-% Having a short description of the memory models 
-% together with their design goals we are ready to proceed 
-% and consider whether these models satisfy the desired requirements.
-% We are going to start with compilation schemes.
-
-% As we have seen, the memory models of modern CPUs 
-% (those based on x86, ARMv8 and POWER architecture)
-% are weak and allow non sequentially consistent behaviors.
-% This is a result of various optimization implemented in hardware,
-% including instruction pipelines, speculative out of order executions, 
-% hierarchy of caches with complex coherence protocols, and others.
-
-% If the memory model wants to provide stronger guarantees 
-% than the CPU does (as for example sequentially consistent model)
-% it should somehow prevent the out of order executions.
-% In general, there are two ways to achieve that. 
-
-% First, as we have already discussed, special fence instructions,
-% provided by the CPU (such as \texttt{mfence} on x86) can be used.
-% These instructions usually flush caches, prevent speculative executions
-% and perform any other actions required by the hardware architecture
-% to forbid various weak behaviours.
-
-% Second, all modern hardware architectures do not reorder instructions 
-% if there are \emph{syntactic dependencies} between them. 
-% For example, the load instruction cannot be moved below 
-% the store instruction if there is conditional jump instruction between them.
-% The compiler can utilize this and prevent 
-% the reordering of the load instruction below subsequent stores
-% by emiting a usuless conditional jump instruction that would jump 
-% to the same label no matter what is the result of condition evaluation.
-% Dependencies of such kind can be computed following the 
-% syntax of the program (hence the name) as opposed 
-% to \emph{semantic dependencies} 
-% (we will see the difference between the two later).
-
-% Now that we have CPU fences and syntactic dependencies in our service
-% let's have a look at how they are used in real compilation schemes.
-
-% \subsubsection{Compiling SC}
-
-% Sequential consistency model is very expensive to implement in hardware. 
-% For this reasons all modern hardware architectures (including rather strong x86) do not provide it. 
-% We have seen this on the examples of Dekker lock and SB programs in \ref{introduction}.
-
-% In order to restore the sequential consistency on x86 one has to 
-% insert \texttt{mfence} instruction after each write.
-% On ARMv7 and POWER one need to insert full memory fence
-% (\texttt{dmb} and \texttt{sync} on ARMv7/POWER correspondingly)
-% before each write,
-% emit same full fence before each read, and also
-% add a syntactic dependency with special instruction fence 
-% (\texttt{isb} and \texttt{isync} on ARMv7/POWER correspondingly)
-% after the read.
-% Newer ARMv8 chips allows simpler solution, 
-% one just need to compile accesses to special 
-% load/store instruction to restore SC semantics
-% (\texttt{ldar} and \texttt{stlr}).
-% The table summarizes the resulting compilation mappings.
-
-% %% TODO: Here will be the table with compilation mappings
-
-% The natural question to ask is how much of the performance penalties
-% these compilation mappings induce compared to compiling all accesses as plain ones
-% without any fences or artificial syntactic dependencies.
-
-% %% TODO: cite some paper, present table with measurements etc. 
-
-% Thus one can see that enforcing sequential consistency on modern hardware is costly.
-
-% \subsubsection{Compiling C/C++}
-
-% \subsubsection{Compiling Java}
-
-%% TODO: compiler optimizations --> program transformations (?)
+Although the modified compilation scheme is sound for \SC, 
+it is not \emph{optimal}, in a sense that 
+it requires to use memory fence instructions, 
+which usually induces a performance penalty~\cite{Marino-al:PLDI11, Liu-al:OOPSLA17}.
+Unfortunately, it is not possible to have compilation mapping 
+for \SC model which is both \emph{sound and optimal}, 
+assuming the modern hardware architectures.     
+This fact makes \SC memory model unsuitable  
+for the high-performance programming languages
+and serves as one of the stimuls for the weakening 
+of the memory model. 
+ 
+In this paper, when speaking about the compilation schemes, 
+we will consider the following hardware memory models:
+\xTSO, \POWER, \ARMv{7}, and \ARMv{8}. 
+This is for two main reasons. 
+First, these hardware architectures are the 
+most widespread today~\cite{}. 
+Second, they have received a lot of attention 
+from the research community recently. 
+As the result of this effort, 
+there were developed a rigorous formal 
+specifications of these models~%
+\cite{Sewell-al:CACM10, Sarkar-al:PLDI11, 
+Flur-al:POPL16, Pulte-al:POPL18}. 
 
 \subsection{Soundness of Program Transformations}
 \label{sec:bgrnd-opt-sound}
