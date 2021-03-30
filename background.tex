@@ -6,9 +6,12 @@ programming language memory models,
 namely an optimality of the compilation scheme, 
 soundness of common program transformations, 
 and provided reasoning guarantees.  
-% But first we need to specify 
+But first we need to introduce the 
+programming primitives provided by the shared memory abstraction, 
+and the various styles of formal semantics 
+used to specify the memory model. 
 
-\subsection{Abstractions and Interfaces}
+\subsection{Programming Primitives}
 \label{sec:background:primitives}
 
 
@@ -139,6 +142,8 @@ concurrent accesses~\cite{Flur-al:POPL17}.
 % }
 % \tag{Mixed-Size}\label{ex:mixsz}
 % \end{align*}
+
+\subsection{Formal Semantics}
 
 \subsection{Compilation Scheme}
 \label{sec:background:compile}
@@ -317,7 +322,14 @@ We next present a comprehensive list of
 various program transformations considered in
 the literature on weak memory models 
 with a short description of each one.
-These transformations can be split into 
+Note that it is far from being a complete list of 
+transformations used in optimizing compilers~\cite{Muchnick:ACDI97}.
+For example it lacks common loop optimizations, 
+because the theory of relaxed memory models still
+strugles with problems of liveness properties, 
+needed to study these transformations formally. 
+
+The transformations we consider can be split into 
 two subcategories: \emph{local} and \emph{global}.
 Local transformations rewrite a small 
 piece of code within a single thread.
@@ -406,23 +418,157 @@ which removes the load instruction if its
 result is never used. 
 %
 \[\def\arraystretch{1.4}\footnotesize
-  \begin{array}{ccc|l} 
+  \begin{array}{cccl} 
 
       \readInst{}{r}{x} 
     & \leadsto 
     & \epsInst
-    & \text{$r$ is never used}  \\ 
+    & ~|~ \text{$r$ is never used}  \\ 
 
   \end{array}
 \]
 
-\paragraph{Speculative Load Introduction (SLI)}
+\paragraph{Speculative Load Introduction}
 
-\paragraph{Roach Motel Reordering (RM)}
+The inverse to the previous transformation, 
+the load instroduction inserts a load instruction 
+in an arbitary place of the program.
+%
+\[\def\arraystretch{1.4}\footnotesize
+  \begin{array}{cccl} 
 
-\paragraph{Strengthening (S)}
+      \epsInst
+    & \leadsto 
+    & \readInst{}{r}{x} 
+    & ~|~ \text{$r$ is never used}  \\ 
 
-\paragraph{Trace preserving transformations (TR)}
+  \end{array}
+\]
+
+It can be used in combination with 
+load/load elimination to move a load 
+instruction out from one branch of 
+the conditional.
+%
+\[\def\arraystretch{1.4}\footnotesize
+  \begin{array}{ccc} 
+
+      \kw{if} (e)~ \kw{then} \{ \readInst{}{r}{x} \}
+    & \leadsto 
+    & \readInst{}{s}{x} \seq \kw{if} (e)~ \kw{then} \{ \assignInst{r}{s} \} \\
+    & & ~|~ \text{$s$ is never used}  \\ 
+
+  \end{array}
+\]
+
+\paragraph{Roach Motel Reordering}
+
+This class of reorderings moves memory access instructions
+into synchronization blocks. For example, a store 
+can be moved past a lock acquisition. 
+Intuitively, such reorderings can only increase 
+the synchronization of the program, 
+which means that the transformed program should 
+exhibit less non-determinism and have fewer outcomes. 
+
+Non-atomic accesses can be moved freely inside 
+a critical section, \ie past a lock acquisition
+or prior a lock release. 
+Besides that, a non $\sco$ store can be moved after \texttt{lock}, 
+and non $\sco$ load can be moved prior \texttt{unlock}.   
+Similar rules apply to reordeings around 
+acquire and release accesses and fences, 
+where an acquire operation behaves similarly to \texttt{lock}, 
+and release operation similarly to \texttt{unlock}.
+% %
+\[\def\arraystretch{1.4}\footnotesize
+  \begin{array}{cccl} 
+
+      \readInst{\na}{r}{x} \seq \lockInst{l} 
+    & \leadsto 
+    & \lockInst{l} \seq \readInst{\na}{r}{x}
+    & ~ \\ 
+
+      \writeInst{o}{x}{v} \seq \lockInst{l} 
+    & \leadsto 
+    & \lockInst{l} \seq \writeInst{o}{x}{v}
+    & ~|~ o \sqsubset \sco  \\ 
+
+      \unlockInst{l} \seq \writeInst{\na}{x}{v} 
+    & \leadsto 
+    & \writeInst{\na}{x}{v} \seq \unlockInst{l}
+    & ~ \\ 
+
+
+      \unlockInst{l} \seq \readInst{o}{r}{x} 
+    & \leadsto 
+    & \readInst{o}{r}{x} \seq \unlockInst{l}
+    & ~|~ o \sqsubset \sco  \\ 
+
+  \end{array}
+\]
+
+
+\paragraph{Strengthening}
+
+Similarly to the roach motel reordeing, the strengthening
+transformation increases the synchronization by 
+replacing an access mode of an operation by a stronger one. 
+For example, a non-atomic access can be replaced by 
+a sequentially consistent access. 
+%
+\[\def\arraystretch{1.4}\footnotesize
+  \begin{array}{cccl} 
+
+      \readInst{o}{r}{x} 
+    & \leadsto 
+    & \readInst{o'}{r}{x}
+    & ~|~ o \sqsubset o' \\ 
+
+      \writeInst{o}{x}{v}
+    & \leadsto 
+    & \writeInst{o'}{x}{v}
+    & ~|~ o \sqsubset o'  \\ 
+
+  \end{array}
+\]
+
+\paragraph{Trace Preserving Transformations}
+
+This wide class contains all local transformations 
+which do not change the set of traces of a thread. 
+An example is classic \emph{constant folding}%
+~\cite{Muchnick:ACDI97, Wegman-Zadeck:TOPLAS91} transformation.
+Below is particular example of constant folding application.
+%
+\[\def\arraystretch{1.4}\footnotesize
+  \begin{array}{cccl} 
+
+      \writeInst{}{x}{0 + v} 
+    & \leadsto 
+    & \writeInst{}{x}{v}
+    & \\ 
+
+  \end{array}
+\]
+  
+\paragraph{Common Subexpression Elimination}
+
+Yet another classic transformation~\cite{Muchnick:ACDI97} 
+which searches for instances of identical expressions 
+and removes the redundunt computations. 
+Below is an example. 
+%
+\[\def\arraystretch{1.4}\footnotesize
+  \begin{array}{cccl} 
+
+      \readInst{}{r_1}{x + y} \seq \readInst{}{r_2}{x + y} 
+    & \leadsto 
+    & \readInst{}{r_1}{x + y} \seq \readInst{}{r_2}{r_1}
+    & \\ 
+
+  \end{array}
+\]
 
 \subsubsection{Global Transformations}
 
@@ -522,5 +668,5 @@ result is never used.
 \subsubsection{Coherence (?)}
 \label{sec:background:coh}
 
-\subsection{Supported Features and Interfaces}
+\subsection{}
 
