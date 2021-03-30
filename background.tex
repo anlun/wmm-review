@@ -572,11 +572,81 @@ Below is an example.
 
 \subsubsection{Global Transformations}
 
-\paragraph{Register Promotion (RP)}
+\paragraph{Register Promotion}
 
-\paragraph{Value Range based Transformations (VR)}
+If the compiler can determine that a shared variable 
+is accesses only from a single thread, it can replace 
+the variable by a thread-local register. 
+%
+\[\def\arraystretch{1.4}\footnotesize
+  \begin{array}{ccl} 
 
-\paragraph{Thread Inlining (TI)}
+      \writeInst{}{x}{v} \seq \readInst{}{r}{x} 
+    & \leadsto 
+    & \assignInst{s}{v} \seq \assignInst{r}{s}
+    \\ 
+    
+    & & |~ \text{\texttt{x} is not accessed from other threads} \\
+    & & |~ \text{\texttt{s} is a fresh register} \\ 
+
+  \end{array}
+\]
+
+\paragraph{Thread Inlining}
+
+Sequentialization or thread inlining 
+merges two threads into one. 
+%
+\[\def\arraystretch{1.4}\footnotesize
+  \begin{array}{cccl} 
+
+      P \pll Q 
+    & \leadsto 
+    & P ~\seq Q
+    & ~ \\ 
+    
+  \end{array}
+\]
+
+
+\paragraph{Value Range Based Transformations}
+
+Transformation of this class can be applied 
+if a program satisfies some invariant deduced 
+by a global value-range analysis. 
+For example, in a program below   
+the conditional statement can be eliminated 
+since a static analysis can deduce an invariant 
+$\mathsf{x} \geq \mathsf{0}$.
+
+{\footnotesize
+\begin{minipage}{0.45\linewidth}
+\begin{equation*}
+\inarrII{
+   \readInst{}{r_1}{x}             \\
+   \kw{if} (r_1 \geq 0) ~\kw{then} \\
+   \quad\writeInst{}{y}{1}         \\
+}{
+  \readInst{}{r_2}{x}               \\
+  \writeInst{}{y}{r_2}              \\
+}
+\end{equation*}
+\end{minipage}\hfill%
+\begin{minipage}{0.05\linewidth}
+\Large~\\ $\leadsto$
+\end{minipage}\hfill%
+\begin{minipage}{0.4\linewidth}
+\begin{equation*}
+\inarrII{
+   \readInst{}{r_1}{x}             \\
+   \writeInst{}{y}{1}              \\
+}{
+  \readInst{}{r_2}{x}               \\
+  \writeInst{}{y}{r_2}              \\
+}
+\end{equation*}
+\end{minipage}
+}
 
 \subsection{Reasoning Guarantees}
 
@@ -668,5 +738,4 @@ Below is an example.
 \subsubsection{Coherence (?)}
 \label{sec:background:coh}
 
-\subsection{}
 
