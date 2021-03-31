@@ -50,9 +50,6 @@ outcomes by definition, thus it satisfies DRF-SC without any preconditions.
 The coherence property is equivalent to sequential consistency per location.
 The fact that in SC model any execution is sequentially consistent implies trivially
 that accesses to each location are also sequentially consistent.
-The model also preserves program order.
-\app{I don't get the last sub-sentence.}
-\eupp{Use some nice non-techical terminology for $\lPO\cup\lRF$ acyclicity}
 
 The conceptual simplicity of SC have inspired many researchers 
 to adopt it and to try to mitigate the induced performance penalty.
@@ -78,9 +75,6 @@ Finally, modern compilers usually require
 a significant amount of engeneering work and rewrite
 in order to preserve \SC~\cite{Marino-al:PLDI11, Liu-al:PLDI19}.
 
-\app{As a reader, I'd expect to see the slowdown numbers in the table in some
-unified manner.}
-
 \subsection{Total and Partial Store Order}
 
 The next class of PL memory models we consider 
@@ -95,25 +89,24 @@ or partial (in case of \PSO) order on write events,
 consistent with program order and such that 
 each read either reads locally or from 
 the most recent write~\cite{Sewell-al:CACM10, Lahav-al:POPL16}. 
-
 Models of this class can be compiled down to x86 hardware without any 
-performance penalty, since x86 implements TSO model itself.
-However, on weaker hardware (e.g. POWER) 
+performance penalty, since \xTSO implements \TSO model itself.
+However, on weaker hardware (e.g. \POWER) 
 the compiler need to emit essentially as many fences 
-as to enforce \SC~\cite{Lustig-al:AISCA15}. 
-This class also permits more program transformations.
+as to enforce~\SC~\cite{Lustig-al:AISCA15}. 
+This class permits more program transformations than \SC.
 Store buffers enable store/load reordering (in case of~\TSO),
 and store/load \& store/store reordegins (in case of~\PSO).
 The \TSO and \PSO models are weaker than \SC, 
-but they are still relatively strong.
-The external DRF-SC and coherence properties hold
-and program order is preserved.
+but they are still relatively strong~---
+the external DRF-SC and coherence properties hold.
 
 Therefore these models do not have any significant 
 benefits in terms of reasoning guarantees compared to \SC,
-but induce a similar performance penalty on weak architectures. 
+but induce a similar performance penalty 
+on architectures weaker than \xTSO. 
 Hence the choice of \TSO and \PSO as the programming language level
-memory model is reasonable only if the language targets x86 hardware solely. 
+memory model is reasonable only if the language targets \xTSO hardware solely. 
 
 \subsection{Out of Thin-Air Values}
 \label{sec:analysis:oota}
@@ -237,6 +230,8 @@ programming languages memory models~\cite{Boehm-Demsky:MSPC14, Batty-al:ESOP15}.
 A lot of effort has been put to forbid problematic 
 thin-air outcomes, while still keep compilation scheme as efficient as possible
 and enable as many transformations as possible.
+In the rest of this section we descibe various proposals 
+tackling the thin-air problem. 
 
 \subsection{Program Order Preserving}
 \label{sec:analysis:porf}
@@ -252,7 +247,7 @@ the memory model does not need to resort to speculative execution
 and can perform threads' instructions in order. 
 The memory storage can be implemented as a 
 monotonically growing history of messages, 
-witch each thread having its own view on 
+with each thread having its own view on 
 the frontier of this history~\cite{Dolan-al:PLDI18, Doherty-al:PPoPP19}.
 In terms of axiomatic semantics it is enough to just
 forbid cycles consisting of program order and reads-from relations. 
@@ -263,7 +258,7 @@ The authors have shown that many
 program transformations are still sound in this setting, 
 with the obvious exception of load/store reordering itself
 (see~\cref{table:cmp-mms} for details).
-Also, the compilation mappings to \xTSO remain efficient, 
+The compilation mappings to \xTSO remain efficient, 
 since the architecture already guarantee to preserve the order 
 between loads and subsequent stores. 
 However, weaker architectures (\ARM, \POWER) do not guarantee that, 
@@ -285,10 +280,9 @@ if one want to apply it to non-atomic accesses as well.
 
 In conclusion, the memory models forbidding load/store reorderings
 provide a simple solution to thin-air problem, 
-give a convinient formal model,  
 restore external DRF-SC guarantee, preserve soundness of 
 most program transformations, induce no overhead when 
-compiled down to \xTSO, and only a moderate overhead 
+compiled down to \xTSO, and a moderate overhead 
 when compiled to \ARM or \POWER.
 
 \subsection{Syntactic Dependencies Preserving}
@@ -344,19 +338,19 @@ Constant folding is one of the basic kind of optimizations that
 any compiler might want to apply, 
 and the fact that it is unsound  
 makes the adoption of this class of models problematic.
+Note that hardware models apply a similar approach 
+and usually have a notion of dependencies between 
+the memory operations~\cite{Sarkar-al:PLDI11, Alglave-al:TOPLAS14, Pulte-al:POPL18}.
+Yet in this setting the unsoundness of 
+trace preserving transformation is not a problem,
+since the hardware does not perform such complex optimizations.
+
 Ou and Demsky~\cite{Ou-Demsky:OOPSLA18} adjusted 
 the compiler optimization passes to preserve
 dependencies between non-atomic accesses 
 and reported a moderate slowdown compared 
 to the unmodified version of the compiler  
 (see \ref{sec:catalog:deprf} for details).
-
-Note that harware models apply a similar approach 
-and usually have a notion of dependencies between 
-the memory operations~\cite{Sarkar-al:PLDI11, Alglave-al:TOPLAS14, Pulte-al:POPL18}.
-Yet in this setting the unsoundness of 
-trace preserving transformation is not a problem,
-since the hardware does not perform such complex optimizations.
 
 \subsection{Semantic Dependencies Preserving}
 \label{sec:analysis:sdeprf}
