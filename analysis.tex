@@ -1,17 +1,20 @@
 \section{Analysis}
 \label{sec:analysis}
 
-We partitioned all models into six primary classes: 
-sequentially consistent models, models with total or partial order on stores, 
-program order preserving models, syntactic dependency preserving models, 
-semantic dependency preserving models, and model with out of thin-air values.
+% We partitioned all models into six primary classes: 
+% sequentially consistent models, models with total or partial order on stores, 
+% program order preserving models, syntactic dependency preserving models, 
+% semantic dependency preserving models, and model with out of thin-air values.
 
-In this section we discuss each class in more detail.
+In this section we discuss each identified class of memory models in more detail.
 We give an insight on the relationship between compilation scheme optimality, 
 soundness of transformations and reasoning guarantees.
 In particular, we explain why the support of some reasoning guarantees 
 disables some program transformations and requires more heavyweight 
 compilation mappings to hardware.
+In \cref{sec:analysis:other} we also discuss several particular properties 
+of models, orthogonal to the main partioning into classes, 
+which affect soundness of certain program transformations.
 
 Note that the order of classes is different from the one 
 in \cref{table:cmp-cls} and \cref{table:cmp-mms}.
@@ -20,9 +23,11 @@ of thin-air (\cref{sec:analysis:oota}) and then describe
 various solutions of this problem
 (\cref{sec:analysis:porf,sec:analysis:deprf,sec:analysis:sdeprf}).
 
+
 \input{smalltable.tex}
 
 \subsection{Sequential Consistency}
+\label{sec:analysis:seqcst}
 
 Sequential Consistency (\SC) is one of the most intuitive models of concurrency.
 Under this model, one can represent the state of the system as 
@@ -76,6 +81,7 @@ a significant amount of engeneering work and rewrite
 in order to preserve \SC~\cite{Marino-al:PLDI11, Liu-al:PLDI19}.
 
 \subsection{Total and Partial Store Order}
+\label{sec:analysis:tso}
 
 The next class of PL memory models we consider 
 was inspired by \emph{total store order}~\cite{Sewell-al:CACM10} (\TSO) 
@@ -258,6 +264,7 @@ The authors have shown that many
 program transformations are still sound in this setting, 
 with the obvious exception of load/store reordering itself
 (see~\cref{table:cmp-mms} for details).
+
 The compilation mappings to \xTSO remain efficient, 
 since the architecture already guarantee to preserve the order 
 between loads and subsequent stores. 
@@ -386,12 +393,12 @@ and permit most local and global program transformations
 while still preserving the external DRF-SC guarantee.
 
 \subsection{Secondary Classes}
-\label{sec:other-classes}
+\label{sec:analysis:other}
 
-We also identify a secondary classes of memory models. 
-Those correspond to a particular property of the memory model, 
+We also identify an alternative division of memory models into groups, 
+which correspond to a particular property of the memory model, 
 \eg coherence or a catch-fire semantics which treats racy programs 
-as errorneous. We demonstrate how presence or absence of these properties 
+as erroneous. We demonstrate how presence or absence of these properties 
 affects the soundness of program transformations and compilation mappings.
 
 \subsubsection{Coherent Models}

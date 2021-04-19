@@ -3,9 +3,13 @@
 We performed a comparison of memory models 
 found via a search procedure described in \cref{sec:methodology} 
 by a criteria given in \cref{sec:background}. 
-Based on this comparison, we identified six primary 
-and two secondary orthogonal classes of models.
- \app{I think this is the place to name the classes and briefly introduce them.}
+Based on this comparison, we identified six classes of models:
+sequentially consistent models, %~\ref{sec:analysis:seqcst}, 
+models with total or partial order on stores, %~\ref{sec:analysis:tso}, 
+program order preserving models, %~\ref{sec:analysis:porf}, 
+syntactic dependency preserving models, %~\ref{sec:analysis:deprf}, 
+semantic dependency preserving models, %~\ref{sec:analysis:sdeprf}, 
+and models with out of thin-air values. %~\ref{sec:analysis:oota}.
 The models from the same class have similar compilation mappings, 
 set of sound program transformations, and provided reasoning guarantees.
 We first present the result of our comparison on a per-class basis 
