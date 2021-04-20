@@ -129,12 +129,7 @@ was considered as a first step to achive this goal.
 
 The authors proved soundness of several program transformations
 (including store/load reordering, speculative load introduction,
-and several others, see 
-the~\cref{table:summary} for details%
-\footnote{\eupp{If we'll decide to mention unsoundness of 
-thread inlining w.r.t. TSO
-then cite~\cite{Lahav-Vafeiadis:FM16} 
-(since the paper itself doesn't mention this transformation)}})
+and several others (see \cref{table:cmp-mms})
 and the external DRF-SC theorem. 
 They also modified existing open-source implementation of 
 JVM~\cite{Pizlo-al:ECCS10} to preserve BMM and 
@@ -353,23 +348,39 @@ thin-air values on the level of plain (\ie non-atomic) accesses.
 \subsection{Syntactic Dependencies Preserving}
 \label{sec:catalog:deprf}
 
+Next we discuss the programming languge memory models 
+that track syntactic dependencies.
+
 \paragraph{Linux Kernel Memory Model}
 
 \LKMM~\cite{Alglave-al:ASPLOS18} has adopted 
 the idea to track syntactic dependencies in order to 
-forbid thin-air values. In the context of OS kernel development 
-this choice is justified. First, the Linux kernel targets 
+forbid thin-air values. Despite this choice 
+ultimately limits the list of supported 
+trace preserving transformations,
+in the context of OS kernel development 
+it can be justified by the following arguments. 
+First, the Linux kernel targets 
 a wide range of hardware architectures with a diverse
 set of memory models. To simplify the reasoning about the code, 
 it is reasonable to pick a model which is conceptually close
-to those of hardware. Second, the kernel developers 
-already utilze various techiniques to prevent 
-certain compiler optimizations%
+to those of hardware. 
+Second, the kernel developers already utilze 
+various techiniques to prevent certain compiler optimizations%
 \cite{Alglave-al:ASPLOS18, LK-MemBarriers, LK-RCU-Deref}.
+
+The authors of the models have empirically tested 
+soundness of compilation mappings to 
+\xTSO, \ARMv{7}, \ARMv{8}, and \POWER hardware. 
+They also formalized the read-copy-update 
+synchronization mechanism (RCU)~\cite{McKenney-RCU2007}, 
+extensively used in Linux kernel development, 
+and proved soundness of its implementation with respect to their model.
 
 \paragraph{Operational Happens-Before Model}
 
-In attempt to repair Java memory model Zhang and Feng have proposed the 
+In attempt to repair Java Memory Model (see \cref{sec:catalog:jmm})
+Zhang and Feng have proposed the 
 operational happens-before model \OHMM~\cite{Zhang-Feng:FCS16}.
 Their abstract machine consists of global event buffer,
 where the events might be reordered before they propogate into  
@@ -377,10 +388,12 @@ a global history based memory, and a replay mechanism
 used to simulate speculative executions. 
 To avoid thin-air outcomes the model tracks syntactic dependencies 
 between the events and forbids the reordering of dependent events. 
+The authors proved external DRF and soundness of several 
+program trasformations. 
 
 \paragraph{Dependency Preserving Compiler}
 
-Ou and Demsky~\cite{Ou-Demsky:OOPSLA18} also studied 
+Ou and Demsky~\cite{Ou-Demsky:OOPSLA18} studied 
 the performance penalty induced by dependency preserving compiler. 
 Again, they modified the LLVM compiler infrastructure 
 and run a number of benchmarks on ARMv8 hardware. 
@@ -389,19 +402,26 @@ They have observed 3.1\% overhead on average and 17.6\% in maximum.
 \subsection{Semantic Dependencies Preserving}
 \label{sec:catalog:sdeprf}
 
+Finally we discuss memory models 
+which try to tackle thin-air values problem 
+by development of the notion of semantic dependencies. 
+In particular, this class includes the original Java Memory Model, 
+Promising semantics, and several models based 
+on \emph{event structures}~\cite{Winskel:86}.
+
 \paragraph{Java Memory Model}
 \label{sec:catalog:jmm}
 
 The original formalized version of Java memory model \JMM~\cite{Manson-al:POPL05}
-had taken this approach. While the most of the memory model 
-was formalized in axiomatic style, it also used 
-an operational notion of \emph{commit sequence}, 
+was a pioneering work in the area of programming language memory models 
+While most of the memory model was formalized in axiomatic style, 
+it also used an operational notion of \emph{commit sequence}, 
 \ie a sequence of partial execution graphs, to forbid thin-air outcomes. 
 The model was shown to adhere external DRF~\cite{Huisman-Petri:CONCUR07}.
 However, the model failed to justify some program transformations 
 which were expected to be sound~\cite{Sevcik-Aspinall:ECOOP08} 
 (\eg redundunt load after load elimination, roach motel reodering, and others,
-see \cref{table:summary} for details). 
+see \cref{table:cmp-mms} for details). 
 
 \paragraph{Generative operational semantics}
 
@@ -415,43 +435,44 @@ but overall their study of transformations was not systematic.
 
 \paragraph{Promising Semantics}
 
-The most evolved \app{This is an opinion, not a fact. I'd not state it like that.} model of this class is 
-the \Promising operational semantics~\cite{Kang-al:POPL17, Lee-al:PLDI20}. 
+Promising semantics~\cite{Kang-al:POPL17, Lee-al:PLDI20} 
+presents the most complete to this day model of this class. 
 Its key ingredient is the promising and certification machinery.
 During the execution, the abstract machine can 
 non-deterministically \emph{promise} to perform some store,
 it then has to \emph{certify} the promise is feasible. 
 The certification mechanism is defined in the way to forbid thin-air values to appear.
 The authors of the model have proven formally 
-that \Promising semantics admits many local and global program transformations
-(see \cref{table:summary} for details).
-Among the set of transformations usally considered 
-in the relaxed memory literature, 
-only the thread inlining was shown to be unsound%
-\footnote{\CSE is left unsound intentionally due to coherence property}. 
-The external DRF theorem was also shown to hold. 
+that \Promising semantics admits many local and global program transformations,
+with a notable exception of the thread inlining
+(see \cref{table:cmp-mms} for details).
+
+The model has a fully defined semantics even for plain accesses.  
+Plain and relaxed accesses, however, have different semantics.
+In particular, coherence is enforced for relaxed accesses 
+but not for the plain ones.  
+This design choice, in particular, allows to support 
+\CSE on the level of plain accesses. 
+
 Podkopaev~\etal~\cite{Podkopaev-al:ECOOP17, Podkopaev-al:POPL19} have proven formally
-soundness of standard optimal compilation mappings to x86, POWER, ARMv7, and ARMv8.
+soundness of standard optimal compilation mappings to \xTSO, \ARMv{7}, \ARMv{8}, and \POWER.
+
 One of a few limitations of the \Promising semantics is that 
 it does not support sequentially consistent accesses. 
 
-Several authors proposed to use \emph{event structures}~\cite{Winskel:86}
-to resolve thin-air problem. Event structures allow to represent 
-multiple conflicting executions of the program in one mathematical structure.  
+\paragraph{Weakestmo}
 
-\todo{Mention that semantics of plain accesses does not enforce coherence.}
-
-\paragraph{Well-Justified Event Structures}
-
-Jeffrey and Riely~\cite{Jeffrey-Riely:LICS16} proposed 
-a memory model based on event structures and a notion of 
-\emph{well-justification} of events inspired by the game semantics. 
-Well-justification is used to prevent thin-air values 
-and prove external DRF. The authors do not study 
-soundness of program transformations in their model. 
-They show, however, a counterexample demonstrating that 
-load/load reordering is unsound. It implies that 
-the compilation mappings to ARMv7, ARMv8, and POWER are not optimal.   
+Chakraborty and Vafeiadis~\cite{Chakraborty-Vafeiadis:POPL19}
+developed a memory model based on event structures. 
+They utilize the event structures' capability to simultaneously encode 
+multiple conflicting executions in order to model speculative executions.
+Their model is close in spirit to conventional axiomatic models, 
+however, instead of idividual execution graphs, they use 
+the event structures upon which they put additional constraints. 
+The model was shown to admit optimal compilation mappings~\cite{Moiseenko-al:ECOOP20},
+several program transformation, and external DRF.
+Unlike \Promising semantics, it also supports 
+sequantially consistent accesses.
 
 \paragraph{A Concurrency Semantics for Relaxed Atomics}
 
@@ -463,24 +484,22 @@ At each step the abstract machine is allowed to either
 commit an event to the storage, or perform a transformation 
 on one of the event structures. 
 The authors have shown soundness of 
-optimal compilation mappings to x86 and POWER, 
+optimal compilation mappings to \xTSO and \POWER, 
 as well as soundness of several program transformations.
 It was later revealed though that the compilation scheme
 to ARMv7 and ARMv8 is not optimal~\cite{PichonPharabod:PhD18}.
 
-\paragraph{Weakestmo}
+\paragraph{Well-Justified Event Structures}
 
-Chakraborty and Vafeiadis~\cite{Chakraborty-Vafeiadis:POPL19}
-also developed a memory model based on event structures. 
-They utilize the event structures' capability to simultaneously encode 
-multiple conflicting executions in order to model speculative executions.
-Their model is close in spirit to conventional axiomatic models, 
-however, instead of idividual execution graphs, they use 
-the event structures upon which they put additional constraints. 
-The model was shown to admit optimal compilation mappings~\cite{Moiseenko-al:ECOOP20},
-several program transformation, and external DRF.
-Unlike \Promising semantics, it also supports 
-sequantially consistent accesses.
+Jeffrey and Riely~\cite{Jeffrey-Riely:LICS16} proposed 
+a memory model based on event structures and a notion of 
+\emph{well-justification} of events inspired by the game semantics. 
+Well-justification is used to prevent thin-air values 
+and prove external DRF. The authors do not study 
+soundness of program transformations in their model. 
+They show, however, a counterexample demonstrating that 
+load/load reordering is unsound. It implies that 
+the compilation mappings to \ARMv{7}, \ARMv{8}, and \POWER are not optimal.   
 
 \paragraph{Modular Relaxed Dependencies}
 
@@ -493,3 +512,4 @@ The authors prove the external DRF-SC and
 soundness of optimal compilation mappings,
 also they present a refinement relation which 
 can be used to reason about validity of program transformations. 
+However, they have not studied soundness of particular transformations. 
