@@ -461,9 +461,8 @@ the optimized version of the program.
 
 Note that the compiler still can apply \CSE to the program above, 
 but only if it is able to prove that variables \texttt{x} and \texttt{y} 
-point to disjoint memory locations. 
-To derive this knowledge the compiler can utilize alias analysis~\cite{?},
-which implementation is known to be challenging~\cite{?}.
+point to disjoint memory locations, which can be achieved 
+by the means of alias analysis.  
 
 Therefore, the coherence property in general is not compatible 
 with common subexpression elimination, or at least 

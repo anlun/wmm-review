@@ -8,6 +8,16 @@
 \subsection{Sequential Consistency}
 \label{sec:catalog:sc}
 
+We start with a description of several attempts 
+to adopt sequential consistency as memory model for 
+existing languages and runtimes. 
+Most of the proposed solutions share similar properties, 
+and thus in \cref{table:cmp-mms} we unite them 
+in a single row under the name \SC. 
+The only exception is \DRFx model which implements
+catch-fire semantics for racy programs 
+and thus has a slightly different properties. 
+
 \paragraph{End-to-end Sequential Consistency}
 
 Marino et al~\cite{Marino-al:PLDI11, Singh-al:ISCA12} 
@@ -65,41 +75,45 @@ They reported 0.4\% geometric mean slowdown,
 and noticed that only 12 benchmarks experienced 
 slowdown greater than 10\%.
 
-\todo{Explain why we count transformation as sound in the table. 
-Tip: we borrow everything from SC because the authors prove 
-their semantics is equivalent to SC.
-Note in the formal model they assume TSO like 
-underlying hardware model.}
-
 \paragraph{\DRFx}
 
 The \DRFx~\cite{Marino-al:PLDI10} is another 
-SC preserving memory model. In this memory model
+SC preserving memory model. In this model
 the runtime system is guaranteed to raise 
 an exception if the program has data-races, 
 and yeild only sequantially consistent outcomes otherwise.
 In order to make the runtime data-race detection feasible 
 in practice, the authors propose several modifications 
 to existing hardware.
+
 The authors claim that any sequentially valid optimization 
 (\eg instruction reorderings or common subexpression elimination),
-is \textbf{sound} in DRFx model.
-The only limitation is that these transformations can only be performed
+is sound in DRFx model, the only limitation is that
+these transformations can only be performed
 withing the bounds of compiler-designated program regions.
-Importantly, any transformation that introduces 
-speculative reads or writes is \textbf{unsound},
+Besides that any transformation that introduces 
+speculative reads or writes is unsound,
 since speculative optimizations can bring
 data-races into otherwise race-free programs.
+
+Note that in \cref{table:cmp-mms} we still do not consider 
+many of the transformations that claimed to be sound by the authors
+as actually being sound because of our convention described in \cref{sec:comparison}.
+We consider transformations sound only if they are 
+sound in a fully-defined semantics. 
+The \DRFx model does not meet this criterion as 
+it provides catch-fire semantics.
+
 The expected performance overhead of the model 
 is reported to be 3.25\% on average
 assuming the efficient implementation 
 of data-race detection in hardware. 
 (compared to stock compiler and x86 hardware). 
 
-\todo{Explain why we count reorderings as unsound in the table. 
-Tip: because of catch-fire semantics.}
-
 \subsection{Total and Partial Store Order}
+
+In this section we consider PL memory models 
+inspired by \TSO and \PSO.  
 
 \paragraph{Buffered Memory Model}
 
@@ -110,8 +124,9 @@ Their motivation, however, stemmed not from the desire
 to fully replace the Java Memory Model, but rather 
 from the goal to build a verified version of 
 Java Virtual Machine (akin to CompCertTSO project~\cite{Sevcik-al:JACM13}).
-By taking a relatively simple and yet pragmatic memory model
-as a first target they hoped to made this task feasible. 
+A more simple yet pragmatic memory \TSO model 
+was considered as a first step to achive this goal. 
+
 The authors proved soundness of several program transformations
 (including store/load reordering, speculative load introduction,
 and several others, see 
@@ -137,65 +152,56 @@ based on the abstract machine with the main memory
 and the hierarchial structure of store buffers 
 with stores to different locations possibly 
 propagating to the main memory out-of-order
-(similarly to PSO model).
+(similarly to \PSO model).
 The authors present a proof of DRF-SC theorem,
 but do not provide an extensive study 
-of program transformations' soundness.
+of soundness os program transformations.
 
 \subsection{Out of Thin-Air Values}
+
+Next we discuss memory models admitting thin-air values. 
 
 \paragraph{C11}
 
 The most notable member of the OOTA class is the \CMM model~\cite{Batty-al:POPL11}.
-\app{The flow is broken here.}
-The C and C++ languages are widely known as low-level languages 
-for system programming which focus on the efficiency of compiled code. 
-The main design principle of these languages is to provide
-so-called zero-cost abstraction that should be compiled 
-into efficient assembly code and leave the room 
-for the aggressive optimizations. 
-The main purpose of the \CMM model was to adhere 
-to the same principles. The memory model 
-was meant to provide efficient compilation mappings 
-and as many transformation as possible.
-It was later shown that the formal model actually 
-fails in achieving this goal. 
+The main purpose of the \CMM model was to adhere to the fundamental principle of \CPP, 
+\ie to provide so-called zero-cost abstraction. 
+In other words, the memory model was meant to provide 
+efficient compilation mappings and support as many transformation as possible.
+It was later shown that the formal model partially fails in achieving these goals.
+
 Vafeiadis~\etal~\cite{Vafeiadis-al:POPL15} have shown
 that many program transformation that deemed to be correct
 are actually unsound according to the formal model. 
 Batty~\etal~\cite{Batty-al:ESOP15} have shown that 
 the model also fails to provide external DRF guarantee, 
 and that it is ultimately not possible to provide this guarantee
-at all within the style of the \CMM formal semantics.
-%Yet the authors show that the internal DRF 
+at all within the style of the \CMM formal semantics,
+only the internal DRF can be achieved. 
+
 A lot of work~\cite{Batty-al:POPL11, Sarkar-al:PLDI12, Batty-al:POPL12, Batty-al:POPL16} 
 was dedicated to prove soundness of optimal compilation mappings 
 with respect to formal models of hardware, 
 and there the results were mostly positive.
-\eupp{should we mention that SC proof was broken and 
-also cite RC11 here?}. 
-Flur~\etal~\cite{Flur-al:POPL17} have extended the model 
-to support mixed-size accesses.
+Besides that, Flur~\etal~\cite{Flur-al:POPL17} have extended the model to support mixed-size accesses.
 Finally, Nienhuis~\etal~\cite{Nienhuis-al:OOPSLA16} presented 
 a formal executable semantics in terms of an abstract machine, 
 equivalent to the original \CMM model. 
+
 \app{I don't like the story in this paragraph. We decided that a model
 could be supported by many papers. That is, it makes wrong to say about 
 flaws of the model which were fixed, \ie by \cite{Vafeiadis-al:POPL15,Lahav-al:PLDI17}.}
 
 \paragraph{\JS Memory Model}
 
-\JSMM inherited \app{I think to use this word you need first to point out that
-\JSMM is based on \CMM} some properties of \CMM.
+\JSMM is based on \CMM model. 
 Like the latter, it also has the problem of thin-air values
 and thus can only provide internal DRF-SC gurantee. 
-Contrary to the \CMM, \JS model gives a fully defined 
-semantics to non-atomics 
-(\ie no undefined behavior for racy non-atomic accesses).  
-Also, unlike \CMM, where the main language primitive is 
-individual mutable atomic variables, \JSMM uses 
-the primitive of \texttt{SharedArrayBuffer},
-that is a linear mutable byte buffer.
+Contrary to the \CMM, \JS model does not treat 
+racy non-atomic accesses as undefined behavior. 
+
+The main language primitive provided by the \JSMM
+is \texttt{SharedArrayBuffer}, that is a linear mutable byte buffer.
 Thus the model naturally supports mixed-size accesses.
 
 \paragraph{A calculus for relaxed memory}
@@ -215,14 +221,12 @@ Yet the authors proved the internal DRF theorem.
 Saraswat~\etal~\cite{Saraswat-al:PPoPP07} presented the \RAO memory model
 where relaxed behaviors are explained through the transformations 
 over sequentially consistent execution.
-Depending on the exact choice of transformations 
-their model is either (1) permits thin-air values or 
-(2) preserves external DRF-SC. 
-
-% Since the transformations (\eg reorderings, value range based, \etc)
-% are baked into the model, their soundness follows immediatelly.  
-\todo{We will not assume soundness of transformations from the fact 
-that some of them are ``baked into the model''.}
+Although the authors claim their model provides external DRF,
+it also permits thin-air values. 
+These two properties known to be incompatible~\cite{Batty-al:ESOP15}.
+We suppose that the external DRF can be achieved in their model 
+only because of the fundamental restrictions on the input programming language 
+(\eg the general conditional statemets are not supported~\cite{PichonPharabod-Sewell:POPL16}). 
 
 \paragraph{A theory of speculative computation}
 
@@ -236,35 +240,39 @@ yet the internal DRF theorem still can be proven.
 \subsection{Program Order Preserving}
 \label{sec:catalog:porf}
 
+In this section we describe the memory models 
+that preserve the program order and forbid any 
+kind of speculative executions to tackle problem 
+of thin-air values. 
+In particular, we consider \RCMM and 
+several derivatives of this model, 
+as well as memory model of \OCaml, 
+and a proposed revised model of \Java.  
+
 \paragraph{RC11}
 
-Lahav~\etal~\cite{Lahav-al:PLDI17} formalized this approach and 
-studied it extensively. They proposed a modified version 
-of \CPP model called \RCMM (repaired \CMM).  
-Besides the strengthening of the model to preserve 
-the order between load/store pairs, 
-the repaired version also corrects the semantics 
-of sequentially-consistent accesses.
+Lahav~\etal~\cite{Lahav-al:PLDI17} formalized 
+a version of \CMM that preserves the order between load/store pairs, 
+and also repairs the semantics of sequentially-consistent accesses.
 
-The authors have shown that many 
-program transformations are still sound in \RCMM, 
-with the obvious exception of load/store reordering itself
-(see~\cref{table:summary} for details).
-Also, the compilation mappings to x86 remain efficient, 
-since the architecture already guarantee to preserve the order 
-between loads and subsequent stores. 
-However, weaker architectures (ARM, POWER) do not guarantee that, 
-and thus additional measures are required.
-Lahav~\etal~\cite{Lahav-al:PLDI17} proposed to compile relaxed load 
-as plain load followed by a spurious conditional branch,
-which introduces fake control dependency between 
-the load and subsequent stores. 
-ARM and POWER hardware preserves dependencies, 
-and thus it has to also retain the load/store ordering. 
+The authors proved soundness of several program transformation 
+(see \cref{table:cmp-mms} for details). 
+Among the unsound transformation, 
+the load/store reordering is forbedden for an obvious reasons, 
+speculative load instroduction is not supported 
+because of catch-fire semantics for racy programs, 
+\CSE is not supported because relaxed accesses 
+enforce coherence (while non-atomic accesses 
+support this transformation, they entail 
+undefined behavior in the presence of races).
 
+The compilation mappings to x86 are not affected and remain optimal.
+One of the possible compilation mappings 
+to architectures like \ARM and \POWER 
+requires to compile relaxed load as  
+plain load followed by a spurious conditional branch.
 Ou and Demsky~\cite{Ou-Demsky:OOPSLA18} have studied 
-the performance penalty needed to guarantee 
-\RCMM memory model on ARMv8 hardware.
+the performance penalty of this mapping on ARMv8 hardware.
 They modified the LLVM compiler framework 
 to enforce \RCMM memory model
 by (1) adjusting the compiler optimization passes and 
@@ -277,17 +285,37 @@ implementing various concurrent data-structures
 and reported an overhead of 0\% on average and 6.3\% in maximum,
 compared to the unmodified version of the compiler. 
 
+\paragraph{RAR}
+
+Doherty~\etal~\cite{Doherty-al:PPoPP19} developed an 
+operational version of \RCMM supporting 
+release-acquire and relaxed accesses. 
+On top of it they built proof calculus for 
+invariant-based reasoning and verified 
+correctness of mutal exclusion algorithms. 
+
 \paragraph{ORC11}
 
-Dang~\etal~\cite{Dang-al:POPL19} developed an operational 
-version of \RCMM in terms of the abstract machine, 
-which they called \ORCMM. Their motivation was to 
-then develop a new program logic and show it's soundness
+Dang~\etal~\cite{Dang-al:POPL19} developed yet another 
+operational version of \RCMM which they called \ORCMM. 
+Their motivation was to then develop a 
+new program logic and show it's soundness
 with respect to \ORCMM memory model. 
 The program logic itself was then utilized to 
-prove correctness of some parts of 
-the \Rust~\cite{RustBook:19} standard library.
-\eupp{Maybe we can omit this paper, since it's mostly about program logics?} 
+prove correctness of synchronization primitives 
+from the standard library of \Rust~\cite{RustBook:19}.
+
+\paragraph{Compositional Relaxed Concurrency}
+
+Dodds~\etal~\cite{Dodds-al:ESOP18} proposed a denotational 
+compositional semantics for the fragment of \CMM memory model, 
+including non-atomic accesses with cath-fire semantics, 
+release-acquire accesses, and sequantially-consistent fences. 
+Based on this semantics the authors developed 
+a tool for automatic verification of program transformations
+in the considered fragment of the \CMM model. 
+Since the relaxed fragment was not included, 
+the authors avoided problems with thin-air values. 
 
 \paragraph{OCaml Memory Model}
 
@@ -311,28 +339,16 @@ Bender and Palsberg~\cite{Bender-Palsberg:OOPSLA19} formalized a new revision
 of the Java Memory Model~\cite{JDK9-VarHandle, JEP:193, JDK9-Modes}, 
 which was developed to overcome 
 the difficulties of the previous one~\cite{Manson-al:POPL05}
-(see \ref{sec:prm-cert} for details).
+(see \ref{sec:catalog:jmm} for details).
 The new version of the model was inspired by \RCMM. 
 It introduced a system of annotations on memory accesses, 
-called ``Java access modes'' (hence the name of the model --- \JAM),
+called ``Java Access Modes'' (hence the name of the model --- \JAM),
 similar to those present in \CMM like models.
 The new model adopted the \RCMM solution to OOTA problem. 
 It forbids load/store reorderings on the level of 
 opaque (an analog of \CPP relaxed) or stronger accesses.
 The model does not tackle the problem of 
 thin-air values on the level of plain (\ie non-atomic) accesses.
-
-\paragraph{Compositional Relaxed Concurrency}
-
-Dodds~\etal~\cite{Dodds-al:ESOP18} proposed a denotational 
-compositional semantics for the fragment of \CMM memory model, 
-including non-atomic accesses with cath-fire semantics, 
-release-acquire accesses, and sequantially-consistent fences. 
-Based on this semantics the authors developed 
-a tool for automatic verification of program transformations
-in the considered fragment of the \CMM model. 
-Since the relaxed fragment was not included, 
-the authors avoided problems with thin-air values. 
 
 \subsection{Syntactic Dependencies Preserving}
 \label{sec:catalog:deprf}
@@ -374,6 +390,7 @@ They have observed 3.1\% overhead on average and 17.6\% in maximum.
 \label{sec:catalog:sdeprf}
 
 \paragraph{Java Memory Model}
+\label{sec:catalog:jmm}
 
 The original formalized version of Java memory model \JMM~\cite{Manson-al:POPL05}
 had taken this approach. While the most of the memory model 
