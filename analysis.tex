@@ -97,7 +97,7 @@ each read either reads locally or from
 the most recent write~\cite{Sewell-al:CACM10, Lahav-al:POPL16}. 
 Models of this class can be compiled down to x86 hardware without any 
 performance penalty, since \xTSO implements \TSO model itself.
-However, on weaker hardware (e.g. \POWER) 
+However, on weaker hardware like~\POWER 
 the compiler need to emit essentially as many fences 
 as to enforce~\SC~\cite{Lustig-al:AISCA15}. 
 This class permits more program transformations than \SC.
