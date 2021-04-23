@@ -1,23 +1,24 @@
 \section{Related Work}
+\label{sec:related}
 
 Weak memory models can be partioned into two sub-classes: 
 models for hardware architectures and models for programming languages. 
 To this day, the hardware weak memory models are relatively well studied and understood.
-A large amount of effots were put to formally specify models of various 
+A large amount of effot was put to formally specify models of various 
 hardware architectures%
-\cite{Chong-ASPLOS08, Alglave-DAMP09, Sewell-al:CACM10, Sarkar-al:PLDI11, Flur-al:POPL16, Pulte-al:POPL18}.
+\cite{Chong-ASPLOS08, Alglave-DAMP09, Sewell-al:CACM10, Sarkar-al:PLDI11}.
 Alglave \etal~\cite{Alglave-al:TOPLAS14} summarized different studies in this area 
 and provided a comprehensive overview of existing models.  
 Besides that, they also proposed a general framework for specification, 
 testing and verification of hardware weak memory models.
+More recent hardware models, \eg \cite{Pulte-al:POPL18}, 
+also adhere to this framework.   
 
 In the context of programming language memory models the situation is more complex. 
-Many memory models have been proposed for the various programming languages~\cite{
-Manson-al:POPL05, Batty-al:POPL11, Batty-al:POPL16, 
-Dolan-al:PLDI18, Watt-al:OOPSLA19, Watt-al:PLDI2020, 
-Jeffrey-Riely:LICS16, PichonPharabod-Sewell:POPL16, 
-Podkopaev-al:CoRR16, Kang-al:POPL17, Chakraborty-Vafeiadis:POPL19, 
-Paviotti-al:ESOP20, Lee-al:PLDI20}.
+There were various memory models proposed for different programming languages, \eg
+for \Java~\cite{Manson-al:POPL05, Bender-Palsberg:OOPSLA19}, \CPP~\cite{Batty-al:POPL11}, 
+\LLVM~\cite{Chakraborty-Vafeiadis:CGO17}, \JS~\cite{Watt-al:PLDI2020}, 
+\OCaml~\cite{Manson-al:POPL05}, \Haskell~\cite{Vollmer-al:PPoPP17}, \etc. 
 However, we are unaware of any survey or detailed comparison of these memory models.
 The lack of such study has motivated our work.
 

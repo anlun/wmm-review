@@ -9,50 +9,50 @@ and provided reasoning guarantees.
 But first we need to introduce the 
 programming primitives provided by the shared memory abstraction, 
 and the various styles of formal semantics 
-used to specify the memory model. 
+used to specify memory model. 
 
 \subsection{Programming Primitives}
 \label{sec:background:primitives}
 
 
-The memory model defines the semantics of the shared memory 
+A memory model defines the semantics of the shared memory 
 in the presence of concurrently executing threads. 
-More concretly, the memory model 
-defines which values reads of shared variables 
-can observe at each point of execution. 
+% More concretly, the memory model 
+% defines which values reads of shared variables 
+% can observe at each point of execution. 
 Therefore the main abstraction of the memory model 
 is the shared memory itself. 
 The shared memory consists of a individual shared variables, 
-each having unique address~\footnote{
+each having unique address.\footnote{
 Throughout the rest of paper, we use terms 
-memory address and memory location interchangeably}.
+memory address and memory location interchangeably}
 Threads can access these variables by performing 
-loads or stores~\footnote{We also use the terms 
-load/stores and reads/writes interchangeably}.
+loads or stores.\footnote{We also use the terms 
+load/stores and reads/writes interchangeably}
 
-\begin{figure}[t]
-\[\def\arraystretch{1.2}
-  \begin{array}{ll} 
-    \readInst{o}{r}{x}                  & \text{Load}                   \\ 
-    \writeInst{o}{x}{v}                 & \text{Store}                  \\ 
-    \readArrayInst{o}{r}{x}{i}{j}       & \text{Mixed Size Load}        \\ 
-    \writeArrayInst{o}{x}{v}{i}{j}      & \text{Mixed Size Store}       \\ 
-    \casInst{o}{r}{x}{v_e}{v_d}         & \text{Compare-and-Swap}        \\ 
-    \faddInst{o}{r}{x}{v}               & \text{Fetch-and-Add}          \\ 
-    \lockInst{l}                        & \text{Lock}                   \\ 
-    \unlockInst{l}                      & \text{Unlock}                 \\ 
-    \fenceInst{o}                       & \text{Fence}                  \\ 
-    x \in \mathsf{Var}                  & \text{Shared Variables}       \\ 
-    r \in \mathsf{Reg}                  & \text{Thread-Local Registers} \\ 
-    v \in \mathsf{Val}                  & \text{Values}                 \\ 
-    l \in \mathsf{Lock}                 & \text{Locks}                  \\ 
-    i,j \in \mathsf{Index}              & \text{Array Indices}          \\ 
-    o \in \set{\na,\rlx,\acqrel,\sco}   & \text{Access Modes}           \\ 
-  \end{array}
-\]
-\caption{Primitives of relaxed memory models}
-\label{fig:wmm-abs}
-\end{figure}
+% \begin{figure}[t]
+% \[\def\arraystretch{1.2}
+%   \begin{array}{ll} 
+%     \readInst{o}{r}{x}                  & \text{Load}                   \\ 
+%     \writeInst{o}{x}{v}                 & \text{Store}                  \\ 
+%     \readArrayInst{o}{r}{x}{i}{j}       & \text{Mixed Size Load}        \\ 
+%     \writeArrayInst{o}{x}{v}{i}{j}      & \text{Mixed Size Store}       \\ 
+%     \casInst{o}{r}{x}{v_e}{v_d}         & \text{Compare-and-Swap}        \\ 
+%     \faddInst{o}{r}{x}{v}               & \text{Fetch-and-Add}          \\ 
+%     \lockInst{l}                        & \text{Lock}                   \\ 
+%     \unlockInst{l}                      & \text{Unlock}                 \\ 
+%     \fenceInst{o}                       & \text{Fence}                  \\ 
+%     x \in \mathsf{Var}                  & \text{Shared Variables}       \\ 
+%     r \in \mathsf{Reg}                  & \text{Thread-Local Registers} \\ 
+%     v \in \mathsf{Val}                  & \text{Values}                 \\ 
+%     l \in \mathsf{Lock}                 & \text{Locks}                  \\ 
+%     i,j \in \mathsf{Index}              & \text{Array Indices}          \\ 
+%     o \in \set{\na,\rlx,\acqrel,\sco}   & \text{Access Modes}           \\ 
+%   \end{array}
+% \]
+% \caption{Primitives of relaxed memory models}
+% \label{fig:wmm-abs}
+% \end{figure}
 
 Most programming language memory models distinguish 
 \emph{non-atomic} (sometimes also called \emph{plain})
@@ -64,19 +64,21 @@ concurrent accesses to non-atomic variables
 can be either prevented by the type-system 
 (\eg \Haskell~\cite{Marlow-al:Haskell10, Vollmer-al:PPoPP17}, \Rust~\cite{RustBook:19}), 
 have undefined behavior (\eg \CPP~\cite{Boehm-Adve:PLDI08, Batty-al:POPL11}), 
-or have defined but very weak semantics with almost 
-no guarantees on the order of accesses to non-atomics
-that concurrent threads can observe (\eg \Java~\cite{Manson-al:POPL05}).
+or being defined but have very weak semantics with almost 
+no guarantees on the order in which concurrent
+threads can observe these accesses (\eg \Java~\cite{Manson-al:POPL05}).
 
-In addition to this some memory models distinguish 
+In turn, atomics are designed for concurrent accesses. 
+Some memory models furhter distinguish 
 several kinds of accesses to atomic variables.
 In these models the accesses to shared memory are annotated by the 
 so-called \emph{access modes}.
 For example, the \CPP model (and a later revision of 
 \Java~\cite{Bender-Palsberg:OOPSLA19}), distinguish 
 three modes: \emph{relaxed} (\emph{opaque} in \Java terminology), 
-\emph{acquire/release}, and \emph{sequentially consistent}.
-They are denoted as $\rlx$, $\opq$, $\acqrel$, and $\sco$ correspondingly.
+\emph{acquire/release}, and \emph{sequentially consistent}
+(\emph{volatile} in \Java).
+They are denoted as $\rlx$, $\acqrel$, and $\sco$ correspondingly.
 Non-atomic accesses are often considered to be the fourth access mode $\na$, 
 but note that mixing non-atomic and atomic accesses to the same variable 
 entails undefined behavior in \CPP.
@@ -87,20 +89,20 @@ diagram shows.
 
 $$ \na \sqsubseteq \rlx \sqsubseteq \acqrel \sqsubseteq \sco $$
 
-On the one end of the spectrum are sequentially consistent accesses. 
+On one end of the spectrum are sequentially consistent accesses. 
 They guarantee to restore the \SC semantics, if used properly 
 (see \cref{sec:background:drf} for details).
-Non-atomic accesses, as we have already discussed, give 
-from little to no guarantee. 
+Non-atomic accesses, as we have already discussed, 
+give little guarantee. 
 Relaxed accesses also have very weak guarantees, 
-usually they provide the so-called \emph{coherence} property
+usually they provide only the \emph{coherence} property
 (see \cref{sec:background:coh} for details).
 Finally, in the middle there are the acquire/release accesses. 
 They are designed to support the message passing idiom~\cite{Lahav-al:POPL16}.
 The thread sends the message by performing a release write, 
 the thread expecting a message can perform an acquire read. 
 If the acquire read observes the release write, the two 
-threads ``synchronize''. 
+threads synchronize their view on shared memory. 
 
 The memory model can also provide atomic \emph{read-modify-write} operations.
 These include \emph{compare-and-swap}, and variations of atomic increment,
@@ -110,40 +112,27 @@ and the desired values. It reads the content of the variable
 and compares it with the expected value. If the two are equal,
 it substitutes the content of the variable to desired value. 
 In either case, the value read from the variable is returned as a result. 
-Note that the above operations is guaranteed to be performed atomically, 
+Note that the above operations are guaranteed to be performed atomically, 
 no other write to the shared variable may happen ``in-between'' 
 read and write parts of \CAS.
-Fetch-and-add and similar primitives perfrom 
+Fetch-and-add and similar primitives perform 
 the operation (addition, substraction,~\emph{etc.}~)
 atomically and unconditionally, returning 
 the content of the shared variable prior to modification.  
 
 Locks sometimes considered to be a part 
-of the memory model~\cite{Manson-al:POPL05}, 
+of a memory model~\cite{Manson-al:POPL05}, 
 as well as memory fence operations~\cite{Batty-al:POPL11},
-corresponding to hardware fence instructions
+which are related to hardware fence instructions
 (see \cref{sec:background:compile} for details). 
 
-Finally, the memory model can treat the shared memory 
+Finally, a memory model can treat the shared memory 
 not as set of disjoint typed variables, but rather as 
 a raw byte sequence, and permit so-called \emph{mixed-size} 
-concurrent accesses~\cite{Flur-al:POPL17}. 
-
-% , as in the example below 
-% (assume $\declareArray{x}{0}{7}$ is byte array of size~\texttt{8}). 
-
-% \begin{align*}
-% \inarrIII{
-%   \writeArrayInst{}{x}{1}{0}{3}
-% }{
-%   \writeArrayInst{}{x}{1}{4}{7}
-% }{
-%   \readArrayInst{}{r}{x}{0}{7}
-% }
-% \tag{Mixed-Size}\label{ex:mixsz}
-% \end{align*}
-
-\subsection{Formal Semantics}
+concurrent accesses~\cite{Flur-al:POPL17}.
+For example, in a mixed-size model it is 
+allowed for an 8 byte load instruction 
+to read from two concurrent adjacent 4 byte stores. 
 
 \subsection{Compilation Scheme}
 \label{sec:background:compile}
@@ -158,28 +147,41 @@ In our setting we consider the primitives
 mentioned in \cref{sec:background:primitives}.
 The hardware architectures provide a similar set 
 of instructions which usually contain 
-plain load and stores\footnote{Some architectures 
+plain load and stores,\footnote{Some architectures 
 also provide various types of load and stores
 matching the access modes annotations, 
 \eg \texttt{lda} --- load acquire, 
-and \texttt{stl} --- store release on \ARMv{8}}, 
+and \texttt{stl} --- store release on \ARMv{8}} 
 read-modify-write operations, 
 and also various memory fences.    
 
 The compilation mapping should be \emph{sound}.
 In the context of this paper it means that 
-the set of outcomes permited by the 
+the set of outcomes permitted by the 
 memory model of the hardware should be 
-a subset of outcomes permited by the 
+a subset of outcomes permitted by the 
 programming language model. 
 
 Let us consider an example. 
 The program \ref{ex:sb} below is a 
-fragment of the \ref{ex:Dekker} program 
-from the \cref{sec:intro}.
+fragment of the \ref{ex:Dekker} program from \cref{sec:intro}.
+
+\begin{equation*}
+\inarrII{
+   \writeInst{}{x}{1}   \\
+   \emptyInst           \\
+   \readInst{}{r_1}{y}  \\
+}{
+  \writeInst{}{y}{1}   \\
+  \emptyInst           \\
+  \readInst{}{r_2}{x}  \\
+}
+\tag{SB}\label{ex:sb}
+\end{equation*}
+
 Assume the memory model of the programming language
 is sequential consistency, and we want 
-to compile for \xTSO hardware. 
+to compile it to \xTSO hardware. 
 Then if one compile all loads and stores 
 to plain load and store instructions of \xTSO,
 the outcome $[r_1=0, r_2=0]$ would be 
@@ -198,21 +200,11 @@ the unsoundness of compilation scheme has
 dramatic consequences, as it may break 
 the correctness of the program. 
 
-\begin{minipage}{0.45\linewidth}
-\begin{equation*}
-\inarrII{
-   \writeInst{}{x}{1}   \\
-   \emptyInst           \\
-   \readInst{}{r_1}{y}  \\
-}{
-  \writeInst{}{y}{1}   \\
-  \emptyInst           \\
-  \readInst{}{r_2}{x}  \\
-}
-\tag{SB}\label{ex:sb}
-\end{equation*}
-\end{minipage}\hfill%
-\begin{minipage}{0.45\linewidth}
+A sound compilation scheme for sequential consistency 
+can compile the stores as plain stores followed 
+by the \texttt{mfence} instruction~\cite{Sewell-al:CACM10, Batty-al:POPL11}, 
+as demonstrated below. 
+
 \begin{equation*}
 \inarrII{
    \writeInst{}{x}{1}   \\
@@ -225,12 +217,8 @@ the correctness of the program.
 }
 \tag{SB+MFENCE}\label{ex:sb-mfence}
 \end{equation*}
-\end{minipage}
 
-A sound compilation scheme for sequential consistency 
-can compile the stores as plain stores followed 
-by the \texttt{mfence} instruction~\cite{Sewell-al:CACM10, Batty-al:POPL11}, 
-as demonstrated in \ref{ex:sb-mfence}. 
+
 The \texttt{mfence} is a special memory fence instruction
 of \xTSO architecture which flushes the store buffer of the thread. 
 For the program \ref{ex:sb-mfence} the outcome $[r_1=0, r_2=0]$
@@ -241,19 +229,19 @@ it is not \emph{optimal}, in a sense that
 it requires to use memory fence instructions, 
 which usually induces a performance penalty~\cite{Marino-al:PLDI11, Liu-al:OOPSLA17}.
 Unfortunately, it is not possible to have compilation mapping 
-for \SC model which is both \emph{sound and optimal}, 
+for the \SC model which is both \emph{sound and optimal}, 
 assuming the modern hardware architectures.     
-This fact makes \SC memory model unsuitable  
-for the high-performance programming languages
-and serves as one of the stimuls for the weakening 
-of the memory model. 
+This fact makes the \SC memory model unsuitable  
+for high-performance programming languages
+and serves as one of the stimuls for 
+weakening of memory models. 
  
 In this paper, when speaking about the compilation schemes, 
-we will consider the following hardware memory models:
-\xTSO, \POWER, \ARMv{7}, and \ARMv{8}. 
-This is for two main reasons. 
+we will consider only the following hardware memory models: 
+\xTSO, \POWER, \ARMv{7}, and \ARMv{8},
+for the two main reasons. 
 First, these hardware architectures are the 
-most widespread today~\cite{}. 
+most widespread today.
 Second, they have received a lot of attention 
 from the research community recently. 
 As the result of this effort, 
@@ -266,10 +254,10 @@ Flur-al:POPL16, Pulte-al:POPL18}.
 \label{sec:background:trans}
 
 The next criterion for memory model is 
-soundness of program transformations. 
-Program transformations are a source-to-source
-transfromations of the code which are applied 
-during the optimization passes of the compiler. 
+soundness of program transformations, 
+that is source-to-source transfromations of 
+the code which are applied during 
+the optimization passes of the compiler. 
 
 \emph{Sound} transformations should preserve the semantics 
 of the program. In our context, similarly to the 
@@ -322,7 +310,7 @@ We next present a comprehensive list of
 various program transformations considered in
 the literature on weak memory models 
 with a short description of each one.
-Note that it is far from being a complete list of 
+Note that the list is far from being a complete regarding to  
 transformations used in optimizing compilers~\cite{Muchnick:ACDI97}.
 For example it lacks common loop optimizations, 
 because the theory of relaxed memory models still
@@ -653,24 +641,6 @@ $\mathsf{x} \geq \mathsf{0}$.
 \subsubsection{DRF Theorems}
 \label{sec:background:drf}
 
-% \begin{itemize}
-%   \item Motivation: no weak behaviors for well-sync programs.
-%   \item Example
-%   \begin{itemize}
-%     \item Lock + increment?
-%     \item MP with atomic flag?
-%   \end{itemize}
-%   \item Definition of the race
-%   \item DRF theorem
-%   \begin{itemize}
-%     \item explain difference between internal/external DRF
-%   \end{itemize}
-%   \item Local DRF (?)
-%   \begin{itemize}
-%     \item Example
-%   \end{itemize}
-% \end{itemize}
-
 \subsubsection{Coherence}
 \label{sec:background:coh}
 
@@ -679,63 +649,4 @@ $\mathsf{x} \geq \mathsf{0}$.
 
 \subsubsection{Out-of-Thin-Air Values}
 \label{sec:background:oota}
-
-% \begin{itemize}
-%   \item Introduce three examples: LB, LB+dep, LB+fakedep.
-%   \item Explain the problem: some memory models cannot 
-%     correctly distinguish theese three programs.
-%   \item It leads to out-of-thin-air values.
-% \end{itemize}
-
-% \begin{equation*}
-% \inarrII{
-%   \readInst{}{r_1}{x}      \\
-%   \writeInst{}{y}{r_1}     \\
-% }{
-%   \readInst{}{r_2}{x}      \\
-%   \writeInst{}{x}{r_2}     \\
-% }
-% \tag{LB+data}\label{ex:lb+data}
-% \end{equation*}
-
-
-% \subsubsection{$\lPO\cup\lRF$ Acyclicity}
-
-% \begin{itemize}
-%   \item Motivation: forbid OOTA.
-%   \item Proposed solution: forbid causality cycles. 
-%   \item Explain execution graphs and $\lPO\cup\lRF$ cycles.
-%   \item LB examples againg, with their execution graphs.
-%   \item Drawback of this approach: some optimizations are unsound 
-%     (refer to analysis section).
-% \end{itemize}
-
-% \subsubsection{Syntactic Dependency Tracking}
-
-% \begin{itemize}
-%   \item Motivation: forbid OOTA, but enable more opts.
-%   \item Proposed solution: forbid causality cycles with syntactic dependencies. 
-%   \item Explain $\lPPO\cup\lRF$ cycles.
-%   \item LB examples againg, with their execution graphs and syntax.deps.
-%   \item Drawback of this approach: some optimizations are still unsound 
-%     (refer to analysis section).
-% \end{itemize}
-
-% \subsubsection{Semantic Dependency Tracking}
-
-% \begin{itemize}
-%   \item Motivation: forbid OOTA (precisely).
-%   \item Proposed solution: forbid causality cycles with semantic dependencies. 
-%   \item The exact notion of semantic dependency is model-specific.
-%         There is no conventional common definition.
-%   \item Drawback of this approach: complexity, no common ground.
-% \end{itemize}
-
-% \begin{itemize}
-%   \item Motivation: enable more opts for non-atomics.
-%         (At the cost of model's predictability and programmability).
-%   \item Catch-fire semantics (race on non-atomics implies UB).
-%   \item Explain how it affects opts.
-% \end{itemize}
-
 

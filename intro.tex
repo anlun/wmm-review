@@ -20,7 +20,7 @@ At this point things get complicated.
 %In other words, it defines the semantics of concurrent program.
 
 Let us consider a concrete example.
-Here is a simplified version of Dekker's algorithm for mutual exclusion.
+Here is a simplified version of Dekker's algorithm for mutual exclusion:
 
 \begin{equation*}
 \inarrII{
@@ -40,15 +40,15 @@ Here is a simplified version of Dekker's algorithm for mutual exclusion.
 \end{equation*}
 
 In this program, there are two threads that compete to enter critical section.
-In order to indicate their intention threads set 
+In order to indicate their intention, threads set 
 variables $x$ and $y$ correspondingly.%
-\footnote{We enclose names of shared variables into square brackets
-(\ie $x$, $y$), in order to distinguish them 
-from local registers (\ie $r_1$ and $r_2$).}
-The one who manages to set the variable first wins.
-The algorithm relies on the fact that both threads cannot read value~\texttt{0}%
+\footnote{We distinguish shared variables 
+(denotes as $x$, $y$, $z$) and thread local registers 
+(denoted as $r_1$, $r_2$, $r_3$, \etc).}
+The one who manages to set the variable first enters the critical section.
+The algorithm relies on the fact that both threads cannot read value~\texttt{0}.%
 \footnote{From here and through the rest of the paper we assume that initially all 
-variables are initialized with zeros, unless the other is stated explicitly}.
+variables are initialized with zeros, unless the other is stated explicitly}
 Otherwise, the two threads would have been able 
 to enter critical section simultaneously, 
 thus breaking the correctness of the algorithm.
@@ -69,8 +69,8 @@ However, not all behaviors which are observable on real concurrent systems are s
 For example, if one ports the \ref{ex:Dekker} program
 from the pseudocode to the C language, compile it with the GCC compiler, 
 and run on a processor from the x86/x64 family,
-she may observe yet non sequentially consistent outcome $[r_1=0, r_2=0]$,
-which is called \emph{weak}.
+she may observe non sequentially consistent outcome $[r_1=0, r_2=0]$.
+Such outcomes are called \emph{weak}.
 
 Weak outcomes appear because of compiler and CPU optimizations.
 For example, in the \ref{ex:Dekker} program,
@@ -89,7 +89,7 @@ Memory models admitting weak behaviors are called \emph{weak memory models}.
 Neither modern hardware nor programming languages 
 guarantee sequential consistency since this model forbids many important optimizations.
 The main question then is how \emph{weak} their memory models should be,
-\ie how big is a set of allowed weak behaviors for a given program.
+\ie how big is the set of allowed weak behaviors for a given program.
 A stronger model allows less behaviors, thus giving more guarantees to a programmer
 and simplifying reasoning about programs, but a weaker model permits more optimizations,
 thus allowing a compiler to produce more efficient code.
@@ -108,9 +108,8 @@ of weak memory models, it can be hard to navigate in this large zoo.
 Despite the long history of the field and recent progress made, 
 there is no single source that would summare the prior knowledge
 and give comprehensive comparison of different memory models
-of programming languages.
+of programming languages. The aim of this paper is to close this gap.
 
-The aim of this paper is to close this gap.
 We provide an overview of the existing approaches to 
 formal programming languages memory models,
 discuss their design choices, trade-offs, and limitations.
@@ -118,14 +117,31 @@ Besides that, we compare the existing memory models
 in terms of what optimizations opportunities 
 and what guarantees for formal reasoning they provide.
 
-We hope that our work will be useful to the programming language researches 
+We hope that our work will be useful to the programming language researchers 
 who want to dive into the theory of weakly consistent memory models,
 and also to the system-level developers, 
-who are working on new programming languages, compilers or virtual machines, 
+who are working on new programming languages, compilers, or virtual machines, 
 and thus have to choose the memory model for their system.
 
 The rest of the paper is organized as follows.
-\todo{}.
+In \cref{sec:related} we overview related works. 
+In \cref{sec:methodology} we describe the methodology 
+of our study. In \cref{sec:background} we 
+introduce common criteria of programming language memory models,
+namely optimality of compilation mappings, 
+soundness of program transformations, 
+and provided reasoning guarantees.
+Next, in \cref{sec:comparison} we explain 
+how we compare memory models by these criteria.
+In \cref{sec:analysis} we present the classification
+of memory models based on their properties, 
+and discuss each class in more detail. 
+In \cref{sec:catalog} we describe 
+the memory models considered in our study.
+Finally, in \cref{sec:discussion} we conclude 
+with the discussion and outline possible
+direction for the future research in the field. 
+
 % In section [1] we will discuss in more detail the requirements to the programming language memory models.
 % On the way we will also look at specification of memory models for the C/C++ and Java languages
 % and see why these models do not meet the desired requirements.

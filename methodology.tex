@@ -7,8 +7,8 @@ The main puprose of our study was to answer the following research question:
   \item What are the trade-offs in the design of a memory model for a programming language?
 \end{itemize}
 
-As we have already briefly mentioned, the stronger memory models 
-give more guarantees to the programmers, while the weaker models 
+As we have already briefly mentioned, stronger memory models 
+give more guarantees to the programmers, while weaker models 
 provide more optimization opportunities. 
 Thus our research question can be further refined into the following one:
 
@@ -35,7 +35,7 @@ In particular, with respect to each model we want to answer the following questi
   
 \end{itemize}
 
-To search for research articles we have performed the following procedure.
+In order to select memory models for our study, we performed the following procedure.
 On the \emph{first stage}, we have manually selected 10 significant 
 peer-reviewed research papers~\cite{
 Manson-al:POPL05,
@@ -50,7 +50,7 @@ Chakraborty-Vafeiadis:POPL19,
 Paviotti-al:ESOP20
 } 
 whose main contribution was a proposal of the new PL weak memory model.
-We have then extracted the list of keywords from this papers. 
+We then took the list of keywords from these papers. 
 From this list of keywords we manually excluded those 
 that were either too broad or too narrow.
 As a result we get three keyword phrases:
@@ -60,149 +60,37 @@ As a result we get three keyword phrases:
   \item Weak Memory Consistency
 \end{itemize}
  
-On the \emph{second stage} we have used these phrases as a search queries. 
-Using Google Scholar\footnote{https://scholar.google.com/} as a search engine, we have obtained a list of 2000 research items. 
-As a sanity check we have verified that each of the 10 initially selected papers was contained in the selection. 
+On the \emph{second stage} we used these phrases as a search queries. 
+Using Google Scholar\footnote{https://scholar.google.com/} as a search engine, 
+we obtained a list of 2000 research items. 
+As a sanity check, we verified that each of the 10 initially selected papers 
+was contained in the selection. 
 
 On the \emph{third stage} we have removed from the selection duplicates and non-peer-reviewed papers. 
 Also we decided to remove technical reports, theses, 
 non-English publications, as well as short papers (up to 4 page long).
 After this stage only the 1077 research items have left.
 
-Next, on the \emph{fourth stage}, we have further filtered the selection 
-by consulting the title and the abstract of the papers. 
-We have included only the papers which are directly related to the 
-topic of PL memory models and whose main focus is memory models itself,
+Next, on the \emph{fourth stage}, we further filtered the selection 
+by consulting titles and abstracts of the papers. 
+We included only the papers which are directly related to the 
+topic of PL memory models and whose main focus is memory models themselves,
 as opposed to papers that only use established results about PL memory models,
 or papers related to adjacent topics. 
-In particular, we have filtered out papers related to the following adjacent topics:
+In particular, we filtered out papers related to the following adjacent topics:
 \begin{itemize}
   \item memory models of hardware, heterogeneous systems, and distributed systems;
   \item semantics of transactions and persistency;
   \item verification methods for weakly consistent languages.
 \end{itemize}
-As a result we get 137 research items.
+As a result we got 137 research items.
 
 Finally, on the \emph{fifth stage}, we carefully examined the remaining articles.
 In our final selection, we have included only those whose contribution was claimed to include:
 \begin{itemize}
   \item a new PL memory model;
+  \item a study of an existing PL memory model.
   \item a refiment of an existing PL memory model;
-  \item a study of properties of an existing PL memory model.
 \end{itemize}
 After this stage, only the 40 papers have left.
 
-% The purpose of our study is to compare weak memory models for programming languages.
-% In particular, with respect to each model we want to answer the following questions.
-
-% \begin{itemize}
-  
-%   \item Can the memory model be efficiently implemented on modern hardware? 
-%     In other words, is the compilation scheme for a model sound and efficient?
-%     If the compilation scheme is not optimal, then how large is induced performance overhead?
-
-%   \item What compiler optimizations are correct in the model? What are not? 
-%     How large is performance impact for the generated code in case when 
-%     some optimizations are disabled due to unsoundness.
-
-%   \item What is the subjective complexity of the model?
-%     How easy it is to reason about the behavior of the model for non-experts?
-%     Is the model suitable for formal verification?
-  
-% \end{itemize}
-
-% For our research we have chosen a number of memory models 
-% that we previously published in form of research papers 
-% in peer-reviewed journals or conference proceedings. 
-% Below we explain the motivation behind our choice of each particular memory model.  
-
-%% Class of memory models (think how to introduce that)
-
-%% We consider only "\CPP style" MMs
-
-% We included \SC~\cite{Lamport:TC79}
-% as a ``baseline'' memory model. 
-% It is simple, does not permit any counter-intuitive behaviors,
-% and has clear formal specification. 
-
-% We consider \Java memory model~(\JMM)~\cite{Manson-al:POPL05}
-% and \CPP memory model~(\CMM)~\cite{Boehm-Adve:PLDI08, Batty-al:POPL11}
-% because of their significance and impact on software engineering industry.
-
-% Next, we consider a number of proposed memory models 
-% that aim to repair \CPP model, namely 
-% \RCMM~\cite{Lahav-al:PLDI17}, 
-% \Promising~\cite{Kang-al:POPL17, Lee-el:PLDI20}, 
-% \Weakest~\cite{Chakraborty-Vafeiadis:POPL19}, 
-% \MRD~\cite{Paviotti-el:ESOP20}.
-
-% \todo{
-%   It looks like that we need to 
-%   mention~\cite{Jeffrey-Riely:LICS16, PichonPharabod-Sewell:POPL16}
-%   in the survey at least briefly.
-% }
-
-% Finally, we also included memory models of \OCaml~(\OCMM)~\cite{Dolan-al:PLDI18}
-% and \JS/\WASM~(\JSMM)~\cite{Watt-el:PLDI2020}.
-% These models are of some interest becuase 
-% they have some distinctive properties
-% that other models currently lacking.
-
-% We have consciously excluded several memory models from our review
-% for the following reasons.
-% We do not consider \OpenCL~\cite{Batty-el:POPL16} model 
-% because it inherets from the \CPP model.
-% All of the distinguished features of \OpenCL model comparing to \CPP
-% correspond to heteregeneous programming 
-% (\ie programming on a system where multiple CPU, GPU and FPGA processors can coexist),
-% which is beyond the scope of this paper. 
-% We also do not consider model proposed for \LLVM~\cite{Chakraborty-Vafeiadis:CGO17}
-% because it is based on the \Weakest~\cite{Chakraborty-Vafeiadis:POPL19} 
-% model which we do consider. 
-
-% \app{Mentioned that there are PL MMs, which have different to Java/C++ style of
-%   atomic interface, \emph{i.e.} \cite{Crary-Sullivan:POPL15}.
-% }
-
-% \eupp{Below are some other notable MMs. It's not clear what to do about them in the survey}
-% \app{Please, add some names of models/authors to the links. Now, it is impossible to read
-% even for us.}
-
-%   \begin{itemize}
-
-%   \item \cite{Boudol-Gustavo:POPL09} --- 
-%     generalized memory model based on hierarchial structure of 
-%     TSO-like write buffers + some reorderings that can be performed on operations in the buffer
-%     (according to specific memory model). 
-%     Podkopaev \etal~ mentions it can be hard to adapt C11-style interaction of release/acquire and relaxed atomics.
-%     Also, probably, it would be challenging to model load buffering scenarios.
-%     It looks like the authors do not provide any proofs except the DRF-SC.
-
-%   \item \cite{Boudol-al:EXPRESS12} --- 
-%     generalized memory model with single operation buffer 
-%     sitting between threads and shared memory. 
-%     Specific memory model defines commutativity predicate that defines which operations can be reordered in the buffer.
-%     Overly strong barrier semantics for Power according to~\cite{Alglave-al:TOPLAS14}. 
-%     No to much other cites of this paper though. Not clear what other limitations/drawbacks.
-%     Agains, not much formal proofs about the model.
-
-%   \item \cite{Jagadeesan-el:ESOP10} --- 
-%     an attempt to fix JMM. 
-%     Memory is a sequence of actions that can be reordered.
-%     Also, there is a \emph{speculations} mechanism to model load-buffering like scenarios.
-%     Unlike \Promising semantics, thread-local certification is not required~\cite{Kang-al:POPL17}, 
-%     instead it uses so called \textit{initiality}, \textit{consistency}, and \textit{timeliness} constraints
-%     (it seams that the semantics is actually more similar to \Weakest).
-%     The authors prove DRF-SC, uselessness of speculations when there are no read-write races,
-%     and soundness of three optimizations (write-write reordering, roach-motel reordering, read-after-read elimination).
-%     There are no other formal proofs (e.g. there is no compilation results).
-%     Also, there are no release/acquire accesses (only locks), sc accesses, fences, and RMWs.
-
-%   \item \cite{Crary-Sullivan:POPL15} --- 
-%     unconvential model, based on idea to allow the programmer 
-%     to explicitly specify visibility order on accesses, rather that let the compiler infer it 
-%     from the annotations like release/acquire, \etc.
-%     OOTA problem (according authors and to~\cite{Kang-al:POPL17}).
-%     Despite that, authors claim they prove some form of type safety and DRF-SC (?).
-
-%   \end{itemize}
