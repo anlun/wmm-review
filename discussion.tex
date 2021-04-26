@@ -1,75 +1,95 @@
 \section{Discussion}
 \label{sec:discussion}
 
-In this section we provide a summary of our findings  
-described in the previous sections. 
-We briefly compare the design choices and properties 
-of various memory models and discuss their prons and cons.
-Finally, We highlight the underdeveloped parts of the theoretical
+In this section we provide a summary of our findings described in the previous sections. 
+We again briefly compare various classes of memory models 
+and present a short guide for the researchers and system-level developers 
+on how to choose a memory model based 
+on the design principles of the programming language.   
+Finally, we highlight underdeveloped parts of the theoretical
 and practical aspects of memory models, suggesting 
-a possible directions for future research in the field. 
+possible directions for future work in the field. 
 
-\subsection{Optimizations versus Complexity} 
 
-Split the models into classes, for each class 
-outline what reasoning guarantess are given and  
-how the optimizations are affected.
+\subsection{On the Choice of  Memory Model}
 
-\begin{itemize}
-  \item strong SC-like models (mention SC-haskell)
-  \item $\lPO \cup \lRF$ acyclic cyclic models
-  \item $\lPPO \cup \lRF$ acyclic cyclic (?) (mention LKMM)
-  \item $\lPO \cup \lRF$ cyclic models
-  \item OOTA models
-\end{itemize}
+Clearly, design of the memory model of a programming language
+should reflect the design of the language itself. 
 
-Mention the consequences of allowing undefined behavior.
+A language that seeks to provide clear semantics and 
+high-level programming abstractions, \eg \Haskell, at the cost 
+of some performance losses most definetly should 
+adhere to simple memory models like sequential consistency. 
 
-On relationship between speculative optimizations and DRF (?)
-(i.e. load introduction is unsound in models sensitive to DRF).
+Programming languages focusing on efficiency 
+of compiled code, like, for example, \CPP, 
+have to resort to weak models admitting 
+optimal compilation and wide range of 
+various program transformations. 
+For these languages it would be natural 
+to pick some semantic dependency preserving model. 
+However, there are a couple of subtle points here. 
+First, models of these class are quite complex, 
+which makes reasoning about programs challenging. 
+Second, these models are still an active topic 
+of research and thus are subject to further modifications.
 
-On relationship between trace preserving opts. and dependency tracking (?)
+In the middle between two extremes are program order preserving and 
+syntactic dependency preserving models.
+Those are reasonable choice for programming languages
+which can affort a moderate performance overhead 
+in exchange of simpler and more predictable model~\cite{Ou-Demsky:OOPSLA18}.
+An example of such language is \OCaml --- 
+a high-level programming language 
+with an emphasis on functional paradigm which is 
+at the same time is actively used in performance sensitive areas
+like the development of compilers and verification tools. 
 
-Support from PL (i.e. through type system) to mitigate performance problems 
-(i.e. by separating local/shared objects statically). 
-Examples: SC-haskell, OCaml (?), Rust can do this too. 
+For languages adopting strong models which require non-optimal
+compilation mappings and forbid certain program transformations
+there are some general optimization techiniques and design decisions
+which can partly mitigate induced performance penalties.
 
-\subsection{Memory Model Style (?)}
-
-Operational, axiomatic, denotational. 
-Pros and cons of different styls w.r.t. memory models. 
-
-\begin{itemize}
-  \item Axiomatic. \\
-    Easier to add features (?). 
-    The most evolved models (in terms of \#features) are axiomatic.
-    (exception: Promising, but even it has problems with SC).
-  \item Denotational.
-    The conventional way to prove soundness of optimizations in PL theory (?). 
-    Could enable local reasoning (?).
-    Yet today underdeveloped for weak memory models (only a couple of papers).
-\end{itemize}
-
-\subsection{Hints for PL Designers}
+A type system can serve as a great help in this task. 
+Languages like \Haskell, \OCaml, \Rust that 
+statically distinguish and isolate memory regions 
+which can be accessed and modified concurrently have a great advantage.
+These languages can identify precisely 
+immutable and thread local variables
+and compile accesses to them without insertion of fences.
+Moreover memory accesses of these classes are subject to 
+a wide range of program transformations proven to be
+sound for single threaded programs. 
  
-\begin{itemize}
-  \item Separation between local/shared objects can mitigate
-        performance slowdown due to strong memory model.
-  \item Undefined behavior gives an escape hatch for optimizations.
-  \item $\lPO \cup \lRF$ acyclicity gives (relatively) simple 
-        cognitive model, enables almost all desired optimizations, efficient on x86.
-  \item SC accesses (when combined with other types of accesses) behave in unituitive way (?).
-  \item Theory of mixed-size accesses is underdeveloped (?)
-        (i.e. it's good idea to forbid them in the language).
-\end{itemize}
+Languages like, for example, \Java or \Kotlin, which cannot utilize the type system 
+to fully prevent racy accesses to non-atomic variables 
+because of backward compatibility, still can 
+use conservative static escape analysis~\cite{Choi-al:OOPSLA1999}
+or various dynamic techinques~\cite{Liu-al:PLDI19} 
+in order to approximate the set of thread local variables.   
+
+Functional programming languages encourage 
+the programmers to use immutable data whenever possible.
+This style of programming minimizes the use 
+shared memory and mitigates the performance impact 
+of strong memory model~\cite{Vollmer-al:PPoPP17}. 
+
+Finally, if the language tolerates undefined behavior, as, for example, \CPP, 
+an alternative to complex semantic dependency preserving model
+could be a program order preserving model (or syntactic dependency preserving one) 
+which treats data races on non-atomic accesses as 
+undefined behavior~\cite{Boehm-Demsky:MSPC14, Ou-Demsky:OOPSLA18}.
+In this case the compiler can use optimal compilation mappings 
+and wide range of transformations for non-atomics 
+and at the same time have a simpler semantics for atomics. 
 
 \subsection{Future Work}
 
-\begin{itemize}
-  \item Mixed-size accesses.
-  \item Global optimization. 
-        Sequentialization (noOOTA model + seq-on is an open problem).
-  \item Local DRF. Local reasoning in general (denotational models?).
-  \item Common ground between no-OOTA models (?). 
-  \item Performance comparison. Quantitative study in general.
-\end{itemize}
+% \begin{itemize}
+%   \item Mixed-size accesses.
+%   \item Global optimization. 
+%         Sequentialization (noOOTA model + seq-on is an open problem).
+%   \item Local DRF. Local reasoning in general (denotational models?).
+%   \item Common ground between no-OOTA models (?). 
+%   \item Performance comparison. Quantitative study in general.
+% \end{itemize}
