@@ -225,8 +225,8 @@ For the program \ref{ex:sb-mfence} the outcome $[r_1=0, r_2=0]$
 is forbidden by the \xTSO memory model. 
 
 Although the modified compilation scheme is sound for \SC, 
-it is not \emph{optimal}, in a sense that 
-it requires to use memory fence instructions, 
+it is not \emph{optimal}~\cite{OptimalCompilationCPP}, 
+in a sense that it requires to use memory fence instructions, 
 which usually induces a performance penalty~\cite{Marino-al:PLDI11, Liu-al:OOPSLA17}.
 Unfortunately, it is not possible to have compilation mapping 
 for the \SC model which is both \emph{sound and optimal}, 
