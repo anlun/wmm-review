@@ -243,10 +243,10 @@
 
 %% check-mark, cross-mark and other symbols used in the tables
 
-\newcommand{\cmark}{\ding{51}}%{\text{\color{green!50!black}\ding{51}}}
-\newcommand{\xmark}{\ding{55}}%{\text{\color{red!50!black}\ding{55}}}
-\newcommand{\wmark}{\ding{55}}%{\text{\color{yellow!30!black}\ding{55}}}
-\newcommand{\qmark}{\textbf{?}}%{\text{\color{gray!50!black}\textbf{?}}}
+\newcommand{\cmark}{$\mathbb{+}$}%{\text{\color{green!50!black}\ding{51}}}
+\newcommand{\xmark}{$\mathbb{-}$}%{\text{\color{red!50!black}\ding{55}}}
+\newcommand{\wmark}{$\mathbb{\pm}$}%{\text{\color{yellow!30!black}\ding{55}}}
+\newcommand{\qmark}{$\mathbb{?}$}%{\text{\color{gray!50!black}\textbf{?}}}
 
 \newcommand{\okcell}{\cmark}%{\cellcolor{green!20}\cmark}
 \newcommand{\badcell}{\xmark}%{\cellcolor{red!10}\xmark}
@@ -258,9 +258,9 @@
 \newcommand{\edrf}{\textsf{ext}}%{\cellcolor{green!10}\textsf{ext}}
 \newcommand{\idrf}{\textsf{int}}%{\cellcolor{yellow!20}\textsf{int}}
 
-\newcommand{\okcelln}[2]{\cellcolor{green!20}\makecell{#1/#2}}
-\newcommand{\badcelln}[2]{\cellcolor{red!10}\makecell{#1/#2}}
-\newcommand{\warncelln}[2]{\cellcolor{yellow!20}\makecell{#1/#2}}
+\newcommand{\okcelln}[2]{\okcell}%{\cellcolor{green!20}\makecell{#1/#2}}
+\newcommand{\badcelln}[2]{\badcell}%{\cellcolor{red!10}\makecell{#1/#2}}
+\newcommand{\warncelln}[2]{\warncell}%{\cellcolor{yellow!20}\makecell{#1/#2}}
 
 \newcommand{\ambgcelln}[2]{\makecell{#1}}
 
