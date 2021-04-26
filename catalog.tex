@@ -166,8 +166,13 @@ efficient compilation mappings and support as many transformation as possible.
 It was later shown that the formal model partially fails in achieving these goals.
 
 Vafeiadis~\etal~\cite{Vafeiadis-al:POPL15} have shown
-that many program transformation that deemed to be correct
-are actually unsound according to the formal model. 
+that several program transformation 
+(sequential-isation, strengthening, roach motel reorderings) 
+that deemed to be correct are actually unsound according to the formal model.
+They proposed several local fixes to the model which 
+repair soundness of transformations and improve 
+its meta-theoretical properties. 
+
 Batty~\etal~\cite{Batty-al:ESOP15} have shown that 
 the model also fails to provide external DRF guarantee, 
 and that it is ultimately not possible to provide this guarantee
@@ -182,10 +187,6 @@ Besides that, Flur~\etal~\cite{Flur-al:POPL17} have extended the model to suppor
 Finally, Nienhuis~\etal~\cite{Nienhuis-al:OOPSLA16} presented 
 a formal executable semantics in terms of an abstract machine, 
 equivalent to the original \CMM model. 
-
-\app{I don't like the story in this paragraph. We decided that a model
-could be supported by many papers. That is, it makes wrong to say about 
-flaws of the model which were fixed, \ie by \cite{Vafeiadis-al:POPL15,Lahav-al:PLDI17}.}
 
 \paragraph{\JS Memory Model}
 
@@ -277,6 +278,8 @@ among them the one that uses spurious conditional branch
 as descibed above has demonstrated the most promising results.  
 The authors measured the running time on a set of benchmarks 
 implementing various concurrent data-structures
+(\eg locks, stacks, queues, deques, maps
+from various open source libraries~\cite{CDSLib, FollyLib, JunctionLib})
 and reported an overhead of 0\% on average and 6.3\% in maximum,
 compared to the unmodified version of the compiler. 
 
@@ -396,7 +399,7 @@ program trasformations.
 Ou and Demsky~\cite{Ou-Demsky:OOPSLA18} studied 
 the performance penalty induced by dependency preserving compiler. 
 Again, they modified the LLVM compiler infrastructure 
-and run a number of benchmarks on ARMv8 hardware. 
+and run benchmarks from \SPECCPU suite on ARMv8 hardware. 
 They have observed 3.1\% overhead on average and 17.6\% in maximum. 
 
 \subsection{Semantic Dependencies Preserving}

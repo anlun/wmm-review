@@ -7,14 +7,12 @@
 % semantic dependency preserving models, and model with out of thin-air values.
 
 In this section we discuss each identified class of memory models in more detail.
-We give an insight on the relationship between compilation scheme optimality, 
+Based on the data from \cref{table:cmp-cls},
+we derive the relationship between compilation scheme optimality, 
 soundness of transformations and reasoning guarantees.
 In particular, we explain why the support of some reasoning guarantees 
 disables some program transformations and requires more heavyweight 
 compilation mappings to hardware.
-In \cref{sec:analysis:other} we also discuss several particular properties 
-of models, orthogonal to the main partioning into classes, 
-which affect soundness of certain program transformations.
 
 Note that the order of classes is different from the one 
 in \cref{table:cmp-cls} and \cref{table:cmp-mms}.
@@ -23,6 +21,10 @@ of thin-air (\cref{sec:analysis:oota}) and then describe
 various solutions of this problem
 (\cref{sec:analysis:porf,sec:analysis:deprf,sec:analysis:sdeprf}).
 
+In \cref{sec:analysis:other} we also discuss particular properties 
+of models, namely coherence and catch-fire semantics, 
+which are orthogonal to the main partioning into classes, 
+but nonetheless they affect soundness of certain program transformations.
 
 \input{smalltable.tex}
 
@@ -30,12 +32,13 @@ various solutions of this problem
 \label{sec:analysis:seqcst}
 
 Sequential Consistency (\SC) is one of the most intuitive models of concurrency.
-Under this model, one can represent the state of the system as 
+Under this model, one can represent the state of the memory as 
 a simple mapping from memory locations to their values. 
-Then each outcome can be obtained by a sequential interleaved execution 
-of thread's instructions. Each execution induces a total order 
-on individual memory access operations consistent with per-thread program order
-and, moreover, each read is guaranteed to read-from the most recent write. 
+Then each outcome can be obtained by a sequential interleaving
+of threads' instructions. 
+% Each execution induces a total order 
+% on individual memory access operations consistent with per-thread program order
+% and, moreover, each read is guaranteed to read-from the most recent write. 
 
 \SC renders many common transformations unsound, 
 including all kind of instruction reorderings and 
@@ -49,12 +52,13 @@ the compiler need to emit heavyweight memory fences between store and load instr
 which makes compilation mappings far from being optimal.  
 
 In terms of reasoning guarantees, however, SC is quite a pleasant model. 
-It gives the DRF-SC and coherence properties for free.
-The SC semantics assigns to programs only sequantially consistent
-outcomes by definition, thus it satisfies DRF-SC without any preconditions.
-The coherence property is equivalent to sequential consistency per location.
-The fact that in SC model any execution is sequentially consistent implies trivially
-that accesses to each location are also sequentially consistent.
+It gives the DRF-SC and coherence properties for free, 
+because it assigns to programs only sequentially consistent
+outcomes by definition.
+% thus it satisfies DRF-SC without any preconditions.
+% The coherence property is equivalent to sequential consistency per location.
+% The fact that in SC model any execution is sequentially consistent implies trivially
+% that accesses to each location are also sequentially consistent.
 
 The conceptual simplicity of SC have inspired many researchers 
 to adopt it and to try to mitigate the induced performance penalty.
@@ -77,7 +81,7 @@ they are likely to have lesser impact on specific
 applications which heavily utilize concurrency,
 like, for example, lock-free data structures.
 Finally, modern compilers usually require 
-a significant amount of engeneering work and rewrite
+a significant amount of engineering work and rewrite
 in order to preserve \SC~\cite{Marino-al:PLDI11, Liu-al:PLDI19}.
 
 \subsection{Total and Partial Store Order}
@@ -88,21 +92,22 @@ was inspired by \emph{total store order}~\cite{Sewell-al:CACM10} (\TSO)
 and \emph{partial store order}~\cite{Sparc:94} (\PSO) hardware models. 
 In these models threads are equipped with \emph{store buffers}.
 All store operations go to these buffers before they 
-propogate into the main memory.
-The name of these models stems from their axiomatic formulation. 
-They require an existence of total (in case of \TSO) 
-or partial (in case of \PSO) order on write events, 
-consistent with program order and such that 
-each read either reads locally or from 
-the most recent write~\cite{Sewell-al:CACM10, Lahav-al:POPL16}. 
+propagate into the main memory.
+% The name of these models stems from their axiomatic formulation. 
+% They require an existence of total (in case of \TSO) 
+% or partial (in case of \PSO) order on write events, 
+% consistent with program order and such that 
+% each read either reads locally or from 
+% the most recent write~\cite{Sewell-al:CACM10, Lahav-al:POPL16}. 
+
 Models of this class can be compiled down to x86 hardware without any 
 performance penalty, since \xTSO implements \TSO model itself.
 However, on weaker hardware like~\POWER 
 the compiler need to emit essentially as many fences 
 as to enforce~\SC~\cite{Lustig-al:AISCA15}. 
 This class permits more program transformations than \SC.
-Store buffers enable store/load reordering (in case of~\TSO),
-and store/load \& store/store reordegins (in case of~\PSO).
+Store buffers enable store/load reordering in case of~\TSO,
+and additionally store/store reorderings in case of~\PSO.
 The \TSO and \PSO models are weaker than \SC, 
 but they are still relatively strong~---
 the external DRF-SC and coherence properties hold.
@@ -197,10 +202,10 @@ Examples of this kind demonstrate the main common
 disadvantage of OOTA models.
 They lack the fundamental reasoning 
 principles~\cite{Boehm-Demsky:MSPC14, Batty-al:ESOP15}:
-type safety and security gurantess can be violated, 
+type safety and security guarantees can be violated, 
 and compositional reasoning is impossible.
 They also do not satisfy external DRF-SC property.
-To see this consider yet another program.
+To see this consider yet another program:
 
 \begin{equation*}
 \inarrII{
@@ -255,35 +260,38 @@ The memory storage can be implemented as a
 monotonically growing history of messages, 
 with each thread having its own view on 
 the frontier of this history~\cite{Dolan-al:PLDI18, Doherty-al:PPoPP19}.
-In terms of axiomatic semantics it is enough to just
-forbid cycles consisting of program order and reads-from relations. 
+% In terms of axiomatic semantics it is enough to just
+% forbid cycles consisting of program order and reads-from relations. 
 
 Lahav~\etal~\cite{Lahav-al:PLDI17} formalized this approach
 to thin-air problem and studied it extensively. 
 The authors have shown that many 
 program transformations are still sound in this setting, 
 with the obvious exception of load/store reordering itself
-(see~\cref{table:cmp-mms} for details).
+(see~\cref{table:cmp-cls} for details).
 
 The compilation mappings to \xTSO remain efficient, 
 since the architecture already guarantee to preserve the order 
 between loads and subsequent stores. 
 However, weaker architectures (\ARM, \POWER) do not guarantee that, 
 and thus additional measures are required.
-Lahav~\etal~\cite{Lahav-al:PLDI17} proposed to compile relaxed load 
+Boehm and Demsky~\etal~\cite{Boehm-Demsky:MSPC14} proposed to compile relaxed load 
 as plain load followed by a spurious conditional branch,
 which introduces fake control dependency between 
 the load and subsequent stores. 
-ARM and POWER hardware preserves dependencies, 
+\ARM and \POWER hardware preserves dependencies, 
 and thus it has to also retain the load/store ordering. 
-
 Ou and Demsky~\cite{Ou-Demsky:OOPSLA18} have studied 
 the performance penalty required to preserve
-load/store ordering between relaxed atomics 
-and reported a negligible overhead 
+load/store ordering between \textbf{relaxed atomics only}
+on \ARMv{8} hardware and reported a negligible overhead
+of 0\% on average and 6.3\% in maximum on a set of benchmarks
+implementing various concurrent data-structures, 
+\eg locks, stacks, queues, deques, maps \etc 
 (see \ref{sec:catalog:porf} for details).
-However, the overhead is likely to be more significant
-if one want to apply it to non-atomic accesses as well. 
+Note that the overhead is expected to be greater 
+if it is also required to preserve the ordering 
+between non-atomic accesses as well. 
 
 % In conclusion, the memory models forbidding load/store reorderings
 % provide a simple solution to thin-air problem, 
@@ -354,9 +362,12 @@ since the hardware does not perform such complex optimizations.
 
 Ou and Demsky~\cite{Ou-Demsky:OOPSLA18} adjusted 
 the compiler optimization passes to preserve
-dependencies between non-atomic accesses 
-and reported a moderate slowdown compared 
-to the unmodified version of the compiler  
+dependencies between \textbf{non-atomic and relaxed} accesses.
+They evaluated the dependency preserving 
+version of the LLVM compiler infrastructure 
+on \ARMv{8} hardware using \SPECCPU benchmarks
+and reported a moderate slowdown of 
+3.1\% on average and 17.6\% in maximum. 
 (see \ref{sec:catalog:deprf} for details).
 
 \subsection{Semantic Dependencies Preserving}
@@ -472,3 +483,8 @@ As for compilation schemes, coherence does not require
 any changes here and thus does not impose any performance penatly.
 It is because the hardware already guarantee coherence%
 ~\cite{Alglave-al:TOPLAS14, Sarkar-al:PLDI11, Sewell-al:CACM10, Lahav-al:PLDI17}. 
+
+\subsubsection{Catch-Fire Models}
+\label{sec:analysis:ub}
+
+\todo{}
