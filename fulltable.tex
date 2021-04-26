@@ -140,7 +140,7 @@
      % global: register promotion, thread inlining, value range 
      \okcell & \okcell & \unkwcell & 
      % % DRF, COH, no-UB, no-OOTA
-     \ldrf & \okcell & \warncell & \okcell % &
+     \ldrf & \okcell & \badcell & \okcell % &
 
      \\ \Xhline{2\arrayrulewidth}
 
@@ -203,7 +203,7 @@
  & RC11~{\tiny\cite{Lahav-al:PLDI17, Doherty-al:PPoPP19, Dang-al:POPL19, Dodds-al:ESOP18}}
      &
      % compilation 
-     \okcell & \warncell & \warncell & \warncell &  
+     \okcell & \badcell & \badcell & \badcell &  
      % reorderings
      \okcell & \okcell & \okcell & \badcell & 
      % eliminations
@@ -221,14 +221,14 @@
      % global: register promotion, thread inlining, value range 
      \okcell & \okcell & \unkwcell &                  
      % DRF, COH, no-UB, no-OOTA
-     \edrf & \okcell & \warncell & \okcell % &
+     \edrf & \okcell & \badcell & \okcell % &
 
      \\ \cline{2-\lastcol}
  
  & OCMM~{\tiny\cite{Dolan-al:PLDI18}}
      & 
      % compilation 
-     \okcell & \warncell & \warncell & \warncell &  
+     \okcell & \badcell & \badcell & \badcell &  
      % reorderings
      \okcell & \okcell & \okcell & \badcell & 
      % eliminations
@@ -246,14 +246,14 @@
      % global: register promotion, thread inlining, value range 
      \unkwcell & \unkwcell & \unkwcell & 
      % DRF, COH, no-UB, no-OOTA
-     \ldrf & \warncell & \okcell & \okcell % &
+     \ldrf & \badcell & \okcell & \okcell % &
 
      \\ \cline{2-\lastcol}
 
  & JAM~{\tiny\cite{Bender-Palsberg:OOPSLA19}}
      & 
      % compilation 
-     \okcell & \warncell & \warncell & \warncell &  
+     \okcell & \badcell & \badcell & \badcell &  
      % reorderings
      \unkwcell & \unkwcell & \unkwcell & \unkwcell &  
      % eliminations
@@ -350,7 +350,7 @@
      % global: register promotion, thread inlining, value range 
      \unkwcell & \badcell & \unkwcell & 
      % DRF, COH, no-UB, no-OOTA
-     \edrf & \warncell & \okcell & \okcell % &
+     \edrf & \badcell & \okcell & \okcell % &
 
      \\ \cline{2-\lastcol}
 
@@ -386,7 +386,7 @@
      % reorderings
      \okcell & \okcell & \okcell & \okcell &
      % eliminations
-     \okcell & \okcell & \okcell & \okcell &  
+     \okcell & \okcell & \okcell & \badcell &  
      % irrelevant load elim & speculative load intro  
      \unkwcell & \okcell &
      % roach motel 
@@ -400,7 +400,7 @@
      % global: register promotion, thread inlining, value range 
      \unkwcell & \badcell & \unkwcell & 
      % DRF, COH, no-UB, no-OOTA
-     \edrf & \okcell & \okcell & \okcell % &
+     \edrf & \okcell & \badcell & \okcell % &
 
      \\ \cline{2-\lastcol}
 
@@ -425,7 +425,7 @@
      % global: register promotion, thread inlining, value range 
      \unkwcell & \badcell & \okcell & 
      % DRF, COH, no-UB, no-OOTA
-     \unkwcell & \okcell & \warncell & \okcell % &
+     \unkwcell & \okcell & \badcell & \okcell % &
 
      \\ \cline{2-\lastcol}
 
@@ -450,7 +450,7 @@
      % global: register promotion, thread inlining, value range 
      \unkwcell & \unkwcell & \unkwcell & 
      % DRF, COH, no-UB, no-OOTA
-     \edrf & \warncell & \okcell & \okcell % &
+     \edrf & \badcell & \okcell & \okcell % &
 
      \\ \cline{2-\lastcol}
 
@@ -506,7 +506,8 @@
 
  \multirow{5}{*}{\clsOOTA}   
 
- & C11~{\tiny\cite{Batty-al:POPL11}}
+ & C11~{\tiny\cite{Batty-al:POPL11, Vafeiadis-al:POPL15, Batty-al:POPL12, 
+                   Batty-al:POPL16, Nienhuis-al:OOPSLA16, Flur-al:POPL17}}
      &            
      % compilation 
      \okcell & \okcell & \okcell & \okcell &
@@ -517,17 +518,17 @@
      % irrelevant load elim & speculative load intro 
      \unkwcell & \badcell &
      % roach motel 
-     \badcell & 
+     \okcell & 
      % strength.
-     \badcell &
+     \okcell &
      % trace preserving 
      \okcell &
      % common subexpression elimination
      \badcell &
      % global: register promotion, thread inlining, value range
-     \unkwcell & \badcell & \unkwcell & 
+     \unkwcell & \okcell & \unkwcell & 
      % DRF, COH, no-UB, no-OOTA
-     \idrf & \okcell & \warncell & \badcell % &
+     \idrf & \okcell & \badcell & \badcell % &
 
      \\ \cline{2-\lastcol}
 
@@ -552,7 +553,7 @@
      % global: register promotion, thread inlining, value range 
      \unkwcell & \unkwcell & \unkwcell & 
      % DRF, COH, no-UB, no-OOTA
-     \idrf & \warncell & \okcell & \badcell % &
+     \idrf & \badcell & \okcell & \badcell % &
 
      \\ \cline{2-\lastcol}
 
@@ -603,7 +604,7 @@
      % global: register promotion, thread inlining, value range
      \unkwcell & \unkwcell & \unkwcell & 
      % DRF, COH, no-UB, no-OOTA
-     \unkwcell & \warncell & \okcell & \badcell % &
+     \unkwcell & \badcell & \okcell & \badcell % &
 
      \\ \cline{2-\lastcol}
 

@@ -165,12 +165,11 @@ In other words, the memory model was meant to provide
 efficient compilation mappings and support as many transformation as possible.
 It was later shown that the formal model partially fails in achieving these goals.
 
-Vafeiadis~\etal~\cite{Vafeiadis-al:POPL15} have shown
-that several program transformation 
-(sequential-isation, strengthening, roach motel reorderings) 
+Vafeiadis~\etal~\cite{Vafeiadis-al:POPL15} have shown that several program transformation 
+(load/store elimination, strengthening, roach motel reorderings, sequentialisation) 
 that deemed to be correct are actually unsound according to the formal model.
 They proposed several local fixes to the model which 
-repair soundness of transformations and improve 
+partly repair soundness of transformations and improve 
 its meta-theoretical properties. 
 
 Batty~\etal~\cite{Batty-al:ESOP15} have shown that 
