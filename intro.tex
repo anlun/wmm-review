@@ -1,26 +1,24 @@
 \section{Introduction}
 \label{sec:intro}
 
-A main challenge in concurrent programming is 
+The main challenge in concurrent programming is 
 to establish a proper synchronization between threads executed in parallel.     
 Usually it is done with the help of synchronization primitives
 provided by the programming language or libraries,
 for example locks, barriers, channels \etc
-Sometimes, however, the usage of these primitives
-is not possible or undesirable. 
+Sometimes, however, usage of these primitives is impossible or undesirable. 
 Examples of such cases are the implementation 
-of synchronization primitive themselves
+of synchronization primitives themselves
 or lock-free data structures.
 In these cases one has to resort to 
-lower-level programming discipline and 
-use the mutable shared variables. 
+lower-level programming discipline and use shared variables. 
 At this point things get complicated.
 
 %The memory model defines which values reads of shared variables can observe at each point of execution. 
 %In other words, it defines the semantics of concurrent program.
 
 Let us consider a concrete example.
-Here is a simplified version of Dekker's algorithm for mutual exclusion:
+Here is a simplified version of Dekker's lock:
 
 \begin{equation*}
 \inarrII{
@@ -36,27 +34,30 @@ Here is a simplified version of Dekker's algorithm for mutual exclusion:
   ~~ \comment{critical section} \\
   \}
 }
-\tag{Dekker}\label{ex:Dekker}
+\tag{Dekker Lock}\label{ex:Dekker}
 \end{equation*}
 
-In this program, there are two threads that compete to enter critical section.
+In this program, there are two threads that compete to enter the critical section.
 In order to indicate their intention, threads set 
 variables $x$ and $y$ correspondingly.%
 \footnote{We distinguish shared variables 
-(denotes as $x$, $y$, $z$) and thread local registers 
+(denoted as $x$, $y$, $z$) and thread local registers 
 (denoted as $r_1$, $r_2$, $r_3$, \etc).}
-The one who manages to set the variable first enters the critical section.
+The one who manages to set the variable first 
+and read the other variable before it is set
+enters the critical section.
 The algorithm relies on the fact that both threads cannot read value~\texttt{0}.%
-\footnote{From here and through the rest of the paper we assume that initially all 
+\footnote{From here and through the rest of the paper we assume that all 
 variables are initialized with zeros, unless the other is stated explicitly}
 Otherwise, the two threads would have been able 
-to enter critical section simultaneously, 
-thus breaking the correctness of the algorithm.
+to enter the critical section simultaneously, 
+thus breaking correctness of the algorithm.
 
 Indeed, after running this program on a multi-core system, one would expect to see 
-one of the following outcomes: $[r_1=0, r_2=1]$, $[r_1=1,r_2=0]$, and $[r_1=1,r_2=1]$.
+one of the following outcomes: $[r_1=0, r_2=1]$, $[r_1=1,r_2=0]$, or $[r_1=1,r_2=1]$.
 These outcomes are \emph{sequential consistent}~\cite{Lamport:TC79} meaning
-that they may be obtained by an interleaving of threads' instructions.
+that they may be obtained as sequential execution 
+of some interleaving of threads' instructions.
 
 %A memory model that admits only these behaviours is known under the name \emph{sequential consistency} (SC) [Lamport:TC79].
 
@@ -66,14 +67,14 @@ that they may be obtained by an interleaving of threads' instructions.
 %%        we use terms "semantics" and "memory model" interchangeably.
 
 However, not all behaviors which are observable on real concurrent systems are sequentially consistent. 
-For example, if one ports the \ref{ex:Dekker} program
+For example, if one ports the \ref{ex:Dekker} 
 from the pseudocode to the C language, compile it with the GCC compiler, 
 and run on a processor from the x86/x64 family,
 she may observe non sequentially consistent outcome $[r_1=0, r_2=0]$.
 Such outcomes are called \emph{weak}.
 
 Weak outcomes appear because of compiler and CPU optimizations.
-For example, in the \ref{ex:Dekker} program,
+For example, given the \ref{ex:Dekker},
 the optimizer may observe that the store to $x$ and the load from $y$ in the left thread
 are independent instructions and thus they can be reordered
 (this optimization is perfectly valid for single-threaded programs).
@@ -86,7 +87,7 @@ The memory model permitting only sequentially consistent outcomes
 is called \emph{sequential consistency} (SC).
 Memory models admitting weak behaviors are called \emph{weak memory models}.
 
-Neither modern hardware nor programming languages 
+Neither modern hardware, nor programming languages 
 guarantee sequential consistency since this model forbids many important optimizations.
 The main question then is how \emph{weak} their memory models should be,
 \ie how big is the set of allowed weak behaviors for a given program.
@@ -109,21 +110,21 @@ there is no single source that would summare the prior knowledge
 and give comprehensive comparison of different memory models
 of programming languages. The aim of this paper is to close this gap.
 
-We provide an overview of the existing approaches to 
-formal programming languages memory models,
+We provide an overview of existing approaches to 
+programming languages memory models,
 discuss their design choices, trade-offs, and limitations.
 Besides that, we compare the existing memory models 
 in terms of what optimizations opportunities 
 and what guarantees for formal reasoning they provide.
 
-We hope that our work will be useful to the programming language researchers 
+We hope that our work will be useful to programming language researchers 
 who want to dive into the theory of weakly consistent memory models,
-and also to the system-level developers, 
+and also to system-level developers, 
 who are working on new programming languages, compilers, or virtual machines, 
-and thus have to choose the memory model for their system.
+and thus have to choose a memory model for their system.
 
 The rest of the paper is organized as follows.
-In \cref{sec:related} we overview related works. 
+In \cref{sec:related} we overview related work. 
 In \cref{sec:methodology} we describe the methodology 
 of our study. In \cref{sec:background} we 
 introduce common criteria of programming language memory models,
@@ -132,20 +133,12 @@ soundness of program transformations,
 and provided reasoning guarantees.
 Next, in \cref{sec:comparison} we explain 
 how we compare memory models by these criteria.
-In \cref{sec:analysis} we present the classification
+In \cref{sec:analysis} we present a classification
 of memory models based on their properties, 
-and discuss each class in more detail. 
-In \cref{sec:catalog} we describe 
-the memory models considered in our study.
-Finally, in \cref{sec:discussion} we conclude 
-with the discussion and outline possible
-direction for the future research in the field. 
-
-% In section [1] we will discuss in more detail the requirements to the programming language memory models.
-% On the way we will also look at specification of memory models for the C/C++ and Java languages
-% and see why these models do not meet the desired requirements.
-% In section [2] we will consider several proposed solutions to fix C/C++ MM. 
-% Section [3] contains an overview of memory models for JavaScript/WebAssembly and OCaml languages. 
-% Both of these models features some interesting properties that are currently lack in other models.
-% In section [4] we compare all of the memory models presented in the paper.
-% Finally, section [5] concludes with the discussion and open problems. 
+and discuss each class. 
+In \cref{sec:catalog} we further describe 
+each particular memory model considered in our study.
+Finally, in \cref{sec:discussion} we conclude with a discussion. 
+We present a short guide on the design of memory model 
+for researchers and system developers,
+and outline possible directions for future research in the field. 
