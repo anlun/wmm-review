@@ -3,13 +3,12 @@
 
 In this section we will have a closer look on criteria for 
 programming language memory models, 
-namely an optimality of the compilation scheme, 
+namely on optimality of the compilation scheme, 
 soundness of common program transformations, 
 and provided reasoning guarantees.  
-But first we need to introduce the 
-programming primitives provided by the shared memory abstraction, 
-and the various styles of formal semantics 
-used to specify memory model. 
+But first we need to introduce  
+programming primitives provided 
+by the shared memory abstraction. 
 
 \subsection{Programming Primitives}
 \label{sec:background:primitives}
@@ -22,8 +21,8 @@ in the presence of concurrently executing threads.
 % can observe at each point of execution. 
 Therefore the main abstraction of the memory model 
 is the shared memory itself. 
-The shared memory consists of a individual shared variables, 
-each having unique address.\footnote{
+The shared memory consists of individual shared variables, 
+each having a unique address.\footnote{
 Throughout the rest of paper, we use terms 
 memory address and memory location interchangeably}
 Threads can access these variables by performing 
@@ -69,7 +68,7 @@ no guarantees on the order in which concurrent
 threads can observe these accesses (\eg \Java~\cite{Manson-al:POPL05}).
 
 In turn, atomics are designed for concurrent accesses. 
-Some memory models furhter distinguish 
+Some memory models further distinguish 
 several kinds of accesses to atomic variables.
 In these models the accesses to shared memory are annotated by the 
 so-called \emph{access modes}.
@@ -78,7 +77,9 @@ For example, the \CPP model (and a later revision of
 three modes: \emph{relaxed} (\emph{opaque} in \Java terminology), 
 \emph{acquire/release}, and \emph{sequentially consistent}
 (\emph{volatile} in \Java).
-They are denoted as $\rlx$, $\acqrel$, and $\sco$ correspondingly.
+They are denoted as $\rlx$, $\acq$, $rel$, and $\sco$ correspondingly.
+Note that $\acq$ mode is only applicable to load operations,
+while $\rel$ is applicable to store operations.
 Non-atomic accesses are often considered to be the fourth access mode $\na$, 
 but note that mixing non-atomic and atomic accesses to the same variable 
 entails undefined behavior in \CPP.
@@ -87,13 +88,14 @@ The access modes are ordered by the guarantees they provide
 in exchange of optimization opportunities, as the following 
 diagram shows.
 
-$$ \na \sqsubseteq \rlx \sqsubseteq \acqrel \sqsubseteq \sco $$
+% $$ \na \sqsubseteq \rlx \sqsubseteq \acqrel \sqsubseteq \sco $$
+
+\input{modes.tex}
 
 On one end of the spectrum are sequentially consistent accesses. 
-They guarantee to restore the \SC semantics, if used properly 
-(see \cref{sec:background:drf} for details).
-Non-atomic accesses, as we have already discussed, 
-give little guarantee. 
+They guarantee to restore the sequentially consistent semantics, 
+if used properly (see \cref{sec:background:drf} for details).
+Non-atomic accesses, as we have already discussed, give a little guarantee. 
 Relaxed accesses also have very weak guarantees, 
 usually they provide only the \emph{coherence} property
 (see \cref{sec:background:coh} for details).
@@ -102,19 +104,21 @@ They are designed to support the message passing idiom~\cite{Lahav-al:POPL16}.
 The thread sends the message by performing a release write, 
 the thread expecting a message can perform an acquire read. 
 If the acquire read observes the release write, the two 
-threads synchronize their view on shared memory. 
+threads synchronize their views on shared memory. 
 
 The memory model can also provide atomic \emph{read-modify-write} operations.
-These include \emph{compare-and-swap}, and variations of atomic increment,
+These include \emph{compare-and-swap}, \emph{exchange}, and variations of atomic increment,
 \eg \emph{fetch-and-add}, \emph{fetch-and-sub}, \etc 
 Compare-and-swap (\CAS) operation takes the shared variable, the expected 
-and the desired values. It reads the content of the variable
-and compares it with the expected value. If the two are equal,
-it substitutes the content of the variable to desired value. 
+and the desired values. It reads from the variable
+and compares the result with the expected value. If the two are equal,
+it substitutes the value of the variable to desired value. 
 In either case, the value read from the variable is returned as a result. 
 Note that the above operations are guaranteed to be performed atomically, 
-no other write to the shared variable may happen ``in-between'' 
-read and write parts of \CAS.
+no other write to the shared variable may happen in-between 
+the read and write parts of \CAS.
+Exchange operation atomically replaces the value 
+of the variable and returns the previously held value.
 Fetch-and-add and similar primitives perform 
 the operation (addition, substraction,~\emph{etc.}~)
 atomically and unconditionally, returning 
@@ -138,9 +142,9 @@ to read from two concurrent adjacent 4 byte stores.
 \label{sec:background:compile}
 
 We next consider the first criterion for 
-programming language memory models --- 
-an optimality of compilation scheme. 
-A compilation scheme is a mapping of 
+programming language memory models---an optimality 
+of compilation scheme. 
+A \emph{compilation scheme} is a mapping of 
 programming language primitives into 
 instructions of particular hardware architecture. 
 In our setting we consider the primitives 
@@ -151,42 +155,41 @@ plain load and stores,\footnote{Some architectures
 also provide various types of load and stores
 matching the access modes annotations, 
 \eg \texttt{lda} --- load acquire, 
-and \texttt{stl} --- store release on \ARMv{8}} 
+and \texttt{stl} --- store release on \ARMv{8}.} 
 read-modify-write operations, 
 and also various memory fences.    
 
 The compilation mapping should be \emph{sound}.
 In the context of this paper it means that 
 the set of outcomes permitted by the 
-memory model of the hardware should be 
+memory model of the hardware 
+for the compiled program should be 
 a subset of outcomes permitted by the 
-programming language model. 
+programming language model for the original program. 
 
 Let us consider an example. 
 The program \ref{ex:sb} below is a 
-fragment of the \ref{ex:Dekker} program from \cref{sec:intro}.
+fragment of the \ref{ex:Dekker} from \cref{sec:intro}.
 
 \begin{equation*}
 \inarrII{
    \writeInst{}{x}{1}   \\
-   \emptyInst           \\
    \readInst{}{r_1}{y}  \\
 }{
   \writeInst{}{y}{1}   \\
-  \emptyInst           \\
   \readInst{}{r_2}{x}  \\
 }
 \tag{SB}\label{ex:sb}
 \end{equation*}
 
-Assume the memory model of the programming language
+Assume that the memory model of the programming language
 is sequential consistency, and we want 
 to compile it to \xTSO hardware. 
 Then if one compile all loads and stores 
 to plain load and store instructions of \xTSO,
 the outcome $[r_1=0, r_2=0]$ would be 
 allowed for the compiled program 
-(and it can actually be observed in practice), 
+(and it can actually be observed in practice as was stated before), 
 since the memory model of \xTSO permits this outcome. 
 It can be obtained as a result of \emph{store buffering}
 optimization (hence the name of the program \ref{ex:sb}). 
@@ -196,13 +199,13 @@ Yet clearly the outcome $[r_1=0, r_2=0]$ is not sequentially consisestent.
 Therefore the proposed compilation scheme, 
 which maps all load and stores to the plain one is unsound. 
 As we have demonstrated in \cref{sec:intro} 
-the unsoundness of compilation scheme has 
+unsoundness of compilation scheme has 
 dramatic consequences, as it may break 
-the correctness of the program. 
+correctness of the program. 
 
-A sound compilation scheme for sequential consistency 
-can compile the stores as plain stores followed 
-by the \texttt{mfence} instruction~\cite{Sewell-al:CACM10, Batty-al:POPL11}, 
+Sound compilation scheme for sequential consistency 
+can compiles the stores as plain stores followed 
+by the \texttt{mfence} instruction~\cite{Sewell-al:CACM10, Batty-al:POPL11} 
 as demonstrated below. 
 
 \begin{equation*}
@@ -227,10 +230,12 @@ is forbidden by the \xTSO memory model.
 Although the modified compilation scheme is sound for \SC, 
 it is not \emph{optimal}~\cite{OptimalCompilationCPP}, 
 in a sense that it requires to use memory fence instructions, 
-which usually induces a performance penalty~\cite{Marino-al:PLDI11, Liu-al:OOPSLA17}.
+which usually induces a performance penalty
+of about 10-30\%~\cite{Marino-al:PLDI11, Liu-al:OOPSLA17}
+(see \cref{sec:catalog:sc} for details).
 Unfortunately, it is not possible to have compilation mapping 
 for the \SC model which is both \emph{sound and optimal}, 
-assuming the modern hardware architectures.     
+to modern hardware architectures.     
 This fact makes the \SC memory model unsuitable  
 for high-performance programming languages
 and serves as one of the stimuls for 
@@ -245,7 +250,7 @@ most widespread today.
 Second, they have received a lot of attention 
 from the research community recently. 
 As the result of this effort, 
-there were developed a rigorous formal 
+there were developed rigorous formal 
 specifications of these models~%
 \cite{Sewell-al:CACM10, Sarkar-al:PLDI11, 
 Flur-al:POPL16, Pulte-al:POPL18}. 
@@ -269,8 +274,8 @@ Going back to the \ref{ex:sb} example,
 assume the sequential consistency model again and
 consider a transformation that reorders 
 a store instruction past the following load 
-instructions, assuming the load and store
-operate on disjoint memory locations.
+instructions in the left thread, 
+assuming the load and store operate on disjoint memory locations:
 
 \begin{minipage}{0.45\linewidth}
 \begin{equation*}
@@ -310,12 +315,12 @@ We next present a comprehensive list of
 various program transformations considered in
 the literature on weak memory models 
 with a short description of each one.
-Note that the list is far from being a complete regarding to  
+Note that the list is far from being complete regarding to  
 transformations used in optimizing compilers~\cite{Muchnick:ACDI97}.
 For example it lacks common loop optimizations, 
 because the theory of relaxed memory models still
 strugles with problems of liveness properties, 
-needed to study these transformations formally. 
+needed for studing these transformations formally. 
 
 The transformations we consider can be split into 
 two subcategories: \emph{local} and \emph{global}.
@@ -331,7 +336,7 @@ to perform the rewriting.
 \paragraph{Reordering of Independent Instructions} 
 
 This transformation reorders two 
-adjucent independent memory accessing instructions
+adjacent independent memory accessing instructions
 operating on different memory locations.
 Depending on the particular pair of instructions
 it can be further split into store/load, store/store, 
@@ -419,7 +424,7 @@ result is never used.
 \paragraph{Speculative Load Introduction}
 
 The inverse to the previous transformation, 
-the load instroduction inserts a load instruction 
+the load introduction inserts a load instruction 
 in an arbitary place of the program.
 %
 \[\def\arraystretch{1.4}\footnotesize
@@ -436,7 +441,7 @@ in an arbitary place of the program.
 It can be used in combination with 
 load/load elimination to move a load 
 instruction out from one branch of 
-the conditional.
+a conditional:
 %
 \[\def\arraystretch{1.4}\footnotesize
   \begin{array}{ccc} 
@@ -462,8 +467,8 @@ exhibit less non-determinism and have fewer outcomes.
 Non-atomic accesses can be moved freely inside 
 a critical section, \ie past a lock acquisition
 or prior a lock release. 
-Besides that, a non $\sco$ store can be moved after \texttt{lock}, 
-and non $\sco$ load can be moved prior \texttt{unlock}.   
+Besides that, a store can be moved after \texttt{lock}, 
+and load can be moved prior \texttt{unlock}.   
 Similar rules apply to reordeings around 
 acquire and release accesses and fences, 
 where an acquire operation behaves similarly to \texttt{lock}, 
@@ -480,7 +485,7 @@ and release operation similarly to \texttt{unlock}.
       \writeInst{o}{x}{v} \seq \lockInst{l} 
     & \leadsto 
     & \lockInst{l} \seq \writeInst{o}{x}{v}
-    & ~|~ o \sqsubset \sco  \\ 
+    & ~  \\ 
 
       \unlockInst{l} \seq \writeInst{\na}{x}{v} 
     & \leadsto 
@@ -491,7 +496,7 @@ and release operation similarly to \texttt{unlock}.
       \unlockInst{l} \seq \readInst{o}{r}{x} 
     & \leadsto 
     & \readInst{o}{r}{x} \seq \unlockInst{l}
-    & ~|~ o \sqsubset \sco  \\ 
+    & ~  \\ 
 
   \end{array}
 \]
@@ -500,10 +505,10 @@ and release operation similarly to \texttt{unlock}.
 \paragraph{Strengthening}
 
 Similarly to the roach motel reordeing, the strengthening
-transformation increases the synchronization by 
+transformation increases synchronization by 
 replacing an access mode of an operation by a stronger one. 
 For example, a non-atomic access can be replaced by 
-a sequentially consistent access. 
+a sequentially consistent access: 
 %
 \[\def\arraystretch{1.4}\footnotesize
   \begin{array}{cccl} 
@@ -524,10 +529,11 @@ a sequentially consistent access.
 \paragraph{Trace Preserving Transformations}
 
 This wide class contains all local transformations 
-which do not change the set of traces of a thread. 
+which do not change the set of traces of a thread~\cite{Sevcik-Aspinall:ECOOP08},
+Trace is a sequence of visible side-effects performed by a thread. 
 An example is classic \emph{constant folding}%
 ~\cite{Muchnick:ACDI97, Wegman-Zadeck:TOPLAS91} transformation.
-Below is particular example of constant folding application.
+Here is particular example of constant folding application:
 %
 \[\def\arraystretch{1.4}\footnotesize
   \begin{array}{cccl} 
@@ -542,10 +548,10 @@ Below is particular example of constant folding application.
   
 \paragraph{Common Subexpression Elimination}
 
-Yet another classic transformation~\cite{Muchnick:ACDI97} 
+\CSE is yet another classic transformation~\cite{Muchnick:ACDI97} 
 which searches for instances of identical expressions 
-and removes the redundunt computations. 
-Below is an example. 
+and removes redundunt computations. 
+Here is an example: 
 %
 \[\def\arraystretch{1.4}\footnotesize
   \begin{array}{cccl} 
@@ -583,7 +589,9 @@ the variable by a thread-local register.
 \paragraph{Thread Inlining}
 
 Sequentialization or thread inlining 
-merges two threads into one. 
+is a transformation that merges two threads into one.
+Quite surprisingly, this seamingly harmless transformation
+is challenging for most of memory models. 
 %
 \[\def\arraystretch{1.4}\footnotesize
   \begin{array}{cccl} 
@@ -599,7 +607,7 @@ merges two threads into one.
 
 \paragraph{Value Range Based Transformations}
 
-Transformation of this class can be applied 
+Transformations of this class can be applied 
 if a program satisfies some invariant deduced 
 by a global value-range analysis. 
 For example, in a program below   
