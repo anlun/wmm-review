@@ -646,11 +646,13 @@ $\mathsf{x} \geq \mathsf{0}$.
 
 \subsection{Reasoning Guarantees}
 
-Finally, we discuss the guarantees provided by memory models 
-which allow the programmers to reason about concurrent 
-programs and their correctness. 
+% Finally, we discuss the guarantees provided by memory models 
+% which allow the programmers to reason about concurrent 
+% programs and their correctness. 
 
-\subsubsection{DRF Theorems}
+Finally, we discuss the reasoning guarantees provided by memory models. 
+
+\subsubsection{\DRF Theorems}
 \label{sec:background:drf}
 
 When reasoning about concurrent code, most programmers 
@@ -661,7 +663,7 @@ all the intricacy of weak memory models,
 as it only complicates an already difficult task
 of establishing correctness of concurrent programs. 
 The \emph{data-race freedom}~\cite{Manson-al:POPL05} property, 
-DRF for short, is designed to solve this problem. 
+\DRF for short, is designed to solve this problem. 
 It guarantees that well-synchronized programs 
 have only sequentially consistent outcomes. 
 In other words, it allows to programmers assume 
@@ -670,9 +672,9 @@ if they properly use synchonization primitives.
 
 Let us consider an example. 
 Remember the \ref{ex:sb} program from \cref{sec:background:compile}.
-As we have demonstrated, under the weak memory model,
-like the model of \Intel hardware, 
-this program can have weak outcome $[r_1=0, r_2=0]$.
+As we demonstrated, under the weak memory model 
+%, like the model of \Intel hardware, 
+this program can have weak outcome ${[r_1=0, r_2=0]}$.
 Nevertheless, one can restore the \SC semantics.
 One way to do this is to use locks, as the following listing demonstrates:
 
@@ -691,9 +693,9 @@ One way to do this is to use locks, as the following listing demonstrates:
 \tag{SB+LOCK}\label{ex:sb-lock}
 \end{equation*}
 
-A DRF compliant weak memory model should guarantee 
+A \DRF compliant weak memory model should guarantee 
 that this program has only sequentially consistent outcomes:
-$\{[r_1=0, r_2=1]\}$, $\{[r_1=1,r_2=0]\}$, or $\{[r_1=1,r_2=1]\}$.
+${[r_1=0, r_2=1]}$, ${[r_1=1,r_2=0]}$, or ${[r_1=1,r_2=1]}$.
 
 Alternatively, if the model provides $\sco$ access mode, 
 a programmer can annotate all memory accesses by this mode
@@ -710,36 +712,76 @@ to restore sequential consistency:
 \tag{SB+SC}\label{ex:sb-sc}
 \end{equation*}
 
-More formally, DRF theorem for a weak model $M$ states that 
+More formally, \DRF theorem for a weak model $M$ states that 
 a program has only sequentially consistent outcomes under $M$
 if it has no data-races under sequentially consistent memory model
 (or all accees participating in such race are annotated by~$\sco$).
 
-The DRF theorem allows to reduce reasoning under weak memory model
+The \DRF theorem allows to reduce reasoning under weak memory model
 to reasoning under sequential consistency.
 It is sufficient to prove that a program has no data-races under \SC
 in order to derive that this program has only \SC outcomes. 
 
-The DRF theorem in the formulation given above is 
+The \DRF theorem in the formulation given above is 
 sometimes called \emph{external data-race freedom},
 in order to distinguish it from \emph{internal data-race freeedom}. 
 The latter guarantees the \SC semantics for a program 
 under weak model $M$ only if the program 
 has no races under \textbf{model $\mathbf{M}$ itself}.
-Note that the internal DRF gives a weaker guarantee 
-compared to external DRF. It does not allow to completly 
+Note that the internal \DRF gives a weaker guarantee 
+compared to external \DRF. It does not allow to completly 
 avoid the reasoning in term of the weak memory model, 
 because one has to first show that the program 
 is race-free under relaxed model. 
 As we will demonstrate later (see \cref{sec:analysis:oota})
-internal DRF is a reasonable compromise
+internal \DRF is a reasonable compromise
 for a certain class of memory models which 
-cannot establish external DRF.
+cannot establish external \DRF.
 
 \subsubsection{Coherence}
 \label{sec:background:coh}
 
-\subsubsection{Undefined Behavior}
+As we demonstrated, memory models of 
+modern hardware architectures do not 
+provide sequentially consistent semantics.
+Yet they usually provide weaker property 
+called \emph{sequential consistency per location},
+also known as \emph{coherence}~\cite{Alglave-al:TOPLAS14}.
+Following the hardare models many programming language level
+memory models also provide this property. 
+
+The coherence property ensures that 
+all stores to each particular location 
+can be totally ordered and that the 
+resulting order, the \emph{coherence order}, reflects 
+the order in which stores propogate from threads
+into the main memory. 
+In particular, coherence implies that  
+programs consisting only of accesses to 
+a single memory location have sequentially consistent semantics.
+For example, consider the following program:
+
+\begin{equation*}
+\inarrII{
+   \writeInst{}{x}{1}   \\
+   \readInst{}{r_1}{x}  \\
+}{
+   \writeInst{}{x}{2}   \\
+   \readInst{}{r_2}{x}  \\
+}
+\tag{COH}\label{ex:coh}
+\end{equation*}
+
+The coherence prescribes to memory model 
+assign to this program only the 
+sequentially consistent outcomes: 
+${[r_1=1, r_2=2]}$, ${[r_1=1, r_2=1]}$, or ${[r_1=2, r_2=2]}$.
+A non-coherent model additionally may permit 
+the following outcome ${[r_1=2, r_2=1]}$.
+For example, the early version of the \Java memory model
+actually allowed this outcome~\cite{Manson-al:POPL05}.
+
+\subsubsection{Undefined Behavior and Catch-Fire Semantics}
 \label{sec:background:ub}
 
 \subsubsection{Out-of-Thin-Air Values}
