@@ -781,8 +781,25 @@ the following outcome ${[r_1=2, r_2=1]}$.
 For example, the early version of the \Java memory model
 actually allowed this outcome~\cite{Manson-al:POPL05}.
 
-\subsubsection{Undefined Behavior and Catch-Fire Semantics}
+\subsubsection{Catch-Fire Semantics and Undefined Behavior}
 \label{sec:background:ub}
+
+As we already briefly mentioned, some memory models, 
+\eg \CPP, treat programs which have data-race, 
+with at least one of the accesses participating in the race 
+being non-atomic access, as having \emph{undefined behavior}~\cite{Boehm-Adve:PLDI08}.
+In other words, for these programs any outcome is possible. 
+This property is also sometimes called the \emph{catch-fire semantics}.
+  
+The practical payoff of this approach  
+is that it enables optimal compilation scheme 
+for non-atomic accesses and makes any sequentially valid 
+transformation applicable to them.  
+Indeed, the effects of the hardware and compiler 
+optimization can only be observed due to the racy accesses
+from concurrent threads. If such accesses are said 
+to imply undefined behavior and give no guarantee, 
+the effects of these optimizations become indistinguishable.
 
 \subsubsection{Out-of-Thin-Air Values}
 \label{sec:background:oota}
