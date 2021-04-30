@@ -373,7 +373,7 @@ various techiniques to prevent certain compiler optimizations%
 
 The authors of the models have empirically tested 
 soundness of compilation mappings to 
-\xTSO, \ARMv{7}, \ARMv{8}, and \POWER hardware. 
+\Intel, \ARMv{7}, \ARMv{8}, and \POWER hardware. 
 They also formalized the read-copy-update 
 synchronization mechanism (RCU)~\cite{McKenney-RCU2007}, 
 extensively used in Linux kernel development, 
@@ -457,7 +457,7 @@ This design choice, in particular, allows to support
 \CSE on the level of plain accesses. 
 
 Podkopaev~\etal~\cite{Podkopaev-al:ECOOP17, Podkopaev-al:POPL19} have proven formally
-soundness of standard optimal compilation mappings to \xTSO, \ARMv{7}, \ARMv{8}, and \POWER.
+soundness of standard optimal compilation mappings to \Intel, \ARMv{7}, \ARMv{8}, and \POWER.
 
 One of a few limitations of the \Promising semantics is that 
 it does not support sequentially consistent accesses. 
@@ -486,7 +486,7 @@ At each step the abstract machine is allowed to either
 commit an event to the storage, or perform a transformation 
 on one of the event structures. 
 The authors have shown soundness of 
-optimal compilation mappings to \xTSO and \POWER, 
+optimal compilation mappings to \Intel and \POWER, 
 as well as soundness of several program transformations.
 It was later revealed though that the compilation scheme
 to ARMv7 and ARMv8 is not optimal~\cite{PichonPharabod:PhD18}.

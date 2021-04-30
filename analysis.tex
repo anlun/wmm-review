@@ -101,7 +101,7 @@ propagate into the main memory.
 % the most recent write~\cite{Sewell-al:CACM10, Lahav-al:POPL16}. 
 
 Models of this class can be compiled down to x86 hardware without any 
-performance penalty, since \xTSO implements \TSO model itself.
+performance penalty, since \Intel implements \TSO model itself.
 However, on weaker hardware like~\POWER 
 the compiler need to emit essentially as many fences 
 as to enforce~\SC~\cite{Lustig-al:AISCA15}. 
@@ -115,9 +115,9 @@ the external DRF-SC and coherence properties hold.
 Therefore these models do not have any significant 
 benefits in terms of reasoning guarantees compared to \SC,
 but induce a similar performance penalty 
-on architectures weaker than \xTSO. 
+on architectures weaker than \Intel. 
 Hence the choice of \TSO and \PSO as the programming language level
-memory model is reasonable only if the language targets \xTSO hardware solely. 
+memory model is reasonable only if the language targets \Intel hardware solely. 
 
 \subsection{Out of Thin-Air Values}
 \label{sec:analysis:oota}
@@ -270,7 +270,7 @@ program transformations are still sound in this setting,
 with the obvious exception of load/store reordering itself
 (see~\cref{table:cmp-cls} for details).
 
-The compilation mappings to \xTSO remain efficient, 
+The compilation mappings to \Intel remain efficient, 
 since the architecture already guarantee to preserve the order 
 between loads and subsequent stores. 
 However, weaker architectures (\ARM, \POWER) do not guarantee that, 
@@ -297,7 +297,7 @@ between non-atomic accesses as well.
 % provide a simple solution to thin-air problem, 
 % restore external DRF-SC guarantee, preserve soundness of 
 % most program transformations, induce no overhead when 
-% compiled down to \xTSO, and a moderate overhead 
+% compiled down to \Intel, and a moderate overhead 
 % when compiled to \ARM or \POWER.
 
 \subsection{Syntactic Dependencies Preserving}
