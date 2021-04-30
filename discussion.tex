@@ -4,15 +4,15 @@
 In this section we provide a summary of our findings described in the previous sections. 
 We again briefly compare various classes of memory models 
 and present a short guide for the researchers and system-level developers 
-on how to choose a memory model based 
-on the design principles of the programming language.   
+on how to choose a memory model based on 
+design principles of a programming language.   
 Finally, we highlight underdeveloped parts of the theoretical
 and practical aspects of memory models, suggesting 
 possible directions for future work in the field. 
 
-\subsection{On the Choice of  Memory Model}
+\subsection{On Choice of  Memory Model}
 
-Clearly, design of the memory model of a programming language
+Clearly, design of a memory model of a programming language
 should reflect the design of the language itself. 
 
 A language that seeks to provide clear semantics and 
@@ -21,14 +21,14 @@ of some performance losses most definetly should
 adhere to simple memory models like sequential consistency. 
 
 Programming languages focusing on efficiency 
-of compiled code, like, for example, \CPP, 
+of compiled code, for example, \CPP, 
 have to resort to weak models admitting 
 optimal compilation and wide range of 
 various program transformations. 
 For these languages it would be natural 
 to pick some semantic dependency preserving model. 
 However, there are a couple of subtle points here. 
-First, models of these class are quite complex, 
+First, models of these class are the most complicated, 
 which makes reasoning about programs challenging. 
 Second, these models are still an active topic 
 of research and thus are subject to further modifications.
@@ -36,15 +36,15 @@ of research and thus are subject to further modifications.
 In the middle between two extremes are program order preserving and 
 syntactic dependency preserving models.
 Those are reasonable choice for programming languages
-which can affort a moderate performance overhead 
+which can afford a moderate performance overhead 
 in exchange of simpler and more predictable model~\cite{Ou-Demsky:OOPSLA18}.
-An example of such language is \OCaml --- 
-a high-level programming language 
-with an emphasis on functional paradigm which is 
-at the same time is actively used in performance sensitive areas
-like the development of compilers and verification tools. 
+% An example of such language is \OCaml --- 
+% a high-level programming language 
+% with an emphasis on functional paradigm which is 
+% at the same time is actively used in performance sensitive areas
+% like the development of compilers and verification tools. 
 
-For languages adopting strong models which require non-optimal
+For languages adopting stronger models which require non-optimal
 compilation mappings and forbid certain program transformations
 there are some general optimization techiniques and design decisions
 which can partly mitigate induced performance penalties.
@@ -60,20 +60,21 @@ Moreover memory accesses of these classes are subject to
 a wide range of program transformations proven to be
 sound for single threaded programs. 
  
-Languages like, for example, \Java or \Kotlin, which cannot utilize the type system 
+Languages like \Java which cannot utilize the type system 
 to fully prevent racy accesses to non-atomic variables 
 because of backward compatibility, still can 
-use conservative static escape analysis~\cite{Choi-al:OOPSLA1999}
-or various dynamic techinques~\cite{Liu-al:PLDI19} 
-in order to approximate the set of thread local variables.   
+approximate the set of thread local variables    
+using conservative static escape analysis~\cite{Choi-al:OOPSLA1999}
+or various dynamic techniques~\cite{Liu-al:PLDI19},
+and then apply similar optimizations to them. 
 
 Functional programming languages encourage 
 the programmers to use immutable data whenever possible.
 This style of programming minimizes the use 
-shared memory and mitigates the performance impact 
+shared memory and mitigates performance impact 
 of strong memory model~\cite{Vollmer-al:PPoPP17}. 
 
-Finally, if the language tolerates undefined behavior, as, for example, \CPP, 
+Finally, if the language tolerates undefined behavior, as, \CPP, 
 an alternative to complex semantic dependency preserving model
 could be a program order preserving model (or syntactic dependency preserving one) 
 which treats data races on non-atomic accesses as 
@@ -85,7 +86,7 @@ and at the same time have a simpler semantics for atomics.
 \subsection{Future Work}
 
 Based on our analysis we can suggest several
-possible direction for the future work. 
+possible direction for future work in the field. 
 
 One can see that optimality of compilation schemes 
 and local program transformations are relatively well studied.
@@ -107,7 +108,7 @@ in general~\cite{Dodds-al:ESOP18, Jagadeesan-al:OOPSLA2020, Cho-al:PLDI21}
 to receive more attention in near future.  
 
 In terms of features supported by memory models, 
-we highlight the two challenging areas.
+we highlight two challenging areas.
 First, theory of mixed size accesses is clearly 
 underdevoped to this day, only the two recent studies 
 tried to approach it so far~\cite{Flur-al:POPL17, Watt-al:PLDI2020}.
@@ -134,8 +135,7 @@ simplify the reasoning about correctness of programs.
 
 Finally, a comprehensive quantative studies 
 of the performance penalties induced by memory models are quite valuable.
-So far there were limited number of works in this direction~%
+Although there is some work in this direction,%
 \cite{Singh-al:ISCA12, Liu-al:OOPSLA17, Liu-al:PLDI19, 
 Vollmer-al:PPoPP17, Dolan-al:PLDI18, Ou-Demsky:OOPSLA18}, 
-and the full picture is still unclear. 
-
+the full picture is still unclear.
