@@ -184,13 +184,13 @@ fragment of the \ref{ex:Dekker} from \cref{sec:intro}.
 
 Assume that the memory model of the programming language
 is sequential consistency, and we want 
-to compile it to \xTSO hardware. 
+to compile it to \Intel hardware. 
 Then if one compile all loads and stores 
-to plain load and store instructions of \xTSO,
+to plain load and store instructions of \Intel,
 the outcome $[r_1=0, r_2=0]$ would be 
 allowed for the compiled program 
 (and it can actually be observed in practice as was stated before), 
-since the memory model of \xTSO permits this outcome. 
+since the memory model of \Intel permits this outcome. 
 It can be obtained as a result of \emph{store buffering}
 optimization (hence the name of the program \ref{ex:sb}). 
 The store $\writeInst{}{x}{1}$ can be buffered and 
@@ -223,9 +223,9 @@ as demonstrated below.
 
 
 The \texttt{mfence} is a special memory fence instruction
-of \xTSO architecture which flushes the store buffer of the thread. 
+of \Intel architecture which flushes the store buffer of the thread. 
 For the program \ref{ex:sb-mfence} the outcome $[r_1=0, r_2=0]$
-is forbidden by the \xTSO memory model. 
+is forbidden by the \Intel memory model. 
 
 Although the modified compilation scheme is sound for \SC, 
 it is not \emph{optimal}~\cite{OptimalCompilationCPP}, 
@@ -243,7 +243,7 @@ weakening of memory models.
  
 In this paper, when speaking about the compilation schemes, 
 we will consider only the following hardware memory models: 
-\xTSO, \POWER, \ARMv{7}, and \ARMv{8},
+\Intel, \ARMv{7}, \ARMv{8}, and \POWER, 
 for the two main reasons. 
 First, these hardware architectures are the 
 most widespread today.
@@ -646,8 +646,95 @@ $\mathsf{x} \geq \mathsf{0}$.
 
 \subsection{Reasoning Guarantees}
 
+Finally, we discuss the guarantees provided by memory models 
+which allow the programmers to reason about concurrent 
+programs and their correctness. 
+
 \subsubsection{DRF Theorems}
 \label{sec:background:drf}
+
+When reasoning about concurrent code, most programmers 
+assume sequential consistent memory model.
+Of course, it would be improper to require from 
+the programmers to always keep in mind 
+all the intricacy of weak memory models,
+as it only complicates an already difficult task
+of establishing correctness of concurrent programs. 
+The \emph{data-race freedom}~\cite{Manson-al:POPL05} property, 
+DRF for short, is designed to solve this problem. 
+It guarantees that well-synchronized programs 
+have only sequentially consistent outcomes. 
+In other words, it allows to programmers assume 
+simpler sequentially consistent model 
+if they properly use synchonization primitives.
+
+Let us consider an example. 
+Remember the \ref{ex:sb} program from \cref{sec:background:compile}.
+As we have demonstrated, under the weak memory model,
+like the model of \Intel hardware, 
+this program can have weak outcome $[r_1=0, r_2=0]$.
+Nevertheless, one can restore the \SC semantics.
+One way to do this is to use locks, as the following listing demonstrates:
+
+\begin{equation*}
+\inarrII{
+   \lockInst{l}         \\
+   \writeInst{}{x}{1}   \\
+   \readInst{}{r_1}{y}  \\
+   \unlockInst{l}       \\
+}{
+   \lockInst{l}         \\
+   \writeInst{}{y}{1}   \\
+   \readInst{}{r_2}{x}  \\
+   \unlockInst{l}       \\
+}
+\tag{SB+LOCK}\label{ex:sb-lock}
+\end{equation*}
+
+A DRF compliant weak memory model should guarantee 
+that this program has only sequentially consistent outcomes:
+$\{[r_1=0, r_2=1]\}$, $\{[r_1=1,r_2=0]\}$, or $\{[r_1=1,r_2=1]\}$.
+
+Alternatively, if the model provides $\sco$ access mode, 
+a programmer can annotate all memory accesses by this mode
+to restore sequential consistency:  
+ 
+\begin{equation*}
+\inarrII{
+   \writeInst{\sco}{x}{1}   \\
+   \readInst{\sco}{r_1}{y}  \\
+}{
+   \writeInst{\sco}{y}{1}   \\
+   \readInst{\sco}{r_2}{x}  \\
+}
+\tag{SB+SC}\label{ex:sb-sc}
+\end{equation*}
+
+More formally, DRF theorem for a weak model $M$ states that 
+a program has only sequentially consistent outcomes under $M$
+if it has no data-races under sequentially consistent memory model
+(or all accees participating in such race are annotated by~$\sco$).
+
+The DRF theorem allows to reduce reasoning under weak memory model
+to reasoning under sequential consistency.
+It is sufficient to prove that a program has no data-races under \SC
+in order to derive that this program has only \SC outcomes. 
+
+The DRF theorem in the formulation given above is 
+sometimes called \emph{external data-race freedom},
+in order to distinguish it from \emph{internal data-race freeedom}. 
+The latter guarantees the \SC semantics for a program 
+under weak model $M$ only if the program 
+has no races under \textbf{model $\mathbf{M}$ itself}.
+Note that the internal DRF gives a weaker guarantee 
+compared to external DRF. It does not allow to completly 
+avoid the reasoning in term of the weak memory model, 
+because one has to first show that the program 
+is race-free under relaxed model. 
+As we will demonstrate later (see \cref{sec:analysis:oota})
+internal DRF is a reasonable compromise
+for a certain class of memory models which 
+cannot establish external DRF.
 
 \subsubsection{Coherence}
 \label{sec:background:coh}
