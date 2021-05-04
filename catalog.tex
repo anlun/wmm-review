@@ -1,6 +1,9 @@
 \section{A Catalog of Memory Models}
 \label{sec:catalog}
 
+In this section we present a more detailed view 
+on each memory model we consider in our study. 
+
 \input{fulltable.tex}
 
 \input{features-table.tex}
@@ -318,17 +321,25 @@ the authors avoided problems with thin-air values.
 
 Dolan~\etal~\cite{Dolan-al:PLDI18} developed a new 
 memory model for the \MOCaml project. 
-They were the first to propose the local \DRF property. 
-The authors also hinted that the local \DRF property 
-is not compatible with load/store reordering.
-This fact forced them to forbid this transformation
-and adapt similar compilation scheme as for \RCMM. 
 An important divergence of \OCaml memory model 
 from \CMM-like models is that the former 
 has a weaker notion of coherence.
 The choice of the weaker coherence was deliberate 
 with the purpose to enable common subexpression elimination
 (see \cref{sec:analysis:coh} for details).
+
+The authors also were the first to propose the local \DRF property (\lDRF),
+a strengthening of external \DRF (\eDRF). 
+While the latter requires an absence of data-races 
+for the whole program as a prerequisite, 
+the former bounds the effect of races 
+to a portion of a program, thus 
+enabling the compositional reasoning 
+about behavior of the program. 
+The authors discovered that the \lDRF property 
+is not compatible with load/store reordering.
+This fact forced them to forbid this transformation
+and adapt similar compilation scheme as for \RCMM. 
 
 \paragraph{Java Access Modes}
 
