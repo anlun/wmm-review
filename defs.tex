@@ -77,7 +77,7 @@
 \newcommand{\iDRF}{\ensuremath{\mathsf{iDRF}}\xspace}
 \newcommand{\lDRF}{\ensuremath{\mathsf{lDRF}}\xspace}
 
-%% memory models
+%% programming languages
 
 \newcommand{\Java}{Java\xspace}
 \newcommand{\Kotlin}{Kotlin\xspace}
@@ -93,35 +93,54 @@
 \newcommand{\Haskell}{Haskell\xspace}
 \newcommand{\Linux}{Linux\xspace}
 
+%% memory models
+
 \newcommand{\MM}[1]{\ensuremath{\mathsf{#1}}\xspace}
 
 \newcommand{\SC}{\MM{SC}}
+\newcommand{\EtESC}{\MM{EtE}-\MM{SC}}
+\newcommand{\VbD}{\MM{VbD}}
+\newcommand{\SCHs}{\MM{SC}-\MM{Hs}}
+\newcommand{\DRFx}{\MM{DRFx}}
 
 \newcommand{\TSO}{\MM{TSO}}
 \newcommand{\PSO}{\MM{PSO}}
+\newcommand{\BMM}{\MM{BMM}}
+\newcommand{\RMMOA}{\MM{RMMOA}}
 
 \newcommand{\Intel}{\MM{x86}}
 \newcommand{\ARM}{\MM{ARM}}
 \newcommand{\ARMv}[1]{\MM{ARMv{#1}}}
 \newcommand{\POWER}{\MM{POWER}}
 
-\newcommand{\JMM}{\MM{JMM}}
-\newcommand{\BMM}{\MM{BMM}}
-
 \newcommand{\CMM}{\MM{C11}}
 \newcommand{\RCMM}{\MM{RC11}}
 \newcommand{\ORCMM}{\MM{ORC11}}
+\newcommand{\RAR}{\MM{RAR}}
+\newcommand{\CRC}{\MM{CRC}}
+\newcommand{\OCMM}{\MM{OCMM}}
 \newcommand{\JAM}{\MM{JAM}}
 
-\newcommand{\Promising}{\MM{Promising}}
-\newcommand{\Weakest}{\MM{Weakest}}
-\newcommand{\MRD}{\MM{MRD}}
-\newcommand{\OCMM}{\MM{OCamlMM}}
-\newcommand{\JSMM}{\MM{JSMM}}
 \newcommand{\LKMM}{\MM{LKMM}}
 \newcommand{\OHMM}{\MM{OHMM}}
+
+\newcommand{\JMM}{\MM{JMM}}
+
+\newcommand{\Promising}{\MM{Promising}}
+\newcommand{\PRM}{\MM{PRM}}
+
+\newcommand{\Weakestmo}{\MM{Weakestmo}}
+\newcommand{\WMO}{\MM{WMO}}
+
+\newcommand{\CSRA}{\MM{CSRA}}
+\newcommand{\WJES}{\MM{WJES}}
+\newcommand{\MRD}{\MM{MRD}}
+\newcommand{\GOS}{\MM{GOS}}
+
+\newcommand{\JSMM}{\MM{JSMM}}
+\newcommand{\RMC}{\MM{RMC}}
 \newcommand{\RAO}{\MM{RAO}}
-\newcommand{\DRFx}{\MM{DRFx}}
+\newcommand{\TSC}{\MM{TSC}}
 
 %% for memory model classes in tables
 

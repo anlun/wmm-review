@@ -3,6 +3,10 @@
 
 In this section we present a more detailed view 
 on each memory model we consider in our study. 
+It contains an overview of each PL memory model,
+a recap of its distinguished properties,
+and references to the research papers studying this model. 
+This section can be safely skipped for the first read.
 
 \input{fulltable.tex}
 
@@ -24,10 +28,10 @@ and thus has a slightly different properties.
 \paragraph{End-to-end Sequential Consistency}
 
 Marino et al~\cite{Marino-al:PLDI11, Singh-al:ISCA12} 
-examined the performance penalties to ensure end-to-end SC
+examined the performance penalties to ensure end-to-end SC (\EtESC)
 enforced by (1) modified SC-preserving version 
 of \LLVM compiler infrastructure and 
-(2) a modified version of x86-TSO hardware. 
+(2) a modified version of \Intel hardware. 
 To mitigate the induced overhead the authors 
 utilized the observation that hardware need to 
 enforce SC only for memory accesses to shared mutable variables. 
@@ -38,13 +42,13 @@ dynamic analysis powered by modified hardware.
 They evaluated their approach on a number of benchmarks
 and reported performance overhead of 6.2\% on average 
 and ~17\% in maximum, compared to stock \LLVM compiler 
-and regular x86 hardware. 
+and regular \Intel hardware. 
 
 \paragraph{Volatile-by-default}
 
 Liu~\etal~\cite{Liu-al:OOPSLA17, Liu-al:PLDI19} studied 
 sequential consistency in the context of \Java.  
-They proposed a \emph{volatile-by-default} semantics,
+They proposed a \emph{volatile-by-default} semantics (\VbD),
 where each memory access is treated as volatile 
 (\ie sequentially consistent) by default. 
 The experiments showed a considerable performance penalty:
@@ -63,8 +67,8 @@ with 73\% in maximum on \ARMv{8} hardware.
 
 \paragraph{SC-Haskell}
 
-SC-Haskell memory model~\cite{Vollmer-al:PPoPP17}
-were inspired by the similar idea of separation
+\SCHs memory model~\cite{Vollmer-al:PPoPP17}
+was inspired by the similar idea of separation
 between the thread-local and shared mutable memory. 
 To safely distinguish between the two 
 the authors utilized the powerful strong type system of Haskell. 
@@ -78,7 +82,7 @@ They reported 0.4\% geometric mean slowdown,
 and noticed that only 12 benchmarks experienced 
 slowdown greater than 10\%.
 
-\paragraph{\DRFx}
+\paragraph{DRFx}
 
 The \DRFx~\cite{Marino-al:PLDI10} is another 
 SC preserving memory model. In this model
@@ -121,8 +125,8 @@ inspired by \TSO and \PSO.
 \paragraph{Buffered Memory Model}
 
 Demange et al.~\cite{Demange-al:POPL13} presented 
-the \emph{Buffered Memory Model} (or \BMM in short)
-as a candidate model for Java language.
+the \emph{Buffered Memory Model}, \BMM for short,
+as a candidate model for the Java language.
 Their motivation, however, stemmed not from the desire 
 to fully replace the Java Memory Model, but rather 
 from the goal to build a verified version of 
@@ -135,7 +139,7 @@ The authors proved soundness of several program transformations
 and several others (see \cref{table:cmp-mms})
 and the external \DRF theorem. 
 They also modified existing open-source implementation of 
-JVM~\cite{Pizlo-al:ECCS10} to preserve \BMM and 
+\JVM~\cite{Pizlo-al:ECCS10} to preserve \BMM and 
 reported only~1\% average overhead 
 compared to original version of the virtual machine. 
 Again, the authors used only \Intel hardware in their 
@@ -145,7 +149,8 @@ are expected to be more significant on weaker hardware.
 \paragraph{Relaxed Memory Models: an Operational Approach}
 
 Boudol and Petri~\cite{Boudol-Petri:POPL09} proposed 
-an approach to formal semantics of relaxed memory models 
+an operational approach to 
+formal semantics of relaxed memory models (\RMMOA)
 based on the abstract machine with the main memory 
 and the hierarchical structure of store buffers 
 with stores to different locations possibly 
@@ -205,7 +210,8 @@ Thus the model naturally supports mixed-size accesses.
 \paragraph{A calculus for relaxed memory}
 
 Crary and Sullivan~\cite{Crary-Sullivan:POPL15} proposed 
-an alternative approach to relaxed shared memory concurrency.
+an alternative approach to relaxed shared memory concurrency,
+which they called \emph{Relaxed Memory Calculus} (\RMC).
 Instead of deriving the ordering constraints from the annotations 
 on memory accesses, they propose to directly specify 
 the ordering between memory access in the source code. 
@@ -230,7 +236,7 @@ only because of the fundamental restrictions on the input programming language
 
 Boudol and Petri~\cite{Boudol-Petri:ESOP10} proposed a general 
 framework to study the effects of speculative execution in
-shared memory setting. 
+shared memory setting (\TSC). 
 They have also noticed that the external \DRF does not 
 hold in the presence of unrestricted speculations, 
 yet the internal \DRF theorem still can be proven. 
@@ -289,12 +295,12 @@ compared to the unmodified version of the compiler.
 
 Doherty~\etal~\cite{Doherty-al:PPoPP19} developed an 
 operational version of \RCMM supporting 
-release-acquire and relaxed accesses. 
+release-acquire and relaxed accesses (\RAR). 
 On top of it they built proof calculus for 
 invariant-based reasoning and verified 
 correctness of mutual exclusion algorithms. 
 
-\paragraph{ORC11}
+\paragraph{Operational RC11}
 
 Dang~\etal~\cite{Dang-al:POPL19} developed yet another 
 operational version of \RCMM which they called \ORCMM. 
@@ -307,8 +313,9 @@ from the standard library of \Rust~\cite{RustBook:19}.
 
 \paragraph{Compositional Relaxed Concurrency}
 
-Dodds~\etal~\cite{Dodds-al:ESOP18} proposed a denotational 
-compositional semantics for the fragment of \CMM memory model, 
+Dodds~\etal~\cite{Dodds-al:ESOP18} proposed a  
+compositional relaxed concurrency semantics (\CRC) 
+for the fragment of \CMM memory model, 
 including non-atomic accesses with catch-fire semantics, 
 release-acquire accesses, and sequentially-consistent fences. 
 Based on this semantics the authors developed 
@@ -321,7 +328,7 @@ the authors avoided problems with thin-air values.
 
 Dolan~\etal~\cite{Dolan-al:PLDI18} developed a new 
 memory model for the \MOCaml project. 
-An important divergence of \OCaml memory model 
+An important divergence of \OCaml memory model (\OCMM)
 from \CMM-like models is that the former 
 has a weaker notion of coherence.
 The choice of the weaker coherence was deliberate 
@@ -439,7 +446,8 @@ see \cref{table:cmp-mms} for details).
 \paragraph{Generative operational semantics}
 
 Jagadeesan~\etal~\cite{Jagadeesan-al:ESOP10} attempted to fix \JMM 
-and proposed an operational semantics with speculative execution.
+and proposed an generative operational semantics 
+with speculative execution (\GOS).
 To avoid thin-air values they have put stratification constraints 
 on speculations. The authors prove the external \DRF theorem. 
 Also they verified a few program transformations 
@@ -448,8 +456,10 @@ but overall their study of transformations was not systematic.
 
 \paragraph{Promising Semantics}
 
-Promising semantics~\cite{Kang-al:POPL17, Lee-al:PLDI20} 
-presents the most complete to this day model of this class. 
+Kang~\etal~\cite{Kang-al:POPL17, Lee-al:PLDI20} developed 
+the Promising semantics (\PRM).
+It is the most complete to this day model of the class of
+semantic dependency preserving models. 
 Its key ingredient is the promising and certification machinery.
 During the execution, the abstract machine can 
 non-deterministically \emph{promise} to perform some store,
@@ -463,12 +473,11 @@ with a notable exception of the thread inlining
 Podkopaev~\etal~\cite{Podkopaev-al:ECOOP17, Podkopaev-al:POPL19} have proven formally
 soundness of standard optimal compilation mappings to \Intel, \ARMv{7}, \ARMv{8}, and \POWER.
 
-The model has a fully defined semantics even for plain accesses.  
+The model has a fully defined semantics for plain accesses.  
 Plain and relaxed accesses, however, have different semantics.
 In particular, coherence is enforced for relaxed accesses 
-but not for the plain ones.  
-This design choice, in particular, allows to support 
-\CSE on the level of plain accesses. 
+but not for the plain ones. This design choice, in particular, 
+allows to support \CSE on the level of plain accesses. 
 
 One of a few limitations of the \Promising semantics is that 
 it does not support sequentially consistent accesses. 
@@ -476,7 +485,7 @@ it does not support sequentially consistent accesses.
 \paragraph{Weakestmo}
 
 Chakraborty and Vafeiadis~\cite{Chakraborty-Vafeiadis:CGO17, Chakraborty-Vafeiadis:POPL19}
-developed a memory model based on event structures. 
+developed a memory model based on event structures (\WMO). 
 They utilize the event structures' capability to simultaneously encode 
 multiple conflicting executions in order to model speculative executions.
 Their model is close in spirit to conventional axiomatic models, 
@@ -490,7 +499,7 @@ sequentially consistent accesses.
 \paragraph{A Concurrency Semantics for Relaxed Atomics}
 
 Pichon-Pharabod and Sewell~\cite{PichonPharabod-Sewell:POPL16} 
-presented an operational memory model consisting of 
+presented an operational memory model (\CSRA) consisting of 
 memory subsystem inspired by POWER and a thread subsystem, 
 where each thread is represented as an event structure. 
 At each step the abstract machine is allowed to either 
@@ -505,7 +514,7 @@ to ARMv7 and ARMv8 is not optimal~\cite{PichonPharabod:PhD18}.
 \paragraph{Well-Justified Event Structures}
 
 Jeffrey and Riely~\cite{Jeffrey-Riely:LICS16} proposed 
-a memory model based on event structures and a notion of 
+a memory model (\WJES) based on event structures and a notion of 
 \emph{well-justification} of events inspired by the game semantics. 
 Well-justification is used to prevent thin-air values 
 and prove external \DRF. The authors do not study 
@@ -517,7 +526,7 @@ the compilation mappings to \ARMv{7}, \ARMv{8}, and \POWER are not optimal.
 \paragraph{Modular Relaxed Dependencies}
 
 Paviotti~\etal~\cite{Paviotti-al:ESOP20} constructed a 
-denotational semantics based on event structures. 
+denotational semantics based on event structures (\MRD). 
 They employ the event structures to capture 
 semantic dependencies between the memory access events, 
 which are in turn used to rule out thin-air outcomes.
