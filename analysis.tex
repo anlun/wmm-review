@@ -462,4 +462,86 @@ It is because the hardware already guarantee coherence%
 \subsubsection{Catch-Fire Models}
 \label{sec:analysis:ub}
 
-\todo{}
+Catch-fire semantics which treats racy non-atomic 
+accesses as undefined behavior also affects the 
+soundness of program transformations. 
+As we already briefly discussed, it enables 
+optimal compilation mapping for non-atomic accesses and 
+makes sequentially valid transformations applicable 
+to them, but its impact is not limited to this observation. 
+Catch-fire semantics also has an interesting interplay
+with speculative load introduction.
+
+Consider the following example:
+
+\begin{minipage}{0.43\linewidth}
+\begin{equation*}
+\small
+\inarrII{
+  \readInst{}{r}{x}      \\
+  \kw{if} {(r)} ~\{      \\
+  \quad\readInst{}{s}{y} \\
+  \}
+
+}{
+  \writeInst{}{y}{1}       \\
+}
+\tag{}\label{ex:sliA}
+\end{equation*}
+\end{minipage}\hfill%
+\begin{minipage}{0.09\linewidth}
+\Large~\\ $\leadsto$
+\end{minipage}\hfill%
+\begin{minipage}{0.43\linewidth}
+\begin{equation*}
+\inarrII{
+  \readInst{}{r_1}{x}      \\
+  \readInst{}{t}{y}        \\
+  \kw{if} {(r)} ~\{        \\
+  \quad\assignInst{s}{t}   \\
+  \}
+
+}{
+  \writeInst{}{y}{1}       \\
+}
+\tag{}\label{ex:sliB}
+\end{equation*}
+\end{minipage}
+ 
+As we mentioned in \cref{sec:background:trans}, 
+speculative load introduction can be used 
+in combination with load/load elimination 
+to move a load instruction out of one branch of the conditional.
+In more detail, giving the example above, 
+the speculative load introduction can be applied
+to add a load $\readInst{}{t}{y}$ before the $\kw{if}$ statement, 
+and then the load/load elimination can be used 
+to replace the second load with an assignment. 
+
+The subtle point here is that while the 
+left program is race free even under \SC, 
+the right program is racy under \SC semantics,
+because of the race between load and store to \texttt{y}.
+This fact implies that if all accesses in the programs above 
+are non-atomic, then catch-fire semantics should 
+treat the right program as having undefined behavior.
+In other words, the right program allows any outcome,
+while the left program allows only the outcome ${[r=0]}$.
+Soundness of program transformation requires 
+the set of outcomes of the transformed program 
+to be a subset of outcomes of the original program. 
+This condition is clearly violated in our example. 
+
+Put simply, speculative load introduction in general
+is unsound in catch-fire memory models, 
+because it can bring data-races into otherwise 
+race-free programs. Since catch-fire semantics
+is sensitive to the presence of data-races 
+it is incompatible with this transformation. 
+
+Note that this problem cannot be mitigated 
+by forbidding non-atomic load introduction
+but allowing atomic load introduction. 
+Indeed, the introduced atomic load access still 
+can race with some non-atomic load or store
+located elsewhere in the program.  
