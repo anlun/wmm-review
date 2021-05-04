@@ -41,10 +41,10 @@
 
                                      &
                                      &
- \multirow{2}{*}[-6pt]{\rotatebox[origin=c]{\rotateAngle}{x86}}      & 
- \multirow{2}{*}[-6pt]{\rotatebox[origin=c]{\rotateAngle}{Power}}    & 
- \multirow{2}{*}[-4pt]{\rotatebox[origin=c]{\rotateAngle}{ARMv7}}    & 
- \multirow{2}{*}[-4pt]{\rotatebox[origin=c]{\rotateAngle}{ARMv8}}    & 
+ \multirow{2}{*}[-6pt]{\rotatebox[origin=c]{\rotateAngle}{\Intel}}    & 
+ \multirow{2}{*}[-6pt]{\rotatebox[origin=c]{\rotateAngle}{\POWER}}    & 
+ \multirow{2}{*}[-4pt]{\rotatebox[origin=c]{\rotateAngle}{\ARMv{7}}}  & 
+ \multirow{2}{*}[-4pt]{\rotatebox[origin=c]{\rotateAngle}{\ARMv{8}}}  & 
  
  \multicolumn{4}{c|}{Reordering}   &
  \multicolumn{4}{c|}{Elimination}   &
@@ -59,7 +59,7 @@
  \multirow{2}{*}[-6pt]{\rotatebox[origin=c]{\rotateAngle}{TI}}     &
  \multirow{2}{*}[-6pt]{\rotatebox[origin=c]{\rotateAngle}{VR}}     &
  
- \multirow{2}{*}[-6pt]{\rotatebox[origin=c]{\rotateAngle}{DRF}}               &
+ \multirow{2}{*}[-6pt]{\rotatebox[origin=c]{\rotateAngle}{\eDRF}}             &
  \multirow{2}{*}[-6pt]{\rotatebox[origin=c]{\rotateAngle}{COH}}               &
  \multirow{2}{*}[-6pt]{\rotatebox[origin=c]{\rotateAngle}{no-UB}}             &
  \multirow{2}{*}{\rotatebox[origin=c]{\rotateAngle}{no-OOTA}}           % &                              
@@ -114,8 +114,8 @@
      \badcell &
      % global: register promotion, thread inlining, value range
      \okcell & \okcell & \unkwcell & 
-     % DRF, COH, no-UB, no-OOTA
-     \ldrf & \okcell & \okcell & \okcell % &
+     % eDRF, COH, no-UB, no-OOTA
+     \okcell & \okcell & \okcell & \okcell % &
 
      \\ \cline{2-\lastcol}
 
@@ -139,8 +139,8 @@
      \badcell &
      % global: register promotion, thread inlining, value range 
      \okcell & \okcell & \unkwcell & 
-     % % DRF, COH, no-UB, no-OOTA
-     \ldrf & \okcell & \badcell & \okcell % &
+     % % eDRF, COH, no-UB, no-OOTA
+     \okcell & \okcell & \badcell & \okcell % &
 
      \\ \Xhline{2\arrayrulewidth}
 
@@ -166,8 +166,8 @@
      \badcell &
      % global: register promotion, thread inlining, value range 
      \unkwcell & \badcell & \unkwcell & 
-     % DRF, COH, no-UB, no-OOTA
-     \edrf & \okcell & \okcell & \okcell % &
+     % eDRF, COH, no-UB, no-OOTA
+     \okcell & \okcell & \okcell & \okcell % &
 
      \\ \cline{2-\lastcol}
 
@@ -191,8 +191,8 @@
      \unkwcell &
      % global: register promotion, thread inlining, value range 
      \unkwcell & \unkwcell & \unkwcell &
-     % % DRF, COH, no-UB, no-OOTA
-     \edrf & \unkwcell & \okcell & \okcell % &
+     % % eDRF, COH, no-UB, no-OOTA
+     \okcell & \unkwcell & \okcell & \okcell % &
 
      \\ \Xhline{2\arrayrulewidth}
 
@@ -220,8 +220,8 @@
      \badcell &
      % global: register promotion, thread inlining, value range 
      \okcell & \okcell & \unkwcell &                  
-     % DRF, COH, no-UB, no-OOTA
-     \edrf & \okcell & \badcell & \okcell % &
+     % eDRF, COH, no-UB, no-OOTA
+     \okcell & \okcell & \badcell & \okcell % &
 
      \\ \cline{2-\lastcol}
  
@@ -245,8 +245,8 @@
      \okcell &
      % global: register promotion, thread inlining, value range 
      \unkwcell & \unkwcell & \unkwcell & 
-     % DRF, COH, no-UB, no-OOTA
-     \ldrf & \badcell & \okcell & \okcell % &
+     % eDRF, COH, no-UB, no-OOTA
+     \okcell & \badcell & \okcell & \okcell % &
 
      \\ \cline{2-\lastcol}
 
@@ -270,8 +270,8 @@
      \badcell &
      % global: register promotion, thread inlining, value range 
      \unkwcell & \unkwcell & \unkwcell & 
-     % DRF, COH, no-UB, no-OOTA
-     \edrf & \okcell & \okcell & \okcell % &
+     % eDRF, COH, no-UB, no-OOTA
+     \okcell & \okcell & \okcell & \okcell % &
 
      \\ \Xhline{2\arrayrulewidth}
 
@@ -297,7 +297,7 @@
      \badcell &
      % global: register promotion, thread inlining, value range 
      \unkwcell & \unkwcell & \unkwcell & 
-     % DRF, COH, no-UB, no-OOTA
+     % eDRF, COH, no-UB, no-OOTA
      \unkwcell & \okcell & \okcell & \okcell % &
 
      \\ \cline{2-\lastcol}
@@ -322,8 +322,8 @@
      \unkwcell &
      % global: register promotion, thread inlining, value range 
      \unkwcell & \unkwcell & \unkwcell & 
-     % DRF, COH, no-UB, no-OOTA
-     \edrf & \unkwcell & \okcell & \okcell % &
+     % eDRF, COH, no-UB, no-OOTA
+     \okcell & \unkwcell & \okcell & \okcell % &
 
      \\ \Xhline{2\arrayrulewidth}
 
@@ -349,8 +349,8 @@
      \badcell &
      % global: register promotion, thread inlining, value range 
      \unkwcell & \badcell & \unkwcell & 
-     % DRF, COH, no-UB, no-OOTA
-     \edrf & \badcell & \okcell & \okcell % &
+     % eDRF, COH, no-UB, no-OOTA
+     \okcell & \badcell & \okcell & \okcell % &
 
      \\ \cline{2-\lastcol}
 
@@ -374,8 +374,8 @@
      \okcell &
      % global: register promotion, thread inlining, value range 
      \okcell & \badcell & \okcell & 
-     % DRF, COH, no-UB, no-OOTA
-     \edrf & \okcell & \okcell & \okcell % &
+     % eDRF, COH, no-UB, no-OOTA
+     \okcell & \okcell & \okcell & \okcell % &
 
      \\ \cline{2-\lastcol}
 
@@ -399,8 +399,8 @@
      \badcell &
      % global: register promotion, thread inlining, value range 
      \unkwcell & \badcell & \unkwcell & 
-     % DRF, COH, no-UB, no-OOTA
-     \edrf & \okcell & \badcell & \okcell % &
+     % eDRF, COH, no-UB, no-OOTA
+     \okcell & \okcell & \badcell & \okcell % &
 
      \\ \cline{2-\lastcol}
 
@@ -424,7 +424,7 @@
      \badcell &
      % global: register promotion, thread inlining, value range 
      \unkwcell & \badcell & \okcell & 
-     % DRF, COH, no-UB, no-OOTA
+     % eDRF, COH, no-UB, no-OOTA
      \unkwcell & \okcell & \badcell & \okcell % &
 
      \\ \cline{2-\lastcol}
@@ -449,8 +449,8 @@
      \unkwcell &
      % global: register promotion, thread inlining, value range 
      \unkwcell & \unkwcell & \unkwcell & 
-     % DRF, COH, no-UB, no-OOTA
-     \edrf & \badcell & \okcell & \okcell % &
+     % eDRF, COH, no-UB, no-OOTA
+     \okcell & \badcell & \okcell & \okcell % &
 
      \\ \cline{2-\lastcol}
 
@@ -474,8 +474,8 @@
      \unkwcell &
      % global: register promotion, thread inlining, value range 
      \unkwcell & \unkwcell & \unkwcell & 
-     % DRF, COH, no-UB, no-OOTA
-     \edrf & \okcell & \okcell & \okcell % &
+     % eDRF, COH, no-UB, no-OOTA
+     \okcell & \okcell & \okcell & \okcell % &
 
      \\ \cline{2-\lastcol}
 
@@ -499,8 +499,8 @@
      \unkwcell &
      % global: register promotion, thread inlining, value range
      \unkwcell & \unkwcell & \unkwcell & 
-     % DRF, COH, no-UB, no-OOTA
-     \edrf & \unkwcell & \okcell & \okcell % &
+     % eDRF, COH, no-UB, no-OOTA
+     \okcell & \unkwcell & \okcell & \okcell % &
 
      \\ \Xhline{2\arrayrulewidth}
 
@@ -527,8 +527,8 @@
      \badcell &
      % global: register promotion, thread inlining, value range
      \unkwcell & \okcell & \unkwcell & 
-     % DRF, COH, no-UB, no-OOTA
-     \idrf & \okcell & \badcell & \badcell % &
+     % eDRF, COH, no-UB, no-OOTA
+     \badcell & \okcell & \badcell & \badcell % &
 
      \\ \cline{2-\lastcol}
 
@@ -552,8 +552,8 @@
      \unkwcell &
      % global: register promotion, thread inlining, value range 
      \unkwcell & \unkwcell & \unkwcell & 
-     % DRF, COH, no-UB, no-OOTA
-     \idrf & \badcell & \okcell & \badcell % &
+     % eDRF, COH, no-UB, no-OOTA
+     \badcell & \badcell & \okcell & \badcell % &
 
      \\ \cline{2-\lastcol}
 
@@ -577,8 +577,8 @@
      \unkwcell &
      % global: register promotion, thread inlining, value range 
      \unkwcell & \unkwcell & \unkwcell &
-     % DRF, COH, no-UB, no-OOTA
-     \idrf & \okcell & \okcell & \badcell % &
+     % eDRF, COH, no-UB, no-OOTA
+     \badcell & \okcell & \okcell & \badcell % &
 
      \\ \cline{2-\lastcol}
 
@@ -603,7 +603,7 @@
      \unkwcell &
      % global: register promotion, thread inlining, value range
      \unkwcell & \unkwcell & \unkwcell & 
-     % DRF, COH, no-UB, no-OOTA
+     % eDRF, COH, no-UB, no-OOTA
      \unkwcell & \badcell & \okcell & \badcell % &
 
      \\ \cline{2-\lastcol}
@@ -627,8 +627,8 @@
      \unkwcell &
      % global: register promotion, thread inlining, value range 
      \unkwcell & \unkwcell & \unkwcell & 
-     % DRF, COH, no-UB, no-OOTA
-     \idrf & \unkwcell & \okcell & \badcell % &
+     % eDRF, COH, no-UB, no-OOTA
+     \badcell & \unkwcell & \okcell & \badcell % &
 
      \\ \Xhline{2\arrayrulewidth}
 
