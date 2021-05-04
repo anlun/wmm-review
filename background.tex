@@ -801,6 +801,69 @@ from concurrent threads. If such accesses are said
 to imply undefined behavior and give no guarantee, 
 the effects of these optimizations become indistinguishable.
 
-\subsubsection{Out-of-Thin-Air Values}
+\subsubsection{Speculative Execution and Out~of~Thin-Air~Values}
 \label{sec:background:oota}
 
+In order to introduce the last two properties 
+of memory models, we again turn to an example: 
+
+\begin{equation*}
+\inarrII{
+  \readInst{}{r_1}{x}     \\
+  \writeInst{}{y}{1}      \\
+}{
+  \readInst{}{r_2}{y}     \\
+  \writeInst{}{x}{r_2}    \\
+}
+\tag{LB}\label{ex:lb}
+\end{equation*}
+
+Assume a weak memory model admitting 
+the outcome ${[r_1=1, r_2=1]}$ for this program.
+For example, hardware memory models of 
+\ARMv{7}, \ARMv{8}, and \POWER
+allow this outcome, and it can even be 
+actually observed on some \ARMv{7} 
+machines~\cite{Maranget-al:Tutorial2012}.
+
+The outcome ${[r_1=1, r_2=1]}$ cannot be obtained by some 
+\emph{in-order} execution of the program. 
+To enable this kind of behaviors for programs, 
+the memory model has to utilize some form of 
+\emph{speculative execution}~\cite{Boudol-Petri:ESOP10, Boehm-Demsky:MSPC14}.
+That is, during the execution, the load $\readInst{}{r_1}{x}$
+needs to be buffered and store $\writeInst{}{y}{1}$ 
+needs to be executed out of order
+(hence the name of the program LB --- \emph{load buffering}).
+
+However, unrestricted speculations can lead to disruptive results. 
+A store executed out of order can turn into 
+a self-satisfying prophecy~\cite{Boehm-Demsky:MSPC14}.
+Consider the following variation of the load buffering program. 
+
+\begin{equation*}
+\small
+\inarrII{
+  \readInst{}{r_1}{x}   \\
+  \writeInst{}{y}{r_1}  \\
+}{
+  \readInst{}{r_2}{y}   \\
+  \writeInst{}{x}{r_2}  \\
+}
+\tag{LB+data}\label{ex:lb+data}
+\end{equation*}
+
+Here, a hypothetical abstract machine can speculate 
+to perform a store of value \texttt{1} into variable \texttt{y}
+from the left thread, then read this value in the right thread, 
+write it to variable \texttt{x} and then read it back in the
+left thread closing the paradoxical causality cycle.
+The value \texttt{1} in the example above appears \emph{out of thin-air}
+and then justifies itself leading to a confusing outcome.
+
+As we will see in \cref{sec:analysis}, speculative execution 
+is required to enable certain program transformations. 
+However, speculations should be properly constrained
+in order to prevent an apperance of thin-air values. 
+In \cref{sec:analysis:porf,sec:analysis:deprf,sec:analysis:sdeprf}
+we will see how various memory models deal with this problem. 

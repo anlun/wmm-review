@@ -126,10 +126,9 @@ We next move on to the other end of the memory models' spectrum.
 We consider the class uniting the weakest models of our analysis.
 These models enable efficient compilation mappings and 
 almost all reasonable program transformations, but at the cost of 
-introducing so-called thin-air values (hence the name of this class).
+introducing thin-air values (\cref{sec:background:oota}).
 
-In order to introduce the concept of thin-air values, 
-let us first consider the two programs below. 
+Let us revisit the load buffering program:  
 
 \begin{minipage}{0.43\linewidth}
 \begin{equation*}
@@ -141,7 +140,7 @@ let us first consider the two programs below.
   \readInst{}{r_2}{y}     \\
   \writeInst{}{x}{r_2}    \\
 }
-\tag{LB}\label{ex:lb}
+\tag{LB}\label{ex:lbA}
 \end{equation*}
 \end{minipage}\hfill%
 \begin{minipage}{0.09\linewidth}
@@ -156,56 +155,31 @@ let us first consider the two programs below.
   \readInst{}{r_2}{y}     \\
   \writeInst{}{x}{r_2}    \\
 }
-\tag{LBtr}\label{ex:lbtr}
+\tag{LBtr}\label{ex:lbB}
 \end{equation*}
 \end{minipage}
 
-Program on the right (\ref{ex:lbtr}) can be obtained 
-from the program on the left (\ref{ex:lb})
+Program on the right \ref{ex:lbB} can be obtained 
+from the program on the left \ref{ex:lbA}
 via the load/store reordering.
-An outcome $[r_1=1, r_2=1]$ is valid for \ref{ex:lbtr}.
-Therefore under a memory model where load/store is a sound transformation, 
-this outcome should also be valid for \ref{ex:lb}.
-In order to enable this kind of behaviors for programs, 
-the memory models usually utilize some form of 
-\emph{speculative execution}~\cite{Boudol-Petri:ESOP10, Crary-Sullivan:POPL15}.
-That is, during the execution, the load $\readInst{}{r_1}{x}$
-is buffered and store $\writeInst{}{y}{1}$ is executed out of order
-(hence the name of the program LB --- \emph{load buffering}).
+An outcome ${[r_1=1, r_2=1]}$ is valid for \ref{ex:lbB}.
+Therefore under a memory model where load/store reordering 
+is a sound transformation, 
+this outcome should also be valid for \ref{ex:lbA}.
+As we demonstrated in \cref{sec:background:oota}
+in order to allow this outcome, 
+the memory models needs to utilize speculative execution.
 
-However, unrestricted speculations can lead to disruptive results. 
-A store executed out of order can turn into 
-a self-satisfying prophecy~\cite{Boehm-Demsky:MSPC14}.
-Consider the following variation of the load buffering program. 
-
-\begin{equation*}
-\small
-\inarrII{
-  \readInst{}{r_1}{x}   \\
-  \writeInst{}{y}{r_1}  \\
-}{
-  \readInst{}{r_2}{y}   \\
-  \writeInst{}{x}{r_2}  \\
-}
-\tag{LB+data}\label{ex:lb+data}
-\end{equation*}
-
-Here, a hypothetical abstract machine can speculate 
-to perform a store of value \texttt{1} into variable \texttt{y}
-from the left thread, then read this value in the right thread, 
-write it to variable \texttt{x} and then read it back in the
-left thread closing the paradoxical causality cycle.
-The value \texttt{1} in the example above appears \emph{out of thin-air}
-and then justifies itself leading to a confusing outcome.
- 
-Examples of this kind demonstrate the main common 
-disadvantage of OOTA models.
-They lack the fundamental reasoning 
+We also demonstrated that unrestricted speculations 
+can lead to so called thin-air values. 
+Out of thin-air outcomes break the fundamental reasoning 
 principles~\cite{Boehm-Demsky:MSPC14, Batty-al:ESOP15}:
 type safety and security guarantees can be violated, 
 and compositional reasoning is impossible.
-They also do not satisfy external \DRF property.
-To see this consider yet another program:
+Moreover, the they also are incompatible 
+with external \DRF property.
+To see this consider yet another variation of 
+the load buffering program:
 
 \begin{equation*}
 \inarrII{
@@ -224,17 +198,19 @@ To see this consider yet another program:
 
 For the memory model admitting thin-air values 
 (as \eg \CMM~\cite{Batty-al:POPL11}), 
-the outcome $[r_1=1, r_2=1]$ is valid
-(the justification is the same as for the \ref{ex:lb+data} example).
+the outcome ${[r_1=1, r_2=1]}$ is valid
+(the justification is the same as for 
+the \ref{ex:lb+data} example from \cref{sec:background:oota}).
 Not only this outcome is completely unintuitive,
 but it also contradicts to the external \DRF guarantee.
 Indeed, under \SC model the program above has 
 a single valid execution with the outcome $[r_1=0, r_2=0]$ 
-and no data-races, thus under \DRF compliant model 
+containing no data-races, thus under \DRF compliant model 
 it should also has this sole outcome.  
 
-Counter-intuitive behavior of OOTA models, together with the fact that they break 
-many important reasoning principles,
+Counter-intuitive behavior of OOTA models, 
+together with the fact that they break 
+important reasoning principles,
 has lead over the time to the consensus in the research community that these models 
 are not suited well for the role of 
 programming languages memory models~\cite{Boehm-Demsky:MSPC14, Batty-al:ESOP15}.
@@ -376,8 +352,8 @@ and reported a moderate slowdown of
 The last approach to tackle thin-air problem is to   
 construct a notion of \emph{semantic dependencies}, 
 which would precisely characterize what load/store 
-pairs are ``independent'' and rule out 
-``fake'' dependencies like the one in \ref{ex:lb+fakedata}.
+pairs are independent and rule out fake dependencies 
+like the one in \ref{ex:lb+fakedata}.
 The practical payoff of this approach is that it 
 does not require significant modifications to existing compilers or hardware, 
 and thus should not impose performance penalties.  
