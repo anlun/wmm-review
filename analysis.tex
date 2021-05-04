@@ -23,7 +23,7 @@ various solutions of this problem
 
 In \cref{sec:analysis:other} we also discuss particular properties 
 of models, namely coherence and catch-fire semantics, 
-which are orthogonal to the main partioning into classes, 
+which are orthogonal to the main partitioning into classes, 
 but nonetheless they affect soundness of certain program transformations.
 
 \input{smalltable.tex}
@@ -52,10 +52,10 @@ the compiler need to emit heavyweight memory fences between store and load instr
 which makes compilation mappings far from being optimal.  
 
 In terms of reasoning guarantees, however, SC is quite a pleasant model. 
-It gives the DRF-SC and coherence properties for free, 
+It gives the external \DRF and coherence properties for free, 
 because it assigns to programs only sequentially consistent
 outcomes by definition.
-% thus it satisfies DRF-SC without any preconditions.
+% thus it satisfies \DRF-SC without any preconditions.
 % The coherence property is equivalent to sequential consistency per location.
 % The fact that in SC model any execution is sequentially consistent implies trivially
 % that accesses to each location are also sequentially consistent.
@@ -73,7 +73,7 @@ hardware support~\cite{Singh-al:ISCA12, Marino-al:PLDI10}
 or some combination of the above. 
 
 Despite these efforts \SC still induces considerable slowdown,
-especially on weak hardware like ARMv8~\cite{Liu-al:PLDI19} 
+especially on weak hardware like \ARMv{8}~\cite{Liu-al:PLDI19} 
 (see \cref{sec:catalog:sc} for details).
 Moreover, while these optimization typically reduce 
 the penalties on thread-local accesses (a common case), 
@@ -110,7 +110,7 @@ Store buffers enable store/load reordering in case of~\TSO,
 and additionally store/store reorderings in case of~\PSO.
 The \TSO and \PSO models are weaker than \SC, 
 but they are still relatively strong~---
-the external DRF-SC and coherence properties hold.
+the external \DRF and coherence properties hold.
 
 Therefore these models do not have any significant 
 benefits in terms of reasoning guarantees compared to \SC,
@@ -204,7 +204,7 @@ They lack the fundamental reasoning
 principles~\cite{Boehm-Demsky:MSPC14, Batty-al:ESOP15}:
 type safety and security guarantees can be violated, 
 and compositional reasoning is impossible.
-They also do not satisfy external DRF-SC property.
+They also do not satisfy external \DRF property.
 To see this consider yet another program:
 
 \begin{equation*}
@@ -227,10 +227,10 @@ For the memory model admitting thin-air values
 the outcome $[r_1=1, r_2=1]$ is valid
 (the justification is the same as for the \ref{ex:lb+data} example).
 Not only this outcome is completely unintuitive,
-but it also contradicts to the external DRF-SC guarantee.
+but it also contradicts to the external \DRF guarantee.
 Indeed, under \SC model the program above has 
 a single valid execution with the outcome $[r_1=0, r_2=0]$ 
-and no data-races, thus under DRF-SC compliant model 
+and no data-races, thus under \DRF compliant model 
 it should also has this sole outcome.  
 
 Counter-intuitive behavior of OOTA models, together with the fact that they break 
@@ -241,7 +241,7 @@ programming languages memory models~\cite{Boehm-Demsky:MSPC14, Batty-al:ESOP15}.
 A lot of effort has been put to forbid problematic 
 thin-air outcomes, while still keep compilation scheme as efficient as possible
 and enable as many transformations as possible.
-In the rest of this section we descibe various proposals 
+In the rest of this section we describe various proposals 
 tackling the thin-air problem. 
 
 \subsection{Program Order Preserving}
@@ -251,7 +251,7 @@ The most straightforward way to forbid thin-air values
 was proposed by Boehm and Demsky~\cite{Boehm-Demsky:MSPC14}
 The idea is to simply prohibit any kind of speculative execution, 
 which is equivalent to forbidding load/store reorderings altogether. 
-This fix not only restores external DRF-SC~\cite{Lahav-al:PLDI17}
+This fix not only restores external \DRF~\cite{Lahav-al:PLDI17}
 and other reasoning guarantees, but also leads to 
 a much simpler model. The abstract machine implementing 
 the memory model does not need to resort to speculative execution 
@@ -295,7 +295,7 @@ between non-atomic accesses as well.
 
 % In conclusion, the memory models forbidding load/store reorderings
 % provide a simple solution to thin-air problem, 
-% restore external DRF-SC guarantee, preserve soundness of 
+% restore external \DRF-SC guarantee, preserve soundness of 
 % most program transformations, induce no overhead when 
 % compiled down to \Intel, and a moderate overhead 
 % when compiled to \ARM or \POWER.
@@ -364,7 +364,7 @@ Ou and Demsky~\cite{Ou-Demsky:OOPSLA18} adjusted
 the compiler optimization passes to preserve
 dependencies between \textbf{non-atomic and relaxed} accesses.
 They evaluated the dependency preserving 
-version of the LLVM compiler infrastructure 
+version of the \LLVM compiler infrastructure 
 on \ARMv{8} hardware using \SPECCPU benchmarks
 and reported a moderate slowdown of 
 3.1\% on average and 17.6\% in maximum. 
@@ -384,7 +384,7 @@ and thus should not impose performance penalties.
 The ultimate goal is to enable optimal compilation mappings, 
 preserve most of the existing compiler optimizations, 
 and at the same time maintain the important 
-reasoning guarantees like external DRF. 
+reasoning guarantees like external \DRF. 
 
 It turns out that this task is quite challenging 
 and to this date there is no strong consensus on how to achieve it.
@@ -400,7 +400,7 @@ is the \Promising semantics~\cite{Kang-al:POPL17, Lee-al:PLDI20}.
 This model was proven to enable optimal compilation schemes~\cite{Podkopaev-al:POPL19}, 
 and permit most local and global program transformations
 (with the notable exception of thread inlining), 
-while still preserving the external DRF-SC guarantee.
+while still preserving the external \DRF guarantee.
 
 \subsection{Secondary Classes}
 \label{sec:analysis:other}
@@ -479,7 +479,7 @@ with common subexpression elimination, or at least
 it requires some adjustments of this optimization.
 
 As for compilation schemes, coherence does not require 
-any changes here and thus does not impose any performance penatly.
+any changes here and thus does not impose any performance penalty.
 It is because the hardware already guarantee coherence%
 ~\cite{Alglave-al:TOPLAS14, Sarkar-al:PLDI11, Sewell-al:CACM10, Lahav-al:PLDI17}. 
 

@@ -120,7 +120,7 @@ the read and write parts of \CAS.
 Exchange operation atomically replaces the value 
 of the variable and returns the previously held value.
 Fetch-and-add and similar primitives perform 
-the operation (addition, substraction,~\emph{etc.}~)
+the operation (addition, subtraction,~\emph{etc.}~)
 atomically and unconditionally, returning 
 the content of the shared variable prior to modification.  
 
@@ -195,7 +195,7 @@ It can be obtained as a result of \emph{store buffering}
 optimization (hence the name of the program \ref{ex:sb}). 
 The store $\writeInst{}{x}{1}$ can be buffered and 
 executed after all other instructions of the program.  
-Yet clearly the outcome $[r_1=0, r_2=0]$ is not sequentially consisestent. 
+Yet clearly the outcome $[r_1=0, r_2=0]$ is not sequentially consistent. 
 Therefore the proposed compilation scheme, 
 which maps all load and stores to the plain one is unsound. 
 As we have demonstrated in \cref{sec:intro} 
@@ -238,7 +238,7 @@ for the \SC model which is both \emph{sound and optimal},
 to modern hardware architectures.     
 This fact makes the \SC memory model unsuitable  
 for high-performance programming languages
-and serves as one of the stimuls for 
+and serves as one of the stimulus for 
 weakening of memory models. 
  
 In this paper, when speaking about the compilation schemes, 
@@ -260,7 +260,7 @@ Flur-al:POPL16, Pulte-al:POPL18}.
 
 The next criterion for memory model is 
 soundness of program transformations, 
-that is source-to-source transfromations of 
+that is source-to-source transformations of 
 the code which are applied during 
 the optimization passes of the compiler. 
 
@@ -319,8 +319,8 @@ Note that the list is far from being complete regarding to
 transformations used in optimizing compilers~\cite{Muchnick:ACDI97}.
 For example it lacks common loop optimizations, 
 because the theory of relaxed memory models still
-strugles with problems of liveness properties, 
-needed for studing these transformations formally. 
+struggles with problems of liveness properties, 
+needed for studying these transformations formally. 
 
 The transformations we consider can be split into 
 two subcategories: \emph{local} and \emph{global}.
@@ -368,7 +368,7 @@ load/load, and load/store reorderings.
   \end{array}
 \]
 
-\paragraph{Elimination of Redundunt Access} 
+\paragraph{Elimination of Redundant Access} 
 
 In a pair of two adjacent memory access instructions 
 one of them can be eliminated if its effect 
@@ -425,7 +425,7 @@ result is never used.
 
 The inverse to the previous transformation, 
 the load introduction inserts a load instruction 
-in an arbitary place of the program.
+in an arbitrary place of the program.
 %
 \[\def\arraystretch{1.4}\footnotesize
   \begin{array}{cccl} 
@@ -469,7 +469,7 @@ a critical section, \ie past a lock acquisition
 or prior a lock release. 
 Besides that, a store can be moved after \texttt{lock}, 
 and load can be moved prior \texttt{unlock}.   
-Similar rules apply to reordeings around 
+Similar rules apply to reorderings around 
 acquire and release accesses and fences, 
 where an acquire operation behaves similarly to \texttt{lock}, 
 and release operation similarly to \texttt{unlock}.
@@ -504,7 +504,7 @@ and release operation similarly to \texttt{unlock}.
 
 \paragraph{Strengthening}
 
-Similarly to the roach motel reordeing, the strengthening
+Similarly to the roach motel reordering, the strengthening
 transformation increases synchronization by 
 replacing an access mode of an operation by a stronger one. 
 For example, a non-atomic access can be replaced by 
@@ -550,7 +550,7 @@ Here is particular example of constant folding application:
 
 \CSE is yet another classic transformation~\cite{Muchnick:ACDI97} 
 which searches for instances of identical expressions 
-and removes redundunt computations. 
+and removes redundant computations. 
 Here is an example: 
 %
 \[\def\arraystretch{1.4}\footnotesize
@@ -590,7 +590,7 @@ the variable by a thread-local register.
 
 Sequentialization or thread inlining 
 is a transformation that merges two threads into one.
-Quite surprisingly, this seamingly harmless transformation
+Quite surprisingly, this seemingly harmless transformation
 is challenging for most of memory models. 
 %
 \[\def\arraystretch{1.4}\footnotesize
@@ -668,7 +668,7 @@ It guarantees that well-synchronized programs
 have only sequentially consistent outcomes. 
 In other words, it allows to programmers assume 
 simpler sequentially consistent model 
-if they properly use synchonization primitives.
+if they properly use synchronization primitives.
 
 Let us consider an example. 
 Remember the \ref{ex:sb} program from \cref{sec:background:compile}.
@@ -715,7 +715,7 @@ to restore sequential consistency:
 More formally, \DRF theorem for a weak model $M$ states that 
 a program has only sequentially consistent outcomes under $M$
 if it has no data-races under sequentially consistent memory model
-(or all accees participating in such race are annotated by~$\sco$).
+(or all accesses participating in such race are annotated by~$\sco$).
 
 The \DRF theorem allows to reduce reasoning under weak memory model
 to reasoning under sequential consistency.
@@ -724,12 +724,12 @@ in order to derive that this program has only \SC outcomes.
 
 The \DRF theorem in the formulation given above is 
 sometimes called \emph{external data-race freedom},
-in order to distinguish it from \emph{internal data-race freeedom}. 
+in order to distinguish it from \emph{internal data-race freedom}. 
 The latter guarantees the \SC semantics for a program 
 under weak model $M$ only if the program 
 has no races under \textbf{model $\mathbf{M}$ itself}.
 Note that the internal \DRF gives a weaker guarantee 
-compared to external \DRF. It does not allow to completly 
+compared to external \DRF. It does not allow to completely 
 avoid the reasoning in term of the weak memory model, 
 because one has to first show that the program 
 is race-free under relaxed model. 
@@ -747,14 +747,14 @@ provide sequentially consistent semantics.
 Yet they usually provide weaker property 
 called \emph{sequential consistency per location},
 also known as \emph{coherence}~\cite{Alglave-al:TOPLAS14}.
-Following the hardare models many programming language level
+Following the hardware models many programming language level
 memory models also provide this property. 
 
 The coherence property ensures that 
 all stores to each particular location 
 can be totally ordered and that the 
 resulting order, the \emph{coherence order}, reflects 
-the order in which stores propogate from threads
+the order in which stores propagate from threads
 into the main memory. 
 In particular, coherence implies that  
 programs consisting only of accesses to 
@@ -781,7 +781,7 @@ the following outcome ${[r_1=2, r_2=1]}$.
 For example, the early version of the \Java memory model
 actually allowed this outcome~\cite{Manson-al:POPL05}.
 
-\subsubsection{Catch-Fire Semantics and Undefined Behavior}
+\subsubsection{Undefined Behavior}
 \label{sec:background:ub}
 
 As we already briefly mentioned, some memory models, 

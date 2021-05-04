@@ -68,7 +68,7 @@ of some interleaving of threads' instructions.
 
 However, not all behaviors which are observable on real concurrent systems are sequentially consistent. 
 For example, if one ports the \ref{ex:Dekker} 
-from the pseudocode to the C language, compile it with the GCC compiler, 
+from the pseudo code to the C language, compile it with the GCC compiler, 
 and run on a processor from the x86/x64 family,
 she may observe non sequentially consistent outcome $[r_1=0, r_2=0]$.
 Such outcomes are called \emph{weak}.
@@ -106,7 +106,7 @@ These memory models have different design goals, trade-offs, and limitations.
 For the people unfamiliar with all the subtleties 
 of weak memory models, it can be hard to navigate in this large zoo.
 Despite the long history of the field and recent progress made, 
-there is no single source that would summare the prior knowledge
+there is no single source that would summarize the prior knowledge
 and give comprehensive comparison of different memory models
 of programming languages. The aim of this paper is to close this gap.
 
