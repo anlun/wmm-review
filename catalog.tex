@@ -27,7 +27,7 @@ and thus has a slightly different properties.
 
 \paragraph{End-to-end Sequential Consistency}
 
-Marino et al~\cite{Marino-al:PLDI11, Singh-al:ISCA12} 
+Marino~\etal~\cite{Marino-al:PLDI11, Singh-al:ISCA12} 
 examined the performance penalties to ensure end-to-end SC (\EtESC)
 enforced by (1) modified SC-preserving version 
 of \LLVM compiler infrastructure and 
@@ -124,7 +124,7 @@ inspired by \TSO and \PSO.
 
 \paragraph{Buffered Memory Model}
 
-Demange et al.~\cite{Demange-al:POPL13} presented 
+Demange~\etal~\cite{Demange-al:POPL13} presented 
 the \emph{Buffered Memory Model}, \BMM for short,
 as a candidate model for the Java language.
 Their motivation, however, stemmed not from the desire 
@@ -276,7 +276,7 @@ to architectures like \ARM and \POWER
 requires to compile relaxed load as  
 plain load followed by a spurious conditional branch.
 Ou and Demsky~\cite{Ou-Demsky:OOPSLA18} have studied 
-the performance penalty of this mapping on ARMv8 hardware.
+the performance penalty of this mapping on \ARMv{8} hardware.
 They modified the \LLVM compiler framework 
 to enforce \RCMM memory model
 by (1) adjusting the compiler optimization passes and 
@@ -416,7 +416,7 @@ program transformations.
 Ou and Demsky~\cite{Ou-Demsky:OOPSLA18} studied 
 the performance penalty induced by dependency preserving compiler. 
 Again, they modified the \LLVM compiler infrastructure 
-and run benchmarks from \SPECCPU suite on ARMv8 hardware. 
+and run benchmarks from \SPECCPU suite on \ARMv{8} hardware. 
 They have observed 3.1\% overhead on average and 17.6\% in maximum. 
 
 \subsection{Semantic Dependencies Preserving}
@@ -509,7 +509,7 @@ The authors have shown soundness of
 optimal compilation mappings to \Intel and \POWER, 
 as well as soundness of several program transformations.
 It was later revealed though that the compilation scheme
-to ARMv7 and ARMv8 is not optimal~\cite{PichonPharabod:PhD18}.
+to \ARMv{7} and \ARMv{8} is not optimal~\cite{PichonPharabod:PhD18}.
 
 \paragraph{Well-Justified Event Structures}
 
