@@ -460,15 +460,15 @@ that \Promising semantics admits many local and global program transformations,
 with a notable exception of the thread inlining
 (see \cref{table:cmp-mms} for details).
 
+Podkopaev~\etal~\cite{Podkopaev-al:ECOOP17, Podkopaev-al:POPL19} have proven formally
+soundness of standard optimal compilation mappings to \Intel, \ARMv{7}, \ARMv{8}, and \POWER.
+
 The model has a fully defined semantics even for plain accesses.  
 Plain and relaxed accesses, however, have different semantics.
 In particular, coherence is enforced for relaxed accesses 
 but not for the plain ones.  
 This design choice, in particular, allows to support 
 \CSE on the level of plain accesses. 
-
-Podkopaev~\etal~\cite{Podkopaev-al:ECOOP17, Podkopaev-al:POPL19} have proven formally
-soundness of standard optimal compilation mappings to \Intel, \ARMv{7}, \ARMv{8}, and \POWER.
 
 One of a few limitations of the \Promising semantics is that 
 it does not support sequentially consistent accesses. 
