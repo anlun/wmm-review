@@ -76,7 +76,8 @@ whether the model provides external DRF guarantee (see~\cref{sec:background:drf}
 whether it provides coherence property (see~\cref{sec:background:coh}),
 whether it has fully defined semantics for all types of accesses, 
 \ie the model does not treat racy non-atomic accesses as undefined behavior (see~\cref{sec:background:ub}),
-and whether the model forbids out of thin-air values (see~\cref{sec:background:oota}).
+whether the model utilizes in-order execution (as opposed to speculative out-of-order executon),
+and whether it forbids out of thin-air values (see~\cref{sec:background:oota}).
 
 In \cref{table:cmp-mms} each row corresponds to 
 a specific memory model, denoted by its abbreviation, 

@@ -4,7 +4,7 @@
 \scriptsize
 
 \newcommand{\rotateAngle}{270}
-\newcommand{\lastcol}{27}
+\newcommand{\lastcol}{28}
 
 \def\arraystretch{1}
 \setlength\tabcolsep{3pt} %\setlength\tabcolsep{2pt}
@@ -12,7 +12,7 @@
 
 \begin{center}
 
-\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|} % 35
+\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|} 
  
  \hline
   
@@ -20,7 +20,7 @@
  \multirow{3}{*}[-8pt]{\rotatebox[origin=c]{\rotateAngle}{\# Models}}  &
  \multicolumn{ 4}{ c|}{\multirow{2}{*}{Compilation}}                   &
  \multicolumn{17}{ c|}{Transformations}                                &
- \multicolumn{ 4}{ c|}{\multirow{2}{*}{Reasoning}}     % &
+ \multicolumn{ 5}{ c|}{\multirow{2}{*}{Reasoning}}     % &
  % \multicolumn{ 9}{c|}{\multirow{2}{*}{Features}}      
  \\ 
 
@@ -31,7 +31,7 @@
  \multicolumn{4}{c|}{}       &
  \multicolumn{14}{c|}{Local} &
  \multicolumn{3}{c|}{Global} &
- \multicolumn{4}{c|}{}       % &
+ \multicolumn{5}{c|}{}       % &
  % \multicolumn{9}{c|}{}       
  \\ 
  
@@ -60,6 +60,7 @@
  \multirow{2}{*}[-6pt]{\rotatebox[origin=c]{\rotateAngle}{\eDRF}}             &
  \multirow{2}{*}[-6pt]{\rotatebox[origin=c]{\rotateAngle}{COH}}               &
  \multirow{2}{*}[-6pt]{\rotatebox[origin=c]{\rotateAngle}{no-UB}}             &
+ \multirow{2}{*}[-4pt]{\rotatebox[origin=c]{\rotateAngle}{In-Order}}          &
  \multirow{2}{*}[-2pt]{\rotatebox[origin=c]{\rotateAngle}{no-OOTA}}         % &               
 
  % \multirow{2}{*}[-6pt]{\rotatebox[origin=c]{\rotateAngle}{NA}}                      &
@@ -70,7 +71,7 @@
  % \multirow{2}{*}[-6pt]{\rotatebox[origin=c]{\rotateAngle}{F-SC}}                    &
  % \multirow{2}{*}[-6pt]{\rotatebox[origin=c]{\rotateAngle}{RMW}}                     &
  % \multirow{2}{*}[-6pt]{\rotatebox[origin=c]{\rotateAngle}{Lock}}                    &
- % \multirow{2}{*}[-6pt]{\rotatebox[origin=c]{\rotateAngle}{\makecell{Mix.Sz.}}}      
+ % \multirow{2}{*}[-6pt]{\rotatebox[origin=c]{\rotateAngle}{\makecell{Mix.Sz.}}}       
  \\[9pt] 
 
  \cline{7-14}
@@ -84,7 +85,7 @@
  SS         &
  LL         &
  LS         &
-  & & & & & & & & & & & & \\[3pt]
+  & & & & & & & & & & & & & \\[3pt]
   
   \Xhline{2\arrayrulewidth}
 
@@ -130,10 +131,11 @@
      \okcelln{2}{2} & 
      \unkwcell      &
 
-     % eDRF, COH, no-UB, no-OOTA
+     % eDRF, COH, no-UB, In-order, no-OOTA
      \okcelln{2}{2}   & 
      \okcelln{2}{2}   & 
-     \okcelln{1}{2} &
+     \okcelln{1}{2}   &
+     \okcelln{2}{2}   &
      \okcelln{2}{2}   
 
      \\ \hline
@@ -180,10 +182,11 @@
      \badcelln{0}{1} & 
      \unkwcell &
 
-     % eDRF, COH, no-UB, no-OOTA
+     % eDRF, COH, no-UB, In-order, no-OOTA
      \okcelln{2}{2} & 
      \okcelln{1}{1} & 
      \okcelln{2}{2} & 
+     \okcelln{2}{2} &
      \okcelln{2}{2} 
 
      \\ \hline
@@ -230,10 +233,11 @@
      \okcelln{1}{1} &
      \unkwcell & 
 
-     % eDRF, COH, no-UB, no-OOTA
+     % eDRF, COH, no-UB, In-order, no-OOTA
      \okcelln{3}{3} & 
      \okcelln{2}{3} & 
-     \okcelln{2}{3} & 
+     \okcelln{2}{3} &
+     \okcelln{3}{3} & 
      \okcelln{3}{3} 
 
      \\ \hline
@@ -280,10 +284,11 @@
      \unkwcell & 
      \unkwcell & 
 
-     % eDRF, COH, no-UB, no-OOTA
-     \okcelln{1}{1} & 
-     \okcelln{1}{1} & 
-     \okcelln{2}{2} & 
+     % eDRF, COH, no-UB, In-order, no-OOTA
+     \okcelln{1}{1}  & 
+     \okcelln{1}{1}  & 
+     \okcelln{2}{2}  & 
+     \badcelln{0}{2} & 
      \okcelln{2}{2} 
 
      \\ \hline
@@ -330,10 +335,11 @@
      \badcelln{0}{4} & 
      \okcelln{2}{2}  & 
 
-     % eDRF, COH, no-UB, no-OOTA
-     \okcelln{6}{6} & 
-     \okcelln{4}{6} & 
-     \okcelln{5}{7} & 
+     % eDRF, COH, no-UB, In-order, no-OOTA
+     \okcelln{6}{6}  & 
+     \okcelln{4}{6}  & 
+     \okcelln{5}{7}  & 
+     \badcelln{0}{7} & 
      \okcelln{7}{7} 
 
      \\ \hline
@@ -380,10 +386,11 @@
      \okcelln{1}{1} & 
      \unkwcell      & 
 
-     % eDRF, COH, no-UB, no-OOTA
+     % eDRF, COH, no-UB, In-order, no-OOTA
      \badcelln{0}{4}  & 
      \okcelln{2}{4}   & 
      \okcelln{4}{5}   & 
+     \badcelln{0}{5}  & 
      \badcelln{0}{5} 
 
      \\ \hline
