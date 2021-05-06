@@ -1,22 +1,28 @@
 \renewcommand{\abstractname}{Abstract}
 
 \begin{abstract}
+A memory model defines semantics of 
+concurrent programs operating on a shared memory.
+The most well-known and intuitive memory model, sequential consistency,
+is too \emph{strong} for modern languages as it forbids
+many outcomes observable on modern hardware as a result of
+compiler and CPU optimizations. This gave rise to so-called
+\emph{weak} or \emph{relaxed} memory models.
+In recent years dozens of (weak) memory models for 
+programming languages were proposed
+making different compromises with respect 
+to programmability and the optimization potential.
+A goal of this paper is to survey and classify these models as well as
+to provide practical recommendations for language and compiler designers
+regarding a choice of a memory model.
 
-Memory model defines the semantics of 
-concurrent programs operating on shared memory.
-The main trade-off in the design of a memory model
-is between programmability and optimization opportunities.
-Stronger models, like sequential consistency, 
-provide simpler and more predictable semantics,
-but have to abandon certain hardware and compiler optimizations,
-while weaker models enable many optimizations 
-at the cost of less intuitive semantics.  
-
-In recent years a plenty of memory models for 
-various programming languages were proposed, 
-which made various compromises with respect 
-to programmability versus optimization opportunities.
-In this paper we present a survey of these models,
-classify them, and discuss their properties and limitations. 
-
+To achieve this we picked over 2000 research items from Google Scholar
+with keywords ``Relaxed Memory Models'', ``Weak Memory Models'',
+and ``Weak Memory Consistency''. Then, we narrowed down this list to 40 papers
+having as a contribution a programming language memory model
+(as oppose to hardware memory models).
+We divide these models to six main classes and analyze their properties and limitations.
+We conclude with a discussion on how a choice of a memory model affected by
+desired features of a language and suggest several possible directions for
+researh in the field of weak memory models.
 \end{abstract}
