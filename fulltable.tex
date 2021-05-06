@@ -13,6 +13,9 @@
 \setlength\tabcolsep{3pt}
 \setlength\extrarowheight{5pt}
 
+\newcommand{\thinhline}{\Xcline{2-\lastcol}{\arrayrulewidth}\hhline{~|*26-}}
+\newcommand{\thickhline}{\Xhline{2\arrayrulewidth}}
+
 \begin{center}
 \begin{tabular}{|c|l|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|} % 26
   
@@ -37,7 +40,7 @@
  % \multicolumn{9}{c|}{}       
  \\ 
  
- \cline{3-\lastcol}
+ \cline{3-28}
 
                                      &
                                      &
@@ -118,7 +121,7 @@
      % eDRF, COH, no-UB, In-order, no-OOTA
      \okcell & \okcell & \okcell & \okcell & \okcell % &
 
-     \\ \cline{2-\lastcol}
+     \\ \thinhline
 
  & \DRFx~{\tiny\cite{Marino-al:PLDI10}}
      &           
@@ -143,7 +146,7 @@
      % % eDRF, COH, no-UB, In-order, no-OOTA
      \okcell & \okcell & \badcell & \okcell & \okcell % &
 
-     \\ \Xhline{2\arrayrulewidth}
+     \\ \thickhline
 
  \multirow{2}{*}{\clsTSO}   
 
@@ -170,7 +173,7 @@
      % eDRF, COH, no-UB, In-order, no-OOTA
      \okcell & \okcell & \okcell & \okcell & \okcell % &
 
-     \\ \cline{2-\lastcol}
+     \\ \thinhline
 
  & \RMMOA~{\tiny\cite{Boudol-Petri:POPL09}}
      &
@@ -195,7 +198,7 @@
      % % eDRF, COH, no-UB, In-order, no-OOTA
      \okcell & \unkwcell & \okcell & \okcell & \okcell % &
 
-     \\ \Xhline{2\arrayrulewidth}
+     \\ \thickhline
 
  \multirow{3}{*}{\clsPO}   
 
@@ -224,7 +227,7 @@
      % eDRF, COH, no-UB, In-order, no-OOTA
      \okcell & \okcell & \badcell & \okcell & \okcell % &
 
-     \\ \cline{2-\lastcol}
+     \\ \thinhline
  
  & \OCMM~{\tiny\cite{Dolan-al:PLDI18}}
      & 
@@ -249,7 +252,7 @@
      % eDRF, COH, no-UB, In-order, no-OOTA
      \okcell & \badcell & \okcell & \okcell & \okcell % &
 
-     \\ \cline{2-\lastcol}
+     \\ \thinhline
 
  & \JAM~{\tiny\cite{Bender-Palsberg:OOPSLA19}}
      & 
@@ -274,7 +277,7 @@
      % eDRF, COH, no-UB, In-order, no-OOTA
      \okcell & \okcell & \okcell & \okcell & \okcell % &
 
-     \\ \Xhline{2\arrayrulewidth}
+     \\ \thickhline
 
  \multirow{2}{*}{\clsSyDEP}   
 
@@ -301,7 +304,7 @@
      % eDRF, COH, no-UB, In-order, no-OOTA
      \unkwcell & \okcell & \okcell & \badcell & \okcell % &
 
-     \\ \cline{2-\lastcol}
+     \\ \thinhline
 
  & \OHMM~{\tiny\cite{Zhang-Feng:FCS16}}
      &
@@ -326,7 +329,7 @@
      % eDRF, COH, no-UB, In-order, no-OOTA
      \okcell & \unkwcell & \okcell & \badcell & \okcell % &
 
-     \\ \Xhline{2\arrayrulewidth}
+     \\ \thickhline
 
  \multirow{7}{*}{\clsSemDEP}   
 
@@ -353,7 +356,7 @@
      % eDRF, COH, no-UB, In-order, no-OOTA
      \okcell & \badcell & \okcell & \badcell & \okcell % &
 
-     \\ \cline{2-\lastcol}
+     \\ \thinhline
 
  & \PRM~{\tiny\cite{Kang-al:POPL17, Lee-al:PLDI20}}
      &
@@ -378,7 +381,7 @@
      % eDRF, COH, no-UB, In-order, no-OOTA
      \okcell & \okcell & \okcell & \badcell & \okcell % &
 
-     \\ \cline{2-\lastcol}
+     \\ \thinhline
 
  & \WMO~{\tiny\cite{Chakraborty-Vafeiadis:POPL19}}
      &
@@ -403,7 +406,7 @@
      % eDRF, COH, no-UB, In-order, no-OOTA
      \okcell & \okcell & \badcell & \badcell & \okcell % &
 
-     \\ \cline{2-\lastcol}
+     \\ \thinhline
 
  & \CSRA~{\tiny\cite{PichonPharabod-Sewell:POPL16}}
      &
@@ -428,7 +431,7 @@
      % eDRF, COH, no-UB, In-order, no-OOTA
      \unkwcell & \okcell & \badcell & \badcell & \okcell % &
 
-     \\ \cline{2-\lastcol}
+     \\ \thinhline
 
  & \WJES~{\tiny\cite{Jeffrey-Riely:LICS16}}
      &
@@ -453,7 +456,7 @@
      % eDRF, COH, no-UB, In-order, no-OOTA
      \okcell & \badcell & \okcell & \badcell & \okcell % &
 
-     \\ \cline{2-\lastcol}
+     \\ \thinhline
 
  & \MRD~{\tiny\cite{Paviotti-al:ESOP20}}
      &
@@ -478,7 +481,7 @@
      % eDRF, COH, no-UB, In-order, no-OOTA
      \okcell & \okcell & \okcell & \badcell & \okcell % &
 
-     \\ \cline{2-\lastcol}
+     \\ \thinhline
 
  & \GOS~{\tiny\cite{Jagadeesan-al:ESOP10}}
      &
@@ -503,7 +506,7 @@
      % eDRF, COH, no-UB, In-order, no-OOTA
      \okcell & \unkwcell & \okcell & \badcell & \okcell % &
 
-     \\ \Xhline{2\arrayrulewidth}
+     \\ \thickhline
 
  \multirow{5}{*}{\clsOOTA}   
 
@@ -531,7 +534,7 @@
      % eDRF, COH, no-UB, In-order, no-OOTA
      \badcell & \okcell & \badcell & \badcell & \badcell % &
 
-     \\ \cline{2-\lastcol}
+     \\ \thinhline
 
  & \JSMM~{\tiny\cite{Watt-al:PLDI2020}}
      &
@@ -556,7 +559,7 @@
      % eDRF, COH, no-UB, In-order, no-OOTA
      \badcell & \badcell & \okcell & \badcell & \badcell % &
 
-     \\ \cline{2-\lastcol}
+     \\ \thinhline
 
  & \RMC~{\tiny\cite{Crary-Sullivan:POPL15}}
      &
@@ -581,7 +584,7 @@
      % eDRF, COH, no-UB, In-order, no-OOTA
      \badcell & \okcell & \okcell & \badcell & \badcell % &
 
-     \\ \cline{2-\lastcol}
+     \\ \thinhline
 
 
  & \RAO~{\tiny\cite{Saraswat-al:PPoPP07}}
@@ -607,7 +610,7 @@
      % eDRF, COH, no-UB, In-order, no-OOTA
      \unkwcell & \badcell & \okcell & \badcell & \badcell % &
 
-     \\ \cline{2-\lastcol}
+     \\ \thinhline
 
  & \TSC~{\tiny\cite{Boudol-Petri:ESOP10}}
      % compilation 
@@ -631,7 +634,7 @@
      % eDRF, COH, no-UB, In-order, no-OOTA
      \badcell & \unkwcell & \okcell & \badcell & \badcell % &
 
-     \\ \Xhline{2\arrayrulewidth}
+     \\ \thickhline
 
 
 \end{tabular}
