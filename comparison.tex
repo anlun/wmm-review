@@ -91,7 +91,12 @@ We marked a cell by \cmark~ if the majority of models in a given class satisfy t
 If less than a majority of models satisfy the property we mark 
 the corresponding cell by \wmark.
 Finally, if none of the models satisfy the property, we mark the cell by \xmark. 
-Note that when counting the majority, we omit the unknowns.  
+Note that when counting the majority, we omit the unknowns.
+Also, if a given property was not studied in the context of some class of models 
+(\ie, in table~\cref{table:cmp-mms} it is marked by \qmark for all models in this class)
+in table \cref{table:cmp-cls} we mark the corresponding cell by \xmark. 
+That is, in \cref{table:cmp-cls} symbols \cmark and \wmark denote the positive knowledge,
+while \xmark denots negative knowledge or an absence of information.
 
 Besides \cref{table:cmp-cls,table:cmp-mms} which describe 
 properties of memory models, we also present \cref{table:features}
