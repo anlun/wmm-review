@@ -2,12 +2,12 @@
 \label{sec:intro}
 
 The main challenge in concurrent programming is 
-to establish a proper synchronization between threads executed in parallel.     
+to establish proper synchronization between threads executed in parallel.     
 Usually it is done with the help of synchronization primitives
-provided by the programming language or libraries,
+provided by a programming language or libraries,
 for example locks, barriers, channels \etc
 Sometimes, however, usage of these primitives is impossible or undesirable. 
-Examples of such cases are the implementation 
+Examples of such cases are an implementation 
 of synchronization primitives themselves
 or lock-free data structures.
 In these cases one has to resort to 
@@ -18,7 +18,7 @@ At this point things get complicated.
 %In other words, it defines the semantics of concurrent program.
 
 Let us consider a concrete example.
-Here is a simplified version of Dekker's lock:
+Here is a simplified version of Dekker's Lock:
 
 \begin{equation*}
 \inarrII{
@@ -34,7 +34,7 @@ Here is a simplified version of Dekker's lock:
   ~~ \comment{critical section} \\
   \}
 }
-\tag{Dekker Lock}\label{ex:Dekker}
+\tag{Dekker's Lock}\label{ex:Dekker}
 \end{equation*}
 
 In this program, there are two threads that compete to enter the critical section.
@@ -54,9 +54,9 @@ to enter the critical section simultaneously,
 thus breaking correctness of the algorithm.
 
 Indeed, after running this program on a multi-core system, one would expect to see 
-one of the following outcomes: $[r_1=0, r_2=1]$, $[r_1=1,r_2=0]$, or $[r_1=1,r_2=1]$.
+one of the following outcomes: ${[r_1=0, r_2=1]}$, ${[r_1=1,r_2=0]}$, or ${[r_1=1,r_2=1]}$.
 These outcomes are \emph{sequential consistent}~\cite{Lamport:TC79} meaning
-that they may be obtained as sequential execution 
+that they may be obtained via a sequential execution 
 of some interleaving of threads' instructions.
 
 %A memory model that admits only these behaviours is known under the name \emph{sequential consistency} (SC) [Lamport:TC79].
@@ -67,7 +67,7 @@ of some interleaving of threads' instructions.
 %%        we use terms "semantics" and "memory model" interchangeably.
 
 However, not all behaviors which are observable on real concurrent systems are sequentially consistent. 
-For example, if one ports the \ref{ex:Dekker} 
+For example, if one ports \ref{ex:Dekker} 
 from the pseudo code to the C language, compile it with the GCC compiler, 
 and run on a processor from the x86/x64 family,
 she may observe non sequentially consistent outcome $[r_1=0, r_2=0]$.
@@ -77,11 +77,11 @@ Weak outcomes appear because of compiler and CPU optimizations.
 For example, given the \ref{ex:Dekker},
 the optimizer may observe that the store to $x$ and the load from $y$ in the left thread
 are independent instructions and thus they can be reordered
-(this optimization is perfectly valid for single-threaded programs).
+(this optimization is valid for single-threaded programs).
 For the optimized program, the outcome $[r_1=0, r_2=0]$
 is sequentially consistent.
 
-The exact set of allowed outcomes for a given program 
+An exact set of allowed outcomes for a given program 
 is defined by a semantics of a concurrent system, or a \emph{memory model}.
 The memory model permitting only sequentially consistent outcomes 
 is called \emph{sequential consistency} (SC).
@@ -102,7 +102,7 @@ Thus over the last two decades a plenty of memory models have been proposed~%
 Batty-al:POPL11, Lahav-al:PLDI17, Dolan-al:PLDI18, Alglave-al:ASPLOS18, Watt-al:PLDI2020, 
 Crary-Sullivan:POPL15, Zhang-Feng:FCS16, Jeffrey-Riely:LICS16, PichonPharabod-Sewell:POPL16, 
 Kang-al:POPL17, Chakraborty-Vafeiadis:POPL19, Paviotti-al:ESOP20}. 
-These memory models have different design goals, trade-offs, and limitations.
+These models have different design goals, trade-offs, and limitations.
 For the people unfamiliar with all the subtleties 
 of weak memory models, it can be hard to navigate in this large zoo.
 Despite the long history of the field and recent progress made, 
@@ -111,11 +111,11 @@ and give comprehensive comparison of different memory models
 of programming languages. The aim of this paper is to close this gap.
 
 We provide an overview of existing approaches to 
-programming languages memory models,
+programming languages' memory models,
 discuss their design choices, trade-offs, and limitations.
-Besides that, we compare the existing memory models 
+Besides that, we compare existing memory models 
 in terms of what optimizations opportunities 
-and what guarantees for formal reasoning they provide.
+and what guarantees for reasoning they provide.
 
 We hope that our work will be useful to programming language researchers 
 who want to dive into the theory of weakly consistent memory models,
@@ -141,4 +141,4 @@ each particular memory model considered in our study.
 In \cref{sec:discussion} we present a short guide 
 on the design of memory model for researchers and system developers.
 Finally, \cref{sec:conclusion} concludes 
-and outline possible directions for future research in the field. 
+and outlines possible directions for future research in the field. 
