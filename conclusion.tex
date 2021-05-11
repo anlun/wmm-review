@@ -3,7 +3,7 @@
 
 In this work we surveyed memory models 
 proposed for various programming language. 
-We compared them based on common set of criteria
+We compared them based on the common set of criteria
 developed in the literature and identified 
 six main classes of memory models.
 We also presented a short guide on how to 
@@ -24,24 +24,25 @@ and local program transformations are relatively well-studied.
 \app{I don't understand what it means for ``optimality'' to be ``well-studied''.}
 More recent memory models~%
 \cite{Lahav-al:PLDI17, Dolan-al:PLDI18, Kang-al:POPL17, Chakraborty-Vafeiadis:POPL19} 
-support wide range of local transformations and have clear 
+support a wide range of local transformations and have clear 
 trade-offs in terms of compilation mappings. 
 An exception is local transformations involving loops and recursion, 
-their soundness have not being studied formally. 
+their soundness was not studied formally. 
 Global transformations also received a little attention so far,
-with a few notable exceptions~\cite{PichonPharabod-Sewell:POPL16, Lee-al:PLDI20}.
+with few notable exceptions~\cite{PichonPharabod-Sewell:POPL16, Lee-al:PLDI20}.
 The exact impact of these transformations on the design of 
 memory models is yet to be discovered. 
 
 Whole program data-race freedom guarantees were also studied extensively.
-In contrast, local data-race freedom is a relatively new concept. 
+In contrast, the local data-race freedom~\cite{Dolan-al:PLDI18} 
+is a relatively new concept. 
 We expect it as well as local reasoning guarantees 
 in general~\cite{Dodds-al:ESOP18, Jagadeesan-al:OOPSLA2020, Cho-al:PLDI21} 
-to receive more attention in near future.  
+to receive more attention in the near future.  
 
-In terms of features supported by memory models, 
+In terms of the features supported by memory models, 
 we highlight two challenging areas.
-First, theory of mixed size accesses is clearly 
+First, the theory of mixed size accesses is clearly 
 underdeveloped to this day, only the two recent studies 
 tried to approach it so far~\cite{Flur-al:POPL17, Watt-al:PLDI2020}.
 Yet mixed size accesses are used in real-world applications,
@@ -50,7 +51,7 @@ and thus supporting them is a a necessary prerequisite
 for a certain class of memory models. 
 Second, sequential consistent accesses, quite surprisingly,
 posses a challenge for some of semantic dependency preserving
-models like \Promising. Reconciling these models with $\sco$ 
+models like the \Promising. Reconciling these models with $\sco$ 
 accesses also would be a valuable contribution.
 
 Semantic dependency preserving models are still an active 
@@ -60,12 +61,12 @@ Jagadeesan-al:OOPSLA2020}.
 We expect those to be a subject to 
 further refinement and new proposals. 
 An interesting line of work here would be 
-a development of new reasoning principles
+the development of new reasoning principles
 beyond data-race freedom, which could 
 improve the meta-theory of these models and 
-simplify the reasoning about correctness of programs.   
+simplify reasoning about the correctness of programs.   
 
-Finally, a comprehensive quantitative studies 
+Finally, comprehensive quantitative studies 
 of the performance penalties induced by memory models are quite valuable.
 Although there is some work in this direction,%
 \cite{Singh-al:ISCA12, Liu-al:OOPSLA17, Liu-al:PLDI19, 
