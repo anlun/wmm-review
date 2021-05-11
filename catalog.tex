@@ -16,52 +16,52 @@ This section can be safely skipped for the first read.
 \label{sec:catalog:sc}
 
 We start with a description of several attempts 
-to adopt sequential consistency as memory model for 
-existing languages and runtimes. 
+to adopt the sequential consistency as a memory model 
+for existing languages and runtimes. 
 Most of the proposed solutions share similar properties, 
 and thus in \cref{table:cmp-mms} we unite them 
 in a single row under the name \SC. 
 The only exception is \DRFx model which implements
-catch-fire semantics for racy programs 
-and thus has a slightly different properties. 
+a catch-fire semantics for racy programs 
+and thus has slightly different properties. 
 
 \paragraph{End-to-end Sequential Consistency}
 
 Marino~\etal~\cite{Marino-al:PLDI11, Singh-al:ISCA12} 
 examined the performance penalties to ensure end-to-end SC (\EtESC)
-enforced by (1) modified SC-preserving version 
+enforced by (1) a modified SC-preserving version 
 of \LLVM compiler infrastructure and 
 (2) a modified version of \Intel hardware. 
 To mitigate the induced overhead the authors 
 utilized the observation that hardware need to 
-enforce SC only for memory accesses to shared mutable variables. 
-To classify the memory regions as either thread-local,
+enforce \SC only for memory accesses to shared mutable variables. 
+To classify memory regions as either thread-local,
 shared immutable, or shared mutable they have used 
-a combination of static compiler analysis and 
-dynamic analysis powered by modified hardware. 
+a combination of a static compiler analysis and 
+a dynamic analysis powered by modified hardware. 
 They evaluated their approach on a number of benchmarks
 and reported performance overhead of 6.2\% on average 
-and ~17\% in maximum, compared to stock \LLVM compiler 
-and regular \Intel hardware. 
+and ~17\% in maximum, compared to the stock \LLVM compiler 
+and \Intel hardware. 
 
 \paragraph{Volatile-by-default}
 
 Liu~\etal~\cite{Liu-al:OOPSLA17, Liu-al:PLDI19} studied 
-sequential consistency in the context of \Java.  
-They proposed a \emph{volatile-by-default} semantics (\VbD),
+sequential consistency in the context of the \Java language.  
+They proposed the \emph{volatile-by-default} semantics (\VbD),
 where each memory access is treated as volatile 
 (\ie sequentially consistent) by default. 
 The experiments showed a considerable performance penalty:
 28\% slowdown on average with 81\% in maximum on x86 hardware,
 and 57\% slowdown on average with 157\% in maximum on \ARMv{8} hardware.
 The authors tried to mitigate performance overhead and presented  
-a novel optimization technique for language-level SC
+a novel optimization technique for the language-level \SC
 compatible with \emph{just-in-time} compilation. 
 They propose to treat each object as thread-local speculatively 
 and compile memory accesses without fences. 
 If later during the execution concurrent accesses to the object  
 are detected, the code is recompiled to place necessary fences.
-A modified version of \JVM which implements the technique
+A modified version of the \JVM which implements the technique
 described above was reported to incur 37\% slowdown on average 
 with 73\% in maximum on \ARMv{8} hardware.
 
@@ -69,25 +69,29 @@ with 73\% in maximum on \ARMv{8} hardware.
 
 \SCHs memory model~\cite{Vollmer-al:PPoPP17}
 was inspired by the similar idea of separation
-between the thread-local and shared mutable memory. 
+between thread-local and shared mutable memory. 
 To safely distinguish between the two 
-the authors utilized the powerful strong type system of Haskell. 
+the authors utilized the powerful strong type system of \Haskell. 
 The consequence of this approach is that the 
 programmers need to follow a stricter discipline 
 in order to please the type checker. 
-The authors modified the GHC to preserve SC 
+The authors modified the GHC to preserve \SC 
 and then run 1,279 benchmarks on x86-64 hardware
 to measure the performance penalties.
 They reported 0.4\% geometric mean slowdown,
 and noticed that only 12 benchmarks experienced 
 slowdown greater than 10\%.
+These promising results can be partly explained 
+by the fact that \Haskell encourage a 
+purely functional programming style, 
+which minimizes the usage of shared mutable memory.  
 
 \paragraph{DRFx}
 
-The \DRFx~\cite{Marino-al:PLDI10} is another 
-SC preserving memory model. In this model
-the runtime system is guaranteed to raise 
-an exception if the program has data-races, 
+The \DRFx~\cite{Marino-al:PLDI10} is another \SC 
+preserving memory model. In this model
+a runtime system is guaranteed to raise 
+an exception if a program has data-races, 
 and yield only sequentially consistent outcomes otherwise.
 In order to make the runtime data-race detection feasible 
 in practice, the authors propose several modifications 
@@ -97,7 +101,7 @@ The authors claim that any sequentially valid optimization
 (\eg instruction reorderings or common subexpression elimination),
 is sound in \DRFx model, the only limitation is that
 these transformations can only be performed
-withing the bounds of compiler-designated program regions.
+withing bounds of compiler-designated program regions.
 Besides that any transformation that introduces 
 speculative reads or writes is unsound,
 since speculative optimizations can bring
@@ -113,9 +117,9 @@ it provides catch-fire semantics.
 
 The expected performance overhead of the model 
 is reported to be 3.25\% on average
-assuming the efficient implementation 
-of data-race detection in hardware. 
-(compared to stock compiler and x86 hardware). 
+assuming an efficient implementation 
+of the data-race detection in hardware. 
+(compared to stock compiler and \Intel hardware). 
 
 \subsection{Total and Partial Store Order}
 
@@ -126,17 +130,18 @@ inspired by \TSO and \PSO.
 
 Demange~\etal~\cite{Demange-al:POPL13} presented 
 the \emph{Buffered Memory Model}, \BMM for short,
-as a candidate model for the Java language.
+as a candidate model for the \Java language.
 Their motivation, however, stemmed not from the desire 
-to fully replace the Java Memory Model, but rather 
-from the goal to build a verified version of 
-Java Virtual Machine (akin to CompCertTSO project~\cite{Sevcik-al:JACM13}).
-A more simple yet pragmatic memory \TSO model 
+to fully replace the Java memory model, but rather 
+from a goal to build a verified version of 
+Java Virtual Machine (akin to CompCertTSO 
+project~\cite{Sevcik-al:JACM13} for the C language).
+A more simple yet pragmatic \TSO like memory model 
 was considered as a first step to achieve this goal. 
 
 The authors proved soundness of several program transformations
-(including store/load reordering, speculative load introduction,
-and several others (see \cref{table:cmp-mms})
+(including the store/load reordering, the speculative load introduction,
+and several others, see \cref{table:cmp-mms})
 and the external \DRF theorem. 
 They also modified existing open-source implementation of 
 \JVM~\cite{Pizlo-al:ECCS10} to preserve \BMM and 
@@ -151,14 +156,14 @@ are expected to be more significant on weaker hardware.
 Boudol and Petri~\cite{Boudol-Petri:POPL09} proposed 
 an operational approach to 
 formal semantics of relaxed memory models (\RMMOA)
-based on the abstract machine with the main memory 
-and the hierarchical structure of store buffers 
+based on an abstract machine with a main memory 
+and a hierarchical structure of store buffers 
 with stores to different locations possibly 
 propagating to the main memory out-of-order
 (similarly to \PSO model).
-The authors present a proof of external \DRF theorem,
+The authors present a proof of the external \DRF theorem,
 but do not provide an extensive study 
-of soundness of program transformations.
+of the soundness of program transformations.
 
 \subsection{Out of Thin-Air Values}
 
@@ -171,36 +176,37 @@ The main purpose of the \CMM model was to adhere to the fundamental principle of
 \ie to provide so-called zero-cost abstraction. 
 In other words, the memory model was meant to provide 
 efficient compilation mappings and support as many transformation as possible.
-It was later shown that the formal model partially fails in achieving these goals.
+It was later revealed that the formal model partially fails to achive these goals.
 
-Vafeiadis~\etal~\cite{Vafeiadis-al:POPL15} have shown that several program transformation 
+Vafeiadis~\etal~\cite{Vafeiadis-al:POPL15} showed that several program transformation 
 (load/store elimination, strengthening, roach motel reorderings, sequentialization) 
 that deemed to be correct are actually unsound according to the formal model.
 They proposed several local fixes to the model which 
 partly repair soundness of transformations and improve 
 its meta-theoretical properties. 
 
-Batty~\etal~\cite{Batty-al:ESOP15} have shown that 
-the model also fails to provide external \DRF guarantee, 
+Batty~\etal~\cite{Batty-al:ESOP15} showed that 
+the model also fails to provide the external \DRF guarantee, 
 and that it is ultimately not possible to provide this guarantee
-at all within the style of the \CMM formal semantics,
-only the internal \DRF can be achieved. 
+at all within the style of the \CMM formal semantics.
+Only the internal \DRF can be proved for it. 
 
 A lot of work~\cite{Batty-al:POPL11, Sarkar-al:PLDI12, Batty-al:POPL12, Batty-al:POPL16} 
 was dedicated to prove soundness of optimal compilation mappings 
 with respect to formal models of hardware, 
 and there the results were mostly positive.
-Besides that, Flur~\etal~\cite{Flur-al:POPL17} have extended the model to support mixed-size accesses.
+Besides that, Flur~\etal~\cite{Flur-al:POPL17} have extended 
+the model to support mixed-size accesses.
 Finally, Nienhuis~\etal~\cite{Nienhuis-al:OOPSLA16} presented 
 a formal executable semantics in terms of an abstract machine, 
-equivalent to the original \CMM model. 
+equivalent to the \CMM model. 
 
 \paragraph{\JS Memory Model}
 
-\JSMM is based on \CMM model. 
+The \JSMM is based on the \CMM model. 
 Like the latter, it also has the problem of thin-air values
-and thus can only provide internal \DRF guarantee. 
-Contrary to the \CMM, \JS model does not treat 
+and thus can only provide the internal \DRF guarantee. 
+Contrary to the \CMM, the \JS model does not treat 
 racy non-atomic accesses as undefined behavior. 
 
 The main language primitive provided by the \JSMM
@@ -210,22 +216,22 @@ Thus the model naturally supports mixed-size accesses.
 \paragraph{A calculus for relaxed memory}
 
 Crary and Sullivan~\cite{Crary-Sullivan:POPL15} proposed 
-an alternative approach to relaxed shared memory concurrency,
+an alternative approach to the relaxed shared memory concurrency,
 which they called \emph{Relaxed Memory Calculus} (\RMC).
-Instead of deriving the ordering constraints from the annotations 
+Instead of deriving ordering constraints from annotations 
 on memory accesses, they propose to directly specify 
-the ordering between memory access in the source code. 
+the ordering between memory accesses in a source code. 
 Their approach is highly generic and subsumes 
-the traditional memory order annotation in the style of \CMM.
+the traditional memory order annotations in the style of \CMM.
 Their model is very weak and permits thin-air values. 
 Yet the authors proved the internal \DRF theorem.
 
 \paragraph{Relaxed Atomic + Ordering}
 
 Saraswat~\etal~\cite{Saraswat-al:PPoPP07} presented the \RAO memory model
-where relaxed behaviors are explained through the transformations 
-over sequentially consistent execution.
-Although the authors claim their model provides external \DRF,
+where relaxed behaviors are explained through transformations 
+over a sequentially consistent execution.
+Although the authors claim their model provides the external \DRF,
 it also permits thin-air values. 
 These two properties known to be incompatible~\cite{Batty-al:ESOP15}.
 We suppose that the external \DRF can be achieved in their model 
@@ -235,7 +241,7 @@ only because of the fundamental restrictions on the input programming language
 \paragraph{A theory of speculative computation}
 
 Boudol and Petri~\cite{Boudol-Petri:ESOP10} proposed a general 
-framework to study the effects of speculative execution in
+framework to study effects of speculative execution in
 shared memory setting (\TSC). 
 They have also noticed that the external \DRF does not 
 hold in the presence of unrestricted speculations, 
@@ -245,47 +251,47 @@ yet the internal \DRF theorem still can be proven.
 \label{sec:catalog:porf}
 
 In this section we describe the memory models 
-that preserve the program order and forbid any 
-kind of speculative executions to tackle problem 
-of thin-air values. 
+that preserve program order and forbid any 
+kind of speculative executions to tackle 
+the problem of thin-air values. 
 In particular, we consider \RCMM and 
 several derivatives of this model, 
-as well as memory model of \OCaml, 
-and a proposed revised model of \Java.  
+as well as the memory model of \OCaml, 
+and the proposed revised model of \Java.  
 
 \paragraph{RC11}
 
 Lahav~\etal~\cite{Lahav-al:PLDI17} formalized 
-a version of \CMM that preserves the order between load/store pairs, 
+a version of the \CMM that preserves order between load/store pairs, 
 and also repairs the semantics of sequentially-consistent accesses.
 
-The authors proved soundness of several program transformation 
+The authors proved soundness of several program transformations 
 (see \cref{table:cmp-mms} for details). 
 Among the unsound transformation, 
 the load/store reordering is forbidden for an obvious reasons, 
-speculative load introduction is not supported 
-because of catch-fire semantics for racy programs, 
-\CSE is not supported because relaxed accesses 
-enforce coherence (while non-atomic accesses 
-support this transformation, they entail 
+the speculative load introduction is not supported 
+because of the catch-fire semantics for racy programs, 
+the \CSE is not supported because relaxed accesses 
+enforce coherence (non-atomic accesses 
+support this transformation, but their usage entails 
 undefined behavior in the presence of races).
 
-The compilation mappings to x86 are not affected and remain optimal.
+The compilation mapping to \Intel is not affected and remain optimal.
 One of the possible compilation mappings 
-to architectures like \ARM and \POWER 
-requires to compile relaxed load as  
-plain load followed by a spurious conditional branch.
+to the \ARM and \POWER architectures 
+requires to compile a relaxed load as  
+a plain load followed by a spurious conditional branch.
 Ou and Demsky~\cite{Ou-Demsky:OOPSLA18} have studied 
 the performance penalty of this mapping on \ARMv{8} hardware.
 They modified the \LLVM compiler framework 
-to enforce \RCMM memory model
+to enforce the \RCMM memory model
 by (1) adjusting the compiler optimization passes and 
 (2) changing the compilation mappings.
 Several compilation schemes were considered,
-among them the one that uses spurious conditional branch
+among them the one that uses a spurious conditional branch
 as described above has demonstrated the most promising results.  
 The authors measured the running time on a set of benchmarks 
-implementing various concurrent data-structures
+implementing concurrent data-structures
 (\eg locks, stacks, queues, deques, maps
 from various open source libraries~\cite{CDSLib, FollyLib, JunctionLib})
 and reported an overhead of 0\% on average and 6.3\% in maximum,
@@ -294,7 +300,7 @@ compared to the unmodified version of the compiler.
 \paragraph{RAR}
 
 Doherty~\etal~\cite{Doherty-al:PPoPP19} developed an 
-operational version of \RCMM supporting 
+operational version of the \RCMM supporting 
 release-acquire and relaxed accesses (\RAR). 
 On top of it they built proof calculus for 
 invariant-based reasoning and verified 
@@ -303,19 +309,19 @@ correctness of mutual exclusion algorithms.
 \paragraph{Operational RC11}
 
 Dang~\etal~\cite{Dang-al:POPL19} developed yet another 
-operational version of \RCMM which they called \ORCMM. 
+operational version of the \RCMM which they called \ORCMM. 
 Their motivation was to then develop a 
 new program logic and show it's soundness
-with respect to \ORCMM memory model. 
-The program logic itself was then utilized to 
-prove correctness of synchronization primitives 
-from the standard library of \Rust~\cite{RustBook:19}.
+with respect to the \ORCMM memory model. 
+The program logic itself was utilized to 
+prove correctness of several synchronization primitives 
+from the standard library of the \Rust~\cite{RustBook:19}.
 
 \paragraph{Compositional Relaxed Concurrency}
 
-Dodds~\etal~\cite{Dodds-al:ESOP18} proposed a  
+Dodds~\etal~\cite{Dodds-al:ESOP18} proposed the  
 compositional relaxed concurrency semantics (\CRC) 
-for the fragment of \CMM memory model, 
+for the fragment of the \CMM memory model, 
 including non-atomic accesses with catch-fire semantics, 
 release-acquire accesses, and sequentially-consistent fences. 
 Based on this semantics the authors developed 
@@ -328,23 +334,23 @@ the authors avoided problems with thin-air values.
 
 Dolan~\etal~\cite{Dolan-al:PLDI18} developed a new 
 memory model for the \MOCaml project. 
-An important divergence of \OCaml memory model (\OCMM)
-from \CMM-like models is that the former 
-has a weaker notion of coherence.
+An important divergence of the \OCaml memory model (\OCMM)
+from the \CMM-like models is that the former 
+has a weaker notion of the coherence.
 The choice of the weaker coherence was deliberate 
-with the purpose to enable common subexpression elimination
+with the purpose to enable the common subexpression elimination
 (see \cref{sec:analysis:coh} for details).
 
 The authors also were the first to propose the local \DRF property (\lDRF),
-a strengthening of external \DRF (\eDRF). 
+a strengthening of the external \DRF (\eDRF). 
 While the latter requires an absence of data-races 
-for the whole program as a prerequisite, 
+for a whole program as a prerequisite, 
 the former bounds the effect of races 
-to a portion of a program, thus 
+to a portion of the program, thus 
 enabling the compositional reasoning 
-about behavior of the program. 
+about the behavior of the program. 
 The authors discovered that the \lDRF property 
-is not compatible with load/store reordering.
+is not compatible with the load/store reordering.
 This fact forced them to forbid this transformation
 and adapt similar compilation scheme as for \RCMM. 
 
@@ -355,10 +361,10 @@ of the Java Memory Model~\cite{JDK9-VarHandle, JEP:193, JDK9-Modes},
 which was developed to overcome 
 the difficulties of the previous one~\cite{Manson-al:POPL05}
 (see \ref{sec:catalog:jmm} for details).
-The new version of the model was inspired by \RCMM. 
+The new version of the model was inspired by the \RCMM. 
 It introduced a system of annotations on memory accesses, 
 called ``Java Access Modes'' (hence the name of the model --- \JAM),
-similar to those present in \CMM like models.
+similar to those present in the \CMM like models.
 The new model adopted the \RCMM solution to OOTA problem. 
 It forbids load/store reorderings on the level of 
 opaque (an analog of \CPP relaxed) or stronger accesses.
@@ -376,40 +382,40 @@ that track syntactic dependencies.
 \LKMM~\cite{Alglave-al:ASPLOS18} has adopted 
 the idea to track syntactic dependencies in order to 
 forbid thin-air values. Despite this choice 
-ultimately limits the list of supported 
-trace preserving transformations,
-in the context of OS kernel development 
+limits the list of supported trace preserving transformations,
+in the context of the OS kernel development 
 it can be justified by the following arguments. 
 First, the Linux kernel targets 
 a wide range of hardware architectures with a diverse
 set of memory models. To simplify the reasoning about the code, 
-it is reasonable to pick a model which is conceptually close
-to those of hardware. 
-Second, the kernel developers already utilize 
+it is reasonable to pick a syntactic dependency preserving
+model which is conceptually close to those of hardware. 
+Second, kernel developers already utilize 
 various techniques to prevent certain compiler optimizations%
 \cite{Alglave-al:ASPLOS18, LK-MemBarriers, LK-RCU-Deref}.
 
-The authors of the models have empirically tested 
+The authors of the model have empirically tested 
 soundness of compilation mappings to 
 \Intel, \ARMv{7}, \ARMv{8}, and \POWER hardware. 
 They also formalized the read-copy-update 
-synchronization mechanism (RCU)~\cite{McKenney-RCU2007}, 
-extensively used in Linux kernel development, 
+synchronization mechanism (RCU)~\cite{McKenney-RCU2007} 
+extensively used in the Linux kernel development, 
 and proved soundness of its implementation with respect to their model.
 
 \paragraph{Operational Happens-Before Model}
 
-In attempt to repair Java Memory Model (see \cref{sec:catalog:jmm})
+In attempt to repair the Java Memory Model (see \cref{sec:catalog:jmm})
 Zhang and Feng have proposed the 
 operational happens-before model \OHMM~\cite{Zhang-Feng:FCS16}.
-Their abstract machine consists of global event buffer,
-where the events might be reordered before they propagate into  
+Their abstract machine consists of a global event buffer,
+where events might be reordered before they propagate into  
 a global history based memory, and a replay mechanism 
 used to simulate speculative executions. 
 To avoid thin-air outcomes the model tracks syntactic dependencies 
-between the events and forbids the reordering of dependent events. 
-The authors proved external \DRF and soundness of several 
-program transformations. 
+between events and forbids the reordering of dependent events. 
+The authors proved the external \DRF and 
+the soundness of several program transformations
+(see \cref{table:cmp-mms}). 
 
 \paragraph{Dependency Preserving Compiler}
 
@@ -422,22 +428,21 @@ They have observed 3.1\% overhead on average and 17.6\% in maximum.
 \subsection{Semantic Dependencies Preserving}
 \label{sec:catalog:sdeprf}
 
-Finally we discuss memory models 
-which try to tackle thin-air values problem 
-by development of the notion of semantic dependencies. 
+Finally we discuss the memory models 
+which try to tackle the thin-air values problem 
+by developing a notion of semantic dependencies. 
 In particular, this class includes the original Java Memory Model, 
-Promising semantics, and several models based 
-on \emph{event structures}~\cite{Winskel:86}.
+the Promising semantics, and several models based 
+on the \emph{event structures}~\cite{Winskel:86}.
 
 \paragraph{Java Memory Model}
 \label{sec:catalog:jmm}
 
-The original formalized version of Java memory model \JMM~\cite{Manson-al:POPL05}
-was a pioneering work in the area of programming language memory models 
-While most of the memory model was formalized in axiomatic style, 
-it also used an operational notion of \emph{commit sequence}, 
-\ie a sequence of partial execution graphs, to forbid thin-air outcomes. 
-The model was shown to adhere external \DRF~\cite{Huisman-Petri:CONCUR07}.
+The original version of the Java memory model \JMM~\cite{Manson-al:POPL05}
+was a pioneering work in the area of programming language memory models. 
+In order to forbid thin-air outcomes, the memory model used 
+a notion of \emph{commit sequence}, \ie a sequence of partial execution graphs.
+The model was shown to adhere the external \DRF~\cite{Huisman-Petri:CONCUR07}.
 However, the model failed to justify some program transformations 
 which were expected to be sound~\cite{Sevcik-Aspinall:ECOOP08} 
 (\eg redundant load after load elimination, roach motel reordering, and others,
@@ -446,7 +451,7 @@ see \cref{table:cmp-mms} for details).
 \paragraph{Generative operational semantics}
 
 Jagadeesan~\etal~\cite{Jagadeesan-al:ESOP10} attempted to fix \JMM 
-and proposed an generative operational semantics 
+and proposed the generative operational semantics 
 with speculative execution (\GOS).
 To avoid thin-air values they have put stratification constraints 
 on speculations. The authors prove the external \DRF theorem. 
@@ -460,8 +465,8 @@ Kang~\etal~\cite{Kang-al:POPL17, Lee-al:PLDI20} developed
 the Promising semantics (\PRM).
 It is the most complete to this day model of the class of
 semantic dependency preserving models. 
-Its key ingredient is the promising and certification machinery.
-During the execution, the abstract machine can 
+Its key ingredient is a promising and certification machinery.
+During an execution, the abstract machine can 
 non-deterministically \emph{promise} to perform some store,
 it then has to \emph{certify} the promise is feasible. 
 The certification mechanism is defined in the way to forbid thin-air values to appear.
@@ -470,14 +475,15 @@ that \Promising semantics admits many local and global program transformations,
 with a notable exception of the thread inlining
 (see \cref{table:cmp-mms} for details).
 
-Podkopaev~\etal~\cite{Podkopaev-al:ECOOP17, Podkopaev-al:POPL19} have proven formally
-soundness of standard optimal compilation mappings to \Intel, \ARMv{7}, \ARMv{8}, and \POWER.
+Podkopaev~\etal~\cite{Podkopaev-al:ECOOP17, Podkopaev-al:POPL19} 
+proved formally the soundness of standard optimal 
+compilation mappings to \Intel, \ARMv{7}, \ARMv{8}, and \POWER.
 
 The model has a fully defined semantics for plain accesses.  
 Plain and relaxed accesses, however, have different semantics.
-In particular, coherence is enforced for relaxed accesses 
-but not for the plain ones. This design choice, in particular, 
-allows to support \CSE on the level of plain accesses. 
+In particular, coherence is enforced only for relaxed accesses. 
+This design choice, in particular, allows to support 
+\CSE on the level of plain accesses. 
 
 One of a few limitations of the \Promising semantics is that 
 it does not support sequentially consistent accesses. 
@@ -485,22 +491,20 @@ it does not support sequentially consistent accesses.
 \paragraph{Weakestmo}
 
 Chakraborty and Vafeiadis~\cite{Chakraborty-Vafeiadis:CGO17, Chakraborty-Vafeiadis:POPL19}
-developed a memory model based on event structures (\WMO). 
+developed a memory model based on the event structures (\WMO). 
 They utilize the event structures' capability to simultaneously encode 
 multiple conflicting executions in order to model speculative executions.
-Their model is close in spirit to conventional axiomatic models, 
-however, instead of individual execution graphs, they use 
-the event structures upon which they put additional constraints. 
 The model was shown to admit optimal compilation mappings~\cite{Moiseenko-al:ECOOP20},
-several program transformation, and external \DRF.
+several program transformation, and the external \DRF.
 Unlike \Promising semantics, it also supports 
 sequentially consistent accesses.
 
 \paragraph{A Concurrency Semantics for Relaxed Atomics}
 
 Pichon-Pharabod and Sewell~\cite{PichonPharabod-Sewell:POPL16} 
-presented an operational memory model (\CSRA) consisting of 
-memory subsystem inspired by POWER and a thread subsystem, 
+presented the operational memory model (\CSRA) consisting of 
+a memory subsystem inspired by the \POWER model 
+and a thread subsystem, 
 where each thread is represented as an event structure. 
 At each step the abstract machine is allowed to either 
 commit an event to the storage, or perform a transformation 
@@ -514,24 +518,26 @@ to \ARMv{7} and \ARMv{8} is not optimal~\cite{PichonPharabod:PhD18}.
 \paragraph{Well-Justified Event Structures}
 
 Jeffrey and Riely~\cite{Jeffrey-Riely:LICS16} proposed 
-a memory model (\WJES) based on event structures and a notion of 
+the memory model (\WJES) based on event structures and a notion of 
 \emph{well-justification} of events inspired by the game semantics. 
 Well-justification is used to prevent thin-air values 
-and prove external \DRF. The authors do not study 
-soundness of program transformations in their model. 
+and prove the external \DRF. The authors do not study 
+the soundness of program transformations in their model. 
 They show, however, a counterexample demonstrating that 
-load/load reordering is unsound. It implies that 
-the compilation mappings to \ARMv{7}, \ARMv{8}, and \POWER are not optimal.   
+the load/load reordering is unsound. 
+This fact also implies that 
+the compilation mappings to \ARMv{7}, \ARMv{8}, and \POWER 
+are not optimal.   
 
 \paragraph{Modular Relaxed Dependencies}
 
-Paviotti~\etal~\cite{Paviotti-al:ESOP20} constructed a 
-denotational semantics based on event structures (\MRD). 
+Paviotti~\etal~\cite{Paviotti-al:ESOP20} constructed the 
+denotational semantics based on the event structures (\MRD). 
 They employ the event structures to capture 
-semantic dependencies between the memory access events, 
+semantic dependencies between memory access events, 
 which are in turn used to rule out thin-air outcomes.
 The authors prove the external \DRF and 
-soundness of optimal compilation mappings,
+the soundness of optimal compilation mappings,
 also they present a refinement relation which 
 can be used to reason about validity of program transformations. 
 However, they have not studied soundness of particular transformations. 
