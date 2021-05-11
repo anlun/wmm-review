@@ -8,15 +8,12 @@ on how to choose a memory model based on
 design principles of a programming language.   
 
 A language that seeks to provide a clear semantics and 
-high-level programming abstractions, \eg \Haskell, at the cost 
+high-level programming abstractions at the cost 
 of some performance losses most definitely should 
 adhere to simple memory models like the sequential consistency. 
-\app{I doubt that Haskell is a good example in this regard.
-  It is lazy and loosely defines execution order.}
 
 Programming languages focusing on efficiency 
-of compiled code, for example, \CPP, 
-have to resort to weak models admitting 
+of compiled code have to resort to weak models admitting 
 the optimal compilation mapping 
 and wide range of various program transformations. 
 For these languages it would be natural 
