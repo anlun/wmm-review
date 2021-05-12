@@ -19,17 +19,17 @@ Programming languages focusing on efficiency
 of compiled code, for example, \CPP, 
 have to resort to weakest models admitting 
 the optimal compilation mapping 
-and wide range of various program transformations. 
+and wide range of program transformations. 
 For these languages it would be natural 
 to pick semantic dependency preserving models.
-However, they are the most complicated ones
+However, these models are the most complicated ones
 which makes reasoning about programs' correctness under them challenging.
-\app{Cite Svedsen-al-ESOP18 here.}
+\app{Cite Svendsen-al-ESOP18 here.}
 
 In the middle between two extremes are program order preserving and 
 syntactic dependency preserving models.
 Those are a reasonable choice for programming languages
-which can afford a moderate performance overhead 
+which may afford a moderate performance overhead 
 in exchange of a simpler and more predictable program behavior~\cite{Ou-Demsky:OOPSLA18}.
 % An example of such language is \OCaml --- 
 % a high-level programming language 
@@ -40,7 +40,7 @@ in exchange of a simpler and more predictable program behavior~\cite{Ou-Demsky:O
 For languages adopting stronger models which require non-optimal
 compilation mappings and forbid certain program transformations
 there are some general optimization techniques and design decisions
-which can partly mitigate the induced performance penalties.
+which may partly mitigate the induced performance penalties.
 
 A type system can serve as a great help in this task. 
 Languages like \Haskell, \OCaml, \Rust that 
@@ -49,7 +49,7 @@ which can be accessed and modified concurrently have a great advantage.
 These languages can identify precisely 
 immutable and thread local variables
 and compile accesses to them without insertion of fences.
-Moreover, memory accesses of these classes are subject to 
+Moreover, memory accesses to local variables are subject to 
 a wide range of program transformations proven to be
 sound for single threaded programs. 
  
@@ -74,4 +74,15 @@ which treats data races on non-atomic accesses as
 undefined behavior~\cite{Boehm-Demsky:MSPC14, Ou-Demsky:OOPSLA18}.
 In this case a compiler can use optimal compilation mappings 
 and apply a wide range of transformations to non-atomics 
-and at the same time have a simpler semantics for atomics. 
+and at the same time have a simpler semantics for atomics.
+
+\paragraph{Choosing a memory model for Kotlin}
+As a example, %% of choosing a memory model for a language,
+let's consider Kotlin%
+\footnote{https://kotlinlang.org/},
+a general-purpose programming language,
+which does not have a standardized memory model yet.
+Currently, Kotlin is compilable to JVM, JavaScript, and native platforms
+(Linux, Windows, macOS, iOS, \etc) via LLVM.
+
+\app{TODO: continue}
