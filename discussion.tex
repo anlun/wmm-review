@@ -31,6 +31,7 @@ syntactic dependency preserving models.
 Those are a reasonable choice for programming languages
 which may afford a moderate performance overhead 
 in exchange of a simpler and more predictable program behavior~\cite{Ou-Demsky:OOPSLA18}.
+\app{Say that program order preserving models provide much simpler reasoning principles.}
 % An example of such language is \OCaml --- 
 % a high-level programming language 
 % with an emphasis on functional paradigm which is 
@@ -78,11 +79,21 @@ and at the same time have a simpler semantics for atomics.
 
 \paragraph{Choosing a memory model for Kotlin}
 As a example, %% of choosing a memory model for a language,
-let's consider Kotlin%
-\footnote{https://kotlinlang.org/},
+consider Kotlin\footnote{https://kotlinlang.org/},
 a general-purpose programming language,
 which does not have a standardized memory model yet.
 Currently, Kotlin is compilable to JVM, JavaScript, and native platforms
-(Linux, Windows, macOS, iOS, \etc) via LLVM.
+(Linux, Windows, macOS, iOS, \emph{etc.}) via LLVM.
+The language is not oriented on system-level programming,
+that is, it does not have to provide zero cost abstraction over target hardware
+for shared memory accesses.
+That means a memory model which either preserves syntax dependencies or program order is
+suitable for Kotlin.
+Both approaches have moderate performance penalties as studied in~\cite{Ou-Demsky:OOPSLA18},
+however, program order preservation works better for languages tolerating undefined behavior
+for data races involving non-atomic accesses.
+
+
+The most well-studied and feature-rich model among those is RC11~\cite{Lahav-al:PLDI17}.
 
 \app{TODO: continue}
