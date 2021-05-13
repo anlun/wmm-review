@@ -1,4 +1,4 @@
-\section{A Catalog of Memory Models}
+\section{Catalog of Memory Models}
 \label{sec:catalog}
 
 In this section we present a more detailed view 
@@ -6,11 +6,7 @@ on each memory model we consider in our study.
 It contains an overview of each PL memory model,
 a recap of its distinguished properties,
 and references to the research papers studying this model. 
-This section can be safely skipped for the first read.
-
-\input{fulltable.tex}
-
-\input{features-table.tex}
+% This section can be safely skipped for the first read.
 
 \subsection{Sequential Consistency}
 \label{sec:catalog:sc}
@@ -164,88 +160,6 @@ propagating to the main memory out-of-order
 The authors present a proof of the external \DRF theorem,
 but do not provide an extensive study 
 of the soundness of program transformations.
-
-\subsection{Out of Thin-Air Values}
-
-Next we discuss memory models admitting thin-air values. 
-
-\paragraph{C11}
-
-The most notable member of the OOTA class is the \CMM model~\cite{Batty-al:POPL11}.
-The main purpose of the \CMM model was to adhere to the fundamental principle of \CPP, 
-\ie to provide so-called zero-cost abstraction. 
-In other words, the memory model was meant to provide 
-efficient compilation mappings and support as many transformation as possible.
-It was later revealed that the formal model partially fails to achive these goals.
-
-Vafeiadis~\etal~\cite{Vafeiadis-al:POPL15} showed that several program transformation 
-(load/store elimination, strengthening, roach motel reorderings, sequentialization) 
-that deemed to be correct are actually unsound according to the formal model.
-They proposed several local fixes to the model which 
-partly repair soundness of transformations and improve 
-its meta-theoretical properties. 
-
-Batty~\etal~\cite{Batty-al:ESOP15} showed that 
-the model also fails to provide the external \DRF guarantee, 
-and that it is ultimately not possible to provide this guarantee
-at all within the style of the \CMM formal semantics.
-Only the internal \DRF can be proved for it. 
-
-A lot of work~\cite{Batty-al:POPL11, Sarkar-al:PLDI12, Batty-al:POPL12, Batty-al:POPL16} 
-was dedicated to prove soundness of optimal compilation mappings 
-with respect to formal models of hardware, 
-and there the results were mostly positive.
-Besides that, Flur~\etal~\cite{Flur-al:POPL17} have extended 
-the model to support mixed-size accesses.
-Finally, Nienhuis~\etal~\cite{Nienhuis-al:OOPSLA16} presented 
-a formal executable semantics in terms of an abstract machine, 
-equivalent to the \CMM model. 
-
-\paragraph{\JS Memory Model}
-
-The \JSMM is based on the \CMM model. 
-Like the latter, it also has the problem of thin-air values
-and thus can only provide the internal \DRF guarantee. 
-Contrary to the \CMM, the \JS model does not treat 
-racy non-atomic accesses as undefined behavior. 
-
-The main language primitive provided by the \JSMM
-is \texttt{SharedArrayBuffer}, that is a linear mutable byte buffer.
-Thus the model naturally supports mixed-size accesses.
-
-\paragraph{A calculus for relaxed memory}
-
-Crary and Sullivan~\cite{Crary-Sullivan:POPL15} proposed 
-an alternative approach to the relaxed shared memory concurrency,
-which they called \emph{Relaxed Memory Calculus} (\RMC).
-Instead of deriving ordering constraints from annotations 
-on memory accesses, they propose to directly specify 
-the ordering between memory accesses in a source code. 
-Their approach is highly generic and subsumes 
-the traditional memory order annotations in the style of \CMM.
-Their model is very weak and permits thin-air values. 
-Yet the authors proved the internal \DRF theorem.
-
-\paragraph{Relaxed Atomic + Ordering}
-
-Saraswat~\etal~\cite{Saraswat-al:PPoPP07} presented the \RAO memory model
-where relaxed behaviors are explained through transformations 
-over a sequentially consistent execution.
-Although the authors claim their model provides the external \DRF,
-it also permits thin-air values. 
-These two properties known to be incompatible~\cite{Batty-al:ESOP15}.
-We suppose that the external \DRF can be achieved in their model 
-only because of the fundamental restrictions on the input programming language 
-(\eg the general conditional statements are not supported~\cite{PichonPharabod-Sewell:POPL16}). 
-
-\paragraph{A theory of speculative computation}
-
-Boudol and Petri~\cite{Boudol-Petri:ESOP10} proposed a general 
-framework to study effects of speculative execution in
-shared memory setting (\TSC). 
-They have also noticed that the external \DRF does not 
-hold in the presence of unrestricted speculations, 
-yet the internal \DRF theorem still can be proven. 
 
 \subsection{Program Order Preserving}
 \label{sec:catalog:porf}
@@ -428,7 +342,7 @@ They have observed 3.1\% overhead on average and 17.6\% in maximum.
 \subsection{Semantic Dependencies Preserving}
 \label{sec:catalog:sdeprf}
 
-Finally we discuss the memory models 
+Next we discuss the memory models 
 which try to tackle the thin-air values problem 
 by developing a notion of semantic dependencies. 
 In particular, this class includes the original Java Memory Model, 
@@ -541,3 +455,85 @@ the soundness of optimal compilation mappings,
 also they present a refinement relation which 
 can be used to reason about validity of program transformations. 
 However, they have not studied soundness of particular transformations. 
+
+\subsection{Out of Thin-Air Values}
+
+Finally, we discuss memory models admitting thin-air values. 
+
+\paragraph{C11}
+
+The most notable member of the OOTA class is the \CMM model~\cite{Batty-al:POPL11}.
+The main purpose of the \CMM model was to adhere to the fundamental principle of \CPP, 
+\ie to provide so-called zero-cost abstraction. 
+In other words, the memory model was meant to provide 
+efficient compilation mappings and support as many transformation as possible.
+It was later revealed that the formal model partially fails to achive these goals.
+
+Vafeiadis~\etal~\cite{Vafeiadis-al:POPL15} showed that several program transformation 
+(load/store elimination, strengthening, roach motel reorderings, sequentialization) 
+that deemed to be correct are actually unsound according to the formal model.
+They proposed several local fixes to the model which 
+partly repair soundness of transformations and improve 
+its meta-theoretical properties. 
+
+Batty~\etal~\cite{Batty-al:ESOP15} showed that 
+the model also fails to provide the external \DRF guarantee, 
+and that it is ultimately not possible to provide this guarantee
+at all within the style of the \CMM formal semantics.
+Only the internal \DRF can be proved for it. 
+
+A lot of work~\cite{Batty-al:POPL11, Sarkar-al:PLDI12, Batty-al:POPL12, Batty-al:POPL16} 
+was dedicated to prove soundness of optimal compilation mappings 
+with respect to formal models of hardware, 
+and there the results were mostly positive.
+Besides that, Flur~\etal~\cite{Flur-al:POPL17} have extended 
+the model to support mixed-size accesses.
+Finally, Nienhuis~\etal~\cite{Nienhuis-al:OOPSLA16} presented 
+a formal executable semantics in terms of an abstract machine, 
+equivalent to the \CMM model. 
+
+\paragraph{\JS Memory Model}
+
+The \JSMM is based on the \CMM model. 
+Like the latter, it also has the problem of thin-air values
+and thus can only provide the internal \DRF guarantee. 
+Contrary to the \CMM, the \JS model does not treat 
+racy non-atomic accesses as undefined behavior. 
+
+The main language primitive provided by the \JSMM
+is \texttt{SharedArrayBuffer}, that is a linear mutable byte buffer.
+Thus the model naturally supports mixed-size accesses.
+
+\paragraph{A calculus for relaxed memory}
+
+Crary and Sullivan~\cite{Crary-Sullivan:POPL15} proposed 
+an alternative approach to the relaxed shared memory concurrency,
+which they called \emph{Relaxed Memory Calculus} (\RMC).
+Instead of deriving ordering constraints from annotations 
+on memory accesses, they propose to directly specify 
+the ordering between memory accesses in a source code. 
+Their approach is highly generic and subsumes 
+the traditional memory order annotations in the style of \CMM.
+Their model is very weak and permits thin-air values. 
+Yet the authors proved the internal \DRF theorem.
+
+\paragraph{Relaxed Atomic + Ordering}
+
+Saraswat~\etal~\cite{Saraswat-al:PPoPP07} presented the \RAO memory model
+where relaxed behaviors are explained through transformations 
+over a sequentially consistent execution.
+Although the authors claim their model provides the external \DRF,
+it also permits thin-air values. 
+These two properties known to be incompatible~\cite{Batty-al:ESOP15}.
+We suppose that the external \DRF can be achieved in their model 
+only because of the fundamental restrictions on the input programming language 
+(\eg the general conditional statements are not supported~\cite{PichonPharabod-Sewell:POPL16}). 
+
+\paragraph{A theory of speculative computation}
+
+Boudol and Petri~\cite{Boudol-Petri:ESOP10} proposed a general 
+framework to study effects of speculative execution in
+shared memory setting (\TSC). 
+They have also noticed that the external \DRF does not 
+hold in the presence of unrestricted speculations, 
+yet the internal \DRF theorem still can be proven. 
