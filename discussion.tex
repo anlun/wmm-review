@@ -79,21 +79,29 @@ and at the same time have a simpler semantics for atomics.
 
 \paragraph{Choosing a memory model for Kotlin}
 As a example, %% of choosing a memory model for a language,
-consider Kotlin\footnote{https://kotlinlang.org/},
+consider Kotlin,\footnote{https://kotlinlang.org/}
 a general-purpose programming language,
 which does not have a standardized memory model yet.
 Currently, Kotlin is compilable to JVM, JavaScript, and native platforms
 (Linux, Windows, macOS, iOS, \emph{etc.}) via LLVM.
+
 The language is not oriented on system-level programming,
 that is, it does not have to provide zero cost abstraction over target hardware
 for shared memory accesses.
 That means a memory model which either preserves syntax dependencies or program order is
 suitable for Kotlin.
-Both approaches have moderate performance penalties as studied in~\cite{Ou-Demsky:OOPSLA18},
+Both approaches have moderate performance penalties,
 however, program order preservation works better for languages tolerating undefined behavior
-for data races involving non-atomic accesses.
+for data races involving non-atomic accesses (see~\cite{Ou-Demsky:OOPSLA18})
+since it allows to compile non-atomics as plain accesses to architectures with non program order preserving
+memory models like \ARM and \POWER.
+Even though having undefined behavior for Kotlin in general might be undesirable,
+it is practically unavoidable for data races on non-atomics since they have undefined
+behavior under LLVM~\cite{Chakraborty-Vafeiadis:CGO17}.
 
-
-The most well-studied and feature-rich model among those is RC11~\cite{Lahav-al:PLDI17}.
-
-\app{TODO: continue}
+Among the two classes of models the most well-studied and feature-rich model is
+RC11~\cite{Lahav-al:PLDI17}, which adds program order preservation to the C11 memory model~\cite{Batty-al:POPL11}.
+It is very close to memory models of LLVM and JavaScript~\cite{Watt-al:PLDI20}
+since both of them are inspired by C11, and RC11 has a superset of access types presented in JMM~\cite{Manson-al:POPL05}
+and its extension JAM~\cite{Bender-Palsberg:OOPSLA19}.
+That makes RC11 a good starting point for development of a memory model for Kotlin.
