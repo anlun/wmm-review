@@ -1,41 +1,54 @@
 \section{Methodology}
 \label{sec:methodology}
 
-The main purpose of our study was to answer the following research question:
+The main purpose of our work was to study 
+trade-offs in the design of a memory model 
+for a programming language.
+Stronger memory models give more reasoning guarantees to programmers, 
+while weaker models provide more optimization opportunities. 
+We wanted to answer the following research question.
 
 \begin{itemize}
-  \item What are the trade-offs in the design of a memory model for a programming language?
-\end{itemize}
-
-As we have already briefly mentioned, stronger memory models 
-give more guarantees to the programmers, while weaker models 
-provide more optimization opportunities. 
-Thus our research question can be further refined into the following one:
-
-\begin{itemize}
-  \item How the formal reasoning guarantees provided by the memory model 
-    to the end-user of a programming language narrow  
+  \item How reasoning guarantees provided by a memory model 
+    to an end-user of a programming language narrow  
     optimization opportunities for a language implementation?
 \end{itemize}
 
 To answer this question, we consulted the existing research studies 
 in the field of programming language memory models.
-Our goal was to identify existing proposed memory models, 
-study their properties, and classify them.
-In particular, with respect to each model we wanted to answer the following questions:
+Our goal was to identify existing proposed memory models and classify them.
 
-\begin{itemize}
+In order to compare memory models we used standard criteria developed in the literature.
+
+\begin{enumerate}[label=\textbf{C.\arabic*}]
   
-  \item Can the memory model be efficiently implemented on modern hardware? 
+  \item \label{item:criteria:opt-comp}
+    An \emph{optimality of compilation scheme}. 
+    A language with a memory model supporting 
+    optimal compilation schemes can be efficiently 
+    implemented on modern hardware. 
+    Contrary, the usage of nonoptimal compilation mappings
+    induces a slowdown during an execution of a program, 
+    but can prevent an apperance of certain weak behaviors
+    permitted by the hardware.   
 
-  \item What program transformations are correct in the model? 
+  \item \label{item:criteria:sound-trans}
+    A \emph{soundness of common program transformations}. 
+    During the optimiztions passes a compiler of a programming language
+    performs various source-to-source transformations.
+    The more transformations a memory model of the language supports
+    the more compiler optimizations are potentially applicable 
+    to programs written in this language.
 
-  \item What kind of guarantees for formal reasoning about the behavior 
-    of programs does the memory model provide?
+  \item \label{item:criteria:reasoning}
+    Support of various \emph{reasoning guarantees}, which simplify 
+    the reasoning about the correctness of concurrent programs
+    written in a given programming language. 
   
-\end{itemize}
+\end{enumerate}
 
-In order to select memory models for our study, we performed the following procedure.
+In order to select memory models for our study, 
+we performed the following search procedure.
 On the \emph{first stage}, we manually selected 10  
 peer-reviewed research papers~\cite{
 Manson-al:POPL05,

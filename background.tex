@@ -3,14 +3,14 @@
 
 In this section we will have a closer look on criteria for 
 programming language memory models, 
-namely an optimality of the compilation scheme, 
-a soundness of common program transformations, 
-and provided reasoning guarantees.  
+namely an optimality of the compilation scheme \ref{item:criteria:opt-comp}, 
+a soundness of common program transformations \ref{item:criteria:sound-trans}, 
+and provided reasoning guarantees \ref{item:criteria:reasoning}.  
 But first we need to introduce  
 programming primitives provided 
 by the shared memory abstraction. 
 
-\subsection{Programming Primitives}
+\paragraph{Programming Primitives}
 \label{sec:background:primitives}
 
 
@@ -141,9 +141,8 @@ to read from two concurrent adjacent 4 byte stores.
 \subsection{Compilation Scheme}
 \label{sec:background:compile}
 
-We next consider the first criterion for 
-programming language memory models---an optimality 
-of compilation scheme. 
+We next consider the first criterion~\ref{item:criteria:opt-comp}
+for programming language memory models---an optimality of a compilation scheme. 
 A \emph{compilation scheme} is a mapping of 
 programming language primitives into 
 instructions of particular hardware architecture. 
@@ -157,9 +156,9 @@ matching the access modes annotations,
 \eg \texttt{lda} --- load acquire, 
 and \texttt{stl} --- store release on \ARMv{8}.} 
 read-modify-write operations, 
-and also various memory fences.    
+and also various memory fences. 
 
-The compilation mapping should be \emph{sound}.
+A compilation mapping should be \emph{sound}.
 In the context of this paper it means that 
 a set of outcomes permitted by a 
 memory model of hardware for a compiled program 
@@ -261,10 +260,9 @@ Flur-al:POPL16, Pulte-al:POPL18}.
 \subsection{Program Transformations}
 \label{sec:background:trans}
 
-The next criterion for memory model is 
-a soundness of program transformations, 
-that is source-to-source transformations of 
-code which are applied during 
+The next criterion~\ref{item:criteria:sound-trans} 
+for memory models is a soundness of program transformations, 
+that is source-to-source transformations of code which are applied during 
 optimization passes of a compiler. 
 
 \emph{Sound} transformations should preserve the semantics 
@@ -655,7 +653,8 @@ $\mathsf{x} \geq \mathsf{0}$.
 % which allow the programmers to reason about concurrent 
 % programs and their correctness. 
 
-Finally, we discuss reasoning guarantees provided by memory models. 
+Finally, we discuss the third criterion~\ref{item:criteria:reasoning}---%
+reasoning guarantees provided by memory models. 
 
 \subsubsection{\DRF Theorems}
 \label{sec:background:drf}
