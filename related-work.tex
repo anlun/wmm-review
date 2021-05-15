@@ -1,18 +1,42 @@
 \section{Related Work}
 \label{sec:related}
+%% The area of memory models have a long research history.
+%% The starting point is the model of sequential consistency proposed by Leslie Lamport in 1979.
+%% In 1979, Leslie Lamport proposed the model of sequential consistency.
+%% Later
+Weak memory models can be partitioned into two significantly different subclasses:
+models for hardware architectures and models for programming languages.
+The main difference between them is that memory models for programming languages
+are expected to support compiler optimizations and may need to support compilation
+to different architectures.
 
-Weak memory models can be partitioned into two subclasses: 
-models for hardware architectures and models for programming languages. 
 To this day, hardware weak memory models are relatively well-studied and understood.
-A large amount of effort was put to formally specify models of various 
-hardware architectures%
-\cite{Chong-ASPLOS08, Alglave-DAMP09, Sewell-al:CACM10, Sarkar-al:PLDI11}.
-Alglave \etal~\cite{Alglave-al:TOPLAS14} summarized different studies in this area 
-and provided a comprehensive overview of existing models.  
-Besides that, they also proposed a general framework for specification, 
-testing and verification of hardware memory models.
-More recent hardware models, \eg \cite{Pulte-al:POPL18}, 
-also adhere to this framework.   
+%% A large amount of effort was put to formally specify models of various
+%% hardware architectures. 
+All major architectures have formally defined memory models:
+x86~\cite{Sewell-al:CACM10},
+IBM~\POWER \cite{Alglave-DAMP09,Sarkar-al:PLDI11,Alglave-al:TOPLAS14}),
+\ARM~\cite{Chong-ASPLOS08, Alglave-DAMP09,Pulte-al:POPL18,Flur-al:POPL16,Alglave-al:TOPLAS14})
+and \RISC~\cite{Pulte-al:POPL18}.
+Among those, x86 and \POWER architectures have stable memory models which do not change in the last years,
+whereas the \ARM memory model changed with transition from \ARMv{7}~\cite{Alglave-al:TOPLAS14} to \ARMv{8}~\cite{Pulte-al:POPL18}
+to accommodate new instructions for shared memory access.
+All of the models have representations in a framework of \emph{declarative} (or \emph{axiomatic}) memory models \cite{Alglave-al:TOPLAS14}.
+The framework became a standard for defining weak memory models, %(including models for programming languages),
+however, it has certain limitations for models of programming languages which we discuss below.
+%distinguishing syntactic and semantic dependencies
+
+%% supporting compiler optimizations 
+%% Alglave \etal~\cite{Alglave-al:TOPLAS14} summarized different studies in this area
+%% and provided a comprehensive overview of existing models.
+%% Besides that, they also proposed a general framework for specification,
+%% testing and verification of hardware memory models.
+%% Major architectures either have stable (x86, IBM \POWER, \ARM)
+%% More recent hardware models, \eg \cite{Pulte-al:POPL18},
+%% also adhere to this framework.
+
+%% Unlike hardware memory models, programming language memory models are
+%% extremely diverse, and new models appear every year.
 
 In the context of programming language memory models the situation is more complex. 
 There were various memory models proposed for different programming languages, \eg
