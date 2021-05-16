@@ -47,6 +47,12 @@ which are already used in the \JS memory model~\cite{Watt-al:PLDI2020}
 and real-world applications, for example, in the \Linux kernel codebase~\cite{Flur-al:POPL17},
 are understudied even for hardware.
 Proper understanding of them is an important direction for the community. 
+
+%% Surprisingly, sequential consistent accesses of the C11 memory model~\cite{Batty-al:POPL11}
+%% have a complicated behavior in composition with other access types~\cite{Batty-al:POPL16,Lahav-al:PLDI17}.
+%% Even though Lahav~\etal~\cite{Lahav-al:PLDI17} fixed them for provided semantics 
+%% For now, integration them into operational timestamp-based models like \Promising is an open
+%% research question.
 %% Second, sequential consistent accesses, quite surprisingly,
 %% posses a challenge for some of semantic dependency preserving
 %% models like the \Promising.
@@ -60,7 +66,7 @@ area of research~\cite{Kang-al:POPL17, Lee-al:PLDI20, Cho-al:PLDI21,
 Chakraborty-Vafeiadis:POPL19, Paviotti-al:ESOP20, 
 Jagadeesan-al:OOPSLA2020}. 
 We expect those to be a subject to 
-further refinement and new proposals. 
+further refinement. 
 An interesting line of work here would be 
 the development of new reasoning principles
 beyond data-race freedom, which could 
