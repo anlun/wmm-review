@@ -21,8 +21,11 @@ possible directions for future work in the field.
 
 The problems of the optimality of compilation schemes
 and the soundness of local program transformations are relatively well-studied.
-More recent memory models~%
-\cite{Lahav-al:PLDI17, Dolan-al:PLDI18, Kang-al:POPL17, Chakraborty-Vafeiadis:POPL19} 
+More recent memory models,
+RC11~\cite{Lahav-al:PLDI17},
+\OCaml MM~\cite{Dolan-al:PLDI18},
+\Promising~\cite{Kang-al:POPL17,Lee-al:PLDI20},
+and \Weakestmo~\cite{Chakraborty-Vafeiadis:POPL19},
 support a wide range of local transformations and have clear 
 trade-offs in terms of compilation mappings. 
 An exception is local transformations involving loops and recursion, 
@@ -39,22 +42,18 @@ We expect it as well as local reasoning guarantees
 in general~\cite{Dodds-al:ESOP18, Jagadeesan-al:OOPSLA2020, Cho-al:PLDI21} 
 to receive more attention in the near future.  
 
-In terms of the features supported by memory models, 
-we highlight two challenging areas.
-First, the theory of mixed size accesses is clearly 
-underdeveloped to this day, only the two recent studies 
-tried to approach it so far~\cite{Flur-al:POPL17, Watt-al:PLDI2020}.
-Yet mixed size accesses are used in real-world applications,
-for example, in the \Linux kernel codebase~\cite{Flur-al:POPL17},
-and thus supporting them is a a necessary prerequisite 
-for a certain class of memory models. 
-Second, sequential consistent accesses, quite surprisingly,
-posses a challenge for some of semantic dependency preserving
-models like the \Promising.
-\app{Weakestmo and MRD don't have problems w/ the accesses.
-Why is it about model\textbf{s}?}
-Reconciling these models with $\sco$ 
-accesses also would be a valuable contribution.
+Mixed size accesses\cite{Flur-al:POPL17},
+which are already used in the \JS memory model~\cite{Watt-al:PLDI2020}
+and real-world applications, for example, in the \Linux kernel codebase~\cite{Flur-al:POPL17},
+are understudied even for hardware.
+Proper understanding of them is an important direction for the community. 
+%% Second, sequential consistent accesses, quite surprisingly,
+%% posses a challenge for some of semantic dependency preserving
+%% models like the \Promising.
+%% \app{Weakestmo and MRD don't have problems w/ the accesses.
+%% Why is it about model\textbf{s}?}
+%% Reconciling these models with $\sco$ 
+%% accesses also would be a valuable contribution.
 
 Semantic dependency preserving models are still an active 
 area of research~\cite{Kang-al:POPL17, Lee-al:PLDI20, Cho-al:PLDI21,
