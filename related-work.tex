@@ -24,12 +24,13 @@ to accommodate new instructions for shared memory access.
 \RISC\footnote{https://riscv.org/} was introduced in 2010 and recently adopted a memory model~\cite{Pulte-al:POPL18}
 which is almost the same as the \ARMv{8} model.
 
-All of the models have representations in a framework of \emph{declarative} (or \emph{axiomatic})
+All of the aforementioned models have representations in a framework of \emph{declarative} (or \emph{axiomatic})
 memory models~\cite{Alglave-al:TOPLAS14}.
 The framework became a standard for defining weak memory models, %(including models for programming languages),
 it has tools for testing and verification~\cite{Alglave-al:TOPLAS14}.
 It is also used for defining some programming language memory models: 
-\CPP~\cite{Batty-al:POPL11}, \JS~\cite{Watt-al:PLDI2020}, \OCaml~\cite{Manson-al:POPL05}.
+\CPP~\cite{Batty-al:POPL11}, \JS~\cite{Watt-al:PLDI2020}, \OCaml~\cite{Manson-al:POPL05} and many others.
+
 However, the framework does not allow to properly distinguish real dependencies between instructions in programs
 from fake ones. For example, there is a real dependency between instructions in the snippet on the left
 and a fake dependency between instructions on the right:
