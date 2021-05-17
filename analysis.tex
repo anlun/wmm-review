@@ -470,12 +470,12 @@ the optimized version of the program.
 Note that the compiler still can apply \CSE to the program above, 
 but only if it is able to prove that variables \texttt{x} and \texttt{y} 
 point to disjoint memory locations, which can be achieved 
-by the means of an alias analysis~\cite{Diwan-al:PLDI1998}.  
+by the means of an alias analysis~\cite{Diwan-al:PLDI1998}.
+In fact, in this case \CSE can be seen as a combination 
+of instructiong reordering and elimination transformations.  
 
 Therefore, the coherence property in general is not compatible 
-with the common subexpression elimination, or at least 
-it requires some adjustments of this optimization.
-
+with the common subexpression elimination.
 As for compilation schemes, coherence does not require 
 any changes here and thus does not impose any performance penalty.
 It is because hardware models already guarantee coherence%
