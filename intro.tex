@@ -97,18 +97,23 @@ thus allowing a compiler to produce more efficient code.
 
 It turns out that this question is challenging
 especially in the context of programming language (PL) memory models.
-Thus over the last two decades a plenty of memory models have been proposed~%
-\cite{Manson-al:POPL05, Marino-al:PLDI10, Demange-al:POPL13, 
-Batty-al:POPL11, Lahav-al:PLDI17, Dolan-al:PLDI18, Alglave-al:ASPLOS18, Watt-al:PLDI2020, 
-Crary-Sullivan:POPL15, Zhang-Feng:FCS16, Jeffrey-Riely:LICS16, PichonPharabod-Sewell:POPL16, 
-Kang-al:POPL17, Chakraborty-Vafeiadis:POPL19, Paviotti-al:ESOP20}. 
+Thus over the last two decades a plenty of memory models 
+for various languages have been proposed, \eg
+for \Java~\cite{Manson-al:POPL05, Bender-Palsberg:OOPSLA19}, \CPP~\cite{Batty-al:POPL11}, 
+\LLVM~\cite{Chakraborty-Vafeiadis:CGO17}, \JS~\cite{Watt-al:PLDI2020}, 
+\OCaml~\cite{Manson-al:POPL05}, \Haskell~\cite{Vollmer-al:PPoPP17}, \etc 
 These models have different design goals, trade-offs, and limitations.
+Moreover, the research on weak memory models continues to develop rapidly.
+According to our findings, 
+in the last decade at least 50 papers on the subject are published each year.%
+\footnote{This claim is supported by our data acquired from Google Scholar, 
+see \cref{sec:methodology} for details}  
 For the people unfamiliar with all the subtleties 
 of weak memory models, it can be hard to navigate in this large zoo.
 Despite the long history of the field and recent progress made, 
 there is no single source that would summarize the prior knowledge
-and give comprehensive comparison of different memory models
-of programming languages. The aim of this paper is to close this gap.
+and give a comparison of different memory models of programming languages. 
+The aim of this paper is to close this gap.
 
 We provide an overview of existing approaches to 
 programming languages' memory models,
@@ -140,6 +145,7 @@ Additionally, in \cref{sec:catalog} we further describe
 each particular memory model considered in our study.
 In \cref{sec:discussion} we present a short guide 
 on the design of memory model for researchers and system developers
-and, as an example of using the guide, propose a memory model for the Kotlin\footnote{https://kotlinlang.org/} language.
+and, as an example of using the guide, propose a memory model for 
+the Kotlin\footnote{https://kotlinlang.org/} language.
 Finally, \cref{sec:conclusion} concludes 
 and outlines possible directions for future research in the field. 
