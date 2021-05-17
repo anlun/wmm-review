@@ -1,0 +1,105 @@
+Authors,Title,Year
+"J Manson, W Pugh, SV Adve",The Java memory model,2005
+"M Batty, S Owens, S Sarkar, P Sewell, T Weber",Mathematizing C++ concurrency,2011
+"J Kang, CK Hur, O Lahav, V Vafeiadis, ...",A promising semantics for relaxed-memory concurrency,2017
+"O Lahav, V Vafeiadis, J Kang, CK Hur, ...",Repairing sequential consistency in C/C++ 11,2017
+"J Pichon-Pharabod, P Sewell",A concurrency semantics for relaxed atomics that permits optimisation and avoids thin-air executions,2016
+"A Jeffrey, J Riely",On thin air reads towards an event structures model of relaxed memory,2016
+"S Dolan, KC Sivaramakrishnan, ...",Bounding data races in space and time,2018
+"S Chakraborty, V Vafeiadis",Grounding thin-air reads with event structures,2019
+"C Watt, C Pulte, A Podkopaev, G Barbier…",Repairing and mechanising the JavaScript relaxed memory model,2020
+"M Paviotti, S Cooksey, A Paradis, D Wright, ...",Modular Relaxed Dependencies in Weak Memory Concurrency,2020
+"VA Saraswat, R Jagadeesan, M Michael, ...",A theory of memory models,2007
+"D Marino, A Singh, T Millstein, M Musuvathi, ...",DRFX: a simple and efficient memory model for concurrent programming languages,2010
+"G Boudol, G Petri",Relaxed memory models: an operational approach,2009
+"O Lahav, N Giannarakis, V Vafeiadis",Taming release-acquire consistency,2016
+"R Jagadeesan, C Pitcher, J Riely",Generative operational semantics for relaxed memory models,2010
+"D Demange, V Laporte, L Zhao, ...",Plan B: A buffered memory model for Java,2013
+"K Nienhuis, K Memarian, P Sewell",An operational semantics for C/C++ 11 concurrency,2016
+"K Crary, MJ Sullivan",A calculus for relaxed memory,2015
+"J Alglave, L Maranget, PE McKenney, A Parri, ...",Frightening small children and disconcerting grown-ups: Concurrency in the Linux kernel,2018
+"G Boudol, G Petri",A theory of speculative computation,2010
+"S Chakraborty, V Vafeiadis",Formalizing the concurrency semantics of an LLVM fragment,2017
+"S Doherty, B Dongol, H Wehrheim, ...",Verifying C11 programs operationally,2019
+"HH Dang, JH Jourdan, JO Kaiser…",RustBelt meets relaxed memory,2019
+"Y Zhang, X Feng",An operational happens-before memory model,2016
+"M Vollmer, RG Scott, M Musuvathi, RR Newton",Sc-haskell: Sequential consistency in languages that minimize mutable shared heap,2017
+"Y Zhang, X Feng",An operational approach to happens-before memory model,2013
+"J Bender, J Palsberg",A formalization of Java's concurrent access modes,2019
+"D Marino, A Singh, T Millstein, M Musuvathi, ...","DRFx An Understandable, High Performance, and Flexible Memory Model for Concurrent Languages",2016
+"J Ševčík, D Aspinall",On validity of program transformations in the Java memory model,2008
+"M Batty, K Memarian, S Owens, S Sarkar, ...",Clarifying and compiling C/C++ concurrency: from C++ 11 to POWER,2012
+"S Sarkar, K Memarian, S Owens, M Batty…",Synchronising c/c++ and power,2012
+"A Singh, S Narayanasamy, D Marino, ...",End-to-end sequential consistency,2012
+"V Vafeiadis, T Balabonski, S Chakraborty, ...",Common compiler optimisations are invalid in the C11 memory model and what we can do about it,2015
+"M Batty, K Memarian, K Nienhuis…",The problem of programming language concurrency semantics,2015
+"D Marino, A Singh, T Millstein, M Musuvathi, ...",A case for an SC-preserving compiler,2011
+"M Batty, AF Donaldson, J Wickerson",Overhauling SC atomics in C11 and OpenCL,2016
+"M Huisman, G Petri",The Java memory model: a formal explanation,2007
+"S Flur, S Sarkar, C Pulte, K Nienhuis, L Maranget…","Mixed-size concurrency: ARM, Power, C/C++ 11, and SC",2017
+"L Liu, T Millstein, M Musuvathi",A volatile-by-default JVM for server applications,2017
+"SH Lee, M Cho, A Podkopaev, S Chakraborty, CK Hur, ...",Promising 2.0: global optimizations in relaxed memory concurrency.,2020
+"L Liu, T Millstein, M Musuvathi",Accelerating sequential consistency for Java with speculative compilation,2019
+"B Lucia, L Ceze, K Strauss, S Qadeer, ...",Conflict exceptions: simplifying concurrent language semantics with precise hardware exceptions for data-races,2010
+W Pugh,The Java memory model is fatally flawed,2000
+"J Lee, DA Padua",Hiding relaxed memory consistency with compilers,2000
+"HJ Boehm, B Demsky",Outlawing ghosts: Avoiding out-of-thin-air results,2014
+"X Shen, LR Arvind",Commit-reconcile and fences (CRF): a new memory model for architects and compiler writers,1999
+"A Arvind, JW Maessen",Memory model= instruction reordering+ store atomicity,2006
+"W Ahn, S Qi, M Nicolaides, J Torrellas, JW Lee, ...",BulkCompiler: High-performance sequential consistency through cooperative compiler and hardware support,2009
+J Alglave,A formal hierarchy of weak memory models,2012
+"C Lin, V Nagarajan, R Gupta, B Rajaram",Efficient sequential consistency via conflict ordering,2012
+"D Aspinall, J Sevcik","Java memory model examples: Good, bad and ugly",2007
+"S Burckhardt, M Musuvathi, V Singh",Verifying local transformations on relaxed memory models,2010
+"C Kessler, J Keller",Models for parallel computing: Review and perspectives,2007
+"O Lahav, V Vafeiadis",Explaining relaxed memory models with program transformations,2016
+ACMA de Melo,Defining uniform and hybrid memory consistency models on a unified framework,1999
+"FZ Nardelli, P Sewell, J Sevcik, S Sarkar…",Relaxed memory models must be rigorous,2009
+"L Higham, J Kawash",Java: Memory consistency and process coordination,1998
+"Y Yang, G Gopalakrishnan…",Analyzing the CRF Java memory model,2001
+"S Chakraborty, V Vafeiadis",Validating optimizations of concurrent C/C++ programs,2016
+"V Awhad, C Wallace",A unified formal specification and analysis of the new Java memory models,2003
+"CG Ritson, S Owens",Benchmarking weak memory models,2016
+"L Higham, J Kawash",Implementing sequentially consistent programs on processor consistent platforms,2008
+V Luchangco,Precedence-based memory models,1997
+"MP Ferguson, D Buettner",Caching Puts and Gets in a PGAS language runtime,2015
+"W Mansky, D Garbuzov, S Zdancewic",An axiomatic specification for sequential memory models,2015
+"C Mattarei, C Barrett, S Guo, B Nelson, ...",EMME: a formal tool for ECMAScript Memory Model Evaluation,2018
+"Y Yang, G Gopalakrishnan…",Formalizing the Java memory model for multithreaded program correctness and optimization,2002
+"R Jagadeesan, G Petri, J Riely","Brookes is relaxed, almost!",2012
+"J Derrick, G Smith",A framework for correctness criteria on weak memory models,2015
+"V Štill, P Ročkai, J Barnat",Weak Memory Models as LLVM-to-LLVM Transformations,2015
+"W Mansky, EL Gunter",Verifying optimizations for concurrent programs,2014
+"M Senftleben, K Schneider",Specifying Weak Memory Consistency with Temporal Logic.,2016
+"FS Zakkak, P Pratikakis",JDMM: a java memory model for non-cache-coherent memory architectures,2014
+"M Senftleben, K Schneider",Operational characterization of weak memory consistency models,2018
+"FS Zakkak, P Pratikakis","DiSquawk: 512 cores, 512 memories, 1 JVM",2016
+"M Dodds, M Batty, A Gotsman",Compositional verification of compiler optimisations on relaxed memory,2018
+"M Dodds, M Batty, A Gotsman",Compositional verification of relaxed-memory program transformations,2016
+"T Mitra, A Roychoudhury, Q Shen",Impact of Java memory model on out-of-order multiprocessors,2004
+"S Polyakov, A Schuster",Verification of the Java causality requirements,2005
+"C Verbrugge, A Kielstra, Y Zhang",There is nothing wrong with out-of-thin-air: Compiler optimization and memory models,2011
+"S Zhang, M Vijayaraghavan, A Wright, ...",Constructing a weak memory model,2018
+"P Chatterjee, G Gopalakrishnan",A specification and verification framework for developing weak shared memory consistency protocols,2002
+"L Higham, J Kawash, N Verwaal",Weak memory consistency models part II: Process coordination problems,1998
+"J Derrick, G Smith",An observational approach to defining linearizability on weak memory models,2017
+"A Yeolekar, K Madhukar, D Bhutada, ...",Sequentialization using timestamps,2017
+"Y Zhao, X Wang, H Zhu",Towards a pomset semantics for a shared-variable parallel language,2010
+"K Watanabe, S Nishimura",May&must-equivalence of shared variable parallel programs in game semantics,2012
+"M Dodds, M Batty, A Gotsman",C/C++ causal cycles confound compositionality,2013
+M Batty,Compositional relaxed concurrency,2017
+"G Long, N Yuan, D Fan","Location Consistency model revisited: Problem, solution and prospects",2008
+"S Xiao, H Jiang, H Liang, X Feng",Non-Preemptive Semantics for Data-Race-Free Programs,2018
+"E Moiseenko, A Podkopaev, O Lahav, ...",Reconciling Event Structures with Modern Multiprocessors,2019
+"A De, A Roychoudhury, D D'Souza",WOMM: a weak operational memory model,2010
+G Petri,Studying operational models of relaxed concurrency,2013
+"D Chavarría-Miranda, J Manzano, ...",SCaLeM: a framework for characterizing and analyzing execution models,2014
+"DS Fava, V Stolz, S Valle",Operational Semantics of a Weak Memory Model inspired by Go,2017
+"S Cheng, L Higham, J Kawash",Partition consistency,2014
+"JH Rutgers, MJG Bekooij, GJM Smit",Programming a multicore architecture without coherency and atomic operations,2014
+"G Cabon, D Cachera, D Pichardie",An Extended Buffered Memory Model With Full Reorderings,2016
+"C WATT, A ROSSBERG, J PICHON-PHARABOD",Weakening WebAssembly (Extended Draft),2019
+"SV Adve, K Gharachorloo",Shared Memory Consistency Models: A Tutorial,1995
+"R Zhang, S Biswas, V Balaji, MD Bond, ...",Peacenik: Architecture Support for Not Failing under Fail-Stop Memory Consistency,2020
+"TF Șerbănuță, F Chen, G Rosu",Maximal Causal Models for Sequentially Consistent Systems,2011
+C Dubs,Parallel computing focussing on multiprocessing with shared memory; problems when developing parallel programs with respect to different memory …,2012

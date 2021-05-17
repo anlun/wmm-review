@@ -1,0 +1,11 @@
+Authors,Title,Year
+"J Manson, W Pugh, SV Adve",The Java memory model,2005
+"M Batty, S Owens, S Sarkar, P Sewell, T Weber",Mathematizing C++ concurrency,2011
+"J Kang, CK Hur, O Lahav, V Vafeiadis, ...",A promising semantics for relaxed-memory concurrency,2017
+"O Lahav, V Vafeiadis, J Kang, CK Hur, ...",Repairing sequential consistency in C/C++ 11,2017
+"J Pichon-Pharabod, P Sewell",A concurrency semantics for relaxed atomics that permits optimisation and avoids thin-air executions,2016
+"A Jeffrey, J Riely",On thin air reads towards an event structures model of relaxed memory,2016
+"S Dolan, KC Sivaramakrishnan, ...",Bounding data races in space and time,2018
+"S Chakraborty, V Vafeiadis",Grounding thin-air reads with event structures,2019
+"C Watt, C Pulte, A Podkopaev, G Barbier…",Repairing and mechanising the JavaScript relaxed memory model,2020
+"M Paviotti, S Cooksey, A Paradis, D Wright, ...",Modular Relaxed Dependencies in Weak Memory Concurrency,2020

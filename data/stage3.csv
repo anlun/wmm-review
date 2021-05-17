@@ -1,0 +1,1077 @@
+Authors,Title,Year
+"J Manson, W Pugh, SV Adve",The Java memory model,2005
+"M Batty, S Owens, S Sarkar, P Sewell, T Weber",Mathematizing C++ concurrency,2011
+"J Kang, CK Hur, O Lahav, V Vafeiadis, ...",A promising semantics for relaxed-memory concurrency,2017
+"O Lahav, V Vafeiadis, J Kang, CK Hur, ...",Repairing sequential consistency in C/C++ 11,2017
+"J Pichon-Pharabod, P Sewell",A concurrency semantics for relaxed atomics that permits optimisation and avoids thin-air executions,2016
+"A Jeffrey, J Riely",On thin air reads towards an event structures model of relaxed memory,2016
+"S Dolan, KC Sivaramakrishnan, ...",Bounding data races in space and time,2018
+"S Chakraborty, V Vafeiadis",Grounding thin-air reads with event structures,2019
+"C Watt, C Pulte, A Podkopaev, G Barbier…",Repairing and mechanising the JavaScript relaxed memory model,2020
+"M Paviotti, S Cooksey, A Paradis, D Wright, ...",Modular Relaxed Dependencies in Weak Memory Concurrency,2020
+"VA Saraswat, R Jagadeesan, M Michael, ...",A theory of memory models,2007
+"D Marino, A Singh, T Millstein, M Musuvathi, ...",DRFX: a simple and efficient memory model for concurrent programming languages,2010
+"G Boudol, G Petri",Relaxed memory models: an operational approach,2009
+"O Lahav, N Giannarakis, V Vafeiadis",Taming release-acquire consistency,2016
+"R Jagadeesan, C Pitcher, J Riely",Generative operational semantics for relaxed memory models,2010
+"D Demange, V Laporte, L Zhao, ...",Plan B: A buffered memory model for Java,2013
+"K Nienhuis, K Memarian, P Sewell",An operational semantics for C/C++ 11 concurrency,2016
+"K Crary, MJ Sullivan",A calculus for relaxed memory,2015
+"J Alglave, L Maranget, PE McKenney, A Parri, ...",Frightening small children and disconcerting grown-ups: Concurrency in the Linux kernel,2018
+"G Boudol, G Petri",A theory of speculative computation,2010
+"S Chakraborty, V Vafeiadis",Formalizing the concurrency semantics of an LLVM fragment,2017
+"S Doherty, B Dongol, H Wehrheim, ...",Verifying C11 programs operationally,2019
+"HH Dang, JH Jourdan, JO Kaiser…",RustBelt meets relaxed memory,2019
+"Y Zhang, X Feng",An operational happens-before memory model,2016
+"M Vollmer, RG Scott, M Musuvathi, RR Newton",Sc-haskell: Sequential consistency in languages that minimize mutable shared heap,2017
+"Y Zhang, X Feng",An operational approach to happens-before memory model,2013
+"J Bender, J Palsberg",A formalization of Java's concurrent access modes,2019
+"D Marino, A Singh, T Millstein, M Musuvathi, ...","DRFx An Understandable, High Performance, and Flexible Memory Model for Concurrent Languages",2016
+"J Ševčík, D Aspinall",On validity of program transformations in the Java memory model,2008
+"M Batty, K Memarian, S Owens, S Sarkar, ...",Clarifying and compiling C/C++ concurrency: from C++ 11 to POWER,2012
+"S Sarkar, K Memarian, S Owens, M Batty…",Synchronising c/c++ and power,2012
+"A Singh, S Narayanasamy, D Marino, ...",End-to-end sequential consistency,2012
+"V Vafeiadis, T Balabonski, S Chakraborty, ...",Common compiler optimisations are invalid in the C11 memory model and what we can do about it,2015
+"M Batty, K Memarian, K Nienhuis…",The problem of programming language concurrency semantics,2015
+"D Marino, A Singh, T Millstein, M Musuvathi, ...",A case for an SC-preserving compiler,2011
+"M Batty, AF Donaldson, J Wickerson",Overhauling SC atomics in C11 and OpenCL,2016
+"M Huisman, G Petri",The Java memory model: a formal explanation,2007
+"S Flur, S Sarkar, C Pulte, K Nienhuis, L Maranget…","Mixed-size concurrency: ARM, Power, C/C++ 11, and SC",2017
+"L Liu, T Millstein, M Musuvathi",A volatile-by-default JVM for server applications,2017
+"SH Lee, M Cho, A Podkopaev, S Chakraborty, CK Hur, ...",Promising 2.0: global optimizations in relaxed memory concurrency.,2020
+"L Liu, T Millstein, M Musuvathi",Accelerating sequential consistency for Java with speculative compilation,2019
+"B Lucia, L Ceze, K Strauss, S Qadeer, ...",Conflict exceptions: simplifying concurrent language semantics with precise hardware exceptions for data-races,2010
+W Pugh,The Java memory model is fatally flawed,2000
+"J Lee, DA Padua",Hiding relaxed memory consistency with compilers,2000
+"HJ Boehm, B Demsky",Outlawing ghosts: Avoiding out-of-thin-air results,2014
+"X Shen, LR Arvind",Commit-reconcile and fences (CRF): a new memory model for architects and compiler writers,1999
+"A Arvind, JW Maessen",Memory model= instruction reordering+ store atomicity,2006
+"W Ahn, S Qi, M Nicolaides, J Torrellas, JW Lee, ...",BulkCompiler: High-performance sequential consistency through cooperative compiler and hardware support,2009
+J Alglave,A formal hierarchy of weak memory models,2012
+"C Lin, V Nagarajan, R Gupta, B Rajaram",Efficient sequential consistency via conflict ordering,2012
+"D Aspinall, J Sevcik","Java memory model examples: Good, bad and ugly",2007
+"S Burckhardt, M Musuvathi, V Singh",Verifying local transformations on relaxed memory models,2010
+"C Kessler, J Keller",Models for parallel computing: Review and perspectives,2007
+"O Lahav, V Vafeiadis",Explaining relaxed memory models with program transformations,2016
+ACMA de Melo,Defining uniform and hybrid memory consistency models on a unified framework,1999
+"FZ Nardelli, P Sewell, J Sevcik, S Sarkar…",Relaxed memory models must be rigorous,2009
+"L Higham, J Kawash",Java: Memory consistency and process coordination,1998
+"Y Yang, G Gopalakrishnan…",Analyzing the CRF Java memory model,2001
+"S Chakraborty, V Vafeiadis",Validating optimizations of concurrent C/C++ programs,2016
+"V Awhad, C Wallace",A unified formal specification and analysis of the new Java memory models,2003
+"CG Ritson, S Owens",Benchmarking weak memory models,2016
+"L Higham, J Kawash",Implementing sequentially consistent programs on processor consistent platforms,2008
+V Luchangco,Precedence-based memory models,1997
+"MP Ferguson, D Buettner",Caching Puts and Gets in a PGAS language runtime,2015
+"W Mansky, D Garbuzov, S Zdancewic",An axiomatic specification for sequential memory models,2015
+"C Mattarei, C Barrett, S Guo, B Nelson, ...",EMME: a formal tool for ECMAScript Memory Model Evaluation,2018
+"Y Yang, G Gopalakrishnan…",Formalizing the Java memory model for multithreaded program correctness and optimization,2002
+"R Jagadeesan, G Petri, J Riely","Brookes is relaxed, almost!",2012
+"J Derrick, G Smith",A framework for correctness criteria on weak memory models,2015
+"V Štill, P Ročkai, J Barnat",Weak Memory Models as LLVM-to-LLVM Transformations,2015
+"W Mansky, EL Gunter",Verifying optimizations for concurrent programs,2014
+"M Senftleben, K Schneider",Specifying Weak Memory Consistency with Temporal Logic.,2016
+"FS Zakkak, P Pratikakis",JDMM: a java memory model for non-cache-coherent memory architectures,2014
+"M Senftleben, K Schneider",Operational characterization of weak memory consistency models,2018
+"FS Zakkak, P Pratikakis","DiSquawk: 512 cores, 512 memories, 1 JVM",2016
+"M Dodds, M Batty, A Gotsman",Compositional verification of compiler optimisations on relaxed memory,2018
+"M Dodds, M Batty, A Gotsman",Compositional verification of relaxed-memory program transformations,2016
+"T Mitra, A Roychoudhury, Q Shen",Impact of Java memory model on out-of-order multiprocessors,2004
+"S Polyakov, A Schuster",Verification of the Java causality requirements,2005
+"C Verbrugge, A Kielstra, Y Zhang",There is nothing wrong with out-of-thin-air: Compiler optimization and memory models,2011
+"S Zhang, M Vijayaraghavan, A Wright, ...",Constructing a weak memory model,2018
+"P Chatterjee, G Gopalakrishnan",A specification and verification framework for developing weak shared memory consistency protocols,2002
+"L Higham, J Kawash, N Verwaal",Weak memory consistency models part II: Process coordination problems,1998
+"J Derrick, G Smith",An observational approach to defining linearizability on weak memory models,2017
+"A Yeolekar, K Madhukar, D Bhutada, ...",Sequentialization using timestamps,2017
+"Y Zhao, X Wang, H Zhu",Towards a pomset semantics for a shared-variable parallel language,2010
+"K Watanabe, S Nishimura",May&must-equivalence of shared variable parallel programs in game semantics,2012
+"M Dodds, M Batty, A Gotsman",C/C++ causal cycles confound compositionality,2013
+M Batty,Compositional relaxed concurrency,2017
+"G Long, N Yuan, D Fan","Location Consistency model revisited: Problem, solution and prospects",2008
+"S Xiao, H Jiang, H Liang, X Feng",Non-Preemptive Semantics for Data-Race-Free Programs,2018
+"E Moiseenko, A Podkopaev, O Lahav, ...",Reconciling Event Structures with Modern Multiprocessors,2019
+"A De, A Roychoudhury, D D'Souza",WOMM: a weak operational memory model,2010
+G Petri,Studying operational models of relaxed concurrency,2013
+"D Chavarría-Miranda, J Manzano, ...",SCaLeM: a framework for characterizing and analyzing execution models,2014
+"DS Fava, V Stolz, S Valle",Operational Semantics of a Weak Memory Model inspired by Go,2017
+"S Cheng, L Higham, J Kawash",Partition consistency,2014
+"JH Rutgers, MJG Bekooij, GJM Smit",Programming a multicore architecture without coherency and atomic operations,2014
+"G Cabon, D Cachera, D Pichardie",An Extended Buffered Memory Model With Full Reorderings,2016
+"C WATT, A ROSSBERG, J PICHON-PHARABOD",Weakening WebAssembly (Extended Draft),2019
+"SV Adve, K Gharachorloo",Shared Memory Consistency Models: A Tutorial,1995
+"R Zhang, S Biswas, V Balaji, MD Bond, ...",Peacenik: Architecture Support for Not Failing under Fail-Stop Memory Consistency,2020
+"TF Șerbănuță, F Chen, G Rosu",Maximal Causal Models for Sequentially Consistent Systems,2011
+C Dubs,Parallel computing focussing on multiprocessing with shared memory; problems when developing parallel programs with respect to different memory …,2012
+J Lee,Hiding the Java Memory Model with Compilers,
+"P Sewell, S Sarkar, S Owens, FZ Nardelli, ...",x86-TSO: a rigorous and usable programmer's model for x86 multiprocessors,2010
+"S Owens, S Sarkar, P Sewell",A better x86 memory model: x86-TSO,2009
+"T Bergan, O Anderson, J Devietti, L Ceze, ...",CoreDet: a compiler and runtime system for deterministic multithreaded execution,2010
+"JB Carter, JK Bennett, W Zwaenepoel",Techniques for reducing consistency-related communication in distributed shared-memory systems,1995
+"C Blundell, EC Lewis, ...",Subtleties of transactional memory atomicity semantics,2006
+"J Alglave, L Maranget, M Tautschnig","Herding cats: Modelling, simulation, testing, and data mining for weak memory",2014
+"S Sarkar, P Sewell, FZ Nardelli, S Owens, ...",The semantics of x86-CC multiprocessor machine code,2009
+"GR Gao, V Sarkar",Location consistency-a new memory model and cache consistency protocol,2000
+"B Norris, B Demsky",CDSchecker: checking concurrent data structures written with C/C++ atomics,2013
+"CART Hoare, B Möller, G Struth, I Wehrman",Concurrent kleene algebra,2009
+"M Kokologiannakis, O Lahav, K Sagonas, ...",Effective stateless model checking for C/C++ concurrency,2017
+"B Norris, B Demsky",A practical approach for model checking C/C++ 11 code,2016
+"A De, A Roychoudhury, D D'Souza",Java memory model aware software validation,2008
+"T Merrifield, J Devietti, J Eriksson",High-performance determinism with total store order consistency,2015
+S Castellan,Weak memory models using event structures,2016
+"H Jin, T Yavuz-Kahveci, BA Sanders",Java memory model-aware model checking,2012
+"C Disselkoen, R Jagadeesan, ...",The code that never ran: Modeling attacks on speculative evaluation,2019
+"K Lu, X Zhou, XP Wang, T Bergan, C Chen",An efficient and flexible deterministic framework for multithreaded programs,2015
+"R Kavanagh, S Brookes",A denotational semantics for SPARC TSO,2018
+"K Kavi, HS Kim, B Lee, AR Hurson",Shared memory and distributed shared memory systems: A survey,2000
+"RP Ghughal, GC Gopalakrishnan",Verification methods for weaker shared memory consistency models,2000
+A Huang,Maximally stateless model checking for concurrent bugs under relaxed memory models,2016
+"H Ponce-de-León, F Furbach, ...",BMC with memory models as modules,2018
+"H Ponce-de-León, F Furbach, K Heljanko, ...",Dartagnan: Bounded Model Checking for Weak Memory Models (Competition Contribution),2020
+"M Kokologiannakis, A Raad, V Vafeiadis",Effective lock handling in stateless model checking,2019
+"Q Yi, J Huang",Concurrency verification with maximal path causality,2018
+"T Ehrhard, Y Jiang",A dendroidal process calculus,2015
+RB Thapa,Generating Posets Beyond N,2020
+"B Dongol, R Jagadeesan, J Riely",Modular transactions: bounding mixed races in space and time,2019
+"I Jaju, BP Rao",Stateless Model Checking for the C/C++ 11 Memory Model,
+"C Amza, AL Cox, S Dwarkadas, P Keleher, H Lu…",Treadmarks: Shared memory computing on networks of workstations,1996
+"E Cohen, M Dahlweid, M Hillebrand, ...",VCC: A practical system for verifying concurrent C,2009
+"T Harris, J Larus, R Rajwar",Transactional memory,2010
+TL Harris,A pragmatic implementation of non-blocking linked-lists,2001
+"J Whaley, M Rinard",Compositional pointer and escape analysis for Java programs,1999
+"PE McKenney, JD Slingwine",Read-copy update: Using execution history to solve concurrency problems,1998
+"D Leijen, W Schulte, S Burckhardt",The design of a task parallel library,2009
+"C Varela, G Agha",Programming dynamically reconfigurable open systems with SALSA,2001
+"S Sarkar, P Sewell, J Alglave, L Maranget, ...",Understanding POWER multiprocessors,2011
+"D Kroening, M Tautschnig",CBMC–C bounded model checker,2014
+MD Hill,Multiprocessors should support simple memory consistency models,1998
+"S Burckhardt, R Alur, MMK Martin",CheckFence: checking consistency of concurrent data types on relaxed memory models,2007
+"C Ding, X Shen, K Kelsey, C Tice, R Huang, ...",Software behavior oriented parallelization,2007
+"J Erickson, M Musuvathi, S Burckhardt, K Olynyk",Effective Data-Race Detection for the Kernel.,2010
+"C Gniady, B Falsafi, TN Vijaykumar",Is sc+ ilp= rc?,1999
+"AC Lai, B Falsafi","Selective, accurate, and timely self-invalidation using last-touch prediction",2000
+AW Appel,Verified software toolchain,2011
+PJ Keleher,The relative importance of concurrent writers and weak consistency models,1996
+"J Giacomoni, T Moseley, M Vachharajani",FastForward for efficient pipeline parallelism: a cache-optimized concurrent lock-free queue,2008
+"M Abadi, A Birrell, T Harris, M Isard",Semantics of transactional memory and automatic mutual exclusion,2008
+"A Solar-Lezama, CG Jones, R Bodik",Sketching concurrent data structures,2008
+"S Burckhardt, A Gotsman, H Yang, M Zawirski","Replicated data types: specification, verification, optimality",2014
+"K Gharachorloo, M Sharma, S Steely, ...",Architecture and design of AlphaServer GS320,2000
+"SV Adve, MD Hill, BP Miller, RHB Netzer",Detecting data races on weak memory systems,1991
+"BB Brandenburg, JM Calandrino, ...",On the scalability of real-time scheduling algorithms on multicore platforms: A case study,2008
+"MF Spear, MM Michael, C Von Praun",RingSTM: scalable transactions with a single atomic instruction,2008
+"S Hangal, D Vahia, C Manovit, JYJ Lu…",TSOtool: A program for verifying memory systems using the memory consistency model,2004
+"W Jia, KA Shaw, M Martonosi",MRPB: Memory request prioritization for massively parallel processors,2014
+"J Alglave, D Kroening, M Tautschnig",Partial orders for efficient bounded model checking of concurrent software,2013
+"S Burckhardt, M Musuvathi",Effective program verification for relaxed memory models,2008
+"A Shriraman, MF Spear, H Hossain, ...",An integrated hardware-software approach to flexible transactional memory,2007
+"S Burckhardt, C Dern, M Musuvathi, R Tan",Line-up: a complete and automatic linearizability checker,2010
+"MF Atig, A Bouajjani, S Burckhardt, ...",On the verification problem for weak memory models,2010
+"F Pong, M Dubois",Verification techniques for cache coherence protocols,1997
+"S Dwarkadas, P Keleher, AL Cox…",Evaluation of release consistent software distributed shared memory on emerging network technology,1993
+"KF Moore, D Grossman",High-level small-step operational semantics for transactions,2008
+"K Gharachorloo, SV Adve, A Gupta…",Programming for different memory consistency models,1992
+"D Grunwald, H Srinivasan",Data flow equations for explicitly parallel programs,1993
+M Rinard,Analysis of multithreaded programs,2001
+"M Kuperstein, M Vechev, E Yahav",Automatic inference of memory fences,2012
+"N Walkinshaw, R Taylor, J Derrick",Inferring extended finite state machine models from software executions,2016
+"AW Appel, S Blazy",Separation Logic for Small-Step cminor,2007
+"J Alglave, L Maranget, S Sarkar, P Sewell",Fences in weak memory models,2010
+"J Alglave, A Fox, S Ishtiaq, MO Myreen…",The semantics of Power and ARM multiprocessor machine code,2009
+"V Vafeiadis, C Narayan",Relaxed separation logic: A program logic for C11 concurrency,2013
+"G Li, G Gopalakrishnan",Scalable SMT-based verification of GPU kernel functions,2010
+"L Baugh, N Neelakantam, ...","Using hardware memory protection to build a high-performance, strongly-atomic hybrid transactional memory",2008
+"S Novakovic, A Daglis, E Bugnion, B Falsafi, ...",Scale-out NUMA,2014
+"B Kasikci, C Zamfir, G Candea",Data races vs. data race bugs: telling the difference with portend,2012
+"EE Bilir, RM Dickson, Y Hu, M Plakal, ...",Multicast snooping: a new coherence method using a multicast address network,1999
+"UA Acar, A Charguéraud, M Rainey",Scheduling parallel programs by work stealing with private deques,2013
+"F Pong, M Dubois",A new approach for the verification of cache coherence protocols,1995
+"J Alglave, D Kroening, V Nimal, ...",Software verification for weak memory via program transformation,2013
+"J Huang, C Zhang, J Dolby",CLAP: recording local executions to reproduce concurrency failures,2013
+"S Flur, KE Gray, C Pulte, S Sarkar, A Sezgin, ...","Modelling the ARMv8 architecture, operationally: Concurrency and ISA",2016
+"S Mador-Haim, L Maranget, S Sarkar, ...",An axiomatic memory model for POWER multiprocessors,2012
+"A Turon, V Vafeiadis, D Dreyer","GPS: Navigating weak memory with ghosts, protocols, and separation",2014
+"PH Hartel, L Moreau","Formalizing the safety of Java, the Java virtual machine, and Java card",2001
+"PA Abdulla, S Aronis, MF Atig, B Jonsson, ...",Stateless model checking for TSO and PSO,2017
+"A Gotsman, H Yang, C Ferreira, M Najafzadeh, ...",Cause I'm strong enough: Reasoning about consistency choices in distributed systems,2016
+S Owens,Reasoning about the implementation of concurrency abstractions on x86-TSO,2010
+"S Benkner, S Pllana, JL Traff, P Tsigas, U Dolinsky, ...",PEPPHER: Efficient and productive usage of hybrid computing systems,2011
+"S Burckhardt, D Leijen, M Fähndrich, ...",Eventually consistent transactions,2012
+"J Alglave, M Batty, AF Donaldson, ...",GPU concurrency: Weak behaviours and programming assumptions,2015
+"A Gotsman, B Cook, M Parkinson, V Vafeiadis",Proving that non-blocking algorithms don't block,2009
+"J Ŝevčik, V Vafeiadis, F Zappa Nardelli, ...",Relaxed-memory concurrency and verified compilation,2011
+"A Bouajjani, E Derevenetc, R Meyer",Checking and enforcing robustness against TSO,2013
+"NP Lopes, D Menendez, S Nagarakatte, ...",Provably correct peephole optimizations with alive,2015
+"P da Rocha Pinto, T Dinsdale-Young, ...",TaDA: A logic for time and data abstraction,2014
+"DJ Sorin, M Plakal, AE Condon, MD Hill, ...",Specifying and verifying a broadcast and a multicast snooping cache coherence protocol,2002
+"J Gummaraju, J Coburn, Y Turner, ...",Streamware: programming general-purpose multicore processors using streams,2008
+"M Batty, M Dodds, A Gotsman",Library abstraction for C/C++ concurrency,2013
+"A Meixner, DJ Sorin",Dynamic verification of memory consistency in cache-coherent multithreaded computer architectures,2008
+"SV Adve, AL Cox, S Dwarkadas…",A comparison of entry consistency and lazy release consistency implementations,1996
+"E Torlak, M Vaziri, J Dolby",MemSAT: checking axiomatic specifications of memory models,2010
+"M Kuperstein, M Vechev, E Yahav",Partial-coherence abstractions for relaxed memory models,2011
+"A Kolli, J Rosen, S Diestelhorst, A Saidi, ...",Delegated persist ordering,2016
+"C Wang, S Kundu, M Ganai, A Gupta",Symbolic predictive analysis for concurrent programs,2009
+"H Sivaraj, G Gopalakrishnan",Random walk based heuristic algorithms for distributed memory model checking,2003
+"JA Brown, R Kumar, D Tullsen",Proximity-aware directory-based coherence for multi-core processor architectures,2007
+"M Vechev, E Yahav, G Yorsh",Experience with model checking linearizability,2009
+"DJ Scales, K Gharachorloo",Towards transparent and efficient software distributed shared memory,1997
+"F Zheng, H Zou, G Eisenhauer, ...",FlexIO: I/O middleware for location-flexible scientific data analytics,2013
+"J Alglave, L Maranget, S Sarkar, P Sewell",Litmus: Running Tests against Hardware,2011
+"D Aspinall, J Ševčík",Formalising Java's data race free guarantee,2007
+"C Wang, R Limaye, M Ganai, A Gupta",Trace-based symbolic analysis for atomicity violations,2010
+"J Alglave, D Kroening, V Nimal, D Poetzl",Don't sit on the fence,2014
+"F Liu, N Nedev, N Prisadnikov, M Vechev, ...",Dynamic synthesis for relaxed memory models,2012
+"J Wickerson, M Batty, T Sorensen, ...",Automatically comparing memory consistency models,2017
+"GR Gao, T Sterling, R Stevens, ...",Parallex: A study of a new parallel computation model,2007
+"RN Zucker, JL Baer",A performance study of memory consistency models,1992
+"S Ghemawat, KH Randall, DJ Scales",Field analysis: Getting useful and low-cost interprocedural information,2000
+"R Giorgi, RM Badia, F Bodin, A Cohen, ...",TERAFLUX: Harnessing dataflow in next generation teradevices,2014
+"MF Spear, M Silverman, L Dalessandro, ...",Implementing and exploiting inevitability in software transactional memory,2008
+"A Sethia, DA Jamshidi, S Mahlke",Mascar: Speeding up GPU warps by reducing memory pitstops,2015
+"C Pulte, S Flur, W Deacon, J French, S Sarkar, ...",Simplifying ARM concurrency: multicopy-atomic axiomatic and operational models for ARMv8,2017
+"N Zhang, M Kusano, C Wang",Dynamic partial order reduction for relaxed memory models,2015
+"M Costa, P Guedes, M Sequeira, N Neves, ...",Lightweight logging for lazy release consistent distributed shared memory,1996
+"C Flanagan, SN Freund",Adversarial memory for detecting destructive races,2010
+"O Inverso, E Tomasco, B Fischer, S La Torre, ...",Bounded model checking of multi-threaded C programs via lazy sequentialization,2014
+"W Damm, A Pnueli",Verifying out-of-order executions,1997
+"A Georges, M Christiaens, M Ronsse, ...",JaRec: a portable record/replay environment for multi‐threaded Java applications,2004
+"J Burnim, K Sen, C Stergiou",Testing concurrent programs on relaxed memory models,2011
+"J Burnim, K Sen, C Stergiou",Sound and complete monitoring of sequential consistency for relaxed memory models,2011
+"MMK Martin, DJ Sorin, HW Cain, ...",Correctly implementing value prediction in microprocessors that support multithreading or multiprocessing,2001
+"W Kim, M Voss",Multicore desktop programming with intel threading building blocks,2010
+"K Lu, X Zhou, T Bergan, X Wang",Efficient deterministic multithreading without global barriers,2014
+"P Keleher, AL Cox, S Dwarkadas, ...",An evaluation of software-based release consistent protocols,1995
+"MF Atig, A Bouajjani, G Parlato",Getting rid of store-buffers in TSO analysis,2011
+"J Alglave, L Maranget",Stability in weak memory models,2011
+A Miné,Static analysis of run-time errors in embedded critical parallel C programs,2011
+"N Sinha, C Wang",Staged concurrent program analysis,2010
+"PA Abdulla, MF Atig, YF Chen, C Leonardsson, ...",Counter-example guided fence insertion under TSO,2012
+"O Lahav, V Vafeiadis",Owicki-Gries reasoning for weak memory models,2015
+"H Grahn, P Stenström, M Dubois",Implementation and evaluation of update-based cache protocols under relaxed memory consistency models,1995
+"TA Henzinger, S Qadeer, SK Rajamani",Verifying sequential consistency on shared-memory multiprocessor systems,1999
+"N Sinha, C Wang",On interference abstractions,2011
+"L Dalessandro, ML Scott",Strong isolation is a weak idea,2009
+"SF Siegel, M Zheng, Z Luo, TK Zirkel, ...",CIVL: the concurrency intermediate verification language,2015
+"G Gopalakrishnan, Y Yang, H Sivaraj",QB or not QB: An efficient execution verification tool for memory orderings,2004
+"A Cerone, G Bernardi, A Gotsman",A framework for transactional consistency models with atomic visibility,2015
+"NM Lê, A Pop, A Cohen, F Zappa Nardelli",Correct and efficient work-stealing for weak memory models,2013
+"JO Kaiser, HH Dang, D Dreyer, O Lahav, ...",Strong logic for weak memory: Reasoning about release-acquire consistency in Iris,2017
+A Miné,Relational thread-modular static value analysis by abstract interpretation,2014
+"R Rugina, MC Rinard",Pointer analysis for structured parallel programs,2003
+"R Morisset, P Pawan, F Zappa Nardelli",Compiler testing via a theory of sound optimisations in the C11/C++ 11 memory model,2013
+"U Verner, A Schuster, M Silberstein",Processing data streams with hard real-time constraints on heterogeneous systems,2011
+"K Vora, SC Koduru, R Gupta",ASPIRE: exploiting asynchronous parallelism in iterative algorithms using a relaxed consistency based DSM,2014
+J Ševčík,Safe optimisations for shared-memory concurrent programs,2011
+"S Mador-Haim, R Alur, MMK Martin",Generating litmus tests for contrasting memory consistency models,2010
+V Sarkar,Analysis and optimization of explicity parallel programs using the parallel program graph representation,1997
+"A Arcangeli, M Cao, PE McKenney, ...",Using Read-Copy-Update Techniques for System V IPC in the Linux 2.5 Kernel.,2003
+"B Wachter, D Kroening, ...",Verifying multi-threaded software with Impact,2013
+"V Vafeiadis, FZ Nardelli",Verifying fence elimination optimisations,2011
+"G Diamos, A Kerr, M Kesavan",Translating GPU binaries to tiered SIMD architectures with Ocelot,2009
+"V D'Silva, M Payer, D Song",The correctness-security gap in compiler optimization,2015
+"D Lustig, M Pellauer, ...",PipeCheck: Specifying and verifying microarchitectural enforcement of memory consistency models,2014
+"S Burckhardt, A Gotsman, M Musuvathi, ...",Concurrent library correctness on the TSO memory model,2012
+"H Tang, K Shen, T Yang",Program transformation and runtime support for threaded MPI execution on shared-memory machines,2000
+"S Somogyi, TF Wenisch, N Hardavellas, J Kim…",Memory coherence activity prediction in commercial workloads,2004
+"S Dwarkadas, K Gharachorloo…",Comparative evaluation of fine-and coarse-grain approaches for software distributed shared memory,1999
+"R Guerraoui, TA Henzinger, B Jobstmann, ...",Model checking transactional memories,2008
+"Y Xu, R Wang, N Goswami, T Li, L Gao, ...",Software transactional memory for GPU architectures,2014
+"U Ramachandran, G Shah, ...",Architectural mechanisms for explicit communication in shared memory multiprocessors,1995
+"MD Sinclair, J Alsop, SV Adve",Efficient GPU synchronization without scopes: Saying no to complex consistency models,2015
+"AM Dan, Y Meshman, M Vechev, E Yahav",Predicate abstraction for relaxed memory models,2013
+"CS Park, K Sen, P Hargrove, C Iancu",Efficient data race detection for distributed memory parallel programs,2011
+"H Jiang, V Chaudhary",Compile/run-time support for thread migration,2001
+"A Bouajjani, R Meyer, E Möhlmann",Deciding robustness against total store ordering,2011
+"D Lustig, G Sethi, M Martonosi, ...",COATCheck: Verifying memory ordering at the hardware-OS interface,2016
+"L Maranget, S Sarkar, P Sewell",A tutorial introduction to the ARM and POWER relaxed memory models,2012
+"MD Bond, M Kulkarni, M Cao, M Zhang, ...",Octet: Capturing and controlling cross-thread dependences efficiently,2013
+"K Chen, S Malik, P Patra",Runtime validation of memory ordering using constraint graph checking,2008
+"E Börger, KD Schewe",Concurrent abstract state machines,2016
+"S Schmitz, P Schnoebelen",The power of well-structured systems,2013
+"C Lin, V Nagarajan, R Gupta",Efficient sequential consistency using conditional fences,2012
+"AE Condon, MD Hill, M Plakal, ...",Using lamport clocks to reason about relaxed memory models,1999
+"Y Chen, Y Lv, W Hu, T Chen, H Shen, ...",Fast complete memory consistency verification,2009
+"L Beringer, G Stewart, R Dockins, AW Appel",Verified compilation for shared-memory C,2014
+"F Pétrot, P Gomez",Lightweight implementation of the posix threads api for an on-chip mips multiprocessor with vci interconnect,2003
+"C Hawblitzel, E Petrank, S Qadeer, ...",Automated and modular refinement reasoning for concurrent programs,2015
+"PA Abdulla, MF Atig, B Jonsson, ...",Stateless model checking for POWER,2016
+"M Chabbi, M Fagan, J Mellor-Crummey",High performance locks for multi-level NUMA systems,2015
+"D Lee, M Said, S Narayanasamy, Z Yang, ...",Offline symbolic analysis for multi-processor execution replay,2009
+"K Keutzer, T Mattson",Our Pattern Language (OPL): A design pattern language for engineering (parallel) software,2009
+"M Lobosco, A Silva, O Loques, ...",A new distributed JVM for cluster computing,2003
+"BA Hechtman, DJ Sorin",Exploring memory consistency for massively-threaded throughput-oriented processors,2013
+"B Demsky, P Lam",SATCheck: SAT-directed stateless model checking for SC and TSO,2015
+"J Bornholt, A Kaufmann, J Li, A Krishnamurthy, ...",Specifying and checking file system crash-consistency models,2016
+"Y Yang, G Gopalakrishnan, ...",UMM: an operational memory model specification framework with integrated model checking capability,2005
+"M Solinas, RM Badia, F Bodin, A Cohen, ...",The TERAFLUX project: Exploiting the dataflow paradigm in next generation teradevices,2013
+"E Tomasco, O Inverso, B Fischer, S La Torre, ...",Verifying concurrent programs by memory unwinding,2015
+"A Singh, D Marino, S Narayanasamy, ...","Efficient processor support for DRFx, a memory model with exceptions",2011
+T Ridge,A rely-guarantee proof system for x86-TSO,2010
+"A Linden, P Wolper",An automata-based symbolic approach for verifying programs on relaxed memory models,2010
+"A Dan, Y Meshman, M Vechev, E Yahav",Effective abstractions for verification under relaxed memory models,2017
+"RH Saavedra, D Park",Improving the effectiveness of software prefetching with adaptive executions,1996
+"PA Abdulla, MF Atig, YF Chen, C Leonardsson, ...","Memorax, a Precise and Sound Tool for Automatic Fence Insertion under TSO",2013
+"M Doko, V Vafeiadis",A program logic for C11 memory fences,2016
+"S Burckhardt, R Alur, MMK Martin",Bounded model checking of concurrent data types on relaxed memory models: A case study,2006
+"DJ Scales, K Gharachorloo",Design and performance of the Shasta distributed shared memory protocol,1997
+"M Frigo, V Luchangco",Computation-centric memory models,1998
+V Vafeiadis,RGSep action inference,2010
+"A Sengupta, S Biswas, M Zhang, MD Bond, ...",Hybrid static–dynamic analysis for statically bounded region serializability,2015
+"X Zhou, K Lu, X Wang, X Li",Exploiting parallelism in deterministic shared memory multiprocessing,2012
+"X Tang, A Pattnaik, H Jiang, O Kayiran, ...",Controlled kernel launch for dynamic parallelism in GPUs,2017
+"A Muzahid, S Qi, J Torrellas",Vulcan: Hardware support for detecting sequential consistency violations dynamically,2012
+"A Meixner, DJ Sorin",Dynamic verification of sequential consistency,2005
+"P Kuznetsov, S Ravi",On the cost of concurrency in transactional memory,2011
+"A Gotsman, H Yang",Linearizability with ownership transfer,2012
+"J Bornholt, E Torlak",Synthesizing memory models from framework sketches and litmus tests,2017
+"R Chandra, K Gharachorloo, V Soundararajan, ...",Performance evaluation of hybrid hardware and software distributed shared memory protocols,1994
+"M Vijayaraghavan, A Chlipala, N Dave",Modular deductive verification of multiprocessor hardware designs,2015
+HJ Boehm,Can seqlocks get along with programming language memory models?,2012
+"A Linden, P Wolper",A verification-based approach to memory fence insertion in relaxed memory systems,2011
+"A Gotsman, M Musuvathi, H Yang",Show no weakness: sequentially consistent specifications of TSO libraries,2012
+"A Roychoudhury, T Mitra",Specifying multithreaded Java semantics for program verification,2002
+"A Gotsman, N Rinetzky, H Yang",Verifying concurrent memory reclamation algorithms with grace,2013
+"E Cohen, B Schirmer",From total store order to sequential consistency: A practical reduction theorem,2010
+"J Tassarotti, D Dreyer, V Vafeiadis",Verifying read-copy-update in a logic for weak memory,2015
+"J Manson, W Pugh",Core semantics of multithreaded Java,2001
+"MF Atig, A Bouajjani, S Burckhardt, ...",What's Decidable about Weak Memory Models?,2012
+"VW Freeh, GR Andrews",Dynamically controlling false sharing in distributed shared memory,1996
+"A Armstrong, C Pulte, S Flur, I Stark, N Krishnaswami…","ISA semantics for ARMv8-a, RISC-v, and CHERI-MIPS",2019
+"Z Baranová, J Barnat, K Kejstová, T Kučera, ...",Model Checking of C and C++ with DIVINE 4,2017
+C Watt,Mechanising and verifying the WebAssembly specification,2018
+"C Manovit, S Hangal",Efficient algorithms for verifying memory consistency,2005
+TA Henzinger,Quantitative reactive modeling and verification,2013
+"R Guerraoui, TA Henzinger, V Singh",Software transactional memory on relaxed memory models,2009
+M Rinard,Parallel synchronization-free approximate data structure construction,2013
+"S Huang, J Huang",Maximal causality reduction for TSO and PSO,2016
+"J Manson, W Pugh",Semantics of multithreaded Java,2001
+"S Clebsch, S Drossopoulou",Fully concurrent garbage collection of actors on many-core machines,2013
+"L Brutschy, D Dimitrov, P Müller, M Vechev","Serializability for eventual consistency: criterion, analysis, and applications",2017
+"KE Gray, G Kerneis, D Mulligan, C Pulte, ...","An integrated concurrency and core-ISA architectural envelope definition, and test oracle, for IBM POWER multiprocessors",2015
+"M Zheng, MS Rogers, Z Luo, MB Dwyer, ...",CIVL: formal verification of parallel programs,2015
+"YA Manerkar, D Lustig, M Pellauer, ...",CCICheck: Using μhb graphs to verify the coherence-consistency interface,2015
+"PA Abdulla, MF Atig, YF Chen, C Leonardsson…",Automatic fence insertion in integer programs via predicate abstraction,2012
+"A Gidenstam, H Sundell, P Tsigas",Cache-aware lock-free queues for multiple producers/consumers and weak memory consistency,2010
+G Winskel,"Events, causality and symmetry",2011
+"L Kontothanassis, R Stets, G Hunt, ...",Shared memory computing on clusters with symmetric multiprocessors and system area networks,2005
+"A Drebes, K Heydemann, N Drach, A Pop, ...",Topology-aware and dependence-aware scheduling and memory allocation for task-parallel languages,2014
+"T Shpeisman, AR Adl-Tabatabai, R Geva, Y Ni, ...",Towards transactional memory semantics for c++,2009
+B Jonsson,State-space exploration for concurrent algorithms under weak memory orderings: (preliminary version),2009
+"A Horn, M Tautschnig, C Val, L Liang, ...",Formal co-validation of low-level hardware/software interfaces,2013
+"R Ferreira, X Feng, Z Shao",Parameterized memory models and concurrent separation logic,2010
+"H Tang, K Shen, T Yang",Compile/run-time support for threaded MPI execution on multiprogrammed shared memory machines,1999
+"JC Blanchette, T Weber, M Batty, S Owens, ...",Nitpicking C++ concurrency,2011
+"S Karlsson, M Brorsson",A comparative characterization of communication patterns in applications using MPI and shared memory on an IBM SP2,1998
+"M Doko, V Vafeiadis",Tackling real-life relaxed concurrency with FSL++,2017
+E Goubault,"Static analysis by abstract interpretation of numerical programs and systems, and FLUCTUAT",2013
+"J Stoy, X Shen",Proofs of correctness of cache-coherence protocols,2001
+"S Doherty, L Groves, V Luchangco, M Moir",Towards formally specifying and verifying transactional memory,2009
+"P Gammie, AL Hosking, K Engelhardt",Relaxing safely: verified on-the-fly garbage collection for x86-TSO,2015
+"RH Saavedra, W Mao, D Park, ...","The combined effectiveness of unimodular transformations, tiling, and software prefetching",1996
+"TJ Ham, JL Aragón, M Martonosi",DeSC: Decoupled supply-compute communication management for heterogeneous architectures,2015
+"PA Abdulla, MF Atig, TP Ngo",The best of both worlds: Trading efficiency and optimality in fence insertion for TSO,2015
+"A Linden, P Wolper",A verification-based approach to memory fence insertion in PSO memory systems,2013
+"CJ Bell, AW Appel, D Walker",Concurrent separation logic for pipelined parallelization,2010
+"E Tomasco, TL Nguyen, O Inverso, ...",Lazy sequentialization for TSO and PSO via shared memory abstractions,2016
+"O Travkin, A Mütze, H Wehrheim",SPIN as a linearizability checker under weak memory models,2013
+"MF Spear, MM Michael, ML Scott…",Reducing memory ordering overheads in software transactional memory,2009
+"SR Sarangi, R Kalayappan, P Kallurkar, ...",Tejas: A java based versatile micro-architectural simulator,2015
+"A Holey, A Zhai",Lightweight software transactions on GPUs,2014
+"D Lustig, A Wright, A Papakonstantinou, ...",Automated synthesis of comprehensive memory model litmus test suites,2017
+"ML Goodstein, E Vlachos, S Chen…",Butterfly analysis: Adapting dataflow analysis to dynamic parallel monitoring,2010
+"PA Abdulla, S Aronis, B Jonsson, ...",Source sets: a foundation for optimal dynamic partial order reduction,2017
+"PG Joisha, RS Schreiber, P Banerjee, ...",A technique for the effective and automatic reuse of classical compiler optimizations on multithreaded code,2011
+"O Shacham, M Sagiv, A Schuster",Scaling model checking of dataraces using dynamic information,2007
+"P Fraigniaud, S Rajsbaum, C Travers",On the number of opinions needed for fault-tolerant run-time monitoring in distributed systems,2014
+"T Selker, L Koved",Elements of visual language,1988
+"Y Duan, A Muzahid, J Torrellas",WeeFence: toward making fences free in TSO,2013
+"M Emmi, R Majumdar, R Manevich",Parameterized verification of transactional memories,2010
+"CH Ho, SJ Kim, K Sankaralingam",Efficient execution of memory access phases using dataflow specialization,2015
+"O Shacham, M Wachs, A Solomatnikov…",Verification of chip multiprocessor memory systems using a relaxed scoreboard,2008
+"M Elver, V Nagarajan",McVerSi: A test generation framework for fast memory consistency verification in simulation,2016
+"F Pong, M Dubois",Formal automatic verification of cache coherence in multiprocessors with relaxed memory models,2000
+"D Cederman, B Chatterjee, P Tsigas",Understanding the performance of concurrent data structures on graphics processors,2012
+"T Sorensen, AF Donaldson",Exposing errors related to weak memory in GPU applications,2016
+"P Chatterjee, H Sivaraj, G Gopalakrishnan",Shared memory consistency protocol verification against weak memory models: Refinement via model-checking,2002
+"X Qiu, M Dubois",Towards virtually-addressed memory hierarchies,2001
+"T van Dijk, JC van de Pol",Lace: non-blocking split deque for work-stealing,2014
+"A Drebes, A Pop, K Heydemann, A Cohen, ...",Scalable task parallelism for NUMA: A uniform abstraction for coordinated scheduling and memory management,2016
+"PA Abdulla, MF Atig, B Jonsson, TP Ngo",Optimal stateless model checking under the release-acquire semantics,2018
+"Y Yang, G Gopalakrishnan, G Lindstrom",Memory-model-sensitive data race analysis,2004
+"P Schmid, M Besta, T Hoefler",High-performance distributed rma locks,2016
+"X Qian, J Torrellas, B Sahelices, D Qian",Volition: scalable and precise sequential consistency violation detection,2013
+"L Effinger-Dean, HJ Boehm, D Chakrabarti, ...",Extended sequential reasoning for data-race-free programs,2011
+"MD Sinclair, J Alsop, SV Adve",Chasing away rats: Semantics and evaluation for relaxed atomics on heterogeneous systems,2017
+"D Lee, M Said, S Narayanasamy…",Offline symbolic analysis to infer total store order,2011
+"J Kloosterman, J Beaumont, M Wollman, ...",WarpPool: Sharing requests with inter-warp coalescing for throughput processors,2015
+"J Alsop, MS Orr, BM Beckmann, ...",Lazy release consistency for GPUs,2016
+"J Alglave, AF Donaldson, D Kroening, ...",Making software verification tools really work,2011
+"HH Su, D Bonachea, A Leko, H Sherburne…",GASP! A standardized performance analysis tool interface for global address space programming models,2006
+"Y Meshman, A Dan, M Vechev, E Yahav",Synthesis of memory fences via refinement propagation,2014
+"S Hong, M Kim",A survey of race bug detection techniques for multithreaded programmes,2015
+"A Podkopaev, O Lahav, V Vafeiadis",Bridging the gap between programming languages and hardware weak memory models,2019
+"L Higham, L Jackson, J Kawash",Specifying memory consistency of write buffer multiprocessors,2007
+"Y Yang, G Gopalakrishnan, G Lindstrom",Specifying Java thread semantics using a uniform memory model,2002
+"B McCloskey, DF Bacon, ...",Staccato: A parallel and concurrent real-time compacting garbage collector for multiprocessors,2008
+"J Alglave, P Cousot",Ogre and Pythia: an invariance proof method for weak consistency models,2017
+"HW Cain, MH Lipasti, R Nair",Constraint Graph Analysis of Multithreaded Programs.,2003
+"M Silberstein, B Ford, I Keidar, E Witchel",GPUfs: Integrating a file system with GPUs,2014
+"P Permandla, M Roberson, C Boyapati",A type system for preventing data races and deadlocks in the java virtual machine language: 1,2007
+"T Warszawski, P Bailis",Acidrain: Concurrency-related attacks on database-backed web applications,2017
+"D Kroening, L Liang, T Melham, ...",Effective verification of low-level software with nested interrupts,2015
+N Dave,Designing a reorder buffer in Bluespec,2004
+"S Aronis, B Jonsson, M Lång, K Sagonas",Optimal dynamic partial order reduction with observers,2018
+"J Wickerson, M Batty, BM Beckmann, ...","Remote-scope promotion: clarified, rectified, and verified",2015
+"E Derevenetc, R Meyer",Robustness against Power is PSpace-complete,2014
+"S Kaxiras, D Klaftenegger, M Norgren, A Ros, ...",Turning centralized coherence and distributed critical-section execution on their head: A new approach for scalable distributed shared memory,2015
+"R Palmer, G Gopalakrishnan",Partial order reduction assisted parallel model checking,2002
+"J Barnat, L Brim, P Ročkai",Towards LTL model checking of unmodified thread-based C & C++ programs,2012
+"G Anderson, D Pym",A calculus and logic of bunched resources and processes,2016
+"N Honarmand, J Torrellas",RelaxReplay: record and replay for relaxed-consistency multiprocessors,2014
+"J O'Leary, B Saha, MR Tuttle",Model checking transactional memory with Spin,2009
+"O Travkin, H Wehrheim",Verification of concurrent programs on weak memory models,2016
+"PA Abdulla, MF Atig, A Bouajjani, ...",The benefits of duality in verifying concurrent programs under TSO,2016
+"D Harmanci, V Gramoli, P Felber, C Fetzer",Extensible transactional memory testbed,2010
+"A Miné, L Mauborgne, X Rival, J Feret, P Cousot, ...",Taking static analysis to the next level: proving the absence of run-time errors and data races with Astrée,2016
+"J Pang, W Fokkink, R Hofman, ...",Model checking a cache coherence protocol for a Java DSM implementation,2003
+"W Hu, Y Chen, T Chen, C Qian, ...",Linear time memory consistency verification,2011
+R Gerth,Sequential consistency and the lazy caching algorithm,1999
+"J Huang, AK Rajagopalan",Precise and maximal race detection from incomplete traces,2016
+"D Petrović, T Ropars, A Schiper",Leveraging hardware message passing for efficient thread synchronization,2014
+"P Bohannon, D Lieuwen, A Silberschatz, ...",Recoverable user-level mutual exclusion,1995
+"SP Marti, JS Borras, PL Rodriguez, ...",A complexity-effective out-of-order retirement microarchitecture,2009
+"K Jiang, B Jonsson","Using spin to model check concurrent algorithms, using a translation from c to promela",2009
+"F Furbach, R Meyer, K Schneider, ...",Memory-model-aware testing: A unified complexity analysis,2015
+"B Kasikci, C Zamfir, G Candea",Automated classification of data races under both strong and weak memory models,2015
+"N Chong, T Sorensen, J Wickerson","The semantics of transactions and weak memory in x86, Power, ARM, and C++",2018
+"C Williams, PF Reynolds, BR de Supinski",Delta coherence protocols,2000
+"B Lucia, J Devietti, L Ceze, K Strauss",Atom-Aid: Detecting and surviving atomicity violations,2009
+"RCF Melo, MET Walter, ACMA Melo, R Batista…",Comparing two long biological sequences using a dsm system,2003
+"PA Abdulla, MF Atig, A Bouajjani, TP Ngo",Context-bounded analysis for POWER,2017
+"YC Hu, W Yu, AL Cox, DS Wallach, ...",Run-time support for distributed sharing in typed languages,2000
+"J Yang, Q He",Scheduling parallel computations by work stealing: A survey,2018
+"YK Chong, K Hwang",Performance analysis of four memory consistency models for multithreaded multiprocessors,1995
+"M Kokologiannakis, K Sagonas",Stateless model checking of the Linux kernel's hierarchical read-copy-update (tree RCU),2017
+"A Blanchard, N Kosmatov, M Lemerre, ...",A case study on formal verification of the anaxagoros hypervisor paging system with frama-C,2015
+"J Alglave, D Kroening, J Lugton, V Nimal, ...",Soundness of data flow analyses for weak memory models,2011
+"K Svendsen, J Pichon-Pharabod, M Doko, ...",A separation logic for a promising semantics,2018
+"RH Saavedra, WH Mao, K Hwang",Performance and optimization of data prefetching strategies in scalable multiprocessors,1994
+"X Qiu, M Dubois",The synonym lookaside buffer: A solution to the synonym problem in virtual caches,2008
+"A Bouajjani, G Calin, E Derevenetc, R Meyer",Lazy TSO reachability,2015
+"R Vitenberg, R Friedman",On the locality of consistency conditions,2003
+"L Higham, J Kawash",Critical sections and producer/consumer queues in weak memory systems,1997
+"T Abe, T Maeda",A general model checking framework for various memory consistency models,2017
+"NM Lê, A Guatto, A Cohen, A Pop",Correct and efficient bounded FIFO queues,2013
+"A Ros, A Jimborean",A dual-consistency cache coherence protocol,2015
+"C Trippel, D Lustig, M Martonosi",Checkmate: Automated synthesis of hardware exploits and security litmus tests,2018
+"A Cerone, A Gotsman, H Yang",Transaction chopping for parallel snapshot isolation,2015
+"A Jantsch, X Chen, A Naeem, Y Zhang, ...",Memory architecture and management in an NoC platform,2012
+"A Morrison, Y Afek",Fence-free work stealing on bounded TSO processors,2014
+"C Lidbury, AF Donaldson",Dynamic race detection for C++ 11,2017
+"Y Duan, X Feng, L Wang, C Zhang, ...",Detecting and eliminating potential violations of sequential consistency for concurrent C/C++ programs,2009
+"H Dogan, F Hijaz, M Ahmad, B Kahne, ...",Accelerating graph and machine learning workloads using a shared memory multicore architecture with auxiliary support for in-hardware explicit messaging,2017
+"PA Abdulla, MF Atig, J Cederberg",Timed lossy channel systems,2012
+"S Mador-Haim, R Alur, ...",Litmus tests for comparing memory consistency models: How long do they need to be?,2011
+"G Malhotra, R Kalayappan, S Goel, ...",ParTejas: A parallel simulator for multicore processors,2017
+"E Gidron, I Keidar, D Perelman, Y Perez",SALSA: scalable and low synchronization NUMA-aware algorithm for producer-consumer pools,2012
+"J Lee, J Kim, J Kim, S Seo, J Lee",An OpenCL framework for homogeneous manycores with no hardware cache coherence,2011
+"S Potluri, A Goswami, D Rossetti, ...",GPU-centric communication on NVIDIA GPU clusters with InfiniBand: A case study with OpenSHMEM,2017
+BW Lampson,Lazy and speculative execution in computer systems,2008
+HM Windisch,The distributed programming language INSEL-concepts and implementation,1996
+"A Fernández, E Jiménez, V Cholvi",On the interconnection of causal memory systems,2000
+"AJ Summers, P Müller",Automating deductive verification for weak-memory programs (extended version),2020
+"A Schuster, L Shalev",Using remote access histories for thread scheduling in distributed shared memory systems,1998
+"K Yelick, S Chakrabarti, E Deprit, J Jones, ...",Data structures for irregular applications,1993
+"W Zhang, C Sun, J Lim, S Lu, T Reps",Conmem: Detecting crash-triggering concurrency bugs through an effect-oriented approach,2013
+"S Castellan, P Clairambault",Causality vs. interleavings in concurrent game semantics,2016
+"P Ou, B Demsky",Checking concurrent data structures under the C/C++ 11 memory model,2017
+"S Joshi, D Kroening",Property-driven fence insertion using reorder bounded model checking,2015
+"L Brutschy, D Dimitrov, P Müller, M Vechev",Static serializability analysis for causal consistency,2018
+"M Kandemir, A Choudhary, ...",Reducing false sharing and improving spatial locality in a unified compilation framework,2003
+"I Cerrato, G Marchetto, F Risso, R Sisto, ...",An efficient data exchange algorithm for chained network functions,2014
+"A Bhattacharjee, D Lustig",Architectural and operating system support for virtual memory,2017
+"PA Abdulla, MF Atig, M Lång, TP Ngo",Precise and sound automatic fence insertion procedure under PSO,2015
+"L Higham, J Kawash",Memory consistency and process coordination for SPARC multiprocessors,2000
+A Polze,How to partition a workstation,1996
+"K Wang, Y Lin, SM Blackburn, M Norrish, ...",Draining the swamp: Micro virtual machines as solid foundation for language development,2015
+"T Hoare, S van Staden, B Möller, G Struth, ...",Developments in concurrent Kleene algebra,2016
+"D Gope, MH Lipasti",Atomic SC for simple in-order processors,2014
+"M Geva, Y Wiseman",Distributed shared memory integration,2007
+"J Alglave, D Kroening, V Nimal, D Poetzl",Don't sit on the fence: A static analysis approach to automatic fence insertion,2017
+"T Sorensen, G Gopalakrishnan, V Grover",Towards shared memory consistency models for GPUs,2013
+"M Ahmad, O Khan",Gpu concurrency choices in graph analytics,2016
+"E Tomasco, TL Nguyen, O Inverso, B Fischer, ...",MU-CSeq 0.4: individual memory location unwindings,2016
+"J Toman, D Grossman",Taming the static analysis beast,2017
+JW Maessen,Store Atomicity for Transactional Memory,2007
+"MA Hicks, MW van Tol, ...",Towards scalable I/O on a many-core architecture,2010
+"A Gotsman, H Yang",Composite replicated data types,2015
+"C Yang, K Murthy, ...",Managing asynchronous operations in Coarray Fortran 2.0,2013
+"FM Sleiman, TF Wenisch",Efficiently scaling out-of-order cores for simultaneous multithreading,2016
+W Puffitsch,"Data caching, garbage collection, and the Java memory model",2009
+"M He, V Vafeiadis, S Qin, ...",Reasoning about fences and relaxed atomics,2016
+"A De, D D'Souza, R Nasre",Dataflow analysis for datarace-free programs,2011
+C Noël,Extensible software transactional memory,2010
+"L Liang, PE McKenney, D Kroening, ...",Verification of tree-based hierarchical read-copy update in the Linux kernel,2018
+"K Chen, S Malik, P Patra",Runtime validation of transactional memory systems,2008
+"AL Cox, S Dwarkadas, P Keleher…",An evaluation of software distributed shared memory for next-generation processors and networks,1993
+"S Bijo, EB Johnsen, KI Pun, SLT Tarifa",A Maude framework for cache coherent multicore architectures,2016
+"CS Park, K Sen, C Iancu",Scaling data race detection for partitioned global address space programs,2013
+"C Pereira, H Patil, B Calder",Reproducible simulation of multi-threaded workloads for architecture design exploration,2008
+"B Dongol, J Derrick, IJ Hayes",Fractional permissions and non-deterministic evaluators in interval temporal logic,2013
+"A Dahlin, J Ersfolk, G Yang, H Habli, ...",The canals language and its compiler,2009
+"J Dubrovin, T Junttila, K Heljanko",Exploiting step semantics for efficient bounded model checking of asynchronous systems,2012
+"G Smith, J Derrick, B Dongol",Admit your weakness: Verifying correctness on TSO architectures,2014
+"GR Gao, V Sarkar",On the importance of an end-to-end view of memory consistency in future computer systems,1997
+"M Cao, J Roemer, A Sengupta, MD Bond",Prescient memory: exposing weak memory model behavior by looking into the future,2016
+"D Lustig, S Sahasrabuddhe, O Giroux",A formal analysis of the NVIDIA PTX memory consistency model,2019
+"J Wang, K Zhang, X Tang, B Hua",B-queue: efficient and practical queuing for fast core-to-core communication,2013
+"S Pervez, G Gopalakrishnan, RM Kirby, ...",Formal methods applied to high‐performance computing software design: a case study of MPI one‐sided communication‐based locking,2010
+"A Bhagyanath, K Schneider",Optimal compilation for exposed datapath architectures with buffered processing units by SAT solvers,2016
+"F Dahlgren, M Dubois, ...",Performance evaluation and cost analysis of cache protocol extensions for shared-memory multiprocessors,1998
+"J Kim, V Sjöberg, R Gu, Z Shao",Safety and liveness of MCS lock—layer by layer,2017
+"PA Abdulla, MF Atig, J Cederberg",Analysis of message passing programs using SMT-solvers,2013
+"A Bieniusa, P Thiemann",Proving isolation properties for software transactional memory,2011
+"P Godefroid, K Sen",Combining model checking and testing,2018
+"A Cerone, A Gotsman, H Yang",Algebraic laws for weak consistency,2017
+"J Bender, M Lesani, J Palsberg",Declarative fence insertion,2015
+"A Singh, S Aga, S Narayanasamy",Efficiently enforcing strong memory ordering in GPUs,2015
+"PN Loewenstein, S Chaudhry, R Cypher…",Multiprocessor memory model verification,2006
+"D Baudisch, J Brandt, ...",Out-of-order execution of synchronous data-flow networks,2012
+"C Ball, M Bull",Barrier synchronisation in java,2003
+T Arons,Using timestamping and history variables to verify sequential consistency,2001
+"KS Namjoshi, N Singhania",Loopy: Programmable and formally verified loop transformations,2016
+"F Pong, M Dubois",Formal verification of delayed consistency protocols,1996
+"G Kestor, OS Unsal, A Cristal, S Tasiran",T-Rex: a dynamic race detection tool for C/C++ transactional memory applications,2014
+"H Wehrheim, O Travkin",TSO to SC via symbolic execution,2015
+"B Dongol, O Travkin, J Derrick, H Wehrheim",A high-level semantics for program execution under total store order memory,2013
+"S Doherty, B Dongol, H Wehrheim, J Derrick",Making linearizability compositional for partially ordered executions,2018
+"A Horn, D Kroening",On partial order semantics for SAT/SMT-based symbolic encodings of weak memory concurrency,2015
+T Ridge,Operational reasoning for concurrent Caml programs and weak memory models,2007
+"G Gao, JN Amaral, A Marquez, K Theobald",A refinement of the HTMT program execution model,1998
+"G Milman, A Kogan, Y Lev, V Luchangco, ...",BQ: A lock-free queue with batching,2018
+"S Bijo, EB Johnsen, KI Pun, SLT Tarifa",An operational semantics of cache coherent multicore architectures,2016
+V Luchangco,Against lock-based semantics for transactional memory,2008
+MA El-Zawawy,Dead code elimination based pointer analysis for multithreaded programs,2012
+"J Giacomoni, T Moseley, ...",Fastforward for efficient pipeline parallelism,2007
+"Y Meshman, N Rinetzky, E Yahav",Pattern-based synthesis of synchronization for the C++ memory model,2015
+"L Higham, J Kawash",Tight bounds for critical sections in processor consistent platforms,2006
+"D Abts, DJ Lilja, S Scott",Toward complexity-effective verification: a case study of the cray SV2 cache coherence protocol,2000
+"J Ferrante, D Grunwald, H Srinivasan",Computing communication sets for control parallel programs,1994
+"A Raad, M Doko, L Rožić, O Lahav, ...",On library correctness under weak memory consistency: Specifying and verifying concurrent libraries under declarative consistency models,2019
+"G Lee, B Quattlebaum, S Cho, ...",Global bus design of a bus-based COMA multiprocessor DICE,1996
+"JB Lee, CS Jhon",Reducing coherence overhead of barrier synchronization in software DSMs,1998
+"KH Kim, T Yavuz-Kahveci, BA Sanders",JRF-E: using model checking to give advice on eliminating memory model-related bugs,2012
+"M Kusano, C Wang",Thread-modular static analysis for relaxed memory models,2017
+"C Pulte, J Pichon-Pharabod, J Kang, SH Lee, ...",Promising-ARM/RISC-V: a simpler and faster operational concurrency model,2019
+"B Dongol, R Jagadeesan, J Riely, ...",On abstraction and compositionality for weak-memory linearisability,2018
+"A Raad, O Lahav, V Vafeiadis",On parallel snapshot isolation and release/acquire consistency,2018
+"O Travkin, H Wehrheim",Handling TSO in mechanized linearizability proofs,2014
+"P Bolignano, T Jensen, V Siles",Modeling and abstraction of memory management in a hypervisor,2016
+"I Kuru, BK Ozkan, SO Mutluergil, ...",Verifying programs under snapshot isolation and similar relaxed consistency models,2014
+MJ Carlton,"Multiple-bus, scalable, shared-memory multiprocessors",1995
+"M Desnoyers, PE McKenney, ...",Multi-core systems modeling for formal verification of parallel algorithms,2013
+"MD Hill, AE Condon, M Plakal, DJ Sorin",A system-level specification framework for I/O architectures,1999
+"S Zhang, A Wright, T Bourgeat, ...",Composable building blocks to open up processor design,2018
+"S Potluri, D Rossetti, D Becker, D Poole, ...",Exploring OpenSHMEM model to program GPU-based extreme-scale systems,2014
+"L Higham, J Kawash",Bounds for mutual exclusion with only processor consistency,2000
+"J Ferrante, D Grunwald, ...",Compile-time analysis and optimization of explicitly parallel programs,1997
+"ACJ Fox, MJC Gordon, MO Myreen",Specification and verification of ARM hardware and software,2010
+PJ Keleher,Update protocols and cluster-based shared memory,1999
+"A Naeem, X Chen, Z Lu, ...",Realization and performance comparison of sequential and weak memory consistency models in network-on-chip based multi-core systems,2011
+"J McClurg, H Hojjat, P Černý",Synchronization synthesis for network programs,2017
+"M Kokologiannakis, A Raad, V Vafeiadis",Model checking for weakly consistent libraries,2019
+"TL Nguyen, P Schrammel, B Fischer, ...",Parallel bug-finding in concurrent programs via reduced interleaving instances,2017
+"T Abe, T Maeda",Concurrent program logic for relaxed memory consistency models with dependencies across loop iterations,2017
+"S Doherty, J Derrick",Linearizability and causality,2016
+"RJ Colvin, G Smith",A wide-spectrum language for verification of programs on weak memory models,2018
+"B Dongol, J Derrick, L Groves, G Smith",Defining correctness conditions for concurrent objects in multicore architectures,2015
+"JJK Park, Y Park, S Mahlke",ELF: maximizing memory-level parallelism for GPUs with coordinated warp and fetch scheduling,2015
+"A Naeem, X Chen, Z Lu, A Jantsch",Scalability of relaxed consistency models in NoC based multicore architectures,2010
+"F Yu, SC Yang, F Wang, GC Chen…",Symbolic consistency checking of OpenMp parallel programs,2012
+J Kawash,Consistency models for internet caching,2004
+"A Boukerche, ACMA de Melo, ...",A performance evaluation of a local DNA sequence alignment algorithm on a cluster of workstations,2004
+"BW Mammo, V Bertacco, A DeOrio, ...",Post-silicon validation of multiprocessor memory consistency,2015
+"J Bhadra, E Trofimova, ...",Validating power architecture™ technology-based MPSoCs through executable specifications,2008
+"D Beyer, M Huisman, V Klebanov, ...",Evaluating Software Verification Systems: Benchmarks and Competitions,2014
+RNM Watson,Introduction to multithreading and multiprocessing in the freebsd smpng network stack,2005
+"C Lin, V Nagarajan, R Gupta",Address-aware fences,2013
+"A Ros, S Kaxiras",Fast&furious: A tool for detecting covert racing,2015
+"C Pereira, G Pokam, K Danne, R Devarajan, ...",Virtues and obstacles of hardware-assisted multi-processor execution replay,2010
+"S Amani, J Andronick, M Bortin, C Lewis, ...",Complx: A verification framework for concurrent imperative programs,2017
+M Philippsen,Data parallelism in Java,1998
+"F Haziza, L Holík, R Meyer, S Wolff",Pointer race freedom,2016
+"B Dongol, R Jagadeesan, J Riely",Transactions in relaxed memory architectures,2017
+"A Gotsman, S Burckhardt",Consistency models with global operation sequencing and their composition,2017
+"JA Vaughan, T Millstein",Secure information flow for concurrent programs under total store order,2012
+"E Tomasco, TL Nguyen, B Fischer, S La Torre, ...",Using shared memory abstractions to design eager sequentializations for weak memory models,2017
+"S Conchon, D Declerck, F Zaïdi",Cubicle-: Parameterized Model Checking on Weak Memory,2018
+"T Abe, T Ugawa, T Maeda, K Matsumoto",Reducing state explosion for software model checking with relaxed memory consistency models,2016
+AN Pears,Using the DiST Simulator to teach parallel computing concepts,1995
+"E Wernli, M Lungu, OM Nierstrasz",Incremental dynamic updates with first-class contexts,2013
+N Piggin,A lockless page cache in linux,2006
+"N Bhardwaj, M Senftleben, K Schneider",Abacus: A processor family for education,2014
+"A Polze, M Malek",Network computing with SONiC,1998
+"AK Karna, Y Chen, H Yu, H Zhong, J Zhao",The role of model checking in software engineering,2018
+"Y Duan, D Koufaty, J Torrellas",SCsafe: Logging sequential consistency violations continuously and precisely,2016
+PJ Keleher,A high-level abstraction of shared accesses,2000
+"PA Abdulla, J Arora, MF Atig, S Krishna",Verification of programs under the release-acquire semantics,2019
+"R Morisset, F Zappa Nardelli","Partially redundant fence elimination for x86, ARM, and Power processors",2017
+"A Kristensen, C Low",Problem-oriented object memory: customizing consistency,1995
+V Vafeiadis,Formal reasoning about the C11 weak memory model,2015
+"T Abe, T Maeda",Optimization of a general model checking framework for various memory consistency models,2014
+"JB Manzano, Y Zhang, GR Gao","P3I: the Delaware programmability, productivity and proficiency inquiry",2005
+"X Ren, M Lis",Efficient sequential consistency in gpus via relativistic cache coherence,2017
+"C Wallace, G Tremblay, JN Amaral",An Abstract State Machine specification and verification of the location consistency memory model and cache protocol,2001
+"N Gavrilenko, H Ponce-de-León, F Furbach, ...",BMC for weak memory models: Relation analysis for compact SMT encodings,2019
+"G Chen, E Cohen, M Kovalev",Store buffer reduction with MMUs,2014
+"U Degenbaev, WJ Paul, N Schirmer",Pervasive theory of memory,2009
+A Roychoudhury,Formal reasoning about hardware and software memory models,2002
+"H Ponce-de-León, F Furbach, K Heljanko, ...",Portability Analysis for Weak Memory Models porthos: OneToolfor allModels,2017
+M Desnoyers,Proving the correctness of nonblocking data structures,2013
+"Y Zhang, G Xiao, T Baba",Accelerating sequential programs on commodity multi-core processors,2014
+"RB Batista, DN Silva, ACMA de Melo, ...",Using a dsm application to locally align dna sequences,2004
+"WC Kwon, LS Pehy",A universal ordered NoC design platform for shared-memory MPSoC,2015
+"A Naeem, A Jantsch, Z Lu",Scalability analysis of memory consistency models in NoC-based distributed shared memory SoCs,2013
+"S Karlsson, M Brorsson",Producer-push-a protocol enhancement to page-based software distributed shared memory systems,1999
+"X Qin, JL Baer",On the use and performance of explicit communication primitives in cache-coherent multiprocessor systems,1997
+J Engblom,Debugging real-time multiprocessor systems,2007
+"R Hähnle, M Huisman",Deductive software verification: from pen-and-paper proofs to industrial tools,2019
+"R Achermann, L Humbel, D Cock, T Roscoe",Physical addressing on real hardware in Isabelle/HOL,2018
+"B Dongol, L Groves",Contextual trace refinement for concurrent objects: Safety and progress,2016
+"A Malkis, A Banerjee",On automation in the verification of software barriers: Experience report,2014
+"J Huang, C Zhang",Debugging concurrent software: Advances and challenges,2016
+"NN Dang, P Tsigas",Progress guarantees when composing lock-free objects,2011
+"A Bouajjani, C Enea, SO Mutluergil, ...",Reasoning about TSO programs using reduction and abstraction,2018
+"AC Melo, SC Chagas",Visual-MCM: Visualising execution histories on multiple memory consistency models,1999
+"S Mador-Haim, R Alur, MMK Martin",Specifying relaxed memory models for state exploration tools,2009
+"M Goto, R Jagadeesan, C Ptcher, J Riely",Types for relaxed memory models,2012
+"DS Fava, M Steffen, V Stolz",Operational semantics of a weak memory model with channel synchronization,2019
+"S Zhang, M Vijayaraghavan",Weak memory models: Balancing definitional simplicity and implementation flexibility,2017
+"YA Manerkar, D Lustig, M Martonosi, ...",Pipeproof: Automated memory consistency proofs for microarchitectural specifications,2018
+"P Bohannon, D Lieuwen, ...",Recovering scalable spin locks,1996
+"T Abe, T Maeda",Observation-based concurrent program logic for relaxed memory consistency models,2016
+"MF Atig, A Bouajjani, G Parlato",Context-bounded analysis of TSO systems,2014
+"R Kuchumov, A Sokolov, V Korkhov",Staccato: cache-aware work-stealing task scheduler for shared-memory systems,2018
+V Vafeiadis,Program verification under weak memory consistency using separation logic,2017
+"A Armstrong, B Dongol, S Doherty",Proving opacity via linearizability: a sound and complete method,2017
+"C Enea, A Farzan",On atomicity in presence of non-atomic writes,2016
+"L Higham, LA Jackson, J Kawash",Capturing register and control dependence in memory consistency models with applications to the Itanium architecture,2006
+"ACMA Melo, MEMT Walter, RCF Melo…",Local DNA sequence alignment in a cluster of workstations: algorithms and tools,2004
+T Harris,Language constructs for transactional memory.,2009
+"I Ivanov, M Nikitchenko, U Abraham",Event-based proof of the mutual exclusion property of Peterson's algorithm,2015
+"A Mukkara, N Beckmann, D Sanchez",Phi: Architectural support for synchronization-and bandwidth-efficient commutative scatter updates,2019
+"J Jahić, T Kuhn, M Jung, N Wehn",Supervised testing of concurrent software in embedded systems,2017
+"D Buono, G Mencagli",Run-time mechanisms for fine-grained parallelism on network processors: The tilepro64 experience,2014
+"A Atalar, A Gidenstam, ...",Modeling energy consumption of lock-free queue implementations,2015
+"MM Islam, A Muzahid","Detecting, exposing, and classifying sequential consistency violations",2016
+"X Qiu, M Dubois",Tolerating late memory traps in dynamically scheduled processors,2004
+"J Nilsson, F Dahlgren",Reducing ownership overhead for Load-Store sequences in cache-coherent multiprocessors,2000
+"PE Hadjidoukas, ED Polychronopoulos, ...",OpenMP runtime support for clusters of multiprocessors,2003
+SF Siegel,What's wrong with on-the-fly partial order reduction,2019
+"J Derrick, G Smith, L Groves, B Dongol",A proof method for linearizability on TSO architectures,2017
+A Miné,Static analysis of embedded real-time concurrent software with dynamic priorities,2017
+"R Jagadeesan, J Riely",Eventual consistency for crdts,2018
+"M Luo, K Seager, KS Murthy, CJ Archer, S Sur…",Early evaluation of scalable fabric interface for PGAS programming models,2014
+"A Naeem, A Jantsch, X Chen, ...",Realization and scalability of release and protected release consistency models in NoC based systems,2011
+"Y Zhang, W Zhu, F Chen, Z Hu, ...",Sequential Consistency Revisit: The Sufficient Condition and Method to Reason the Consistency Model of a Multiprocessor-on-a-Chip Architecture.,2005
+"S Nürnberger, G Drescher, R Rotta, J Nolte…",Shared memory in the many-core age,2014
+"Y Abd Alrahman, M Andric, A Beggiato…",Can We Efficiently Check Concurrent Programs Under Relaxed Memory Models in Maude?,2014
+"S Bijo, EB Johnsen, KI Pun, SLT Tarifa",A formal model of parallel execution on multicore architectures with multilevel caches,2017
+"TL Nguyen, B Fischer, S La Torre, G Parlato",Concurrent program verification with lazy sequentialization and interval analysis,2017
+"A Basumallik, R Eigenmann",Incorporation of OpenMP memory consistency into conventional dataflow analysis,2008
+"MM Islam, A Muzahid",Characterizing real world bugs causing sequential consistency violations,2013
+"T Abe, T Maeda",Model checking with user-definable memory consistency models,2013
+V Vafeiadis,Separation logic for weak memory models,2015
+"AM Dan, P Lam, T Hoefler, M Vechev",Modeling and analysis of remote memory access programming,2016
+"O Lahav, R Margalit",Robustness against release/acquire semantics,2019
+"R Bornat, M Dodds",Abducing memory barriers,2012
+"E Tomasco, T Nguyen Lam, B Fischer, S La Torre, ...",Embedding weak memory models within eager sequentialization,2016
+"CJ Banks, M Elver, R Hoffmann, ...",Verification of a lazy cache coherence protocol against a weak memory model,2017
+"S Liu, Y Jiang",Value-passing CCS for trees: a theory for concurrent systems,2016
+"J Barnat, L Brim, V Havel",LTL model checking of parallel programs with under-approximated TSO memory model,2013
+"H Mantel, M Perner, J Sauer",Noninterference under weak memory models,2014
+"D Lee, V Bertacco",MTraceCheck: Validating non-deterministic behavior of memory consistency models in post-silicon validation,2017
+"C Wallace, G Tremblay, JN Amaral",On the Tamability of the Location Consistency Memory Model.,2002
+"L Bocchi, H Melgratti",On the behaviour of general purpose applications on cloud storages,2015
+G Gopalakrishnan,"A formalization of test model-checking, completeness results, and case studies",2000
+W Hassanein,Understanding and improving JVM GC work stealing at the data center scale,2016
+"H Posadas, A Nicolás, P Peñil, E Villar, ...",Improving the design flow for parallel and heterogeneous architectures running real-time applications: The PHARAON FP7 project,2014
+"M Kandemir, A Choudhary, ...",On reducing false sharing while improving locality on shared memory multiprocessors,1999
+"BP Biswal, A Singh, B Singh",Cache coherency controller verification IP using SystemVerilog Assertions (SVA) and Universal Verification Methodologies (UVM),2017
+"C Lin, V Nagarajan, R Gupta",Fence scoping,2014
+"M Klemm, JC Beyler, RT Lampert, M Philippsen, ...",Esodyp+: prefetching in the Jackal software DSM,2007
+"S Herhut, C Joslin, SB Scholz, R Poss, ...",Concurrent non-deferred reference counting on the microgrid: first experiences,2010
+J Hayman,Granularity and concurrent separation logic,2011
+J Oberhauser,A simpler reduction theorem for x86-TSO,2015
+P Ferrara,A generic static analyzer for multithreaded Java programs,2013
+"ML Scott, L Lu",Toward a formal semantic framework for deterministic parallel programming,2011
+"SV Adve, K Gharachorloo",Shared memory consistency models,1995
+"Y Duan, N Honarmand, J Torrellas",Asymmetric memory fences: Optimizing both performance and implementability,2015
+"C DeLozier, A Eizenberg, S Hu, G Pokam, ...",TMI: thread memory isolation for false sharing repair,2017
+"J Bhadra, E Trofimova, LJ Giordano, ...",A trace-driven validation methodology for multi-processor SoCs,2006
+"A Naeem, A Jantsch, Z Lu",Architecture support and comparison of three memory consistency models in NoC based systems,2012
+"P Baldan, A Corradini, ...",Domains and event structures for fusions,2017
+"P Metzler, H Saissi, P Bokor…",Quick verification of concurrent programs by iteratively relaxed scheduling,2017
+"I Walulya, Y Nikolakopoulos, M Papatriantafilou, ...",Concurrent data structures in architectures with limited shared memory support,2014
+"S Frenz, R Lottiaux, M Schoettner, C Morin, ...",A practical comparison of cluster operating systems implementing sequential and transactional consistency,2005
+J Dubrovin,Checking bounded reachability in asynchronous systems by symbolic event tracing,2010
+"P Ou, B Demsky",Automo: Automatic inference of memory order parameters for c/c++ 11,2015
+"T Ugawa, T Abe, T Maeda",Model checking copy phases of concurrent copying garbage collection with various memory models,2017
+"V Chennareddy, JK Deka",Formally verifying the distributed shared memory weak consistency models,2006
+"D Lustig, M Pellauer, M Martonosi",Verifying correct microarchitectural enforcement of memory consistency models,2015
+"V Štill, J Barnat",Model checking of C++ programs under the x86-TSO memory model,2018
+"T Suzanne, A Miné",From array domains to abstract interpretation under store-buffer-based memory models,2016
+"MD Marino, GL de Campos, LM Sato",An evaluation of the speedup of Nautilus DSM system,1999
+"S Manoochehri, B Goodarzi, ...",An efficient transaction-based GPU implementation of minimum spanning forest algorithm,2017
+"C Wang, Y Wu",Modeling and performance evaluation of TSO-preserving binary optimization,2011
+"A Shukla, A Biere, L Pulina, ...",A Survey on Applications of Quantified Boolean Formulas,2019
+"SK Reinhardt, RW Pfile, ...",Hardware support for flexible distributed shared memory,1998
+"PJ Joseph, S Vajapeyam",Program-level control of network delay for parallel asynchronous iterative applications,1996
+"I Gartley, M Pirvu, V Sundaresan, ...",Experiences in designing a robust and scalable interpreter profiling framework,2013
+"J Balkind, K Lim, F Gao, J Tu, ...","OpenPiton+ Ariane: The First Open-Source, SMP Linux-booting RISC-V System Scaling From One to Many Cores",2019
+J Goodman,Source snooping cache coherence protocols,2009
+"J Roemer, MD Bond",An online dynamic analysis for sound predictive data race detection,2016
+"H Jiang, H Liang, S Xiao, J Zha, X Feng",Towards certified separate compilation for concurrent programs,2019
+"S Che, M Orr, J Gallmeier",Work stealing in a shared virtual-memory heterogeneous environment: A case study with betweenness centrality,2017
+L Albertsson,Entropy injection,2007
+"M Mazzucco, G Morgan, F Panzieri, C Sharp",Engineering distributed shared memory middleware for java,2009
+A Mycroft,Isolation types and multi-core architectures,2011
+"A El-Hokayem, Y Falcone",Can We Monitor All Multithreaded Programs?,2018
+"T Maeda, A Yonezawa",Typed Assembly Language for Implementing OS Kernels in SMP/Multi-Core Environments with Interrupts.,2010
+"K Kim, T Yavuz-Kahveci, BA Sanders",Precise data race detection in a relaxed memory model using model checking,2009
+"N Ramanathan, ST Fleming, J Wickerson, ...",Hardware synthesis of weakly consistent C concurrency,2017
+"C Sakalis, M Alipour, A Ros, A Jimborean, ...",Ghost loads: what is the cost of invisible speculation?,2019
+"X Qian, K Sen, P Hargrove, C Iancu",SReplay: Deterministic sub-group replay for one-sided communication,2016
+"J Bobba, M Lupon, MD Hill…",Safe and efficient supervised memory systems,2011
+"X Qian, B Sahelices, D Qian",Pacifier: Record and replay for relaxed-consistency multiprocessors with distributed directory protocol,2014
+"A McLaughlin, D Merrill, M Garland, ...",Parallel Methods for Verifying the Consistency of Weakly-Ordered Architectures,2015
+"S Burckhardt, M Musuvathi",Memory model safety of programs,2008
+"S de Putter, A Wijs, D Zhang","The SLCO framework for verified, model-driven construction of component software",2018
+"Z Yang, K Sakallah",Trace-driven verification of multithreaded programs,2010
+"M Perrin, M Petrolia, A Mostefaoui, C Jard",On composition and implementation of sequential consistency,2016
+"U Ramachandran, ...",A measurement‐based study of hardware support for object invocation,1989
+"H Attiya, D Hendler, P Woelfel",Trading fences with rmrs and separating memory models,2015
+O Lahav,Verification under causally consistent shared memory,2019
+"S Aga, A Singh, S Narayanasamy",zfence: Data-less coherence for efficient fences,2015
+"M Zhang, A Lebeck, D Sorin",Fractal consistency: Architecting the memory system to facilitate verification,2010
+"T Suzanne, A Miné",Relational thread-modular abstract interpretation under relaxed memory models,2018
+"S Conchon, D Declerck, F Zaïdi",Compiling Parameterized X86-TSO Concurrent Programs to Cubicle-,2017
+"A Raad, O Lahav, V Vafeiadis",On the semantics of snapshot isolation,2019
+"R Guerraoui, TA Henzinger, M Kapalka…",Transactions in the Jungle,2010
+"B Wilkinson, T Pai, M Miraj",A distributed shared memory programming course,2001
+"D Baudisch, J Brandt, ...",Efficient handling of arrays in dataflow process networks,2012
+"L Yin, W Dong, W Liu, J Wang",Parallel refinement for multi-threaded program verification,2019
+"Y Yi, T Park, HY Yeom",A causal logging scheme for lazy release consistent distributed shared memory systems,1998
+"J Derrick, G Smith, L Groves, B Dongol",Using coarse-grained abstractions to verify linearizability on TSO architectures,2014
+"SM Beillahi, A Bouajjani, C Enea",Checking robustness against snapshot isolation,2019
+V Singh,Runtime verification for software transactional memories,2010
+J Alglave,Modeling of architectures,2015
+"AV Vu, M Ogawa",Formal semantics extraction from natural language specifications for ARM,2019
+"JB Lee, CS Jhon",Improving the execution efficiency of barrier synchronization in software DSM through static analysis,2000
+"N Jarymowycz, P Kearns",Valid Debugging for Distributed Shared Memory.,2002
+"PA Melliès, L Stefanesco",An Asynchronous soundness theorem for concurrent separation logic,2018
+"JR Lorch, Y Chen, M Kapritsos, B Parno, ...",Armada: low-effort verification of high-performance concurrent programs,2020
+"DF Bacon, X Shen",Braids and fibers: Language constructs with architectural support for adaptive responses to memory latencies,2006
+"C Wang, Y Wu",TSO_ATOMICITY: efficient hardware primitive for TSO-preserving region optimizations,2013
+"R Natarajan, A Zhai",Leveraging transactional execution for memory consistency model emulation,2015
+"O Inverso, C Trubiani",Parallel and distributed bounded model checking of multi-threaded programs,2020
+"T Merrifield, S Roghanchi, J Devietti, ...",Lazy determinism for faster deterministic multithreading,2019
+"É Goubault, J Ledent, S Mimram",Concurrent specifications beyond linearizability,2018
+P Keleher,Coherence as an Abstract Type,1998
+"LP Miret, FDM Escoí",Replica divergence in data-centric consistency models,2016
+"A Sengupta, M Cao, MD Bond, ...",Legato: end-to-end bounded region serializability using commodity hardware transactional memory,2017
+"D Lustig, G Sethi, A Bhattacharjee, M Martonosi",Transistency models: Memory ordering at the hardware-OS interface,2017
+"Y Chen, L Li, T Chen, L Li, L Wang, ...",Program regularization in memory consistency verification,2012
+"CC Wu, DL Pean, C Chen",Look-ahead memory consistency model,1998
+"R Palmer, G Gopalakrishnan",The parallel PV model checker,2002
+R Elhorst,Lowering C11 atomics for ARM in LLVM,2014
+"W Mansky, E Gunter",A cross-language framework for verifying compiler optimizations,2014
+"P Metzler, H Saissi, P Bokor, R Hesse, ...",Efficient Verification of Program Fragments: Eager POR,2016
+"S Joshi, S Prasad",An Operational Model for Multiprocessors with Caches,2010
+"V Iosevich, A Schuster",Software Distributed Shared Memory: a VIA‐based implementation and comparison of sequential consistency with home‐based lazy release consistency,2005
+"D Gratzer, A Bizjak, R Krebbers, L Birkedal",Iron: Managing obligations in higher-order concurrent separation logic,2017
+"M Zhang, S Biswas, MD Bond",Avoiding consistency exceptions under strong memory models,2017
+"HW Cain, MH Lipasti",Edge chasing delayed consistency: pushing the limits of weak memory models,2012
+TF Şerbănuţă,Rewriting semantics and analysis of concurrency features for a C-like language,2014
+"X Ren, D Lustig, E Bolotin, A Jaleel, ...",HMG: Extending Cache Coherence Protocols Across Modern Hierarchical Multi-GPU Systems,2020
+"L Henrio, C Kessler, L Li",Ensuring memory consistency in heterogeneous systems based on access mode declarations,2018
+"K Matsumoto, T Ugawa, T Abe",Improvement of a library for model checking under weakly ordered memory model with spin,2018
+"D Schwartz-Narbonne, G Weissenbacher, ...",Parallel assertions for architectures with weak memory models,2012
+"S Joosten, M Huisman",Static code verification through process models,2018
+"B Dongol, J Derrick, G Smith",Reasoning algebraically about refinement on TSO architectures,2014
+"M He, V Vafeiadis, S Qin, JF Ferreira",GPS $$$$: Reasoning About Fences and Relaxed Atomics,2018
+"M Kokologiannakis, K Sagonas",Stateless model checking of the Linux kernel's read–copy update (RCU),2019
+"G Smith, N Coughlin, T Murray",Value-Dependent Information-Flow Security on Weak Memory Models,2019
+"J Nelson, R Palmieri",Don't Forget About Synchronization! A Case Study of K-Means on GPU,2019
+P Cousot,"Verification by abstract interpretation, soundness and abstract induction",2015
+"M LeBeane, K Hamidouche, B Benton, ...",ComP-net: command processor networking for efficient intra-kernel communications on GPUs,2018
+"M Fernandez, P Gammie, J Andronick, G Klein, ...",CAmkES glue code semantics,2013
+"L Chi, S Ping, L Yi, H Qinfen",Efficient Work-Stealing with Blocking Deques,2014
+N Evans,Verifying Qthreads: Is Model Checking Viable for User Level Tasking Runtimes?,2018
+"SV Tambat, S Vajapeyam",Non-strict cache coherence: Exploiting data-race tolerance in emerging applications,2000
+"F Tordini, M Aldinucci, T Massimo",High-level lock-less programming for multicore,2012
+SD Stoller,"Software Model Checking: Where It Is, and Where It's Headed",2005
+"D Gnad, P Dubbert, AL Lafuente, ...",Star-Topology Decoupling in SPIN,2018
+"P Pirkelbauer, R Milewicz, JF Gonzalez",A portable lock-free bounded queue,2016
+"C Wang, Y Lv, P Wu",Bounded TSO-to-SC linearizability is decidable,2016
+"K Hammond, C Brown, S Sarkar",Timing Properties and Correctness for Structured Parallel Programs on x86-64 Multicores,2015
+"A Sezgin, S Tasiran",Moving Around: Lipton's Reduction for TSO,2015
+"G Smith, J Derrick",Invariant generation for linearizability proofs,2016
+"D Leijen, S Burckhardt, BP Wood, M Fahndrich",Cloud Types for Eventual Consistency,2012
+"A Cristal, BK Ozkan, E Cohen, G Kestor, I Kuru, ...",Verification tools for transactional programs,2015
+"HJ Boehm, AJ Demers, C Uhler",Implementing multiple locks using Lamport's mutual exclusion algorithm,1993
+C von Praun,Parallel programming: design of an overview class,2011
+H Shing,A conflict-free memory design for multiprocessors,1992
+"S Bijo, EB Johnsen, KI Pun, SLT Tarifa",A formal model of data access for multicore architectures with multilevel caches,2019
+"JH Choi, KH Park",Hybrid full map directory scheme for distributed shared memory multiprocessors,1997
+"H Shah, RK Shyamasundar, ...",Concurrent SSA for general barrier-synchronized parallel programs,2009
+"A Naeem, A Jantsch, Z Lu",Scalability analysis of release and sequential consistency models in NoC based multicore systems,2012
+"GAG Andrade, M Graf, ...",Chaining and Biasing: Test Generation Techniques for Shared-Memory Verification,2019
+"CC Wu, C Chen",A new relaxed memory consistency model for shared-memory multiprocessors with parallel-multithreaded processing elements,1998
+"C von Praun, T Gross",Compiling multi-threaded object-oriented programs,2003
+"V Nagarajan, DJ Sorin, MD Hill…",A Primer on Memory Consistency and Cache Coherence,2020
+"LI Kontothanassis, ML Scott",Memory Models,1994
+"PA Abdulla, MF Atig, S Kaxiras, C Leonardsson, ...",Fencing programs with self-invalidation and self-downgrade,2016
+"P Baldan, T Padoan",Automata for true concurrency properties,2018
+"AJ Nebro, E Pimentel, JM Troya",Integrating an entry consistency memory model and concurrent object-oriented programming,1997
+"R Guerraoui, TA Henzinger, V Singh",Verification of STM on relaxed memory models,2011
+"M Lobosco, O Loques, CL de Amorim",Reducing memory sharing overheads in distributed JVMs,2005
+"K Matsumoto, T Ugawa, T Abe",A library of memory access instructions under relaxed memory models for SPIN,2016
+"B Gopal, P Kumar",DSM framework with processor consistency and Write-update coherence protocol: implementation,2009
+"M Horie, H Horii, K Ogata, T Onodera",Balanced double queues for GC work-stealing on weak memory models,2018
+"A Jaffe, T Moscibroda, L Effinger-Dean, L Ceze, ...",The impact of memory models on software reliability in multiprocessors,2011
+"G Parthasarathy, AJ Summers, P Müller",Applying and Extending the Weak-Memory Logic FSL+,2017
+"J Alglave, A Mahboubi",A Generic Formalised Framework for Reasoning About Weak Memory Models,2011
+"L Yin, W Dong, W Liu, J Wang",Scheduling constraint based abstraction refinement for weak memory models,2018
+"K Winter, G Smith, J Derrick",Observational models for linearizability checking on weak memory models,2018
+"M Senftleben, K Schneider",Using temporal logics for specifying weak memory consistency models,2018
+"S Krishna, M Emmi, C Enea, ...",Verifying Visibility-Based Weak Consistency,2020
+"A Blanchard, N Kosmatov, F Loulergue",A CHR-Based Solver for Weak Memory Behaviors.,2016
+"L Brutschy, D Dimitrov, P Müller, M Vechev",Effective serializability for eventual consistency,2016
+"P Boronat, V Cholvi",Dependences between critical sections in synchronized memory models,1998
+"E Derevenetc, R Meyer, S Schweizer",Locality and singularity for store-atomic memory models,2017
+"PA Abdulla, MF Atig, A Bouajjani, TP Ngo",Replacing store buffers by load buffers in TSO,2018
+E Kamburjan,Detecting Deadlocks in Formal System Models with Condition Synchronization,2019
+"G Li, G Gopalakrishnan, RM Kirby, D Quinlan",Pug: A symbolic verifier of gpu programs,
+AW Appel,Foundational high-level static analysis,2008
+B Blum,Transactional memory concurrency verification with Landslide,2018
+A Cohen,Streaming Task Parallelism,2015
+"PA Abdulla, MF Atig, R Rezvan",Parameterized verification under TSO is PSPACE-complete,2019
+M Lesani,Brief announcement: Fence insertion for straight-line programs is in P,2017
+"Y Xing, BY Huang, A Gupta, S Malik",A formal instruction-level GPU model for scalable verification,2018
+"A Cohen, AF Donaldson, M Huisman, ...",Correct and efficient accelerator programming (Dagstuhl Seminar 13142),2013
+"HJ Boehm, U Goltz, H Hermanns, P Sewell",Multi-Core Memory Models and Concurrency Theory (Dagstuhl Seminar 11011),2011
+"R Achermann, T Roscoe",Provable Correct Memory Management,2017
+"U Acar, A Charguéraud, S Muller, M Rainey",Atomic Read-Modify-Write Operations are Unnecessary for Shared-Memory Work Stealing,2013
+"RB Batista, ALAC Correa…",Computing binary space partition trees using a scope consistent DSM system in a cluster of workstations,2003
+"ML Goodstein, PB Gibbons, MA Kozuch, ...",Tracking and reducing uncertainty in dataflow analysis-based dynamic parallel monitoring,2015
+"T Ta, X Zhang, A Gutierrez…",Autonomous Data-Race-Free GPU Testing,2019
+"LC Cordeiro, EB de Lima Filho, ...",Survey on automated symbolic verification and its application for synthesising cyber-physical systems,2020
+"K Etessami, P Godefroid",An abort-aware model of transactional programming,2009
+"C Wang, Y Lv, P Wu",TSO-to-TSO linearizability is undecidable,2018
+"H Löf, Z Radović, E Hagersten",THROOM–Supporting POSIX Multithreaded Binaries on a Cluster,2003
+"I Kuru, CS Gordon",Safe Deferred Memory Reclamation with Types,2019
+"E Sifakis, L Mounier",Predictive Taint Analysis for Extended Testing of Parallel Executions,2013
+"A Gupta, V Kahlon, S Qadeer, T Touili",Model checking concurrent programs,2018
+"RCF Melo, MET Walter, ACMA de Melo…",Parallel dna sequence alignment using a dsm system in a cluster of workstations,2003
+"BH Yu, P Werstein, M Purvis, S Cranefield",Lazy home-based protocol: Combining homeless and home-based distributed shared memory protocols,2005
+"É André, L Fribourg, JM Mota, R Soulat",Verification of an industrial asynchronous leader election algorithm using abstractions and parametric model checking,2019
+"MM Islam, R Akram, A Muzahid",Hardware-Based Sequential Consistency Violation Detection Made Simpler,2016
+"V Štill, J Barnat",Local Nontermination Detection for Parallel C++ Programs,2019
+"M Berekovic, U Brinkschulte, W Fornaciari, C Silvano",Architecture of Computing Systems-ARCS 2011,2011
+"A Gidenstam, H Sundell, P Tsigas",Efficient Lock-Free Queues that Mind the Cache,2010
+P Bazavan,CORBA technologies for railway site reservation and passenger information,2007
+CK YUEN,Architecture Inclusive Parallel Programming,2001
+"B Van Assche, EH D'Hollander",A Framework for the Investigation of Shared Memory Systems1,2000
+"P Kumar, K Kumar",Defining Hybrid Distributed Shared Memory Consistency Models on Unified Framework,
+"O Itzhak, I Keidar, A Kolodny, UC Weiser",Performance scalability and dynamic behavior of Parsec benchmarks on many-core processors,2014
+"DS Dhaliwal, PS Sandhu, SN Panda",Consistency Model and Synchronization Primitives in SDSMS,2009
+"O Lahav, U Boker",Decidable verification under a causally consistent shared memory.,2020
+C Leonardsson,Thread-Modular Model Checking of Concurrent Programs under TSO using Code Rewriting,2010
+"A Boukerche, ACMA De Melo",Integrating coordinated checkpointing and recovery mechanisms into DSM synchronization barriers,2007
+"M Factor, A Schuster, K Shagin, T Zamir",Optimistic concurrency for clusters via speculative locking,2009
+"K Paraskevas, A Attwood, M Luján, ...",Scaling the capacity of memory systems; evolution and key approaches,2019
+"BA Sanders, KH Kim",Assertional reasoning about data races in relaxed memory models,2008
+"G Gopalakrishnan, J Sawaya",Achieving Formal Parallel Program Debugging by Incentivizing CS/HPC Collaborative Tool Development,2015
+"M Dalvandi, B Dongol",Towards deductive verification of C11 programs with Event-B and ProB,2019
+"B Rajaram, V Nagarajan, AJ McPherson…","Supercop: a general, correct, and performance-efficient supervised memory system",2012
+"CBM Rinard, C Boyapati",A Parameterized Type System for Race-Free Java Programs,2001
+"L Henrio, C Kessler, L Li",Leveraging access mode declarations in a model for memory consistency in heterogeneous systems,2020
+"I Cerrato, G Marchetto, F Risso, R Sisto, ...",An efficient data exchange mechanism for chained network functions,2018
+"E Tomasco, T Nguyen Lam, B Fischer, S La Torre, ...",Separating computation from communication: a design approach for concurrent program verification,2016
+M de Visme,Event structures for mixed choice,2019
+"B Gomes, W Löwe, JW Quittek, ...","Sather 2: A Language Design for Safe, High-Performance Computing",1997
+"A Boukerche, ACMA Melo, JG Koch, ...",Multiple coherence and coordinated checkpointing protocols for DSM systems,2005
+"B Mammo, J Larimer, M Morgan, D Fan, ...",Architectural trace-based functional coverage for multiprocessor verification,2012
+"J Bataller, JM Bernabéu-Aubán",Constructive and adaptable distributed shared memory,1998
+"W Zheng, B Wang, Y Wu",Task partition comparison between multi-core system and GPU,2010
+"P Maleehuan, Y Chiba, T Aoki",Assembly program verification for multiprocessors with relaxed memory model using smt solver,2017
+"S Biswas, R Zhang, MD Bond, ...",Rethinking Support for Region Conflict Exceptions,2019
+"A Hilton, A Roth",SMT-Directory: Efficient Load-Load Ordering for SMT,2010
+"Y Hong, Y Zheng, H Guan, B Zang, ...",Fence-Free Synchronization with Dynamically Serialized Synchronization Variables,2016
+"H Eberle, L Dennison",Light-weight protocols for wire-speed ordering,2018
+"E Vlachos, S Fytraki, PB Gibbons, MA Kozuch, B Falsafi",Resolve: Enabling Accurate Parallel Monitoring under Relaxed Memory Models,2014
+"A Donaldson, G Gopalakrishnan, N Chong, ...",Formal analysis techniques for reliable GPU programming: Current solutions and call to action,2016
+"R Bhattacharya, ...",Issues in multiprocessor memory consistency protocol design and verification,2002
+"E Albert, A Banerjee, S Drossopoulou, ...",Formal techniques for Java-Like programs,2008
+"CL Wong, Z Sura, X Fang, K Lee, SP Midkiff…",Evaluating the impact of thread escape analysis on a memory consistency model-aware compiler,2005
+"JB Manzano, G Gan, J Ributzka, S Shrestha, ...",Opell and pm: A case study on porting shared memory programming models to accelerators architectures,2011
+"C Baumann, AM Dan, Y Meshman, T Hoefler, ...",Automatic Verification of RMA Programs via Abstraction Extrapolation,2018
+"T Abe, T Ugawa, T Maeda",Reordering control approaches to state explosion in model checking with memory consistency models,2017
+"SO Mutluergil, S Tasiran",A mechanized refinement proof of the Chase–Lev deque using a proof system,2019
+M Takesue,A model of pipelined mutual exclusion on cache-coherent multiprocessors,2003
+"L Brunie, O Reymann",Concepts and functionalities of the DOSMOS-trace monitoring tool,1996
+T Abe,A verifier of directed acyclic graphs for model checking with memory consistency models,2017
+"Y Lv, L Sun, X Ye, D Fan, P Wu",Efficiently and completely verifying synchronized consistency models,2014
+"RJ Colvin, K Winter",An abstract semantics of speculative execution for reasoning about security vulnerabilities,2019
+"C Baumann, O Schwarz, M Dam",On the verification of system-level information flow properties for virtualized execution platforms,2019
+"H Maarand, T Uustalu",Certified Foata normalization for generalized traces,2018
+"C Wang, Y Wu, J Chung",TSO-Atomicity: Efficient TSO Enforcement for Aggressive Program Optimization,
+"C Ding, C Zhang, X Shen, R Huang, C Tice, K Kelsey",Behavior-oriented parallelization,2006
+"B Grayson, C Chase","The Challenges of Low-Overhead Message-Passing Communication Using Commodity Superscalar Processors,""",1997
+"CC Wu, C Chen",Grouping memory consistency model for parallel-multithreaded shared-memory multiprocessor systems,1999
+"M Adda, S Niar",Thread Synchronisation and Scheduling in a pipelined Multithread Processor,2000
+"M Kokologiannakis, V Vafeiadis",HMC: Model Checking for Hardware Memory Models,2020
+"AF Donaldson, J Ketema, T Sorensen, J Wickerson",Forward progress on GPU concurrency,2017
+"T Ugawa, R Jones",Model Checking Transactional Sapphire,2018
+"A RAAD, J WICKERSON, V VAFEIADIS",Weak Persistency Semantics from the Ground Up,2019
+P Parízek,Model Checking Programs,
+G Cong,An Evaluation of Parallel Algorithms on Current Memory Consistency Models,2006
+"P Chatterjee, H Sivaraj, ...",Abstraction/Refinement and Model Checking-Shared Memory Consistency Protocol Verification Against Weak Memory Models: Refinement via Model …,2002
+"R Kannavara, F Xie",CRETE: A Versatile Binary-Level Concolic Testing Framework,2018
+"S Kavadias, M Katevenis, ...",Network Interface Design for Explicit Communication in Chip Multiprocessors,2010
+P MÜLLER,Building Deductive Program Verifiers,2019
+H Wehrheim,Verifying Correctness of Persistent Concurrent Data Structures,2019
+"U Ramachandran, H Venkateswaran",Towards realizing scalable high performance parallel systems,1994
+"P Kumar, D Kumar",Automated Verification of Memory Consistencies of DSM System on Unified Framework,2012
+"P Kumar, K Kumar",Defining Uniform Distributed Shared Memory Consistency Models on Unified Framework,2012
+B Boigelot,MoVES Newsletter,2011
+"D Pichardie, V Laporte, GPJ Vitek",Atomicity Refinement for Verified Compilation,2013
+A Gupta,Verifying concurrent programs,
+"A Ernstsson, J Ahlqvist, S Zouzoula, ...",SkePU 3: Portable High-Level Programming of Heterogeneous Systems and HPC Clusters,2020
+C Sakalis,Correctly Synchronised POSIX-threads Benchmark Applications,2015
+TP Ngo,Ensuring The Correctness of Concurrent Programs under TSO Memory Models,2013
+M Lång,Sound and Complete Reachability Analysis under PSO,2013
+I Keidar,Distributed computing column 46: synthesizing distributed and concurrent programs,2012
+"M Cimini, JG Siek",Fractional Permissions for Race-Free Mutable References in a Dataflow Intermediate Language,2016
+"M Horie, K Ogata, M Takeuchi, H Horii",Scaling up parallel GC work-stealing in many-core environments,2019
+"J Wang, L Jiang, J Ke, X Liang, N Jing",A sharing-aware L1. 5D cache for data reuse in GPGPUs,2019
+"N Koval, V Aksenov",Restricted memory-friendly lock-free bounded queues,2020
+"T Blaß, M Philippsen",GPU-accelerated fixpoint algorithms for faster compiler analyses,2019
+"PA Abdulla, F Haziza, L Holík",View Abstraction–A Tutorial,2015
+"L Gao, Y Xu, R Wang, H Yang, Z Luan, ...",Accelerating in-memory transaction processing using general purpose graphics processing units,2019
+"S Yang, S Jeong, B Min, Y Kim, B Burgstaller…","Design-space evaluation for non-blocking synchronization in Ada: lock elision of protected objects, concurrent objects, and low-level atomics",2020
+JBLCS Jhon,Hardware Support for Release Consistency with Queue-based Synchronization,1997
+"BSADC Larry, R Arvind",Message Passing Support on StarT-Voyager,1998
+"S Ha, C Jhon",Reducing multithreaded frame cache miss ratio by prefetching and working frame set scheduling,1996
+"OM Duarte, R Hametner",Asynchronous programming with futures in C on a safety-critical platform in the railway-control domain,2017
+"M He, S Qin, J Ferreira",Towards a Program Logic for C11 Release-Sequences,2018
+"A Antonov, P Kustarev",Strategies of Computational Process Synthesis—a System-Level Model of HW/SW (Micro) Architectural Mechanisms,2020
+"N Coughlin, G Smith",Rely/Guarantee Reasoning for Noninterference in Non-Blocking Algorithms,2020
+"GAG Andrade, M Graf, N Pfeifer, ...",A Directed Test Generator for Shared-Memory Verification of Multicore Chip Designs,2020
+"M Hemmatpour, R Ferrero, F Gandino, ...",Cost Evaluation of Synchronization Algorithms for Multicore Architectures,2019
+"K Matsumoto, T Ugawa",Visualization of Counterexamples of Memory Model-aware Model Checking Using SPIN,2019
+"B Simner, S Flur, C Pulte, A Armstrong…",ARMv8-A system semantics: instruction fetch in relaxed architectures,2020
+"YAMD Lustig, MMM Pellauer",RTLCheck: Verifying the Memory Consistency of RTL Designs,2017
+"A Raad, V VAFEIADIS",Persistence Semantics for Weak Memory,2018
+"J Pichon-Pharabod, F Sieczkowski, L Birkedal…",A Separation Logic for Fictional Sequential Consistency,2019
+"A RAAD, ORI LAHAV, V VAFEIADIS",Persistent Owicki-Gries Reasoning,2019
+"PG de Massas, F Pétrot",Evaluation of the implementation cost of cache coherence protocols using omniscient actions,2010
+"G Smith, K Winter, RJ Colvin",Linearizability on hardware weak memory models,2019
+"L Higham, J Kawash",Can out-of-order instruction execution in multiprocessors be made sequentially consistent?,2005
+"P Qu, J Yan, GR Gao",Toward a Parallel Turing Machine Model,2016
+"A Bouajjani, C Enea, M Mukund, R Roy",On Verifying TSO Robustness for Event-Driven Asynchronous Programs,2018
+"N Farooqui, I Roy, Y Chen, V Talwar, R Barik, ...",Accelerating Data Analytics on Integrated GPU Platforms via Runtime Specialization,2018
+"D Beyer, M Huisman",Tools for the construction and analysis of systems,2020
+"G Smith, L Groves",Weakening Correctness and Linearizability for Concurrent Objects on Multicore Processors,2019
+"QT Trac, M Ogawa",Formal Semantics Extraction from MIPS Instruction Manual,2019
+"Z Hóu, D Sanan, A Tiu, Y Liu, KC Hoa, ...",An Isabelle/HOL Formalisation of the SPARC Instruction Set Architecture and the TSO Memory Model,2020
+G Friedrich,Decoupled Strong Stubborn Sets,2016
+"L Li, EL Gunter",Per-Location Simulation,2020
+M Lesani,Transaction Protocol Verification with Labeled Synchronization Logic,2019
+D Page,Advanced Processor Design,2009
+"M Andrić, R De Nicola, AL Lafuente",Replicating Data for Better Performances in X10,2016
+"C Baier, C Tinelli",Some advances in tools and algorithms for the construction and analysis of systems,2017
+S Mannarswamy,Software Transactional Memory,2017
+PN Computing,Predictable Network Computing,
+A Gefﬂaut,Design and Evaluation of a Software-Controlled COMA,
+"UA Acar, A Charguéraud, M Rainey",Greedy Sharing: Load Balancing on Weakly Consistent Memory,
+"GSLBS Cuellar, AW Appel",Compositional CompCert,
+"S Pervez, G Gopalakrishnan, RM Kirby, R Thakur, ...",Formal Methods Applied to HPC Software Design: A Case Study of Locking Based on MPI One-Sided Communication,
+"P Graham, K Barker, R Peters",Implementing Persistent Object Systems in Distributed Shared Virtual Memory,
+V Robert,Proof-assistant-based verification of programs,
+"HC Hsiao, CT King",The Thread-Based Protocol Engines for CC-NUMA Multiprocessors,
+XZZXL Sun,Performance Predictions on Implicit Communication Systems,
+"S CASTELLAN, LÉO STEFANESCO, N YOSHIDA",Game Semantics: Easy as Pi,
+"B Gomes, W Löwe, JW Quittek, B Weissman",Safe Sharing OF Objects IN A High-Performance Parallel Language,
+"B Engel, M Völp",First Experiences on PWCS synchronized Data Structures,
+"T Kooburat, MJ Hwang",Extending Task-based Programming Model beyond Shared Memory Systems,
+N Klipphahn,Concurrent Model Checking-Systematic testing/Stateless Model Checking,
+HW Relaxed,Memory Model Sensitive Bytecode Verification,
+"H Hojjat, J McClurg, N Foster",Network Updates for the Impatient: Eliminating Unnecessary Waits,
+D Heck,Programming with Threads: Synchronization and Communication,
+"R Ghughal, A Mokkedem, R Nalumasu…","Verification of Runway-PA8000 memory model using\Test model-checking"" technique",
+R Singh,Quantitative Synthesis for Concurrent Programs⋆,
+"V VAFEIADIS, FZ NARDELLI",CompCertTSO: A Verified Compiler for Relaxed-Memory Concurrency,
+"B Grayson, L John, C Chase",The Effects of Memory-Access Ordering on Multiple-Issue Uniprocessor,
+"K Winter, G Smith",Weak memory model of SeqLock in NuSMV,
+"Y Zhang, X Feng",Program Logic for Local Reasoning in TSO,
+JLM Valero,Task Superscalar: Using Processors as Functional Units,
+"JJ Carrig Jr, GGL Meyer",A Computational Model for a Class of Synchronized Distributed Memory Machines,1995
+M Philippsen,11 DATA PARALLELISM IN JAVA,2012
+"X Yuan, D Williams-King, J Yang, ...",Making lock-free data structures verifiable with artificial transactions,2016
+P Sewell,"Memory, an elusive abstraction",2010
+"G Narayanaswamy, S Joshi, D Kroening",The virtues of conflict: analysing modern concurrency,2016
+"AJ McPherson, V Nagarajan, S Sarkar, ...",Fence placement for legacy data-race-free programs via synchronization read detection,2015
+"L Bajczi, A Vörös, V Molnár",Will My Program Break on This Faulty Processor? Formal Analysis of Hardware Fault Activations in Concurrent Embedded Software,2019
+S Biswas,Viser: providing serializability in hardware with simplified cache coherence,2015
+"R O'Callahan, K Huey, D O'Dell, T Coatta",To Catch a Failure: The Record-and-Replay Approach to Debugging,2020
+"M Taheri, A Pourdamghani, ...",Polynomial-Time Fence Insertion for Structured Programs,2019
+"MM Islam, A Muzahid",Bugaroo: Exposing Memory Model Bugs in Many-Core Systems,2018
+"Y Yao, W Chen, T Mitra, Y Xiang",TC-Release++: An Efficient Timestamp-Based Coherence Protocol for Many-Core Architectures,2017
+"DB Davis, J Featherston, HN Vo, M Fukuda, ...",Data Provenance for Agent-Based Models in a Distributed Memory,2018
+"A Khyzha, A Gotsman",Compositional reasoning about concurrent libraries on the axiomatic TSO memory model,2012
+"SM Mueller, WJ Paul",Memory System Design,2000
+"CD Cavanna, TS Abdelrahman, A Bilas, ...",Jupiter/SVM: a JVM-based Single System Image for Clusters of Workstations,2004
+"J Nelson, P Miller, R Palmieri",Don't forget about synchronization! Guidelines for using locks on graphics processing units,2020
+"C Narayan, S Sharma, S Arun-Kumar",Efficient Bounded Verification for TSO,
+"A Gotsman, H Yang, C Ferreira, M Najafzadeh, ...",Reasoning about Consistency Choices in Distributed Systems,
+"N Hossain, C Trippel, M Martonosi",TransForm: Formally Specifying Transistency Models and Synthesizing Enhanced Litmus Tests,
+"P Gupta, G Verma",Performance Analysis of Shared Memory Model in a Multiprocessor Environment,
+"K Etessami, P Godefroid",A Model of Transactional Programming,
+"V Abikhattar, L Arditi, O Ponsini, S Shoaraee",A CP-based system for checking and generating memory consistency tests,
+"DLCTM Pellauer, M Martonosi",ArMOR: Defending Against Memory Consistency Model Mismatches in Heterogeneous Architectures,
+"HR Chuang, R Lyerly, S Lankes, ...",Scaling Shared Memory Multiprocessing Applications in Non-cache-coherent Domains,2020
+"A Verma, PK Kalita, A Pandey, S Roy",Interactive debugging of concurrent programs under relaxed memory models,2020
+"N Liu, B Zang, H Chen",No barrier in the road: a comprehensive study and optimization of ARM barriers,2020
+T Matsumoto,A Study on Memory-Based Communications and Synchronization in Distributed-Memory Systems,1994
+"R Jagadeesan, G Petri, C Pitcher, J Riely",Quarantining Weakness,
+"ORI LAHAV, UDI BOKER",What's Decidable about Causally Consistent Memory Models?,
+"MH Davis Jr, U Ramachandran",Exploiting optical waveguides in general-purpose parallel computing,1993
+"J Leroux, G Sutre",Backward Coverability with Pruning for Lossy Channel Systems,2017
+"H Maarand, T Uustalu",Certified normalization of generalized traces,2019
+"AA Patwardhan, R Upadrasta",Polyhedral Model Guided Automatic GPU Cache Exploitation Framework,
+M Vechev,Computer-aided construction of concurrent systems,2010
+E Bardsley,"Everything you know is wrong: The amazing time traveling CPU, and other horrors of concurrency",2014
+"A Blanchard, N Kosmatov, F Loulergue",MMFilter: A CHR-Based Solver for Generation of Executions under Weak Memory Models,2018
+"K Winter, G Smith, J Derrick",Modelling concurrent objects running on the TSO and ARMv8 memory models,2019
+N ten Dijke,Comparison of Verification Methods for Weak Memory Models,2014
+"J Alglave, L Maranget",Fences and Synchronisation Idioms in Weak Memory Models,2009
+"JDJNT Bergan, LCD Grossman",RCDC: A Relaxed Consistency Deterministic Computer,2011
+"Q Jiang, J Liu, H Hu",A Thread Modularity Approach for Verification Concurrent Software Based on Abstract Interpretation,2018
+"S Kaxiras, TE Carlson, M Alipour, A Ros",Non-speculative load reordering in total store ordering,2018
+"N Ramanathan, J Wickerson, ...",Scheduling Weakly Consistent C Concurrency for Reconfigurable Hardware,2017
+"MT Lazarescu, A Cohen, L Lavagno, A Pop, M Prieto, ...",Energy-aware parallelization toolset and flow for C code,2018
+"P Maleehuan, Y Chiba, T Aoki",A Verification Framework for Assembly Programs Under Relaxed Memory Model Using SMT Solver,2018
+"M Goodstein, E Vlachos, S Chen, P Gibbons, M Kozuch, ...",The Butterfly Model: Theoretical Foundations,2009
+"M Teragni, G Zabala, S Blanco",A Cloud Powered Relaxed Heterogeneous Distributed Shared Memory System,2018
+"L Higham, J Kawash, A Pareek",Programmer-Centric Memory Consistency Modeling,2013
+"P Zeller, A Bieniusa, A Poetzsch-Heffter",Combining state-and event-based semantics to verify highly available programs,2019
+"S Conchon, D Declerck, F Zaïdi",Parameterized Model Checking on the TSO Weak Memory Model,2020
+"D Lee, V Bertacco",Test Generation and Lightweight Checking for Multi-core Memory Consistency,2019
+"R Meyer, S Wolff",Reasoning About Weak Semantics via Strong Semantics,2018
+"L Higham, J Kawash",Pitfalls in Memory Consistency Modelling,2016
+"J Alglave, L Maranget",Automatic Weak Memory Model Exploration,
+"HW Cain, MH Lipasti","Vector Clocks, Constraint Graphs, and the Verification of Memory Consistency Models",
+"DJ Scales, K Gharachorloo, CA Thekkath","Shasta: A low overhead, software-only approach for supporting fine-grain shared memory",1996
