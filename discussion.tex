@@ -1,4 +1,4 @@
-\section{Guide for choosing model}
+\section{Guide for Choosing a Model}
 \label{sec:discussion}
 
 In this section we provide a summary of our findings
@@ -31,7 +31,22 @@ syntactic dependency preserving models.
 Those are a reasonable choice for programming languages
 which may afford a moderate performance overhead 
 in exchange of a simpler and more predictable program behavior~\cite{Ou-Demsky:OOPSLA18}.
-\app{Say that program order preserving models provide much simpler reasoning principles.}
+
+A nice property of program order preserving models, compared 
+to a syntax or semantic dependency preserving models, 
+is that they do not utilize any form of speculative execution. 
+This further simplifies the reasoning about the correctness
+of concurrent programs and better reflects the 
+expectations of programmers. 
+The price for this simplicity is that 
+these models require sub-optimal compilation mappings 
+to the \ARM and \POWER hardware.
+In contrast, syntactic dependency preserving models 
+can be efficiently implemented on \ARM and \POWER hardware,
+but these models do not support trace preserving transformations,
+including constant folding, and utilize speculative execution, 
+leading to a more complicated semantics.   
+
 % An example of such language is \OCaml --- 
 % a high-level programming language 
 % with an emphasis on functional paradigm which is 
@@ -70,38 +85,42 @@ of a strong memory model~\cite{Vollmer-al:PPoPP17}.
 
 Finally, if the language tolerates undefined behavior, as \CPP does, 
 an alternative to a complex semantic dependency preserving model
-could be a program order preserving model (or a syntactic dependency preserving one) 
+could be a program order preserving model 
 which treats data races on non-atomic accesses as 
 undefined behavior~\cite{Boehm-Demsky:MSPC14, Ou-Demsky:OOPSLA18}.
 In this case a compiler can use optimal compilation mappings 
 and apply a wide range of transformations to non-atomics 
 and at the same time have a simpler semantics for atomics.
 
-\paragraph{Choosing a memory model for Kotlin}
-As a example, %% of choosing a memory model for a language,
-consider Kotlin,\footnote{https://kotlinlang.org/}
+\paragraph{Choosing a Memory Model for \Kotlin}
+As an example, %% of choosing a memory model for a language,
+consider \Kotlin,\footnote{https://kotlinlang.org/}
 a general-purpose programming language,
 which does not have a standardized memory model yet.
-Currently, Kotlin is compilable to JVM, JavaScript, and native platforms
-(Linux, Windows, macOS, iOS, \emph{etc.}) via LLVM.
+Currently, \Kotlin can be compiled 
+to \Java bytecode, to \JS code, or to native code via \LLVM
+(for Linux, Windows, macOS, iOS, and other platforms).
 
 The language is not oriented on system-level programming,
 that is, it does not have to provide zero cost abstraction over target hardware
 for shared memory accesses.
-That means a memory model which either preserves syntax dependencies or program order is
-suitable for Kotlin.
-Both approaches have moderate performance penalties,
-however, program order preservation works better for languages tolerating undefined behavior
+Therefore a memory model which either preserves program order 
+or syntax dependencies is suitable for \Kotlin.
+Both approaches have moderate performance penalties.
+However, program order preservation works better for languages tolerating undefined behavior
 for data races involving non-atomic accesses (see~\cite{Ou-Demsky:OOPSLA18})
-since it allows to compile non-atomics as plain accesses to architectures with non program order preserving
-memory models like \ARM and \POWER.
-Even though having undefined behavior for Kotlin in general might be undesirable,
-it is practically unavoidable for data races on non-atomics since they have undefined
-behavior under LLVM~\cite{Chakraborty-Vafeiadis:CGO17}.
+since it allows to compile non-atomics as plain accesses to architectures like \ARM and \POWER
+which do not guarantee to preserve the program order. 
+Even though having undefined behavior for \Kotlin in general might be undesirable,
+it is practically unavoidable because data races on non-atomics have undefined
+behavior under \LLVM~\cite{Chakraborty-Vafeiadis:CGO17}.
 
 Among the two classes of models the most well-studied and feature-rich model is
-RC11~\cite{Lahav-al:PLDI17}, which adds program order preservation to the C11 memory model~\cite{Batty-al:POPL11}.
-It is very close to memory models of LLVM and JavaScript~\cite{Watt-al:PLDI20}
-since both of them are inspired by C11, and RC11 has a superset of access types presented in JMM~\cite{Manson-al:POPL05}
-and its extension JAM~\cite{Bender-Palsberg:OOPSLA19}.
-That makes RC11 a good starting point for development of a memory model for Kotlin.
+\RCMM~\cite{Lahav-al:PLDI17}, which adds program order preservation 
+to the \CMM memory model~\cite{Batty-al:POPL11}.
+\RCMM supports a superset of access types presented in \JMM~\cite{Manson-al:POPL05}
+and its extension \JAM~\cite{Bender-Palsberg:OOPSLA19}, 
+and it is very close to the memory models of \JS~\cite{Watt-al:PLDI2020} 
+and \LLVM~\cite{Chakraborty-Vafeiadis:CGO17} since both of them were inspired by \CMM. 
+
+That makes \RCMM a good starting point for development of a memory model for \Kotlin.
