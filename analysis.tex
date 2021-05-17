@@ -11,16 +11,21 @@ of memory models in more detail.
 Based on the data from \cref{table:cmp-cls},
 we derive a relationship between a compilation scheme optimality, 
 a soundness of transformations and reasoning guarantees.
-In particular, we explain how the support of some reasoning guarantees 
+In particular, we show how the support of some reasoning guarantees 
 disables some program transformations and requires a more heavyweight 
 compilation mapping to hardware.
 
-Note that we present the classes in different order 
-compared to the order in \cref{table:cmp-cls,table:cmp-mms}.
-It is because we wanted to first discuss the problem 
-of thin-air values (\cref{sec:analysis:oota}) and then describe 
-various solutions of this problem
-(\cref{sec:analysis:porf,sec:analysis:deprf,sec:analysis:sdeprf}).
+We stat with a discussion of the class of 
+sequentially consistent models~\cref{sec:analysis:seqcst}.
+Then we proceed to the class of totally and partially 
+store ordered models~\cref{sec:analysis:tso}.
+After that we switch to the class of very weak 
+models permitting thin-air values~\cref{sec:analysis:oota}.
+Then we describe various solutions tackling 
+the problem of thin-air values, namely
+program order preserving models~\cref{sec:analysis:porf},
+syntactic dependency preserving models~\cref{sec:analysis:deprf},
+and semantic dependency preserving models~\cref{sec:analysis:sdeprf}.
 
 In \cref{sec:analysis:other} we also discuss the particular properties 
 of models, namely the coherence and the catch-fire semantics, 
