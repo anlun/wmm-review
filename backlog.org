@@ -116,5 +116,6 @@ solutions of this problem (§6.4 to §6.6).»
 ?Modeling Checking?
 Расширение на release/acquire JS
 Дискуссия и высказывание авторов
+** [Женя] 16. Background: объяснить как критерии связаны с примитивами 
 * Ideas for future work
 ** A set of litmus tests distinguishing observed models
