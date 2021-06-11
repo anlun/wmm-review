@@ -1,28 +1,35 @@
 \renewcommand{\abstractname}{Abstract}
 
 \begin{abstract}
-A memory model defines semantics of 
-concurrent programs operating on a shared memory.
-The most well-known and intuitive memory model, sequential consistency,
-is too \emph{strong} for modern languages as it forbids
-many outcomes observable on modern hardware as a result of
-compiler and CPU optimizations. This gave rise to so-called
-\emph{weak} or \emph{relaxed} memory models.
-In recent years dozens of (weak) memory models for 
-programming languages were proposed
-making different compromises with respect 
-to programmability and the optimization potential.
-A goal of this paper is to survey and classify these models as well as
-to provide practical recommendations for language and compiler designers
-regarding a choice of a memory model.
+Модель памяти определяет семантику
+конкурентных программ оперирующих с разделяемой памятью.
+Наиболее известная и интуитивная модель последовательной согласованности 
+является слишком строгой, так как запрещает многие 
+поведения наблюдаемые на современных процессорах 
+в результате выполнения компилятором и процессором различных оптимизаций.  
+Попытки описать эти поведения привели к возникновению 
+так называемых слабых моделей памяти.
+В последние годы было предложено множество 
+слабых моделей памяти для различных языков программирования. 
+Эти модели предлагают разные компромиссы в соотношении
+простоты рассуждения о поведении конкурентных программ 
+и возможностей для их оптимизации. 
+Цель данной статьи заключается в обзоре существующих 
+моделей памяти для языков программирования 
+и выработке общих рекомендации для 
+разработчиков языков и компиляторов 
+по выбору модели. 
 
-To achieve this we picked over 2000 research items from Google Scholar
-with keywords ``Relaxed Memory Models'', ``Weak Memory Models'',
-and ``Weak Memory Consistency''. Then, we narrowed down this list to 40 papers
-having as a contribution a programming language memory model
-(as oppose to hardware memory models).
-We divide these models to six main classes and analyze their properties and limitations.
-We conclude with a discussion on how a choice of a memory model is affected by
-desired features of a language and suggest several possible directions for
-future researh in the field of weak memory models.
+Для данного обзора мы отобрали более 2000 статей
+по ключевым словам ``Relaxed Memory Models'', ``Weak Memory Models'',
+и ``Weak Memory Consistency'', используя поисковую систему Google Scholar.
+Затем мы сузили этот список до 40 статей 
+предлагающих и описывающих модели памяти 
+языков программирования.
+Мы разделили эти модели на 6 основных классов и 
+проанализировали их свойства и ограничения. 
+В заключении, мы рассматриваем как 
+дизайн языка программирования вляет на 
+выбор модели памяти, и обсуждаем 
+возможные направления дальнейших исследований в области. %слабых моделей памяти.
 \end{abstract}
