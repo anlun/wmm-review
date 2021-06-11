@@ -1,0 +1,101 @@
+\documentclass[a4paper,twoside,11pt]{article}
+\usepackage[cp1251]{inputenc}
+\usepackage[english,russian]{babel}
+\usepackage{fancyhdr}
+\usepackage{newprog1e}
+
+\usepackage{amsfonts,amsmath,amssymb,amsthm}
+\usepackage{mathtools}
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage[table]{xcolor}
+\usepackage{tikz}
+\usepackage{hyperref}
+\usepackage{cleveref}
+\usepackage{sansmath}
+\usepackage{xspace}
+\usepackage{cite}
+\usepackage{multirow}
+\usepackage{makecell}
+\usepackage{pifont}
+\usepackage{hhline}
+\usepackage{enumitem}
+
+\usepackage{lscape}
+% \usepackage{pdflscape}
+
+\usepackage{longtable}
+
+\tolerance=1000
+
+\newcommand{\defi}{\stackrel{\mathrm{def}}{=}}
+
+\numberwithin{equation}{section}
+\newtheorem{theorem}{Theorem}
+
+\newtheorem{definition}{Definition}
+
+\captionsetup[table]{name=Table}
+
+\crefformat{section}{\S#2#1#3} 
+\crefformat{subsection}{\S#2#1#3}
+\crefformat{subsubsection}{\S#2#1#3}
+
+\crefrangeformat{section}{\S#3#1#4 to~\S#5#2#6}
+\crefrangeformat{subsection}{\S#3#1#4 to~\S#5#2#6}
+\crefrangeformat{subsubsection}{\S#3#1#4 to~\S#5#2#6}
+
+\journalnumber{2}
+\curyear{2021}
+\authorlist{}
+\titlehead{}
+\headerdef
+
+\udk{004.421.6}
+%92+004.94}
+\rubrika{}
+\dateinput{17.05.2021}
+
+\rusabstr{}
+
+\author{
+{\bfseries Evgenii~Moiseenko$^{*, \ddagger}$, Anton~Podkopaev$^{\dagger \ddagger}$, Dmitrii~Koznov$^{*}$}
+\\ {\itshape $~^{*}$ Saint Petersburg State University}
+\\ {\slshape 198504} {\itshape Saint Petersburg, Petergof, Universitetskii ave.} {\slshape 28}
+\\ {\itshape $~^{\dagger}$ HSE University}
+\\ {\slshape 194100} {\itshape Saint Petersburg, Kantemirovskaya str.} {\slshape 3} {\itshape b.} {\slshape 1}
+\\ {\itshape $~^{\ddagger}$ JetBrains Research}
+\\ {\slshape 197342} {\itshape Saint Petersburg, Kantemirovskaya str.} {\slshape 2}
+\\ {\itshape E-mail: e.moiseenko@2012.spbu.ru, apodkopaev@hse.ru, d.koznov@spbu.ru}}
+
+\title{A Survey of Programming Language Memory Models}
+%\thanks{~}
+
+\date{}
+
+\input{../common/defs.tex}
+
+\begin{document}
+
+\maketitle
+%\tableofcontents
+
+\input{abstract}
+\input{intro}
+\input{related-work.tex}
+\input{methodology.tex}
+\input{background.tex}
+\input{comparison.tex}
+\input{analysis.tex}
+\input{discussion.tex}
+\input{conclusion.tex}
+
+\bibliography{../common/main.bib} 
+\bibliographystyle{ieeetr}
+
+\clearpage
+\appendix
+
+\input{catalog.tex}
+
+\end{document}

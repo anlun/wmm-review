@@ -1,0 +1,81 @@
+\section{Conclusion and Future Work}
+\label{sec:conclusion}
+
+In this work we surveyed memory models 
+proposed for various programming language. 
+We compared them based on the common set of criteria
+developed in the literature and identified 
+six main classes of memory models.
+We also presented a short guide on how to 
+choose a suitable memory model based on 
+the design of a programming language. 
+We hope our work will be helpful for 
+programming language researches and implementors,
+and would serve as a gentle introduction 
+to the complex topic of weak memory models. 
+%% As more and more new and existing programming languages 
+%% introduce features for concurrent programming, 
+%% we expect research of weak memory models to continue.
+Based on our analysis, we can suggest several
+possible directions for future work in the field. 
+
+The problems of the optimality of compilation schemes
+and the soundness of local program transformations are relatively well-studied.
+More recent memory models,
+RC11~\cite{Lahav-al:PLDI17},
+\OCaml MM~\cite{Dolan-al:PLDI18},
+\Promising~\cite{Kang-al:POPL17,Lee-al:PLDI20},
+and \Weakestmo~\cite{Chakraborty-Vafeiadis:POPL19},
+support a wide range of local transformations and have clear 
+trade-offs in terms of compilation mappings. 
+An exception is local transformations involving loops and recursion, 
+their soundness was not studied formally. 
+Global transformations also received a little attention so far,
+with few notable exceptions~\cite{PichonPharabod-Sewell:POPL16, Lee-al:PLDI20}.
+The exact impact of these transformations on the design of 
+memory models is yet to be discovered. 
+
+Whole program data-race freedom guarantees were also studied extensively.
+In contrast, the local data-race freedom~\cite{Dolan-al:PLDI18} 
+is a relatively new concept. 
+We expect it as well as local reasoning guarantees 
+in general~\cite{Dodds-al:ESOP18, Jagadeesan-al:OOPSLA2020, Cho-al:PLDI21} 
+to receive more attention in the near future.  
+
+Mixed size accesses\cite{Flur-al:POPL17},
+which are already used in the \JS memory model~\cite{Watt-al:PLDI2020}
+and real-world applications, for example, in the \Linux kernel codebase~\cite{Flur-al:POPL17},
+are understudied even for hardware.
+Proper understanding of them is an important direction for the community. 
+
+%% Surprisingly, sequential consistent accesses of the C11 memory model~\cite{Batty-al:POPL11}
+%% have a complicated behavior in composition with other access types~\cite{Batty-al:POPL16,Lahav-al:PLDI17}.
+%% Even though Lahav~\etal~\cite{Lahav-al:PLDI17} fixed them for provided semantics 
+%% For now, integration them into operational timestamp-based models like \Promising is an open
+%% research question.
+%% Second, sequential consistent accesses, quite surprisingly,
+%% posses a challenge for some of semantic dependency preserving
+%% models like the \Promising.
+%% \app{Weakestmo and MRD don't have problems w/ the accesses.
+%% Why is it about model\textbf{s}?}
+%% Reconciling these models with $\sco$ 
+%% accesses also would be a valuable contribution.
+
+Semantic dependency preserving models are still an active 
+area of research~\cite{Kang-al:POPL17, Lee-al:PLDI20, Cho-al:PLDI21,
+Chakraborty-Vafeiadis:POPL19, Paviotti-al:ESOP20, 
+Jagadeesan-al:OOPSLA2020}. 
+We expect those to be a subject to 
+further refinement. 
+An interesting line of work here would be 
+the development of new reasoning principles
+beyond data-race freedom, which could 
+improve the meta-theory of these models and 
+simplify reasoning about the correctness of programs.   
+
+Finally, comprehensive quantitative studies 
+of the performance penalties induced by memory models are quite valuable.
+Although there is some work in this direction,%
+\cite{Singh-al:ISCA12, Liu-al:OOPSLA17, Liu-al:PLDI19, 
+Vollmer-al:PPoPP17, Dolan-al:PLDI18, Ou-Demsky:OOPSLA18}, 
+the full picture is still unclear.

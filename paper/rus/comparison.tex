@@ -1,0 +1,134 @@
+\section{Comparison}
+\label{sec:comparison}
+
+We performed a comparison of the memory models 
+found via the search procedure described in \cref{sec:methodology} 
+by the criteria given in \cref{sec:background}. 
+A particular challenge of this comparison was the fact that 
+consulted research papers often use different terminology, 
+have incomplete information about models, and 
+sometimes they even contradict each other. 
+We tried to approach these challenges by the following means.
+First, we used consistent terminology 
+to denote the properties of the memory models, 
+as presented in \cref{sec:background}.
+Second, we complemented the information about 
+each particular memory model from different sources.
+If after this procedure some particular property 
+was still unclear, we left it as unknown. 
+
+Based on our comparison of the memory models, 
+we identified six classes of them:
+sequentially consistent models,
+models with total or partial order on stores,
+program order preserving models, 
+syntactic dependency preserving models, 
+semantic dependency preserving models, 
+and models with out of thin-air values. 
+The models from the same class have the similar compilation mappings, 
+the set of sound program transformations, and the provided reasoning guarantees.
+We first present the result of our comparison on a per-class basis 
+(see~\cref{table:cmp-cls} and~\cref{sec:analysis}), and 
+then give a more detailed comparison with respect to individual models
+(see~\cref{table:cmp-mms} and~\cref{sec:catalog}).
+Thus we have an opportunity to first discuss common principles
+behind programming language relaxed memory models in general, 
+and then dive deeper into the details of each particular model. 
+
+\input{../common/smalltable.tex}
+
+In both \cref{table:cmp-cls} and \cref{table:cmp-mms} we order
+the memory models by their weakness.  
+The strongest models are located at the top rows of the tables, 
+while the weakest are at the bottom.  
+
+Columns of both tables correspond 
+to the properties of the memory models.
+In order to be concise, we chose a binary classification for all properties,
+\ie the model is either said to satisfy a given property or not.  
+We also split properties into several subgroups.
+
+The first group is devoted to an optimality 
+of compilation mappings to target hardware architectures. 
+We classify a compilation scheme as either optimal or not,
+in the following sense.
+We chose the weakest possible access mode supported by a model
+and consider the compilation scheme for memory accesses annotated by this mode. 
+For memory models that treat racy non-atomic accesses
+as undefined behavior, we consider the compilation mapping
+for the weakest atomic access mode that model provides.
+It is because the catch-fire semantics for racy non-atomics 
+trivially permits the optimal compilation mapping (see~\cref{sec:background:ub}).
+We say that the compilation scheme is \emph{optimal} if  
+accesses annotated by the chosen mode 
+can be compiled just as plain load and store instructions 
+of a given hardware architecture 
+(\ie without use of memory fences or other auxiliary code). 
+
+The second group is dedicated to a soundness of various program transformations. 
+The classification is also binary: a transformation is either sound or unsound 
+in a given memory model (in the sense stated in~\cref{sec:background:trans}).
+Again, to be concise, we do not consider all combinations 
+of program transformations and memory access modes. 
+Instead, we consider the weakest possible accesses 
+which have fully defined semantics. 
+We further split the transformations into 
+global and local as in~\cref{sec:background:trans}.
+
+The third group corresponds to reasoning 
+principles guaranteed by the model. In particular, we check 
+whether a model provides the external DRF guarantee (see~\cref{sec:background:drf}), 
+whether it provides the coherence property (see~\cref{sec:background:coh}),
+whether it has fully defined semantics for all types of accesses, 
+\ie the model does not treat racy non-atomic accesses 
+as undefined behavior (see~\cref{sec:background:ub}),
+whether the model utilizes in-order execution 
+(as opposed to speculative out-of-order executon),
+and whether it forbids out of thin-air values (see~\cref{sec:background:oota}).
+
+In \cref{table:cmp-mms} each row corresponds to 
+a specific memory model, denoted by its abbreviation, 
+and thus each cell describes a particular property 
+of that particular model. 
+We marked a cell by \cmark\xspace if the corresponding model satisfies the given property,
+and we marked it by \xmark\xspace otherwise.
+If the property was not studied in the research papers, 
+we color the cell in gray~% 
+{\protect\tikz \protect\draw[fill=colorQmark] (0,0) rectangle ++(0.35,0.35);}.
+
+Each row of the \cref{table:cmp-cls} corresponds to a class of memory models. 
+We marked a cell by \cmark\xspace if the majority of models 
+in the given class satisfy the property. 
+If less than the majority of models satisfy the property we mark 
+the corresponding cell by \wmark\xspace.
+Finally, if none of the models satisfy the property, we mark the cell by \xmark\xspace. 
+Note that when counting the majority, we omit the unknowns.
+Also, if a given property was not studied in the context of some class of models 
+(\ie, in~\cref{table:cmp-mms} it is marked by \qmark\xspace for all models in this class)
+in \cref{table:cmp-cls} we mark the corresponding cell by \xmark. 
+That is, in \cref{table:cmp-cls} symbols \cmark\xspace and \wmark\xspace 
+denote positive knowledge,
+while~\xmark\xspace denotes negative knowledge or
+an absence of information.
+
+Besides \cref{table:cmp-cls,table:cmp-mms} which describe 
+properties of the memory models, 
+we also present \cref{table:features}
+that provides a list of features supported by the models.
+In this table each row corresponds to a particular memory model. 
+Columns correspond to supported features. 
+In particular, we check what types of access modes are supported:
+non-atomic~(NA), relaxed~(RLX), release/acquire~(RA), sequentially-consistent~(SC); 
+what types of fences are supported: release/acquire~(F-RA) 
+and sequentially-consistent~(F-SC);
+whether the atomic read-modify-write operations are supported~(RMW),
+whether the model handles locks explicitly~(LK),
+and whether it supports mixed-size accesses~(MIX). 
+
+% Finally, the last group enumerates the list of memory access modes 
+% and fences supported by the model, as well as whether the model 
+% supports read-modify-write operations, locks, and mixed-size accesses.
+
+\input{../common/fulltable.tex}
+
+\input{../common/features-table.tex}

@@ -1,0 +1,569 @@
+\section{Analysis}
+\label{sec:analysis}
+
+% We partitioned all models into six primary classes: 
+% sequentially consistent models, models with total or partial order on stores, 
+% program order preserving models, syntactic dependency preserving models, 
+% semantic dependency preserving models, and model with out of thin-air values.
+
+In this section we discuss each identified class 
+of memory models in more detail.
+Based on the data from \cref{table:cmp-cls},
+we derive a relationship between a compilation scheme optimality, 
+a soundness of transformations and reasoning guarantees.
+In particular, we show how the support of some reasoning guarantees 
+disables some program transformations and requires a more heavyweight 
+compilation mapping to hardware.
+
+We stat with a discussion of the class of 
+sequentially consistent models~\cref{sec:analysis:seqcst}.
+Then we proceed to the class of totally and partially 
+store ordered models~\cref{sec:analysis:tso}.
+After that we switch to the class of very weak 
+models permitting thin-air values~\cref{sec:analysis:oota}.
+Then we describe various solutions tackling 
+the problem of thin-air values, namely
+program order preserving models~\cref{sec:analysis:porf},
+syntactic dependency preserving models~\cref{sec:analysis:deprf},
+and semantic dependency preserving models~\cref{sec:analysis:sdeprf}.
+
+In \cref{sec:analysis:other} we also discuss the particular properties 
+of models, namely the coherence and the catch-fire semantics, 
+which are orthogonal to the main partitioning into classes, 
+but nonetheless they affect the soundness of 
+certain program transformations.
+
+\subsection{Sequential Consistency}
+\label{sec:analysis:seqcst}
+
+Sequential Consistency (\SC) is one of the most intuitive models of concurrency.
+Under this model, one can represent a state of the memory as 
+a simple mapping from memory locations to their values. 
+Then each outcome can be obtained by 
+sequential execution of some interleaving of threads' instructions.
+% Each execution induces a total order 
+% on individual memory access operations consistent with per-thread program order
+% and, moreover, each read is guaranteed to read-from the most recent write. 
+
+\SC renders many common transformations unsound, 
+including all kind of instruction reorderings and the
+common subexpression elimination~\cite{Marino-al:PLDI11, Sevcik-Aspinall:ECOOP08}.
+The fact that instruction reorderings are forbidden 
+makes the model expensive to implement on modern hardware
+since even the relatively strong hardware model of \Intel
+performs store/load reordering.
+Therefore, in order to preserve the sequential consistency during compilation,
+a compiler need to emit heavyweight memory fences 
+between store and load instructions,
+which makes the compilation mappings far from being optimal.  
+
+In terms of reasoning guarantees, however, \SC is quite a pleasant model. 
+It gives the external \DRF and the coherence properties for free, 
+because it assigns to programs only sequentially consistent
+outcomes by definition.
+% thus it satisfies \DRF-SC without any preconditions.
+% The coherence property is equivalent to sequential consistency per location.
+% The fact that in SC model any execution is sequentially consistent implies trivially
+% that accesses to each location are also sequentially consistent.
+
+The conceptual simplicity of SC have inspired many researchers 
+to adopt it and to try to mitigate the induced performance penalty.
+The recurring idea was to somehow separate 
+thread-local and shared mutable memory.
+Accesses to thread-local memory can be compiled 
+without memory fences and are subject to a wider range 
+of local transformations.
+To safely distinguish between two types of memory
+researches proposed to utilize a type-system~\cite{Vollmer-al:PPoPP17},
+static~\cite{Singh-al:ISCA12} or dynamic~\cite{Liu-al:PLDI19} analysis,
+a hardware support~\cite{Singh-al:ISCA12, Marino-al:PLDI10}
+or some combination of the above. 
+
+Despite these efforts \SC still induces considerable slowdown,
+especially on weak hardware.
+For instance, on \ARMv{8} machines 
+the slowdown can be up to 70\%~\cite{Liu-al:PLDI19} 
+(see \cref{sec:catalog:sc} for details).
+Moreover, while these optimization typically reduce 
+penalties on thread-local accesses (a common case), 
+they are likely to have a lesser impact on specific 
+applications which heavily utilize concurrency,
+for example, lock-free data structures.
+Finally, modern compilers usually require 
+a significant amount of engineering work and rewrite
+in order to preserve \SC~\cite{Marino-al:PLDI11, Liu-al:PLDI19}.
+
+\subsection{Total and Partial Store Order}
+\label{sec:analysis:tso}
+
+The next class of PL memory models we consider 
+was inspired by the \emph{total store order}~\cite{Sewell-al:CACM10} (\TSO) 
+and the \emph{partial store order}~\cite{Sparc:94} (\PSO) hardware models. 
+In these models threads are equipped with \emph{store buffers}.
+All store operations go to these buffers before they 
+propagate into the main memory.
+% The name of these models stems from their axiomatic formulation. 
+% They require an existence of total (in case of \TSO) 
+% or partial (in case of \PSO) order on write events, 
+% consistent with program order and such that 
+% each read either reads locally or from 
+% the most recent write~\cite{Sewell-al:CACM10, Lahav-al:POPL16}. 
+
+Models of this class can be compiled down to the \Intel hardware without any 
+performance penalty, since \Intel implements \TSO model itself.
+However, on weaker hardware like~\POWER 
+a compiler need to emit essentially as many fences 
+as to enforce~\SC~\cite{Lustig-al:AISCA15}. 
+
+This class permits more program transformations than \SC.
+Store buffers enable store/load reorderings in case of~\TSO,
+and additionally store/store reorderings in case of~\PSO.
+The \TSO and \PSO models are weaker than the \SC, 
+but they are still relatively strong~---
+the external \DRF and the coherence properties hold.
+
+Therefore these models do not have any significant 
+benefits in terms of the reasoning guarantees compared to \SC,
+but induce a similar performance penalty 
+on architectures weaker than \Intel. 
+Hence a choice of \TSO and \PSO as a programming language level
+memory model is reasonable only if the language targets
+the \Intel hardware solely. 
+
+\subsection{Out of Thin-Air Values}
+\label{sec:analysis:oota}
+
+We next move on to the other end of a memory models' spectrum. 
+We consider the class uniting the weakest models from our list.
+These models enable efficient compilation mappings and 
+almost all reasonable program transformations, but at a cost of 
+introducing thin-air values (\cref{sec:background:oota}).
+
+Let us revisit the load buffering program:  
+
+\begin{minipage}{0.43\linewidth}
+\begin{equation*}
+\small
+\inarrII{
+  \readInst{}{r_1}{x}     \\
+  \writeInst{}{y}{1}      \\
+}{
+  \readInst{}{r_2}{y}     \\
+  \writeInst{}{x}{r_2}    \\
+}
+\tag{LB}\label{ex:lbA}
+\end{equation*}
+\end{minipage}\hfill%
+\begin{minipage}{0.09\linewidth}
+\Large~\\ $\leadsto$
+\end{minipage}\hfill%
+\begin{minipage}{0.43\linewidth}
+\begin{equation*}
+\inarrII{
+  \writeInst{}{y}{1}      \\
+  \readInst{}{r_1}{x}     \\
+}{
+  \readInst{}{r_2}{y}     \\
+  \writeInst{}{x}{r_2}    \\
+}
+\tag{LBtr}\label{ex:lbB}
+\end{equation*}
+\end{minipage}
+
+Program on the right \ref{ex:lbB} can be obtained 
+from the program on the left \ref{ex:lbA}
+via the load/store reordering.
+The outcome ${[r_1=1, r_2=1]}$ is valid for \ref{ex:lbB}.
+Therefore under a memory model where the load/store reordering 
+is a sound transformation, 
+this outcome should also be valid for \ref{ex:lbA}.
+As we demonstrated in \cref{sec:background:oota}
+in order to allow this outcome, 
+memory models needs to utilize speculative execution.
+
+We also demonstrated that unrestricted speculations 
+can lead to so called thin-air values which 
+break fundamental reasoning principles~%
+\cite{Boehm-Demsky:MSPC14, Batty-al:ESOP15}.
+In the presence of thin-air values
+type safety and security guarantees can be violated, 
+and compositional reasoning is impossible.
+Moreover, they are also incompatible with 
+the external \DRF property.
+To see this consider yet another variation of 
+the load buffering program:
+
+\begin{equation*}
+\inarrII{
+  \readInst{}{r_1}{x}      \\
+  \kw{if} {(r_1)} ~\{      \\
+  \quad\writeInst{}{y}{1}  \\
+  \}
+}{
+  \readInst{}{r_2}{x}      \\
+  \kw{if} {(r_2)} ~\{      \\
+  \quad\writeInst{}{x}{1}  \\
+  \}
+}
+\tag{LB+ctrl}\label{ex:lb+ctrl}
+\end{equation*}
+
+For a memory model admitting thin-air values 
+(as \eg \CMM~\cite{Batty-al:POPL11}), 
+the outcome ${[r_1=1, r_2=1]}$ is valid
+(a justification is the same as for 
+the \ref{ex:lb+data} example from \cref{sec:background:oota}).
+Not only this outcome is completely unintuitive,
+but it also contradicts to the external \DRF guarantee.
+Indeed, under \SC model the program above has 
+single valid execution with the outcome $[r_1=0, r_2=0]$ 
+containing no data-races, thus under a \DRF compliant model 
+it should also has this sole outcome.  
+
+A counter-intuitive behavior of OOTA models, 
+together with the fact that they break 
+important reasoning principles,
+has lead over the time to the consensus 
+in the research community that these models 
+are not suited well for the role of 
+programming languages memory models~\cite{Boehm-Demsky:MSPC14, Batty-al:ESOP15}.
+A lot of effort has been put to forbid problematic 
+thin-air outcomes, while still keep a 
+compilation scheme as efficient as possible
+and enable as many transformations as possible.
+In the rest of this section we describe various proposals 
+tackling the thin-air problem. 
+
+\subsection{Program Order Preserving}
+\label{sec:analysis:porf}
+
+The most straightforward way to forbid thin-air values 
+was proposed by Boehm and Demsky~\cite{Boehm-Demsky:MSPC14}
+The idea is to simply prohibit any kind of speculative execution, 
+which can be achieved by forbidding load/store reorderings altogether. 
+This fix not only restores the external \DRF~\cite{Lahav-al:PLDI17}
+and other reasoning guarantees, but also leads to 
+a much simpler model. The abstract machine implementing 
+the memory model does not need to resort to speculative execution 
+and can perform threads' instructions in-order. 
+A memory storage can be implemented as a 
+monotonically growing history of messages, 
+with each thread having its own view on 
+a frontier of this history~\cite{Dolan-al:PLDI18, Doherty-al:PPoPP19}.
+% In terms of axiomatic semantics it is enough to just
+% forbid cycles consisting of program order and reads-from relations. 
+
+Lahav~\etal~\cite{Lahav-al:PLDI17} formalized this approach
+to thin-air problem and studied it extensively. 
+The authors shown that many program transformations 
+are still sound in this setting, 
+with the obvious exception of the load/store reordering itself
+(see~\cref{table:cmp-cls} for details).
+
+The compilation mapping to \Intel remain efficient, 
+since this architecture already guarantee to preserve order 
+between loads and subsequent stores. 
+However, weaker architectures (\ARM, \POWER) do not guarantee that, 
+and thus additional measures are required.
+Boehm and Demsky~\etal~\cite{Boehm-Demsky:MSPC14} proposed to 
+compile every relaxed load as 
+a plain load followed by a spurious conditional branch,
+which introduces a dependency between 
+the load and subsequent stores. 
+\ARM and \POWER hardware preserves this dependency, 
+and thus it also retains the load/store ordering. 
+Ou and Demsky~\cite{Ou-Demsky:OOPSLA18} studied 
+a performance penalty required to preserve
+load/store ordering between \textbf{relaxed atomics only}
+on the \ARMv{8} hardware and reported a negligible overhead
+of 0\% on average and 6.3\% in maximum on a set of benchmarks
+implementing various concurrent data-structures, 
+\eg locks, stacks, queues, deques, maps, \etc 
+(see \ref{sec:catalog:porf} for details).
+Note that the overhead is expected to be greater 
+if the compilation scheme is required to preserve the ordering 
+between non-atomic accesses as well. 
+
+% In conclusion, the memory models forbidding load/store reorderings
+% provide a simple solution to thin-air problem, 
+% restore external \DRF-SC guarantee, preserve soundness of 
+% most program transformations, induce no overhead when 
+% compiled down to \Intel, and a moderate overhead 
+% when compiled to \ARM or \POWER.
+
+\subsection{Syntactic Dependencies Preserving}
+\label{sec:analysis:deprf}
+
+The alternative conceptually simple solution 
+to thin-air values problem is to preserve 
+\emph{syntactic dependencies}~\cite{Boehm-Demsky:MSPC14, Alglave-al:ASPLOS18}.
+Under this approach reordering of independent load/store pairs is allowed.
+However, reordering is forbidden if a store depends on the value 
+read by a load either because this value 
+was used to compute the value written by the store (\emph{data dependency}), 
+or it was used to compute 
+the memory address of the store (\emph{address dependency}),
+or else a control-flow path lead to the store was dependent
+on this value (\emph{control dependency}).
+For example, giving the program \ref{ex:lb+data} 
+the store $\writeInst{}{y}{r_1}$ depends 
+on the load $\readInst{}{x}{r_1}$ since 
+it writes the value read by the load.
+
+Note that these kind of dependencies are computed following a 
+syntax of a program (hence the name) as opposed 
+to \emph{semantic dependencies}.
+For example, giving the modified version of 
+the \ref{ex:lb+data} program below, 
+the store to \texttt{y} is still considered 
+to be dependent on the previous load. 
+
+\begin{equation*}
+\inarrII{
+  \readInst{}{r_1}{x}           \\
+  \writeInst{}{y}{1 + 0 * r_1}  \\
+}{
+  \readInst{}{r_2}{x}      \\
+  \writeInst{}{x}{r_2}     \\
+}
+\tag{LB+fakedata}\label{ex:lb+fakedata}
+\end{equation*}
+
+Here the syntactic dependency can be eliminated 
+by the \emph{constant folding} transformation --- 
+the expression $1 + 0 * r_1$ can be reduced to value~$1$.
+Under a syntactic dependency preserving memory model 
+a compiler, however, is prohibited to perform this optimization. 
+Indeed, once a dependency is removed, nothing prevents 
+to reorder a store before a preceding load. 
+Even if a compiler itself does not perform this reordering,
+after the compilation hardware can 
+do this during the execution.   
+
+This subtlety reveals the main drawback of 
+syntactic dependency tracking models --- 
+trace preserving transformations
+(\eg constant folding) are unsound in these models. 
+Constant folding is one of the classic optimizations 
+that any compiler might want to apply, 
+and the fact that it is unsound  
+makes an adoption of this class of models problematic.
+Note that hardware memory models apply a similar approach 
+and usually have a notion of syntactic dependencies between 
+memory operations~\cite{Sarkar-al:PLDI11, Alglave-al:TOPLAS14, Pulte-al:POPL18}.
+Yet in this setting the unsoundness of 
+trace preserving transformations is not a problem,
+since hardware does not perform such complex optimizations.
+
+Ou and Demsky~\cite{Ou-Demsky:OOPSLA18} examined
+the performance penalty of a syntactic 
+dependency tracking compiler.
+They adjusted compiler optimization passes to preserve
+dependencies between \textbf{non-atomic and relaxed} accesses.
+They evaluated the dependency preserving 
+version of the \LLVM compiler infrastructure 
+on \ARMv{8} hardware using \SPECCPU benchmarks
+and reported a moderate slowdown of 
+3.1\% on average and 17.6\% in maximum. 
+(see \ref{sec:catalog:deprf} for details).
+
+\subsection{Semantic Dependencies Preserving}
+\label{sec:analysis:sdeprf}
+
+The last approach to tackle thin-air problem is to   
+construct a notion of \emph{semantic dependencies}, 
+which would precisely characterize what load/store 
+pairs are independent and rule out fake dependencies 
+like the one in \ref{ex:lb+fakedata}.
+A practical payoff of this approach is that it 
+does not require significant modifications to existing compilers or hardware, 
+and thus should not impose performance penalties.  
+The ultimate goal is to enable the optimal compilation mappings, 
+preserve most of the existing compiler optimizations, 
+and at the same time maintain the important 
+reasoning guarantees like external \DRF. 
+
+It turns out that this task is quite challenging 
+and to this date there is no strong consensus on how to achieve it.
+In order to give a satisfactory definition of semantic dependencies 
+researchers had to resort to conceptually complex memory models%
+~\cite{Jagadeesan-al:ESOP10, Kang-al:POPL17, Jeffrey-Riely:LICS16, 
+PichonPharabod-Sewell:POPL16, Chakraborty-Vafeiadis:POPL19, Paviotti-al:ESOP20}.
+The main challenge in this line of work was to formally prove 
+that these complex models indeed satisfy all the desired properties. 
+
+Currently the most complete approach of this class 
+is the \Promising semantics~\cite{Kang-al:POPL17, Lee-al:PLDI20}. 
+This model was proven to enable the optimal compilation schemes~\cite{Podkopaev-al:POPL19}, 
+and permit most local and global program transformations
+(with a notable exception of the thread inlining), 
+while still preserving the external \DRF guarantee.
+
+\subsection{Secondary Classes}
+\label{sec:analysis:other}
+
+We also identified an alternative division of memory models into groups, 
+which correspond to particular properties of a memory model, 
+namely the coherence and the catch-fire semantics which treats racy programs 
+as erroneous. We demonstrate how presence of these properties 
+affects the compilation mappings and the soundness of some program transformations.
+
+\subsubsection{Coherent Models}
+\label{sec:analysis:coh}
+
+The coherence property (\ie \SC-per-location, \cref{sec:background:coh})
+has a subtle effect on the common subexpression elimination optimization (\CSE),
+which was was first observed in the context of an early version of the \Java 
+memory model~\cite{Pugh:JAVA99}.
+To see the problem, consider the program below
+(on the left) and the transformed version 
+of this program after application of \CSE (on the right).
+Note that the optimization has replaced 
+the second access to variable \texttt{x}
+by the read from register. 
+
+\begin{minipage}{0.45\linewidth}
+\begin{equation*}
+\small
+\inarrII{
+  \readInst{}{r_1}{x}      \\
+  \readInst{}{r_2}{y}      \\
+  \readInst{}{r_3}{x}      \\
+}{
+  \writeInst{}{y}{1}       \\
+}
+\label{ex:coh-rr}
+\end{equation*}
+\end{minipage}\hfill%
+\begin{minipage}{0.05\linewidth}
+\Large~\\ $\leadsto$
+\end{minipage}\hfill%
+\begin{minipage}{0.45\linewidth}
+\begin{equation*}
+\small
+\inarrII{
+  \readInst{}{r_1}{x}      \\
+  \readInst{}{r_2}{y}      \\
+  \assignInst{r_3}{r_1}    \\
+}{
+  \writeInst{}{y}{1}       \\
+}
+\label{ex:coh-rr}
+\end{equation*}
+\end{minipage}
+
+Now assume that variables \texttt{x} and \texttt{y} 
+point to the same memory location.
+Under this assumption the outcome $[r_1=0, r_2=1, r_3=0]$
+is forbidden for a memory model respecting coherence.
+Indeed, the coherence guarantees sequential consistency per location, 
+which means that for programs consisting of accesses 
+to a single memory location 
+(as the one above in the presence of aliasing) 
+only the sequentially consistent outcomes are allowed.
+The outcome $[r_1=0, r_2=1, r_3=0]$ cannot be obtained 
+as the interleaving of instructions, and thus 
+it should be forbidden.  
+However, this outcome is allowed for 
+the optimized version of the program. 
+
+Note that the compiler still can apply \CSE to the program above, 
+but only if it is able to prove that variables \texttt{x} and \texttt{y} 
+point to disjoint memory locations, which can be achieved 
+by the means of an alias analysis~\cite{Diwan-al:PLDI1998}.
+In fact, in this case \CSE can be seen as a combination 
+of instructiong reordering and elimination transformations.  
+
+Therefore, the coherence property in general is not compatible 
+with the common subexpression elimination.
+As for compilation schemes, coherence does not require 
+any changes here and thus does not impose any performance penalty.
+It is because hardware models already guarantee coherence%
+~\cite{Alglave-al:TOPLAS14, Sarkar-al:PLDI11, Sewell-al:CACM10, Lahav-al:PLDI17}. 
+
+\subsubsection{Catch-Fire Models}
+\label{sec:analysis:ub}
+
+A catch-fire semantics which treats racy non-atomic 
+accesses as undefined behavior also affects  
+soundness of program transformations. 
+As we already briefly discussed, it enables 
+the optimal compilation mapping for non-atomic accesses and 
+makes sequentially valid transformations applicable 
+to them, but its impact is not limited to this observation. 
+A catch-fire semantics also has an interesting interplay
+with the speculative load introduction.
+
+Consider the following example:
+
+\begin{minipage}{0.43\linewidth}
+\begin{equation*}
+\small
+\inarrII{
+  \readInst{}{r}{x}      \\
+  \kw{if} {(r)} ~\{      \\
+  \quad\readInst{}{s}{y} \\
+  \}
+
+}{
+  \writeInst{}{y}{1}       \\
+}
+\label{ex:sliA}
+\end{equation*}
+\end{minipage}\hfill%
+\begin{minipage}{0.09\linewidth}
+\Large~\\ $\leadsto$
+\end{minipage}\hfill%
+\begin{minipage}{0.43\linewidth}
+\begin{equation*}
+\inarrII{
+  \readInst{}{r_1}{x}      \\
+  \readInst{}{t}{y}        \\
+  \kw{if} {(r)} ~\{        \\
+  \quad\assignInst{s}{t}   \\
+  \}
+
+}{
+  \writeInst{}{y}{1}       \\
+}
+\label{ex:sliB}
+\end{equation*}
+\end{minipage}
+ 
+As we mentioned in \cref{sec:background:trans}, 
+the speculative load introduction can be used 
+in combination with the load/load elimination 
+to move a load instruction out of one branch of a conditional.
+In more detail, giving the example above, 
+the speculative load introduction can be applied
+to add the load $\readInst{}{t}{y}$ before the $\kw{if}$ statement, 
+and then the load/load elimination can be used 
+to replace the second load with an assignment. 
+
+The subtle point here is that while the 
+left program is race free even under \SC, 
+the right program is racy under \SC semantics,
+because of the race between load and store to \texttt{y}.
+This fact implies that if all accesses in the programs above 
+are non-atomic, then a catch-fire semantics should 
+treat the right program as having undefined behavior.
+In other words, the right program allows any outcome,
+while the left program allows only the outcome ${[r=0]}$.
+Soundness of program transformation requires 
+a set of outcomes of a transformed program 
+to be a subset of outcomes of the original program. 
+This condition is clearly violated in our example. 
+
+Put simply, speculative load introduction in general
+is unsound in catch-fire memory models, 
+because it can bring data-races into otherwise 
+race-free programs. Since catch-fire semantics
+is sensitive to the presence of data-races 
+it is incompatible with this transformation. 
+
+Note that this problem cannot be mitigated 
+by forbidding only non-atomic load introduction
+and allowing atomic load introduction. 
+Indeed, an introduced atomic load access still 
+can race with some non-atomic load or store
+located elsewhere in a program.  
