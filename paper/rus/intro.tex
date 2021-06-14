@@ -1,24 +1,26 @@
 \section{Introduction}
 \label{sec:intro}
 
-The main challenge in concurrent programming is 
-to establish proper synchronization between threads executed in parallel.     
-Usually it is done with the help of synchronization primitives
-provided by a programming language or libraries,
-for example locks, barriers, channels, \etc
-Sometimes, however, usage of these primitives is impossible or undesirable. 
-Examples of such cases are an implementation 
-of synchronization primitives themselves
-or lock-free data structures.
-In these cases one has to resort to 
-lower-level programming discipline and use shared variables. 
-At this point things get complicated.
+Главная трудность конкурентного программирования 
+заключается в обеспечении необходимого уровня 
+синхронизации между конкурентно исполняемыми потоками программы. 
+Обычно, это достигается при помощи специальных 
+примитивов синхронизации предоставляемых 
+языком программирования или библиотеками, 
+такими как блокировки, барьеры, каналы \etc. 
+Тем не менее, иногда использование этих примитивов 
+невозможно или нежелательно. 
+Например, код непосредственно реализующий эти 
+примитивы не может на них полагаться. 
+Другой важный пример это неблокирующие (lock-free) структуры данных.
+В таких случаях необходимо обращаться к 
+низкоуровневому программированию и 
+взаимодействовать с разделяемой памятью напрямую.
+Здесь начинаются сложности. 
 
-%The memory model defines which values reads of shared variables can observe at each point of execution. 
-%In other words, it defines the semantics of concurrent program.
-
-Let us consider a concrete example.
-Here is a simplified version of Dekker's Lock:
+Рассмотрим конкретный пример.
+Ниже представлена упрощенная версия 
+алгоритма блокировки Деккера:
 
 \begin{equation*}
 \inarrII{
@@ -37,27 +39,31 @@ Here is a simplified version of Dekker's Lock:
 \tag{Dekker's Lock}\label{ex:Dekker}
 \end{equation*}
 
-In this program, there are two threads that compete to enter the critical section.
-In order to indicate their intention, threads set 
-variables $x$ and $y$ correspondingly.%
-\footnote{We distinguish shared variables 
-(denoted as $x$, $y$, $z$) and thread local registers 
-(denoted as $r_1$, $r_2$, $r_3$, \etc).}
-The one who manages to set the variable first 
-and read the other variable before it is set
-enters the critical section.
-The algorithm relies on the fact that both threads cannot read value~\texttt{0}.%
-\footnote{From here and through the rest of the paper we assume that all 
-variables are initialized with zeros, unless the other is stated explicitly}
-Otherwise, the two threads would have been able 
-to enter the critical section simultaneously, 
-thus breaking correctness of the algorithm.
+В этой программе два потока соревнуются за доступ к критической секции.
+Чтобы обозначить свое намерение войти в критическую секцию
+потоки устанавливают значение переменных $x$ и $y$ соответственно.%
+\footnote{В этой статье мы отличаем разделяемые переменные,
+обозначаемые буквами $x$, $y$, $z$, и 
+локальные для каждого потока регистры, 
+обозначаемые как $r_1$, $r_2$, $r_3$, \etc.}
+Поток, который первым установит значение переменной и 
+прочитает значение другой переменной до его установки
+получает право войти в критическую секцию.
+Алгоритм полагается на тот факт, что оба 
+потока не могут одновременно прочитать значение ~\texttt{0}.%
+\footnote{С этого места и далее в статье мы подразумеваем 
+что переменные инициализированы значением 0, если иное не указано явно.}
+В противном случае два потока способны одновременно 
+войти в критическую секции, таким образом нарушая 
+гарантии корректности алгоритма. 
 
-Indeed, after running this program on a multi-core system, one would expect to see 
-one of the following outcomes: ${[r_1=0, r_2=1]}$, ${[r_1=1,r_2=0]}$, or ${[r_1=1,r_2=1]}$.
-These outcomes are \emph{sequential consistent}~\cite{Lamport:TC79} meaning
-that they may be obtained via a sequential execution 
-of some interleaving of threads' instructions.
+В самом деле, можно было бы ожидать что эта программа 
+должна завершиться с одним из следующих результатов: 
+${[r_1=0, r_2=1]}$, ${[r_1=1,r_2=0]}$, or ${[r_1=1,r_2=1]}$,
+называемых \emph{последовательно согласованными} 
+(\emph{sequential consistent})~\cite{Lamport:TC79},
+то есть полученных в результате поочередного 
+исполнения инструкции потоков. 
 
 %A memory model that admits only these behaviours is known under the name \emph{sequential consistency} (SC) [Lamport:TC79].
 
@@ -66,86 +72,91 @@ of some interleaving of threads' instructions.
 %% ANTON: Also, we should state somewhere that, in the context of concurrent programs, 
 %%        we use terms "semantics" and "memory model" interchangeably.
 
-However, not all behaviors which are observable on real concurrent systems are sequentially consistent. 
-For example, if one ports \ref{ex:Dekker} 
-from the pseudo code to the C language, compile it with the GCC compiler, 
-and run on a processor from the x86/x64 family,
-she may observe non sequentially consistent outcome $[r_1=0, r_2=0]$.
-Such outcomes are called \emph{weak}.
+Тем не менее, не все поведения наблюдаемые на настоящих
+конкурентных системах являются последовательно согласованными.
+Например, при портировании псевдокода алгоритма Деккера
+на язык C, компиляции программы с помощью компилятора GCC, 
+и запуска полученного кода на процессорах семейства x86/x64
+можно также наблюдать не последовательно согласованное поведение
+с результатом $[r_1=0, r_2=0]$, называемое слабым (\emph{weak}) поведением.
 
-Weak outcomes appear because of compiler and CPU optimizations.
-For example, given the \ref{ex:Dekker},
-the optimizer may observe that the store to $x$ and the load from $y$ in the left thread
-are independent instructions and thus they can be reordered
-(this optimization is valid for single-threaded programs).
-For the optimized program, the outcome $[r_1=0, r_2=0]$
-is sequentially consistent.
+Слабые поведения появляются в результате оптимизаций 
+компиляторов и процессоров. Например, 
+рассматривая программу \ref{ex:Dekker}, 
+оптимизатор может заметить, что запись в переменную $x$
+и чтение из $y$ в левом потоке являются независимыми инструкциями 
+и, следовательно, могут быть переупорядочены
+(заметим, что эта оптимизация является корректной 
+для случая однопоточных программ).
+Для оптимизированной программы поведение с результатом
+$[r_1=0, r_2=0]$ является последовательно согласованным.
 
-An exact set of allowed outcomes for a given program 
-is defined by a semantics of a concurrent system, or a \emph{memory model}.
-The memory model permitting only sequentially consistent outcomes 
-is called \emph{sequential consistency} (SC).
-Memory models admitting weak behaviors are called \emph{weak memory models}.
+Множество допустимых поведений программы определяется
+семантикой многопоточной системы, или \emph{моделью памяти}.
+Модель \emph{последовательной согласованности}
+(\emph{sequential consistency}, SC) допускает 
+только последовательно согласованные поведения.
+Модели памяти также допускающие слабые поведения 
+называются, соответственно, \emph{слабыми моделями памяти}
+(\emph{weak memory models}).
 
-Neither modern hardware, nor programming languages 
-guarantee sequential consistency since this model forbids many important optimizations.
-The main question then is how \emph{weak} their memory models should be,
-\ie how big is the set of allowed weak behaviors for a given program.
-A stronger model allows less behaviors, thus giving more guarantees to a programmer
-and simplifying reasoning about programs, but a weaker model permits more optimizations,
-thus allowing a compiler to produce more efficient code.
+Современные процессоры и языки программирования 
+не предоставляют модель последовательной согласованности, 
+так как она запрещает многие важные оптимизации.
+Основной вопрос таким образом заключается в том, насколько слабой 
+должна быть модель. Более строгая модель допускает меньше поведений, 
+и, следовательно, предоставляет больше гарантии программисту.
+С другой стороны, более слабая модель позволяет
+выполнять большее количество оптимизаций.
 
-It turns out that this question is challenging
-especially in the context of programming language (PL) memory models.
-Thus over the last two decades a plenty of memory models 
-for various languages have been proposed, \eg
-for \Java~\cite{Manson-al:POPL05, Bender-Palsberg:OOPSLA19}, \CPP~\cite{Batty-al:POPL11}, 
+Оказывается, что этот вопрос весьма сложен, 
+особенно в контексте моделей памяти языков программирования.
+Это привело к тому, что за последнее 20 лет было предложено 
+множество моделей для различных языков, например, для 
+\Java~\cite{Manson-al:POPL05, Bender-Palsberg:OOPSLA19}, \CPP~\cite{Batty-al:POPL11}, 
 \LLVM~\cite{Chakraborty-Vafeiadis:CGO17}, \JS~\cite{Watt-al:PLDI2020}, 
-\OCaml~\cite{Manson-al:POPL05}, \Haskell~\cite{Vollmer-al:PPoPP17}, \etc 
-These models have different design goals, trade-offs, and limitations.
-Moreover, the research on weak memory models continues to develop rapidly.
-According to our findings, 
-in the last decade at least 50 papers on the subject are published each year.%
-\footnote{This claim is supported by our data acquired from Google Scholar, 
-see \cref{sec:methodology} for details}  
-For the people unfamiliar with all the subtleties 
-of weak memory models, it can be hard to navigate in this large zoo.
-Despite the long history of the field and recent progress made, 
-there is no single source that would summarize the prior knowledge
-and give a comparison of different memory models of programming languages. 
-The aim of this paper is to close this gap.
+\OCaml~\cite{Manson-al:POPL05}, \Haskell~\cite{Vollmer-al:PPoPP17}, \etc
+Эти модели имеют преследуют разные цели, делают различные компромиссы
+и имеют разнообразные ограничения.
+Более того, продолжают появляться новые исседования в области моделей памяти. 
+По нашим подсчетам, за последние 10 лет в течении 
+каждого года было опубликовано не менее 50 статей по теме.
+\footnote{Эти подсчеты подкреплены данными, полученными 
+с помощью поисковой системы Google Scholar, 
+подробности представлены \cref{sec:methodology}.}
+Тем не менее, несмотря на долгую историю и недавний прогресс в области,
+нет единого источника, который бы суммировал 
+известную информацию и сравнивал существующие 
+модели памяти различных языков программирования. 
+Целью данной статьи является создание такого обзора. 
 
-We provide an overview of existing approaches to 
-programming languages' memory models,
-discuss their design choices, trade-offs, and limitations.
-Besides that, we compare existing memory models 
-in terms of what optimizations opportunities 
-and what guarantees for reasoning they provide.
+Мы рассматриваем существующие модели памяти языков программирования, 
+обсуждаем их дизайн, компромиссы и ограничения. 
+Также мы сравниваем существующие модели на предмет того
+какие оптимизации они поддерживают 
+и какие гарантии предоставляют программистам. 
 
-We hope that our work will be useful to programming language researchers 
-who want to dive into the theory of weakly consistent memory models,
-and also to system-level developers, 
-who are working on new programming languages, compilers, or virtual machines, 
-and thus have to choose a memory model for their system.
+Мы надеемся, что наша работа будет полезна для 
+исследователей в области языков программирования, 
+желающих погрузиться в тему слабых моделей памяти, 
+а также для разработчиков компиляторов и виртуальных машин, 
+которым необходимо выбрать модель памяти для их системы.
 
-The rest of the paper is organized as follows.
-In \cref{sec:related} we overview related work. 
-In \cref{sec:methodology} we describe the methodology 
-of our study. In \cref{sec:background} we 
-introduce common criteria of programming language memory models,
-namely optimality of compilation mappings, 
-soundness of program transformations, 
-and provided reasoning guarantees.
-Next, in \cref{sec:comparison} we explain 
-how we compare memory models by these criteria.
-In \cref{sec:analysis} we present a classification
-of memory models based on their properties, 
-and discuss each class. 
-Additionally, in \cref{sec:catalog} we further describe 
-each particular memory model considered in our study.
-In \cref{sec:discussion} we present a short guide 
-on the design of memory model for researchers and system developers
-and, as an example of using the guide, propose a memory model for 
-the Kotlin\footnote{https://kotlinlang.org/} language.
-Finally, \cref{sec:conclusion} concludes 
-and outlines possible directions for future research in the field. 
+Данная статья организована следующим образом. 
+В секции \cref{sec:related} представлен обзор литературы. 
+Далее мы описываем методологию нашего исследования \cref{sec:methodology}.
+Затем мы вводим критерии сравнения моделей памяти \cref{sec:background}, 
+в частности, оптимальность схем компиляции, 
+корректность преобразований программ,
+и предоставляемые гарантии для рассуждения 
+о поведении программ.  
+Далее мы описываем каким образом мы проводили 
+сравнение моделей \cref{sec:comparison}. 
+В разделе \cref{sec:analysis} мы классифицируем модели на основе их свойств
+и обсуждаем каждый класс в отдельности. 
+Также, в приложении \ref{sec:catalog} мы описываем каждую рассмотренную модель. 
+Затем мы представляем набор рекомендации \cref{sec:discussion}
+по выбору модели памяти на основе требования к языку программирования 
+и рассматриваем их на примере языка Kotlin\footnote{https://kotlinlang.org/}.
+Наконец, в разделе \cref{sec:conclusion} мы подводим итоги 
+и рассматриваем возможные направления дальнейших исследований в области.
