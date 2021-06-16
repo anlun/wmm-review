@@ -1,56 +1,60 @@
 \section{Methodology}
 \label{sec:methodology}
 
-The main purpose of our work was to study 
-trade-offs in the design of a memory model 
-for a programming language.
-Stronger memory models give more reasoning guarantees to programmers, 
-while weaker models provide more optimization opportunities. 
-We wanted to answer the following research question.
+Основной задачей нашей работы было изучение
+компромиссов в дизайне моделей памяти 
+языков программирования. 
+Более строгие модели предоставляют больше гарантий программисту,
+в то время как более слабые модели предоставляют 
+больше возможностей для проведения оптимизаций. 
+Мы хотим ответить на следующий вопрос. 
 
 \begin{itemize}
-  \item How reasoning guarantees provided by a memory model 
-    to an end-user of a programming language narrow  
-    optimization opportunities for a language implementation?
+  \item Как гарантии о поведении программ, 
+    предоставляемые моделью памяти языка программистам, 
+    ограничивают возможности по оптимизации этих программ
+    для потенциальных реализаций данного языка программирования?
 \end{itemize}
 
-To answer this question, we consulted the existing research studies 
-in the field of programming language memory models.
-Our goal was to identify existing proposed memory models and classify them.
+Чтобы ответить на этот вопрос мы изучили существующие исследования 
+в области моделей памяти языков программирования.
+Нашей целью было идентифицировать существующие модели и классифицировать их.
 
-In order to compare memory models we used standard criteria developed in the literature.
+Для сравнения моделей мы использовали стандартные критерии
+встречающиеся в работах по исследованию моделей памяти. 
 
 \begin{enumerate}[label=\textbf{C.\arabic*}]
   
   \item \label{item:criteria:opt-comp}
-    An \emph{optimality of compilation scheme}. 
-    A language with a memory model supporting 
-    optimal compilation schemes can be efficiently 
-    implemented on modern hardware. 
-    Contrary, the usage of nonoptimal compilation mappings
-    induces a slowdown during an execution of a program, 
-    but can prevent an apperance of certain weak behaviors
-    permitted by the hardware.   
+    \emph{Оптимальность схемы компиляции.}
+    Язык с моделью памяти, поддерживающей оптимальные 
+    схемы компиляции может быть эффективно реализован
+    на современных процессорах. 
+    Напротив, использование неоптимальных схем компиляции
+    приводит к замедлению при исполнении программы, 
+    но в то же время может предотвращать появление 
+    слабых поведений допустимых спецификацией данной архитектуры. 
 
   \item \label{item:criteria:sound-trans}
-    A \emph{soundness of common program transformations}. 
-    During the optimiztions passes a compiler of a programming language
-    performs various source-to-source transformations.
-    The more transformations a memory model of the language supports
-    the more compiler optimizations are potentially applicable 
-    to programs written in this language.
+    \emph{Корректность трансформаций над программным кодом.} 
+    В ходе оптимизирующих проходов компилятор
+    применят различные трансформации к исходному коду. 
+    Чем больше транформаций допускается моделью памяти языка программирования, 
+    тем больше компиляторных оптимизаций потенциально применимо 
+    к программам на данном языке. 
 
   \item \label{item:criteria:reasoning}
-    Support of various \emph{reasoning guarantees}, which simplify 
-    the reasoning about the correctness of concurrent programs
-    written in a given programming language. 
+    Поддержка различных \emph{гарантии для рассуждения о поведении программ}
+    призвана упростить проведение доказательств о корректности 
+    конкурентных программ написанных на данном языке. 
   
 \end{enumerate}
 
-In order to select memory models for our study, 
-we performed the following search procedure.
-On the \emph{first stage}, we manually selected 10  
-peer-reviewed research papers~\cite{
+Чтобы отобрать модели памяти для нашего исследования, 
+мы провели следующую процедуру поиска. 
+На \emph{первом этапе}, мы вручную отобрали 10 рецензированных статей 
+предлагающих новые модели~%
+\cite{
 Manson-al:POPL05,
 Batty-al:POPL11,
 Lahav-al:PLDI17,
@@ -61,55 +65,54 @@ PichonPharabod-Sewell:POPL16,
 Kang-al:POPL17,
 Chakraborty-Vafeiadis:POPL19,
 Paviotti-al:ESOP20
-}
-whose main contribution was a proposal of a new PL weak memory model, 
-and which were presented at highly ranked programming language conferences, 
-such as ``Symposium on Principles of Programming Languages'' (POPL),
-``Conference on Programming Language Design and Implementation'' (PLDI), and others.
-We then took the list of keywords from these papers. 
-From this list of keywords we manually excluded those 
-that were either too broad or too narrow.
-As a result we get three keyword phrases:
+},
+которые были представлены на высокоранговых конференциях
+в области языков программирования, таких как
+``Symposium on Principles of Programming Languages'' (POPL),
+``Conference on Programming Language Design and Implementation'' (PLDI), 
+и другие. Затем мы взяли список ключевых слов из этих статей. 
+Мы исключили ключевые слова, которые были слишком общими
+или, наоборот, слишком специфичными. 
+В результате мы получили три ключевые фразы:
 \begin{itemize}
   \item Relaxed Memory Models;
   \item Weak Memory Models;
   \item Weak Memory Consistency.
 \end{itemize}
  
-On the \emph{second stage} we used these phrases as search queries
-for the Google Scholar\footnote{https://scholar.google.com/} search engine.
-For each query we took first 1000 entries from the search result.%
-\footnote{All search queries were performed on 24 September 2020}
-We got a list of 2493 research items in total. 
-As a sanity check, we verified that each of the 10 initially 
-selected papers was contained in the selection. 
+На \emph{втором этапе}, мы использовали эти фразы как 
+поисковые запросы для поисковой системы Google Scholar\footnote{https://scholar.google.com/}.
+По каждому запросу мы взяли первые 1000 результатов.%
+\footnote{Все поисквые запросы были выполнены 24 сентября 2020 года.}
+В итоге мы получили список из 2493 статей. 
+Мы удостоверились, что каждая из 10 изначально выбранных статей 
+попала в итоговую выборку. 
 
-On the \emph{third stage} we removed from the selection duplicates
-and non-peer-reviewed papers. 
-Also we decided to remove technical reports, theses, 
-non-English publications, as well as short papers (up to 4 page long).
-After this stage only 1077 research items have left.
+На \emph{третьем этапе} были удалены дубликаты и нерецензированные статьи. 
+Также мы удалили технические отчеты, диссертации, 
+публикации не на ангийском языке и короткие статьи (меньше 4 страниц). 
+В результате осталось 1077 статей. 
 
-Next, on the \emph{fourth stage}, we further filtered the selection 
-by consulting titles and abstracts of the papers. 
-We included only the papers which are directly related to the 
-topic of PL memory models and whose main focus is memory models themselves,
-as opposed to papers that only use established results about PL memory models,
-or papers related to adjacent topics. 
-In particular, we filtered out papers related to the following adjacent topics:
+На \emph{четвертом этапе} мы продолжили отбор статей изучив 
+заголовки и аннотации статей. 
+Мы оставили только те статьи, которые напрямую относятся 
+к теме моделей памяти языков программирования, 
+и, напротив, исключили статьи, которые только используют 
+существующие результаты о моделях, или статьи относящиеся 
+к смежным темам, таким как:
 \begin{itemize}
-  \item memory models of hardware, heterogeneous systems, and distributed systems;
-  \item semantics of transactions and persistency;
-  \item verification techniques for weak memory.
+  \item модели памяти архитектур процессоров, гетерогенных и распределенных систем;
+  \item семантика транзакций и персистентности;
+  \item методы верификации программ в слабых моделех памяти.
 \end{itemize}
-As a result we got 105 research items.
+В результате осталось 105 статей.
 
-Finally, on the \emph{fifth stage}, we carefully examined the remaining articles.
-In our final selection, we have included only those whose contribution was claimed to include:
+На заключительном \emph{пятом этапе} мы внимательно изучили содержание оставшихся статей. 
+Мы оставили только те, чьим вкладом было:
 \begin{itemize}
-  \item a new PL memory model;
-  \item a study of an existing PL memory model;
-  \item a refinement of an existing PL memory model.
+  \item введение новой модели памяти ЯП;
+  \item изучение существующей моделия памяти ЯП;
+  \item уточнение существующей модели памяти ЯП.
 \end{itemize}
-In the end we got 40 research papers.
+После этой процедуры осталось 40 статей.
 
