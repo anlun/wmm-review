@@ -1,90 +1,73 @@
 \section{Related Work}
 \label{sec:related}
-%% The area of memory models have a long research history.
-%% The starting point is the model of sequential consistency proposed by Leslie Lamport in 1979.
-%% In 1979, Leslie Lamport proposed the model of sequential consistency.
-%% Later
-Weak memory models can be partitioned into two significantly different subclasses:
-models for hardware architectures and models for programming languages.
-The main difference between them is that memory models for programming languages
-are expected to support compiler optimizations and may need to support compilation
-to different architectures.
 
-To this day, hardware weak memory models are relatively well-studied and understood.
-%% A large amount of effort was put to formally specify models of various
-%% hardware architectures. 
-All major architectures have formally defined memory models:
-x86~\cite{Sewell-al:CACM10},
-IBM~\POWER \cite{Alglave-DAMP09,Sarkar-al:PLDI11,Alglave-al:TOPLAS14}),
+Слабые модели памяти могут быть разделены на два подкласса:
+модели для архитектур процессоров и модели для языков программирования.
+Основная разница между ними в том, что от моделей языков программирования
+ожидается поддержка широкого класса компиляторных оптимизаций и 
+возможности компиляции под различные архитектуры. 
+
+На сегодняшний день, модели архитектур процессоров относительно хорошо изучены. 
+Все основные архитектуры имеют формально определенные модели:
+x86~\cite{Sewell-al:CACM10}, IBM~\POWER \cite{Alglave-DAMP09,Sarkar-al:PLDI11,Alglave-al:TOPLAS14}),
 \ARM~\cite{Chong-ASPLOS08, Alglave-DAMP09,Pulte-al:POPL18,Flur-al:POPL16,Alglave-al:TOPLAS14})
-and \RISC~\cite{Pulte-al:POPL18}.
-Among those, x86 and \POWER architectures have stable memory models which do not change in the last years,
-whereas the \ARM memory model changed with transition from \ARMv{7}~\cite{Alglave-al:TOPLAS14} to \ARMv{8}~\cite{Pulte-al:POPL18}
-to accommodate new instructions for shared memory access.
-\RISC\footnote{https://riscv.org/} was introduced in 2010 and recently adopted a memory model~\cite{Pulte-al:POPL18}
-which is almost the same as the \ARMv{8} model.
+и \RISC~\cite{Pulte-al:POPL18}.
+Процессоры семейств x86 и \POWER обладают стабильными моделями, 
+которые не претерпевали изменений в течении последних нескольких лет, 
+в то время как модель процессоров семейства \ARM 
+претерпела изменения при переходе от \ARMv{7}~\cite{Alglave-al:TOPLAS14} к \ARMv{8}~\cite{Pulte-al:POPL18}
+и была дополнена поддержкой новых инструкций для обращения к разделяемой памяти.
+Архитектура \RISC\footnote{https://riscv.org/} была представлена в 2010 году 
+и недавно адаптировала модель~\cite{Pulte-al:POPL18} 
+почти идентичную модели \ARMv{8}.
 
-All of the aforementioned models have representations in a framework of \emph{declarative} (or \emph{axiomatic})
-memory models~\cite{Alglave-al:TOPLAS14}.
-The framework became a standard for defining weak memory models, %(including models for programming languages),
-it has tools for testing and verification~\cite{Alglave-al:TOPLAS14}.
-It is also used for defining some programming language memory models: 
-\CPP~\cite{Batty-al:POPL11}, \JS~\cite{Watt-al:PLDI2020}, Java~\cite{Manson-al:POPL05} and many others.
-However, the framework does not fully solve the problem for programming languages like C/C++
-(even though it is currently used for defining C/C++ memory models in their standards~\cite{Batty-al:POPL11})
-which are oriented on zero cost abstraction over architectures like \ARM and \POWER and support for compiler
-optimizations which may eliminate syntactic dependencies (for example, constant folding).
+Все вышеупомянутые модели формализованы в стиле \emph{декларативных} 
+(или \emph{аксиоматических}) моделей памяти, 
+ставшем стандартом для спецификации слабых моделей памяти и 
+поддерживающим различные инструменты для 
+тестирования и верификации моделей~\cite{Alglave-al:TOPLAS14}.
+Модели некоторых языков программирования также используют декларативный стиль, например
+\CPP~\cite{Batty-al:POPL11}, \JS~\cite{Watt-al:PLDI2020}, Java~\cite{Manson-al:POPL05} и другие.
+Тем не менее, декларативные модели не позволяют решить некоторые проблемы 
+характерные для моделей языков программирования, таких как C/C++, 
+призванных обеспечить эффективную компиляцию в код целевой архитектуры и 
+поддерживать оптимизации, которые потенциально могут удалить 
+\emph{синтаксические зависимости} между инструкциями 
+(например, распространение констант). 
 
-The problem is that the framework does not
-allow to properly distinguish real (\emph{semantic}) dependencies between instructions in programs
-from fake ones. For example, there is a real dependency between instructions in the snippet on the left
-and a fake dependency between instructions on the right:
+Проблема заключается в том, что декларативные модели не способны 
+отличить истинные \emph{семантические зависимости} между инструкциями от ложных.
+Например, в примере ниже существует истинная зависимость между 
+инструкциями в левом потоке, в то время как зависимость между 
+инструкциями в правом потоке является ложной:
 \[\begin{array}{l@{\qquad}|@{\qquad}l}
 \readInst{}{r}{x} & \readInst{}{r}{x} \\
 \writeInst{}{y}{r} & \readInst{}{y}{r * 0} \\
 \end{array}\]
-For hardware models, it is not a problem since they respect all syntactic dependencies,
-whereas, in the case of a programming language memory model,
-if we want to support a compiler optimization which replaces $r * 0$ with $0$ in the code on the right,
-we have to either distinguish them and respect only real dependencies
-or ignore dependencies at all (as the model of \CPP does).
-Ignoring of dependencies in combination with support of \emph{load-buffering behavior} of \ARM and \POWER
-leads to notorious \emph{Out Of Thin-Air} (OOTA) executions~\cite{Boehm-Demsky:MSPC14}
-which break even basic reasoning principles about programs
-(discussed in more detail in~\cref{sec:background:oota}).
+Для моделей памяти архитектур процессоров в этом нет проблемы, 
+так как они уважают все синтаксические зависимости, 
+в то время как оптимизирующий компилятор может заменить выражение 
+$r * 0$ на $0$ и таким образом удалить зависимость. 
+Таким образом, необходимо либо различать истинные и ложные зависимости, 
+либо полностью игнорировать информацию о зависимостях 
+(текущая формализаци модели \CPP использует второй подход).
+Но игнорирование информации о зависимостях в комбинации с 
+поддержкой \emph{буферизаций чтений}, допустимых 
+спецификацией процессоров \ARM and \POWER, 
+приводит к возникновению так называемых 
+\emph{значений из воздуха}~\cite{Boehm-Demsky:MSPC14}, 
+нарушающих даже базовые гарании о поведении программ
+(подробности этого обсуждаются в~\cref{sec:background:oota}).
 
-Many memory models using significantly different approaches and frameworks were proposed to solve the problem
-without a performance penalty:
+Для решения проблемы значений из воздуха c сохранением
+поддержки различных оптимизаций было предложено 
+множество моделей использующих различные подходы:
 Java Memory Model (JMM)~\cite{Manson-al:POPL05}, Promising semantics~\cite{Kang-al:POPL17,Lee-al:PLDI20},
 Weakestmo~\cite{Chakraborty-Vafeiadis:POPL19}, Modular Relaxed Dependencies (MRD)~\cite{Paviotti-al:ESOP20}.
-Others like RC11~\cite{Lahav-al:PLDI17} and the \OCaml memory model~\cite{Dolan-al:PLDI18} decided to solve
-the problem and provide more guarantees to a developer at the cost of some slowdown~\cite{Ou-Demsky:OOPSLA18}.
+Некоторые другие модели, например \RCMM~\cite{Lahav-al:PLDI17} и модель памяти языка \OCaml~\cite{Dolan-al:PLDI18},
+решили избежать проблемы путем запрещения некоторых оптимизаций и предоставления больших гарантий~\cite{Ou-Demsky:OOPSLA18}.
 
-Even though dozens of memory models with different compromises and features were proposed for programming languages,
-there are no detailed surveys of them to the best of our knowledge. That motivated our work on this paper.
-
-%% one might want to support  
-%% For programming language models, 
-%% That means 
-%% has certain limitations for models of programming languages.
-
-%% supporting compiler optimizations 
-%% Alglave \etal~\cite{Alglave-al:TOPLAS14} summarized different studies in this area
-%% and provided a comprehensive overview of existing models.
-%% Besides that, they also proposed a general framework for specification,
-%% testing and verification of hardware memory models.
-%% Major architectures either have stable (x86, IBM \POWER, \ARM)
-%% More recent hardware models, \eg \cite{Pulte-al:POPL18},
-%% also adhere to this framework.
-
-%% Unlike hardware memory models, programming language memory models are
-%% extremely diverse, and new models appear every year.
-
-%% In the context of programming language memory models the situation is more complex. 
-%% There were various memory models proposed for different programming languages, \eg
-%% for \Java~\cite{Manson-al:POPL05, Bender-Palsberg:OOPSLA19}, \CPP~\cite{Batty-al:POPL11}, 
-%% \LLVM~\cite{Chakraborty-Vafeiadis:CGO17}, \JS~\cite{Watt-al:PLDI2020}, 
-%% \OCaml~\cite{Manson-al:POPL05}, \Haskell~\cite{Vollmer-al:PPoPP17}, \etc 
-%% However, we are unaware of any survey or detailed comparison of these models.
-%The lack of such study motivated our work.
-
+Несмотря на то что было предложено множество моделей для языков программирования
+делающих различные компромиссы и поддерживающиюх различные возможности, 
+насколько нам известно не существует детального обзора этих моделей. 
+Этот факт мотивировал нашу работу над данной статьей.
