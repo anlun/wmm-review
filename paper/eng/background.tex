@@ -791,7 +791,7 @@ allows this outcome~\cite{Manson-al:POPL05}.
 As we already briefly mentioned, some memory models, 
 \eg \CPP, treat racy programs as having 
 \emph{undefined behavior}~\cite{Boehm-Adve:PLDI08}
-if with at least one of the accesses participating 
+if at least one of the accesses participating 
 in a race is a non-atomic access. 
 In other words, for these programs any outcome is possible. 
 This property is also sometimes called the \emph{catch-fire semantics}.
@@ -842,7 +842,7 @@ needs to be executed out of order
 
 However, unrestricted speculations can lead to disruptive results. 
 A store executed out of order can turn into 
-a self-satisfying prophecy~\cite{Boehm-Demsky:MSPC14}.
+a self-fulfilling prophecy~\cite{Boehm-Demsky:MSPC14}.
 Consider the following variation of the load buffering program. 
 
 \begin{equation*}
