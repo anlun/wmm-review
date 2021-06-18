@@ -780,29 +780,28 @@ ${[r_1=0, r_2=1]}$, ${[r_1=1,r_2=0]}$, или ${[r_1=1,r_2=1]}$.
 для определенного класса моделей, которые не могут 
 гарантировать внешнюю свободу от гонок. 
 
-\subsubsection{Coherence}
+\subsubsection{Когерентность}
 \label{sec:background:coh}
 
-As we demonstrated, memory models of 
-modern hardware architectures do not 
-provide the sequentially consistent semantics.
-Yet they usually provide a weaker property 
-called \emph{sequential consistency per location},
-also known as \emph{coherence}~\cite{Alglave-al:TOPLAS14}.
-Following hardware models many programming language level
-memory models also provide this property. 
+Как было показано современные процессоры
+не предоставляют модель последовательной согласованности. 
+Тем не менее, обычно они предоставляют более слабую 
+гарантию \emph{последовательной согласованности 
+по каждой локации в памяти}, именуемую также 
+\emph{когерентностью}~\cite{Alglave-al:TOPLAS14}. 
+Следуя за моделями процеесоров, модели 
+для языков программирования также предоставляют эту гарантию.
 
-The coherence property ensures that 
-all stores to each particular location 
-can be totally ordered and that the 
-resulting order, the \emph{coherence order}, reflects 
-the order in which stores propagate from threads
-into the main memory. 
-In particular, coherence implies that  
-programs consisting only of accesses to 
-a single memory location have 
-the sequentially consistent semantics.
-For example, consider the following program:
+Когерентность гарантирует, что все записи 
+по определенному адресу памяти будут полностью упорядочены,
+и что получающийся в результате \emph{порядок когерентности} 
+(\emph{coherence order}) отражает порядок 
+в котором записи попадают из потоков в основную память.
+В частности, из свойства когерентности следует, 
+что программа состоящая из обращений только 
+к одной локации в памяти должна 
+обладать семантикой последовательной согласованности.
+Например, рассмотрим следующую программу:
 
 \begin{equation*}
 \inarrII{
@@ -815,40 +814,42 @@ For example, consider the following program:
 \tag{COH}\label{ex:coh}
 \end{equation*}
 
-The coherence prescribes to a memory model 
-assign to this program only the 
-sequentially consistent outcomes: 
-${[r_1=1, r_2=2]}$, ${[r_1=1, r_2=1]}$, or ${[r_1=2, r_2=2]}$.
-A non-coherent model additionally may permit 
-the following outcome ${[r_1=2, r_2=1]}$.
-For example, the \Java memory model actually 
-allows this outcome~\cite{Manson-al:POPL05}.
+Когерентность предписывает модели памяти 
+присвоить этой программе только последовательно 
+согласованные поведения:
+${[r_1=1, r_2=2]}$, ${[r_1=1, r_2=1]}$, или ${[r_1=2, r_2=2]}$.
+Для модели не удовлетворяющая свойству когерентности 
+допустимым также является результат ${[r_1=2, r_2=1]}$.
+Например, модель памяти \Java допускает подобное поведение~\cite{Manson-al:POPL05}.
 
 \subsubsection{Undefined Behavior}
 \label{sec:background:ub}
 
-As we already briefly mentioned, some memory models, 
-\eg \CPP, treat racy programs as having 
-\emph{undefined behavior}~\cite{Boehm-Adve:PLDI08}
-if with at least one of the accesses participating 
-in a race is a non-atomic access. 
-In other words, for these programs any outcome is possible. 
-This property is also sometimes called the \emph{catch-fire semantics}.
-  
-The practical payoff of this approach  
-is that it enables the optimal compilation scheme 
-for non-atomic accesses and makes any sequentially valid 
-transformation applicable to them.  
-Indeed, effects of hardware and compiler 
-optimizationz can only be observed due to racy accesses
-from concurrent threads. If such accesses are said 
-to imply undefined behavior and give no guarantee, 
-effects of these optimizations become indistinguishable.
-
-\subsubsection{Speculative Execution and Out~of~Thin-Air~Values}
+Как мы уже кратко упоминали, некоторые модели памяти,
+\eg \CPP, рассматривают программы с гонками 
+на неатомарных обращениях как имеющие 
+\emph{неопределенное поведение}~\cite{Boehm-Adve:PLDI08}.
+Другими словами, для таких программ любое поведение считается допустимым. 
+Это свойство также иногда называется 
+\emph{загорающейся семантикой} (\emph{catch-fire semantics})
+ 
+Практическая польза такого подхода заключается в том
+что он допускает оптимальную схему компиляции для 
+неатомарных обращений и позволяет применять к ним 
+любые оптимизации корректные для последовательных программ.
+Дело в том, что эффекты от оптимизаций, производимых 
+процессором или компилятором, могут наблюдаться 
+только вследствии конкурентных обращений 
+из параллельных потоков. Если таким обращениям 
+предписывается неопределенное поведение и на них 
+не распространяются никакие гарантии, 
+то тогда эффекты этих оптимизаций 
+становятся неразличимы с точки зрения семантики. 
+ 
+\subsubsection{Спекулятивное исполнение и значения из воздуха}
 \label{sec:background:oota}
 
-In order to introduce the last two properties, we turn to an example: 
+Чтобы представить последние два свойства, мы рассмотрим ещё один пример:
 
 \begin{equation*}
 \inarrII{
@@ -861,28 +862,31 @@ In order to introduce the last two properties, we turn to an example:
 \tag{LB}\label{ex:lb}
 \end{equation*}
 
-Assume a weak memory model admitting 
-the outcome ${[r_1=1, r_2=1]}$ for this program.
-For example, hardware memory models of 
-\ARMv{7}, \ARMv{8}, and \POWER
-allow this outcome, and it can even be 
-actually observed on some \ARMv{7} 
-machines~\cite{Maranget-al:Tutorial2012}.
+Предположим, что модель памяти допускает 
+результат ${[r_1=1, r_2=1]}$ для этой программы. 
+Например, модели семейств процессоров 
+\ARMv{7}, \ARMv{8}, и \POWER
+допускают такое поведение, 
+и оно действительно может наблюдаться 
+на некоторых процессорах семейства 
+\ARMv{7}~\cite{Maranget-al:Tutorial2012}.
 
-The outcome ${[r_1=1, r_2=1]}$ cannot be obtained by some 
-\emph{in-order} execution of the program. 
-To enable this kind of behaviors for programs, 
-a memory model has to utilize some form of 
-\emph{speculative execution}~\cite{Boudol-Petri:ESOP10, Boehm-Demsky:MSPC14}.
-That is, during the execution, the load $\readInst{}{r_1}{x}$
-needs to be buffered and the store $\writeInst{}{y}{1}$ 
-needs to be executed out of order
-(hence the name of the program LB --- \emph{load buffering}).
+Результат ${[r_1=1, r_2=1]}$ не может быть получен 
+путем исполнения инструкции согласно их порядку внутри потоков.
+Чтобы получить подобное поведение, 
+модели памяти необходимо использовать 
+некоторую форму \emph{спекулятивного исполнения}~\cite{Boudol-Petri:ESOP10, Boehm-Demsky:MSPC14}.
+То есть во время исполнения чтение $\readInst{}{r_1}{x}$
+должно быть буфферезировано, а запись $\writeInst{}{y}{1}$ 
+должна выполнится вне очереди 
+(отсюда и название программы выше --- 
+буфферизация чтения \emph{load buffering}).
 
-However, unrestricted speculations can lead to disruptive results. 
-A store executed out of order can turn into 
-a self-satisfying prophecy~\cite{Boehm-Demsky:MSPC14}.
-Consider the following variation of the load buffering program. 
+Однако неограниченые спекуляции могут привести 
+к нежелательным последствиям. 
+Запись, исполненная вне очереди может обернуться
+самоисполняющемся пророчеством~\cite{Boehm-Demsky:MSPC14}. 
+Рассмотрим следующий вариант программы с буфферизацией чтения.
 
 \begin{equation*}
 \small
@@ -896,17 +900,23 @@ Consider the following variation of the load buffering program.
 \tag{LB+data}\label{ex:lb+data}
 \end{equation*}
 
-Here, a hypothetical abstract machine can speculate 
-to perform a store of value \texttt{1} into the variable \texttt{y}
-from the left thread, then read this value in the right thread, 
-write it to the variable \texttt{x} and then read it back in the
-left thread closing the paradoxical causality cycle.
-The value \texttt{1} in the example above appears \emph{out of thin-air}
-and then justifies itself leading to the confusing outcome ${[r_1=1, r_2=1]}$.
+Здесь гипотетическая абстрактная машина 
+может спекулятивно исполнить запись в переменную \texttt{y}
+значения \texttt{1} в левом потоке, 
+затем прочитать это значение в правом потоке, 
+записать его в переменную \texttt{x} и прочитать обратно из 
+первого потока, таким образом сформировав парадоксальный цилк 
+причинно-следственных связей.  
+Значение \texttt{1} в примере выше появляется \emph{из воздуха}
+(\emph{out of thin-air}) и приводит 
+к неожиданному результату ${[r_1=1, r_2=1]}$.
 
-As we will see in \cref{sec:analysis}, speculative execution 
-is required to enable certain program transformations. 
-However, speculations should be properly constrained
-in order to prevent an appearance of thin-air values. 
-In \cref{sec:analysis:porf,sec:analysis:deprf,sec:analysis:sdeprf}
-we will see how various memory models deal with this problem. 
+Как будет показано в разделе \cref{sec:analysis},
+спекулятивные исполнение необходимо для того, чтобы 
+поддержать в модели памяти некоторый класс трансформаций программ. 
+Тем не менее, спекулятивное исполнения необходимо 
+ограничить должным образов, чтобы избежать 
+появление значений из воздуха. 
+В разделах \cref{sec:analysis:porf,sec:analysis:deprf,sec:analysis:sdeprf}
+мы рассмотрим как различные модели памяти подходят 
+к решению этой проблемы. 
