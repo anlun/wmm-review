@@ -1,129 +1,141 @@
 \section{Comparison}
 \label{sec:comparison}
 
-We performed a comparison of the memory models 
-found via the search procedure described in \cref{sec:methodology} 
-by the criteria given in \cref{sec:background}. 
-A particular challenge of this comparison was the fact that 
-consulted research papers often use different terminology, 
-have incomplete information about models, and 
-sometimes they even contradict each other. 
-We tried to approach these challenges by the following means.
-First, we used consistent terminology 
-to denote the properties of the memory models, 
-as presented in \cref{sec:background}.
-Second, we complemented the information about 
-each particular memory model from different sources.
-If after this procedure some particular property 
-was still unclear, we left it as unknown. 
+Мы провели сравнение моделей памяти отобранных 
+с помощью процедуры, описанной в \cref{sec:methodology},
+по критериям, представленным в \cref{sec:background}. 
+Проведение сравненительного анализа моделей было 
+осложнено тем фактом, что рассматриваемые 
+научные статьи зачастую используют различную терминологию, 
+предоставляют неполную информацию о моделях памяти 
+и иногда они даже противоречат друг другу. 
+Мы подошли к решению этих трудностей следующим образом. 
+Во-первых, мы использовали единообразную терминологию,
+представленную в \cref{sec:background},
+для обозначения свойств моделей памяти.
+Во-вторых, мы дополняли информацию о каждой модели 
+из разных источников. Если после этого 
+наличие или отсуствие определенного свойства у модели 
+все ещё оставлось неясным, мы явно помечали это. 
 
-Based on our comparison of the memory models, 
-we identified six classes of them:
-sequentially consistent models,
-models with total or partial order on stores,
-program order preserving models, 
-syntactic dependency preserving models, 
-semantic dependency preserving models, 
-and models with out of thin-air values. 
-The models from the same class have the similar compilation mappings, 
-the set of sound program transformations, and the provided reasoning guarantees.
-We first present the result of our comparison on a per-class basis 
-(see~\cref{table:cmp-cls} and~\cref{sec:analysis}), and 
-then give a more detailed comparison with respect to individual models
-(see~\cref{table:cmp-mms} and~\cref{sec:catalog}).
-Thus we have an opportunity to first discuss common principles
-behind programming language relaxed memory models in general, 
-and then dive deeper into the details of each particular model. 
+На основе нашего сравнения мы идентифицировали 6 классов моделей памяти:
+последовательно согласованные (sequentially consistent); 
+модели с линейным или частичным порядком на записях
+(total or partial store order);
+модели, сохраняющие программный порядок
+(program order preserving models); 
+модели, сохраняющие синтаксические зависимости 
+(syntactic dependency preserving);
+модели, сохраняющие семантические зависимости
+(semantic dependency preserving);
+модели допускающие значения из воздуха
+(out of thin-air). 
+Модели из одного класса имеют схожие схемы компиляции, 
+множество корректных трансформаций и предоставляемые гарантии. 
+Сначала мы представляем результат сравнения различных классов, 
+(\see~\cref{table:cmp-cls} и~\cref{sec:analysis})
+а уже затем более детальное сравнение моделей в отдельности
+(\see~\cref{table:cmp-mms} and~\cref{sec:catalog}).
+Таким образом мы имеем возможность сначала обсудить общие 
+принципы моделей памяти языков программирования, 
+а уже затем погрузиться в детали каждой модели в отдельности. 
 
 \input{../common/smalltable.tex}
 
-In both \cref{table:cmp-cls} and \cref{table:cmp-mms} we order
-the memory models by their weakness.  
-The strongest models are located at the top rows of the tables, 
-while the weakest are at the bottom.  
+В \cref{table:cmp-cls} и \cref{table:cmp-mms} 
+мы упорядочиваем модели по степени их ослабленности. 
+Более строгие модели расположены в верхних строках, 
+а более слабые в нижних.  
 
-Columns of both tables correspond 
-to the properties of the memory models.
-In order to be concise, we chose a binary classification for all properties,
-\ie the model is either said to satisfy a given property or not.  
-We also split properties into several subgroups.
+Колонки двух таблиц соответствуют свойствам моделей памяти.
+Для краткости мы выбрали бинарную классификацию всех свойств,
+\ie считается что модель либо удовлетворяет свойству, либо нет. 
+Мы также разделили все свойства на несколько групп. 
 
-The first group is devoted to an optimality 
-of compilation mappings to target hardware architectures. 
-We classify a compilation scheme as either optimal or not,
-in the following sense.
-We chose the weakest possible access mode supported by a model
-and consider the compilation scheme for memory accesses annotated by this mode. 
-For memory models that treat racy non-atomic accesses
-as undefined behavior, we consider the compilation mapping
-for the weakest atomic access mode that model provides.
-It is because the catch-fire semantics for racy non-atomics 
-trivially permits the optimal compilation mapping (see~\cref{sec:background:ub}).
-We say that the compilation scheme is \emph{optimal} if  
-accesses annotated by the chosen mode 
-can be compiled just as plain load and store instructions 
-of a given hardware architecture 
-(\ie without use of memory fences or other auxiliary code). 
+Первая группа посвещана оптимальности схем компиляции 
+под различные семейства архитектур процессоров. 
+Мы классифицируем схему компиляции как оптимальную 
+или неоптимальную следующим образом. 
+Мы выбираем наиболее слабый режим доступа 
+поддерживаемый моделью памяти и рассматриваем 
+схему компиляции обращений к памяти аннотированных данным режимом. 
+Для моделей, которые присваивают неопределенное поведение 
+программам с гонками на неатомарных переменных, 
+мы рассматриваем наиболее слабый режим доступа к атомарным переменным. 
+Дело в том, что семантика с неопределенным поведением 
+для программ с гонками тривиальным образом допускает 
+оптимальную схему компиляции (\see~\cref{sec:background:ub}).
+Мы считаем схему компиляции \emph{оптимальной}, 
+если обращения к памяти, аннотированные выбранным режимом доступа, 
+могут быть скомпилированы в обычные инструкции чтения 
+и записи целевой архитектуры 
+(\ie без использования барьеров памяти или какого-либо другого дополнительного кода).
 
-The second group is dedicated to a soundness of various program transformations. 
-The classification is also binary: a transformation is either sound or unsound 
-in a given memory model (in the sense stated in~\cref{sec:background:trans}).
-Again, to be concise, we do not consider all combinations 
-of program transformations and memory access modes. 
-Instead, we consider the weakest possible accesses 
-which have fully defined semantics. 
-We further split the transformations into 
-global and local as in~\cref{sec:background:trans}.
 
-The third group corresponds to reasoning 
-principles guaranteed by the model. In particular, we check 
-whether a model provides the external DRF guarantee (see~\cref{sec:background:drf}), 
-whether it provides the coherence property (see~\cref{sec:background:coh}),
-whether it has fully defined semantics for all types of accesses, 
-\ie the model does not treat racy non-atomic accesses 
-as undefined behavior (see~\cref{sec:background:ub}),
-whether the model utilizes in-order execution 
-(as opposed to speculative out-of-order executon),
-and whether it forbids out of thin-air values (see~\cref{sec:background:oota}).
+Вторая группа посвещена корректности разичных трансформаций. 
+Здесь классификация также бинарная: конкретная трансформация 
+либо является корректной в данной модели, либо нет. 
+Мы вновь не рассматриваем все возможные комбинации 
+трансформаций и режимов доступа. 
+Вместо этого мы рассматриваем только наиболее слабый режим доступа
+имеющий полностью определенную семантику (\ie без неопределенного поведения).
+Также как и в~\cref{sec:background:trans} мы дополнительно 
+подразделяем трансформации на локальные и глобальные. 
 
-In \cref{table:cmp-mms} each row corresponds to 
-a specific memory model, denoted by its abbreviation, 
-and thus each cell describes a particular property 
-of that particular model. 
-We marked a cell by \cmark\xspace if the corresponding model satisfies the given property,
-and we marked it by \xmark\xspace otherwise.
-If the property was not studied in the research papers, 
-we color the cell in gray~% 
-{\protect\tikz \protect\draw[fill=colorQmark] (0,0) rectangle ++(0.35,0.35);}.
+Третья группа соответсвует предоставляемым гарантиям
+о поведении программ. В частности, для каждой модели
+мы указываем предоставляет ли она свойство 
+внешней свободы от гонок \eDRF (\see~\cref{sec:background:drf}),
+свойство когерентности (\see~\cref{sec:background:coh}),
+присваивает ли она неопределенное поведение гонкам 
+на неатомарных переменных (\see~\cref{sec:background:ub}),
+используется ли последовательное исполнение инструкций (\emph{in-order execution}), 
+или модель применяет спекулятивное исполнение (\emph{speculative execution}),
+а также допускаются ли значения из воздуха (\see~\cref{sec:background:oota}).
 
-Each row of the \cref{table:cmp-cls} corresponds to a class of memory models. 
-We marked a cell by \cmark\xspace if the majority of models 
-in the given class satisfy the property. 
-If less than the majority of models satisfy the property we mark 
-the corresponding cell by \wmark\xspace.
-Finally, if none of the models satisfy the property, we mark the cell by \xmark\xspace. 
-Note that when counting the majority, we omit the unknowns.
-Also, if a given property was not studied in the context of some class of models 
-(\ie, in~\cref{table:cmp-mms} it is marked by \qmark\xspace for all models in this class)
-in \cref{table:cmp-cls} we mark the corresponding cell by \xmark. 
-That is, in \cref{table:cmp-cls} symbols \cmark\xspace and \wmark\xspace 
-denote positive knowledge,
-while~\xmark\xspace denotes negative knowledge or
-an absence of information.
+В \cref{table:cmp-mms} каждая строка соответствует 
+конкретной модели памяти, обозначаемой аббревиатурой, 
+а каждая клетка таким образом описывает наличие 
+или отсутствие определенного свойства. 
+Мы помечаем клетку символом \cmark\xspace если 
+соответствующая модель обладает данным свойством 
+и символом \xmark\xspace в противном случае. 
+Если свойство не было изучено в научных статьях, 
+то соответствующая клетка заливается серым цветом~%
+{\protect\tikz \protect\draw[fill=colorQmark] (0,0) rectangle ++(0.35,0.35);}. 
 
-Besides \cref{table:cmp-cls,table:cmp-mms} which describe 
-properties of the memory models, 
-we also present \cref{table:features}
-that provides a list of features supported by the models.
-In this table each row corresponds to a particular memory model. 
-Columns correspond to supported features. 
-In particular, we check what types of access modes are supported:
-non-atomic~(NA), relaxed~(RLX), release/acquire~(RA), sequentially-consistent~(SC); 
-what types of fences are supported: release/acquire~(F-RA) 
-and sequentially-consistent~(F-SC);
-whether the atomic read-modify-write operations are supported~(RMW),
-whether the model handles locks explicitly~(LK),
-and whether it supports mixed-size accesses~(MIX). 
+В \cref{table:cmp-mms} каждая строка соответствует целому классу моделей. 
+Клетка помечается символом \cmark\xspace если большинство моделей 
+данного класса обладают соответствующим свойством. 
+Если только некоторое количество моделей, не составляющих большинство, 
+удовлетворяет свойству, то клетка помечается символом \wmark\xspace.
+Наконец, если ни одна из моделей данного класса не обладает свойством, 
+тогда клетка помечается символом \xmark\xspace.
+Обратите внимание, что при подсчете большинства 
+мы опускаем модели, про которые неизвестно обладают 
+они свойством или нет. 
+Также, если какое-то свойство вообще не изучалось 
+в контексте определенного класса моделей 
+(\ie, в~\cref{table:cmp-mms} все клетки моделей этого класса закрашены серым)
+мы также помечаем клетку символом \xmark. 
+Таким образом, в \cref{table:cmp-cls} символы \cmark\xspace и \wmark\xspace 
+обозначают положительную информацию, а символ \xmark\xspace обозначает 
+как негативную информацию, так и отсутствие информации. 
+
+Помимо \cref{table:cmp-cls,table:cmp-mms}, 
+которые описывают свойства моделей, мы также 
+представляем \cref{table:features}, содержащую 
+список примитивов, поддерживаемых каждой моделью. 
+Каждая строка данной таблицы соответствует отдельной модели памяти.
+Колонки соответствуют поддерживаемым примитивам. 
+В частности, мы указываем какие режимы обращений поддержаны:
+неатомарные~(NA), ослабленные~(RLX), захвата/освобождения~(RA), 
+последовательно согласованные~(SC); 
+какие типы барьеров поддержаны:
+захвата/освобождения~(RA) и последовательно согласованные~(F-SC);
+поддерживаются ли атомарные операции чтения-модификации-записи~(RMW),
+поддерживаются ли явно операции блокировки~(LK),
+и поддерживаются ли смешанные обращения~(MIX).   
 
 % Finally, the last group enumerates the list of memory access modes 
 % and fences supported by the model, as well as whether the model 
