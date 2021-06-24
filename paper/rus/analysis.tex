@@ -99,39 +99,37 @@
 \subsection{Total and Partial Store Order}
 \label{sec:analysis:tso}
 
-The next class of PL memory models we consider 
-was inspired by the \emph{total store order}~\cite{Sewell-al:CACM10} (\TSO) 
-and the \emph{partial store order}~\cite{Sparc:94} (\PSO) hardware models. 
-In these models threads are equipped with \emph{store buffers}.
-All store operations go to these buffers before they 
-propagate into the main memory.
-% The name of these models stems from their axiomatic formulation. 
-% They require an existence of total (in case of \TSO) 
-% or partial (in case of \PSO) order on write events, 
-% consistent with program order and such that 
-% each read either reads locally or from 
-% the most recent write~\cite{Sewell-al:CACM10, Lahav-al:POPL16}. 
+Следующий рассматриваемый класс моделей был вдохновлен моделями с 
+\emph{линейным порядком на записях} (\emph{total store order}, \TSO)
+и \emph{частичным порядком на записях} (\emph{partial store order}, \PSO)~\cite{Sparc:94}.
+Модели \TSO и \PSO являются моделями семейств процессоров \Intel~\cite{Sewell-al:CACM10} 
+и \SPARC~\cite{Sparc:94} соответственно. 
+В этих моделям потоки оснащены \emph{буферами записей}.
+Все операции записи сперва попадают в эти буферы, а уже 
+затем переносятся в основную память. 
 
-Models of this class can be compiled down to the \Intel hardware without any 
-performance penalty, since \Intel implements \TSO model itself.
-However, on weaker hardware like~\POWER 
-a compiler need to emit essentially as many fences 
-as to enforce~\SC~\cite{Lustig-al:AISCA15}. 
+Для моделей этого класса схема компиляции под архитектуру \Intel 
+является оптимальной, так как \Intel предоставляет модель \TSO.  
+Однако при компиляции под архитектуры с более слабой моделью памяти, 
+например~\POWER, необходимо использовать практический такое же 
+количество барьеров, как и при компиляции из модели~\SC~\cite{Lustig-al:AISCA15}.
 
-This class permits more program transformations than \SC.
-Store buffers enable store/load reorderings in case of~\TSO,
-and additionally store/store reorderings in case of~\PSO.
-The \TSO and \PSO models are weaker than the \SC, 
-but they are still relatively strong~---
-the external \DRF and the coherence properties hold.
+Модели этого класса допускают более количество трансформаций кода чем \SC.
+Использование буферов записи позволяет выполнять переупорядочивание 
+типа запись/чтение в случае~\TSO, и также 
+переупорядочивание типа запись\запись в случае~\PSO.
 
-Therefore these models do not have any significant 
-benefits in terms of the reasoning guarantees compared to \SC,
-but induce a similar performance penalty 
-on architectures weaker than \Intel. 
-Hence a choice of \TSO and \PSO as a programming language level
-memory model is reasonable only if the language targets
-the \Intel hardware solely. 
+Хотя модели \TSO и \PSO слабее модели \SC, 
+тем не менее они все ещё предоставляют довольно сильные гарантии, 
+в частности, свойсва \DRF и когерентности.    
+
+Таким образом, модели этого класса не имеют 
+значительных преимуществ перед моделью \SC, 
+и при этом влекут соизмеримые накладные расходы 
+при компиляции под архитектуры c более слабой моделью памяти чем у \x86. 
+Следовательно, выбор этих моделей в качестве моделей для 
+языка программирования оправдан только если предполагается 
+поддержка компиляции только под процессоры архитектуры \Intel. 
 
 \subsection{Out of Thin-Air Values}
 \label{sec:analysis:oota}
