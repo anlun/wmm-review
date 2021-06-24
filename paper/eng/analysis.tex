@@ -97,8 +97,11 @@ in order to preserve \SC~\cite{Marino-al:PLDI11, Liu-al:PLDI19}.
 \label{sec:analysis:tso}
 
 The next class of PL memory models we consider 
-was inspired by the \emph{total store order}~\cite{Sewell-al:CACM10} (\TSO) 
-and the \emph{partial store order}~\cite{Sparc:94} (\PSO) hardware models. 
+was inspired by the \emph{total store order} (\TSO) 
+and the \emph{partial store order} (\PSO) models. 
+\TSO and \PSO are memory models of 
+\Intel~\cite{Sewell-al:CACM10} and \SPARC~\cite{Sparc:94} 
+hardware correspondingly.
 In these models threads are equipped with \emph{store buffers}.
 All store operations go to these buffers before they 
 propagate into the main memory.
