@@ -83,7 +83,17 @@
 \input{discussion.tex}
 \input{conclusion.tex}
 
-\bibliography{../common/main} 
+% WARNING: do not modify rus/main.bib. 
+% The bibiligraphy is intended to be shared 
+% between eng/rus versions of the paper
+% and thus it is located in common/main.bib. 
+% However, because of the techinical limitations 
+% of Overleaf we have to keep the .bib file 
+% in the same folder as main.tex
+\bibliography{main} 
+% \bibliography{../common/main} 
+
+
 \bibliographystyle{ieeetr}
 
 \clearpage

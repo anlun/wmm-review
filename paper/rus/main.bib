@@ -1,0 +1,972 @@
+
+
+@misc{Podkopaev-al:ECOOP17TR,
+  author =        {Anton Podkopaev and Ori Lahav and Viktor Vafeiadis},
+  note =          {Available at \url{http://podkopaev.net/armpromise}
+                   [Online; accessed 16-May-2017]},
+  title =         {Promising Compilation to {ARMv8 POP}. {E}xtended
+                   Version},
+  year =          {2017},
+}
+
+@inproceedings{Podkopaev-al:ECOOP17,
+  author =        {Anton Podkopaev and 
+                   Ori Lahav and
+                   Viktor Vafeiadis},
+  booktitle =     {ECOOP 2017},
+  title={Promising Compilation to {ARMv8 POP}},
+  year={2017},
+  organization={Schloss Dagstuhl-Leibniz-Zentrum fuer Informatik}
+}
+
+@article{Podkopaev-al:POPL19,
+  title={Bridging the gap between programming languages and hardware weak memory models},
+  author={Podkopaev, Anton and Lahav, Ori and Vafeiadis, Viktor},
+  journal={Proceedings of the ACM on Programming Languages},
+  volume={3},
+  number={POPL},
+  pages={1--31},
+  year={2019},
+  publisher={ACM New York, NY, USA}
+}
+
+@inproceedings{Kang-al:POPL17,
+  author =        {Jeehoon Kang and Chung-Kil Hur and Ori Lahav and
+                   Viktor Vafeiadis and Derek Dreyer},
+  booktitle =     {POPL 2017},
+  publisher =     {{ACM}},
+  title =         {A Promising Semantics for Relaxed-Memory Concurrency},
+  year =          {2017},
+  doi       = {10.1145/3009837.3009850},
+}
+
+@inproceedings{Lee-al:PLDI20,
+  title={Promising 2.0: global optimizations in relaxed memory concurrency},
+  author={Lee, Sung-Hwan and Cho, Minki and Podkopaev, Anton and Chakraborty, Soham and Hur, Chung-Kil and Lahav, Ori and Vafeiadis, Viktor},
+  booktitle={Proceedings of the 41st ACM SIGPLAN Conference on Programming Language Design and Implementation},
+  pages={362--376},
+  year={2020}
+}
+
+@inproceedings{Cho-al:PLDI21,
+  title={Modular Data-Race-Freedom Guarantees in the {Promising} Semantics},
+  author={Cho, Minki and Lee, Sung-Hwan and Hur, Chung-Kil and Lahav, Ori},
+  booktitle={Proceedings of the 42st ACM SIGPLAN Conference on Programming Language Design and Implementation},
+  year={2021}
+}
+
+@inproceedings{Flur-al:POPL16,
+  author =        {Shaked Flur and Kathryn E. Gray and Christopher Pulte and
+                   Susmit Sarkar and Ali Sezgin and Luc Maranget and
+                   Will Deacon and Peter Sewell},
+  booktitle =     {POPL 2016},
+  pages =         {608--621},
+  publisher =     {{ACM}},
+  title =         {Modelling the {ARMv8} Architecture, Operationally:
+                   Concurrency and {ISA}},
+  year =          {2016},
+  doi       = {10.1145/2837614.2837615},
+}
+
+@article{Lamport:TC79,
+  author =        {Leslie Lamport},
+  journal =       {{IEEE} Trans. Computers},
+  number =        {9},
+  pages =         {690--691},
+  title =         {How to Make a Multiprocessor Computer That Correctly
+                   Executes Multiprocess Programs},
+  volume =        {28},
+  year =          {1979},
+  doi       = {10.1109/TC.1979.1675439},
+}
+
+@inproceedings{Chong-ASPLOS08,
+  title={Reasoning about the {ARM} weakly consistent memory model},
+  author={Chong, Nathan and Ishtiaq, Samin},
+  booktitle={Proceedings of the 2008 ACM SIGPLAN workshop on Memory systems performance and correctness: held in conjunction with the Thirteenth International Conference on Architectural Support for Programming Languages and Operating Systems (ASPLOS'08)},
+  pages={16--19},
+  year={2008}
+}
+
+@article{Sewell-al:CACM10,
+  author =        {Peter Sewell and Susmit Sarkar and Scott Owens and
+                   Francesco Zappa Nardelli and Magnus O. Myreen},
+  journal =       {Commun. ACM},
+  number =        {7},
+  pages =         {89--97},
+  title =         {{x86-TSO}: {A} Rigorous and Usable Programmer's Model
+                   for x86 Multiprocessors},
+  volume =        {53},
+  year =          {2010},
+  doi = {10.1145/1785414.1785443},
+}
+
+@inproceedings{Sarkar-al:PLDI11,
+  author =        {Susmit Sarkar and Peter Sewell and Jade Alglave and
+                   Luc Maranget and Derek Williams},
+  booktitle =     {PLDI 2011},
+  pages =         {175--186},
+  publisher =     {ACM},
+  title =         {Understanding {POWER} Multiprocessors},
+  year =          {2011},
+  doi =           {10.1145/1993498.1993520},
+}
+
+@inproceedings{Alglave-DAMP09,
+  title={The semantics of {Power} and {ARM} multiprocessor machine code},
+  author={Alglave, Jade and Fox, Anthony and Ishtiaq, Samin and Myreen, Magnus O and Sarkar, Susmit and Sewell, Peter and Nardelli, Francesco Zappa},
+  booktitle={Proceedings of the 4th workshop on Declarative aspects of multicore programming},
+  pages={13--24},
+  year={2009}
+}
+
+@article{Alglave-al:TOPLAS14,
+  author =        {Jade Alglave and Luc Maranget and Michael Tautschnig},
+  journal =       {{ACM} Trans. Program. Lang. Syst.},
+  number =        {2},
+  pages =         {7:1--7:74},
+  title =         {Herding Cats: Modelling, Simulation, Testing, and
+                   Data Mining for Weak Memory},
+  volume =        {36},
+  year =          {2014},
+  doi =           {10.1145/2627752},
+}
+
+@misc{ARMv82,
+  note =          {Available at
+  \url{https://developer.arm.com/docs/ddi0487/latest/arm-architecture-reference-manual-armv8-for-armv8-a-architecture-profile}
+  [Online; accessed 16-May-2017]},
+  title =         {{ARM} Architecture Reference Manual: {ARMv8}, for
+                   {ARMv8-A} Architecture Profile}},
+}
+
+@misc{HerdRepo,
+  note =          {Available at \url{https://github.com/herd/herdtools7}
+                   [Online; accessed 16-May-2017]},
+  title =         {The \texttt{herdtools7} repository},
+}
+
+@inproceedings{Lahav-Vafeiadis:FM16,
+  author =        {Ori Lahav and Viktor Vafeiadis},
+  booktitle =     {FM 2016},
+  publisher =     {Springer},
+  title =         {Explaining Relaxed Memory Models with Program Transformations},
+  year =          {2016},
+  doi       = {10.1007/978-3-319-48989-6_29},
+}
+
+@article{Boehm:ACM05,
+  title={Threads cannot be implemented as a library},
+  author={Boehm, Hans-J},
+  journal={ACM Sigplan Notices},
+  volume={40},
+  number={6},
+  pages={261--268},
+  year={2005},
+  publisher={ACM New York, NY, USA}
+}
+
+@article{Boehm-Adve:PLDI08,
+  title={Foundations of the {C++} concurrency memory model},
+  author={Boehm, Hans-J and Adve, Sarita V},
+  journal={ACM SIGPLAN Notices},
+  volume={43},
+  number={6},
+  pages={68--78},
+  year={2008},
+  publisher={ACM New York, NY, USA}
+}
+
+@inproceedings{Boehm-Demsky:MSPC14,
+  author =        {Hans-J. Boehm and Brian Demsky},
+  booktitle =     {MSPC 2014},
+  pages =         {7:1--7:6},
+  publisher =     {ACM},
+  title =         {Outlawing Ghosts: Avoiding Out-of-thin-air Results},
+  year =          {2014},
+  doi       = {10.1145/2618128.2618134},
+}
+
+@inproceedings{PichonPharabod-Sewell:POPL16,
+  author =        {Jean Pichon-Pharabod and Peter Sewell},
+  booktitle =     {POPL 2016},
+  pages =         {622--633},
+  publisher =     {{ACM}},
+  title =         {A Concurrency Semantics for Relaxed Atomics that
+                   Permits Optimisation and Avoids Thin-Air Executions},
+  year =          {2016},
+  doi       = {10.1145/2837614.2837616},
+}
+
+@phdthesis{PichonPharabod:PhD18,
+  title={A no-thin-air memory model for programming languages},
+  author={Pichon-Pharabod, Jean Yves Alexis},
+  year={2018},
+  school={University of Cambridge}
+}
+
+
+@article{Zhang-Feng:2016,
+  author =        {Zhang, Yang and Feng, Xinyu},
+  journal =       {Frontiers of Computer Science},
+  number =        {1},
+  pages =         {54--81},
+  title =         {An Operational Happens-Before Memory Model},
+  volume =        {10},
+  year =          {2016},
+  doi =           {10.1007/s11704-015-4492-4},
+}
+
+@inproceedings{Jeffrey-Riely:LICS16,
+  author =        {Alan Jeffrey and James Riely},
+  booktitle =     {LICS 2016},
+  publisher =     {IEEE},
+  title =         {On Thin Air Reads: Towards an Event Structures
+                   Model of Relaxed Memory},
+  year =          {2016},
+  doi       = {10.1145/2933575.2934536},
+}
+
+@article{Lahav-al:POPL16,
+  title={Taming release-acquire consistency},
+  author={Lahav, Ori and Giannarakis, Nick and Vafeiadis, Viktor},
+  journal={ACM SIGPLAN Notices},
+  volume={51},
+  number={1},
+  pages={649--662},
+  year={2016},
+  publisher={ACM New York, NY, USA}
+}
+
+@article{Podkopaev-al:CoRR16,
+  author =        {Anton Podkopaev and Ilya Sergey and Aleksandar Nanevski},
+  journal =       {CoRR},
+  title =         {Operational Aspects of {C/C++} Concurrency},
+  volume =        {abs/1606.01400},
+  year =          {2016},
+  url =           {http://arxiv.org/abs/1606.01400},
+}
+
+@inproceedings{Manson-al:POPL05,
+  author =        {Jeremy Manson and William Pugh and Sarita V. Adve},
+  booktitle =     {POPL 2005},
+  pages =         {378--391},
+  publisher =     {ACM},
+  title =         {The {Java} Memory Model},
+  year =          {2005},
+  doi =           {10.1145/1040305.1040336},
+}
+
+@article{Huisman-Petri:CONCUR07,
+  title={The {Java} memory model: a formal explanation},
+  author={Huisman, Marieke and Petri, Gustavo},
+  journal={VAMP},
+  volume={7},
+  pages={81--96},
+  year={2007}
+}
+
+@inproceedings{Sevcik-Aspinall:ECOOP08,
+  title={On validity of program transformations in the {Java} memory model},
+  author={{\v{S}}ev{\v{c}}{\'\i}k, Jaroslav and Aspinall, David},
+  booktitle={European Conference on Object-Oriented Programming},
+  pages={27--51},
+  year={2008},
+  organization={Springer}
+}
+
+
+
+@inproceedings{Pugh:JAVA99,
+  title={Fixing the {Java} memory model},
+  author={Pugh, William},
+  booktitle={Proceedings of the ACM 1999 conference on Java Grande},
+  pages={89--98},
+  year={1999}
+}
+
+@inproceedings{Batty-al:POPL11,
+  author =        {Mark Batty and Scott Owens and Susmit Sarkar and
+                   Peter Sewell and Tjark Weber},
+  booktitle =     {POPL 2011},
+  pages =         {55--66},
+  publisher =     {ACM},
+  title =         {Mathematizing {C++} Concurrency},
+  year =          {2011},
+  doi = {10.1145/1925844.1926394},
+}
+
+@inproceedings{Sarkar-al:PLDI12,
+  title={Synchronising {C/C++} and {POWER}},
+  author={Sarkar, Susmit and Memarian, Kayvan and Owens, Scott and Batty, Mark and Sewell, Peter and Maranget, Luc and Alglave, Jade and Williams, Derek},
+  booktitle={Proceedings of the 33rd ACM SIGPLAN Conference on Programming Language Design and Implementation},
+  pages={311--322},
+  year={2012}
+}
+
+@article{Batty-al:POPL12,
+  title={Clarifying and compiling {C/C++} concurrency: from {C++ 11} to {POWER}},
+  author={Batty, Mark and Memarian, Kayvan and Owens, Scott and Sarkar, Susmit and Sewell, Peter},
+  journal={ACM SIGPLAN Notices},
+  volume={47},
+  number={1},
+  pages={509--520},
+  year={2012},
+  publisher={ACM New York, NY, USA}
+}
+
+@inproceedings{Batty-al:POPL16,
+  title={Overhauling {SC} atomics in {C11} and {O}pen{CL}},
+  author={Batty, Mark and Donaldson, Alastair F and Wickerson, John},
+  booktitle={Proceedings of the 43rd Annual ACM SIGPLAN-SIGACT Symposium on Principles of Programming Languages},
+  pages={634--648},
+  year={2016}
+}
+
+@inproceedings{Nienhuis-al:OOPSLA16,
+  title={An operational semantics for {C/C++ 11} concurrency},
+  author={Nienhuis, Kyndylan and Memarian, Kayvan and Sewell, Peter},
+  booktitle={Proceedings of the 2016 ACM SIGPLAN International Conference on Object-Oriented Programming, Systems, Languages, and Applications},
+  pages={111--128},
+  year={2016}
+}
+
+@article{Flur-al:POPL17,
+  title={Mixed-size concurrency: {ARM}, {Power}, {C/C++ 11}, and {SC}},
+  author={Flur, Shaked and Sarkar, Susmit and Pulte, Christopher and Nienhuis, Kyndylan and Maranget, Luc and Gray, Kathryn E and Sezgin, Ali and Batty, Mark and Sewell, Peter},
+  journal={ACM SIGPLAN Notices},
+  volume={52},
+  number={1},
+  pages={429--442},
+  year={2017},
+  publisher={ACM New York, NY, USA}
+}
+
+@inproceedings{Dodds-al:ESOP18,
+  title={Compositional verification of compiler optimisations on relaxed memory},
+  author={Dodds, Mike and Batty, Mark and Gotsman, Alexey},
+  booktitle={European Symposium on Programming},
+  pages={1027--1055},
+  year={2018},
+  organization={Springer}
+}
+
+@article{Dolan-al:PLDI18,
+  title={Bounding data races in space and time},
+  author={Dolan, Stephen and Sivaramakrishnan, KC and Madhavapeddy, Anil},
+  journal={ACM SIGPLAN Notices},
+  volume={53},
+  number={4},
+  pages={242--255},
+  year={2018},
+  publisher={ACM New York, NY, USA}
+}
+
+@book{Hennessy-Patterson:BOOK,
+  author =        {John L. Hennessy and David A. Patterson},
+  publisher =     {Morgan Kaufmann},
+  title =         {Computer Architecture - {A} Quantitative Approach
+                   (5. ed.)},
+  year =          {2012},
+}
+
+@inproceedings{Batty-al:ESOP15,
+  author =        {Mark Batty and Kayvan Memarian and Kyndylan Nienhuis and
+                   Jean Pichon{-}Pharabod and Peter Sewell},
+  booktitle =     {ESOP},
+  pages =         {283--307},
+  publisher =     {Springer},
+  series =        {LNCS},
+  title =         {The Problem of Programming Language Concurrency Semantics},
+  volume =        {9032},
+  year =          {2015},
+  doi  = {10.1007/978-3-662-46669-8_12},
+}
+
+@inproceedings{Lahav-al:PLDI17,
+  author =        {Ori Lahav and Viktor Vafeiadis and Jeehoon Kang and
+                   Chung-Kil Hur and Derek Dreyer},
+  booktitle =     {PLDI 2017},
+  publisher =     {ACM},
+  title =         {Repairing Sequential Consistency in {C/C++11}},
+  year =          {2017},
+}
+
+@inproceedings{Doherty-al:PPoPP19,
+  title={Verifying {C11} programs operationally},
+  author={Doherty, Simon and Dongol, Brijesh and Wehrheim, Heike and Derrick, John},
+  booktitle={Proceedings of the 24th Symposium on Principles and Practice of Parallel Programming},
+  pages={355--365},
+  year={2019}
+}
+
+@article{Ou-Demsky:OOPSLA18,
+  title={Towards understanding the costs of avoiding out-of-thin-air results},
+  author={Ou, Peizhao and Demsky, Brian},
+  journal={Proceedings of the ACM on Programming Languages},
+  volume={2},
+  number={OOPSLA},
+  pages={1--29},
+  year={2018},
+  publisher={ACM New York, NY, USA}
+}
+
+@article{Dang-al:POPL19,
+  title={{RustBelt} meets relaxed memory},
+  author={Dang, Hoang-Hai and Jourdan, Jacques-Henri and Kaiser, Jan-Oliver and Dreyer, Derek},
+  journal={Proceedings of the ACM on Programming Languages},
+  volume={4},
+  number={POPL},
+  pages={1--29},
+  year={2019},
+  publisher={ACM New York, NY, USA}
+}
+
+
+@article{Manerkar-al:CoRR16,
+  author =        {Yatin A. Manerkar and Caroline Trippel and
+                   Daniel Lustig and Michael Pellauer and
+                   Margaret Martonosi},
+  journal =       {CoRR},
+  title =         {Counterexamples and Proof Loophole for the {C/C++}
+                   to {POWER} and {ARMv7} Trailing-Sync Compiler
+                   Mappings},
+  volume =        {abs/1611.01507},
+  year =          {2016},
+  url =           {http://arxiv.org/abs/1611.01507},
+}
+
+@article{Lynch-Vaandrager:IC95,
+  author =        {Nancy Lynch and Frits Vaandrager},
+  journal =       {Inf. Comput.},
+  number =        {2},
+  pages =         {214--233},
+  title =         {Forward and Backward Simulations: {I.} {U}ntimed Systems},
+  volume =        {121},
+  year =          {1995},
+  doi = {10.1006/inco.1995.1134},
+}
+
+@article{Abadi-Lamport:TCS91,
+  author =        {Mart{\'{\i}}n Abadi and Leslie Lamport},
+  journal =       {Theor. Comput. Sci.},
+  number =        {2},
+  pages =         {253--284},
+  title =         {The Existence of Refinement Mappings},
+  volume =        {82},
+  year =          {1991},
+  doi = {10.1109/LICS.1988.5115},
+}
+
+@inproceedings{Wickerson-al:POPL17,
+  author =        {John Wickerson and Mark Batty and Tyler Sorensen and
+                   George A. Constantinides},
+  booktitle =     {POPL 2017},
+  publisher =     {{ACM}},
+  title =         {Automatically Comparing Memory Consistency Models},
+  year =          {2017},
+  doi = {10.1145/3009837.3009838},
+}
+
+@misc{CompScheme,
+  note =          {Available at
+  \url{https://www.cl.cam.ac.uk/~pes20/cpp/cpp0xmappings.html}. [Online;
+  accessed 16-May-2017]},
+  title =         {{C/C++11} Mappings to Processors},
+}
+
+@misc{CPP:11,
+  title = {{ISO/IEC 14882:2011. Programming language C++}},
+  year = {2011},
+}
+
+@misc{C:11,
+  title = {{ISO/IEC 9899:2011. Programming language C}},
+  year = {2011},
+}
+
+
+@inproceedings{Vafeiadis-al:POPL15,
+  author    = {Viktor Vafeiadis and
+               Thibaut Balabonski and
+               Soham Chakraborty and
+               Robin Morisset and
+               Francesco Zappa Nardelli},
+  title     = {{Common Compiler Optimisations are Invalid
+                in the {C11} Memory Model
+                and what we can do about it}},
+  pages     = {209--220},
+  opteditor    = {Sriram K. Rajamani and
+               David Walker},
+  booktitle = {POPL 2015},
+  optbooktitle     = {Proceedings of the 42nd annual {ACM} {SIGPLAN-SIGACT} symposium on
+               Principles of programming languages ({POPL}~2015)},
+  publisher = {{ACM}},
+  year      = {2015},
+}
+
+@article{Pulte-al:POPL18,
+  title={Simplifying {ARM} concurrency: multicopy-atomic axiomatic and operational models for {ARMv8}},
+  author={Pulte, Christopher and Flur, Shaked and Deacon, Will and French, Jon and Sarkar, Susmit and Sewell, Peter},
+  journal={Proceedings of the ACM on Programming Languages},
+  volume={2},
+  number={POPL},
+  pages={1--29},
+  year={2018},
+  publisher={ACM New York, NY, USA}
+}
+
+
+@phdthesis{Adve:PhD93,
+  title={Designing memory consistency models for shared-memory multiprocessors},
+  author={Adve, Sarita Vikram},
+  year={1993},
+  school={University of Wisconsin-Madison}
+}
+
+@article{Adve:Comp96,
+  title={Shared memory consistency models: A tutorial},
+  author={Adve, Sarita V and Gharachorloo, Kourosh},
+  journal={computer},
+  volume={29},
+  number={12},
+  pages={66--76},
+  year={1996},
+  publisher={IEEE}
+}
+
+@article{Watt-al:OOPSLA19,
+  title={Weakening {WebAssembly}},
+  author={Watt, Conrad and Rossberg, Andreas and Pichon-Pharabod, Jean},
+  journal={Proceedings of the ACM on Programming Languages},
+  volume={3},
+  number={OOPSLA},
+  pages={1--28},
+  year={2019},
+  publisher={ACM New York, NY, USA}
+}
+
+@inproceedings{Watt-al:PLDI2020,
+  title={Repairing and mechanising the {JavaScript} relaxed memory model},
+  author={Watt, Conrad and Pulte, Christopher and Podkopaev, Anton and Barbier, Guillaume and Dolan, Stephen and Flur, Shaked and Pichon-Pharabod, Jean and Guo, Shu-yu},
+  booktitle={Proceedings of the 41st ACM SIGPLAN Conference on Programming Language Design and Implementation},
+  pages={346--361},
+  year={2020}
+}
+
+@article{Chakraborty-Vafeiadis:POPL19,
+  title={Grounding thin-air reads with event structures},
+  author={Chakraborty, Soham and Vafeiadis, Viktor},
+  journal={Proceedings of the ACM on Programming Languages},
+  volume={3},
+  number={POPL},
+  pages={1--28},
+  year={2019},
+  publisher={ACM New York, NY, USA}
+}
+
+@inproceedings{Moiseenko-al:ECOOP20,
+  title={Reconciling Event Structures with Modern Multiprocessors},
+  author={Moiseenko, Evgenii and Podkopaev, Anton and Lahav, Ori and Melkonian, Orestis and Vafeiadis, Viktor},
+  booktitle={34th European Conference on Object-Oriented Programming},
+  year={2020}
+}
+
+@inproceedings{Chakraborty-Vafeiadis:CGO17,
+  title={Formalizing the concurrency semantics of an {LLVM} fragment},
+  author={Chakraborty, Soham and Vafeiadis, Viktor},
+  booktitle={2017 IEEE/ACM International Symposium on Code Generation and Optimization (CGO)},
+  pages={100--110},
+  year={2017},
+  organization={IEEE}
+}
+
+@inproceedings{Paviotti-al:ESOP20,
+  title={Modular Relaxed Dependencies in Weak Memory Concurrency},
+  author={Paviotti, Marco and Cooksey, Simon and Paradis, Anouk and Wright, Daniel and Owens, Scott and Batty, Mark},
+  booktitle={European Symposium on Programming},
+  pages={599--625},
+  year={2020},
+  organization={Springer, Cham}
+}
+
+@article{Jagadeesan-al:OOPSLA2020,
+  title={Pomsets with preconditions: a simple model of relaxed memory},
+  author={Jagadeesan, Radha and Jeffrey, Alan and Riely, James},
+  journal={Proceedings of the ACM on Programming Languages},
+  volume={4},
+  number={OOPSLA},
+  pages={1--30},
+  year={2020},
+  publisher={ACM New York, NY, USA}
+}
+
+@inproceedings{Crary-Sullivan:POPL15,
+  title={A calculus for relaxed memory},
+  author={Crary, Karl and Sullivan, Michael J},
+  booktitle={Proceedings of the 42nd Annual ACM SIGPLAN-SIGACT Symposium on Principles of Programming Languages},
+  pages={623--636},
+  year={2015}
+}
+
+@inproceedings{Boudol-Gustavo:POPL09,
+  title={Relaxed memory models: an operational approach},
+  author={Boudol, G{\'e}rard and Petri, Gustavo},
+  booktitle={Proceedings of the 36th annual ACM SIGPLAN-SIGACT symposium on Principles of programming languages},
+  pages={392--403},
+  year={2009}
+}
+
+@inproceedings{Boudol-al:EXPRESS12,
+  author    = {G. Boudol and
+               G. Petri and
+               B. P. Serpette},
+  title     = {Relaxed Operational Semantics of Concurrent Programming Languages},
+  pages     = {19--33},
+  booktitle = {EXPRESS 2012},
+  year = {2012},
+}
+
+@inproceedings{Jagadeesan-al:ESOP10,
+  title={Generative operational semantics for relaxed memory models},
+  author={Jagadeesan, Radha and Pitcher, Corin and Riely, James},
+  booktitle={European Symposium on Programming},
+  pages={307--326},
+  year={2010},
+  organization={Springer}
+}
+
+@article{Marino-al:PLDI11,
+  title={A case for an {SC}-preserving compiler},
+  author={Marino, Daniel and Singh, Abhayendra and Millstein, Todd and Musuvathi, Madanlal and Narayanasamy, Satish},
+  journal={ACM SIGPLAN Notices},
+  volume={46},
+  number={6},
+  pages={199--210},
+  year={2011},
+  publisher={ACM New York, NY, USA}
+}
+
+@inproceedings{Singh-al:ISCA12,
+  title={End-to-end sequential consistency},
+  author={Singh, Abhayendra and Narayanasamy, Satish and Marino, Daniel and Millstein, Todd and Musuvathi, Madanlal},
+  booktitle={2012 39th Annual International Symposium on Computer Architecture (ISCA)},
+  pages={524--535},
+  year={2012},
+  organization={IEEE}
+}
+
+@article{Liu-al:OOPSLA17,
+  title={A Volatile-by-default {JVM} for Server Applications},
+  author={Liu, Lun and Millstein, Todd and Musuvathi, Madanlal},
+  journal={Proceedings of the ACM on Programming Languages},
+  volume={1},
+  number={OOPSLA},
+  pages={1--25},
+  year={2017},
+  publisher={ACM New York, NY, USA}
+}
+
+@inproceedings{Liu-al:PLDI19,
+  title={Accelerating sequential consistency for {Java} with speculative compilation},
+  author={Liu, Lun and Millstein, Todd and Musuvathi, Madanlal},
+  booktitle={Proceedings of the 40th ACM SIGPLAN Conference on Programming Language Design and Implementation},
+  pages={16--30},
+  year={2019}
+}
+
+
+@article{Vollmer-al:PPoPP17,
+  title={{SC-Haskell}: Sequential consistency in languages that minimize mutable shared heap},
+  author={Vollmer, Michael and Scott, Ryan G and Musuvathi, Madanlal and Newton, Ryan R},
+  journal={ACM SIGPLAN Notices},
+  volume={52},
+  number={8},
+  pages={283--298},
+  year={2017},
+  publisher={ACM New York, NY, USA}
+}
+
+@inproceedings{Marino-al:PLDI10,
+  title={{DRFx}: A simple and efficient memory model for concurrent programming languages},
+  author={Marino, Daniel and Singh, Abhayendra and Millstein, Todd and Musuvathi, Madanlal and Narayanasamy, Satish},
+  booktitle={Proceedings of the 31st ACM SIGPLAN Conference on Programming Language Design and Implementation},
+  pages={351--362},
+  year={2010}
+}
+
+@article{Marino-al:TOPLAS2016,
+  title={DRF x: An Understandable, High Performance, and Flexible Memory Model for Concurrent Languages},
+  author={Marino, Daniel and Singh, Abhayendra and Millstein, Todd and Musuvathi, Madanlal and Narayanasamy, Satish},
+  journal={ACM Transactions on Programming Languages and Systems (TOPLAS)},
+  volume={38},
+  number={4},
+  pages={1--40},
+  year={2016},
+  publisher={ACM New York, NY, USA}
+}
+
+
+@inproceedings{Demange-al:POPL13,
+  title={{Plan B}: A buffered memory model for {Java}},
+  author={Demange, Delphine and Laporte, Vincent and Zhao, Lei and Jagannathan, Suresh and Pichardie, David and Vitek, Jan},
+  booktitle={Proceedings of the 40th annual ACM SIGPLAN-SIGACT symposium on Principles of programming languages},
+  pages={329--342},
+  year={2013}
+}
+
+@article{Boudol-Petri:POPL09,
+  title={Relaxed memory models: an operational approach},
+  author={Boudol, G{\'e}rard and Petri, Gustavo},
+  journal={ACM SIGPLAN Notices},
+  volume={44},
+  number={1},
+  pages={392--403},
+  year={2009},
+  publisher={ACM New York, NY, USA}
+}
+
+@book{Sparc:94,
+  title={The {SPARC} architecture manual},
+  author={SPARC International Inc and Weaver, David L},
+  year={1994},
+  publisher={Prentice-Hall}
+}
+
+@inproceedings{Pizlo-al:ECCS10,
+  title={High-level programming of embedded hard real-time devices},
+  author={Pizlo, Filip and Ziarek, Lukasz and Blanton, Ethan and Maj, Petr and Vitek, Jan},
+  booktitle={Proceedings of the 5th European conference on Computer systems},
+  pages={69--82},
+  year={2010}
+}
+
+@inproceedings{Saraswat-al:PPoPP07,
+  title={A theory of memory models},
+  author={Saraswat, Vijay A and Jagadeesan, Radha and Michael, Maged and von Praun, Christoph},
+  booktitle={Proceedings of the 12th ACM SIGPLAN symposium on Principles and practice of parallel programming},
+  pages={161--172},
+  year={2007}
+}
+
+@inproceedings{Boudol-Petri:ESOP10,
+  title={A theory of speculative computation},
+  author={Boudol, G{\'e}rard and Petri, Gustavo},
+  booktitle={European Symposium on Programming},
+  pages={165--184},
+  year={2010},
+  organization={Springer}
+}
+
+@article{Bender-Palsberg:OOPSLA19,
+  title={A formalization of {Java's} concurrent access modes},
+  author={Bender, John and Palsberg, Jens},
+  journal={Proceedings of the ACM on Programming Languages},
+  volume={3},
+  number={OOPSLA},
+  pages={1--28},
+  year={2019},
+  publisher={ACM New York, NY, USA}
+}
+
+@inproceedings{Alglave-al:ASPLOS18,
+  title={Frightening small children and disconcerting grown-ups: Concurrency in the {Linux} kernel},
+  author={Alglave, Jade and Maranget, Luc and McKenney, Paul E and Parri, Andrea and Stern, Alan},
+  booktitle={Proceedings of the Twenty-Third International Conference on Architectural Support for Programming Languages and Operating Systems},
+  pages={405--418},
+  year={2018}
+}
+
+@article{Zhang-Feng:FCS16,
+  title={An operational happens-before memory model},
+  author={Zhang, Yang and Feng, Xinyu},
+  journal={Frontiers of Computer Science},
+  volume={10},
+  number={1},
+  pages={54--81},
+  year={2016},
+  publisher={Springer}
+}
+
+@article{Sevcik-al:JACM13,
+  title={{CompCertTSO}: A verified compiler for relaxed-memory concurrency},
+  author={{\v{S}}ev{\v{c}}{\'\i}k, Jaroslav and Vafeiadis, Viktor and Zappa Nardelli, Francesco and Jagannathan, Suresh and Sewell, Peter},
+  journal={Journal of the ACM (JACM)},
+  volume={60},
+  number={3},
+  pages={1--50},
+  year={2013},
+  publisher={ACM New York, NY, USA}
+}
+
+@inproceedings{Lustig-al:AISCA15,
+  title={{ArMOR}: Defending against memory consistency model mismatches in heterogeneous architectures},
+  author={Lustig, Daniel and Trippel, Caroline and Pellauer, Michael and Martonosi, Margaret},
+  booktitle={Proceedings of the 42nd Annual International Symposium on Computer Architecture},
+  pages={388--400},
+  year={2015}
+}
+
+@article{Choi-al:OOPSLA1999,
+  title={Escape analysis for {Java}},
+  author={Choi, Jong-Deok and Gupta, Manish and Serrano, Mauricio and Sreedhar, Vugranam C and Midkiff, Sam},
+  journal={Acm Sigplan Notices},
+  volume={34},
+  number={10},
+  pages={1--19},
+  year={1999},
+  publisher={ACM New York, NY, USA}
+}
+
+@article{Wegman-Zadeck:TOPLAS91,
+  title={Constant propagation with conditional branches},
+  author={Wegman, Mark N and Zadeck, F Kenneth},
+  journal={ACM Transactions on Programming Languages and Systems (TOPLAS)},
+  volume={13},
+  number={2},
+  pages={181--210},
+  year={1991},
+  publisher={ACM New York, NY, USA}
+}
+
+@book{Muchnick:ACDI97,
+  title={Advanced compiler design and implementation},
+  author={Muchnick, Steven},
+  year={1997},
+  publisher={Morgan kaufmann}
+}
+
+@article{Diwan-al:PLDI1998,
+  title={Type-based alias analysis},
+  author={Diwan, Amer and McKinley, Kathryn S and Moss, J Eliot B},
+  journal={ACM Sigplan Notices},
+  volume={33},
+  number={5},
+  pages={106--117},
+  year={1998},
+  publisher={ACM New York, NY, USA}
+}
+
+
+
+@inproceedings{Winskel:86,
+  title={Event structures},
+  author={Winskel, Glynn},
+  booktitle={Advanced Course on Petri Nets},
+  pages={325--392},
+  year={1986},
+  organization={Springer}
+}
+
+@article{Marlow-al:Haskell10,
+  title={{Haskell} 2010 language report},
+  author={Marlow, Simon and others},
+  journal={Available on: https://www. haskell. org/onlinereport/haskell2010},
+  year={2010}
+}
+
+@book{RustBook:19,
+  title={The {Rust} Programming Language (Covers {Rust} 2018)},
+  author={Klabnik, Steve and Nichols, Carol},
+  year={2019},
+  publisher={No Starch Press}
+}
+
+@misc{JDK9-VarHandle,
+  note={Available at \url{https://docs.oracle.com/javase/9/docs/api/java/lang/invoke/VarHandle.html}
+        [Online; accessed 22-Feb-2021]},
+  title={{VarHandle API Docs.}},
+  year={2017},
+}
+
+@misc{JEP:193,
+  note={Available at \url{http://openjdk.java.net/jeps/193}[Online; accessed 22-Feb-2021]},
+  title={{JEP} 193: Variable Handles},
+  author={Lea, Doug},
+  year={2017},
+}
+
+@misc{JDK9-Modes,
+  note ={Available at \url{http://gee.cs.oswego.edu/dl/html/j9mm.html}[Online; accessed 22-Feb-2021]},
+  title={Using {JDK 9} Memory Order Modes},
+  author={Lea, Doug},
+  year={2018},
+}
+
+@misc{LK-MemBarriers,
+  note ={Available at \url{https://www.kernel.org/doc/Documentation/memory-barriers.txt}
+         [Online; accessed 22-Feb-2021]},
+  title={LINUX KERNEL MEMORY BARRIERS},
+  author={Howells, David and McKenney, Paul E and Deacon, Will and Zijlstra, Peter},
+  year={2017},
+}
+
+@misc{LK-RCU-Deref,
+  note ={Available at \url{https://www.kernel.org/doc/Documentation/RCU/rcu_dereference.txt}
+         [Online; accessed 22-Feb-2021]},
+  title={PROPER CARE AND FEEDING OF RETURN VALUES FROM rcu\_dereference()},
+  author={McKenney, Paul E},
+  year={2017},
+}
+
+@article{McKenney-RCU2007,
+  title={What is {RCU}, fundamentally?},
+  author={McKenney, Paul E and Walpole, Jonathan},
+  journal={Linux Weekly News (LWN. net)},
+  year={2007}
+}
+
+@misc{CDSLib,
+  note={Available at \url{https://github.com/khizmax/libcds}
+        [Online; accessed 26-April-2021]},
+  author={Khiszinsky, Max},
+  title={{CDS} {C++} Library},
+  year={2017},
+}
+
+@misc{FollyLib,
+  note={Available at \url{https://github.com/facebook/folly}
+        [Online; accessed 26-April-2021]},
+  title={Folly: Facebook Open-source Library},
+  year={2018},
+}
+
+@misc{JunctionLib,
+  note={Available at \url{https://github.com/preshing/junction}
+        [Online; accessed 26-April-2021]},
+  author={Preshing, Jeff},
+  title={{Junction} --- a library of concurrent data structures in {C++}},
+  year={2018},
+}
+
+@misc{Maranget-al:Tutorial2012,
+  note={Available at \url{https://www.cl.cam.ac.uk/~pes20/ppc-supplemental/test7.pdf}
+        [Online; accessed 30-April-2021]},
+  title={A tutorial introduction to the {ARM} and {POWER} relaxed memory models},
+  author={Maranget, Luc and Sarkar, Susmit and Sewell, Peter},
+  year={2012}
+}
+
+@misc{OptimalCompilationCPP,
+  note={Available at \url{https://www.cl.cam.ac.uk/~pes20/cpp/cpp0xmappings.html}
+        [Online; accessed 26-April-2021]},
+  title={{C/C++11} mappings to processors},
+  year={2011},
+}
+
+@InProceedings{Svendsen-al:ESOP18,
+author="Svendsen, Kasper
+and Pichon-Pharabod, Jean
+and Doko, Marko
+and Lahav, Ori
+and Vafeiadis, Viktor",
+editor="Ahmed, Amal",
+title="A Separation Logic for a Promising Semantics",
+booktitle="Programming Languages and Systems",
+year="2018",
+publisher="Springer International Publishing",
+address="Cham",
+pages="357--384",
+abstract="We present SLR, the first expressive program logic for reasoning about concurrent programs under a weak memory model addressing the out-of-thin-air problem. Our logic includes the standard features from existing logics, such as RSL and GPS, that were previously known to be sound only under stronger memory models: (1) separation, (2) per-location invariants, and (3) ownership transfer via release-acquire synchronisation---as well as novel features for reasoning about (4) the absence of out-of-thin-air behaviours and (5) coherence. The logic is proved sound over the recent ``promising'' memory model of Kang et al., using a substantially different argument to soundness proofs of logics for simpler memory models.",
+isbn="978-3-319-89884-1"
+}
