@@ -114,10 +114,10 @@
 например~\POWER, необходимо использовать практический такое же 
 количество барьеров, как и при компиляции из модели~\SC~\cite{Lustig-al:AISCA15}.
 
-Модели этого класса допускают более количество трансформаций кода чем \SC.
+Модели этого класса допускают большее количество трансформаций кода чем \SC.
 Использование буферов записи позволяет выполнять переупорядочивание 
 типа запись/чтение в случае~\TSO, и также 
-переупорядочивание типа запись\запись в случае~\PSO.
+переупорядочивание типа запись/запись в случае~\PSO.
 
 Хотя модели \TSO и \PSO слабее модели \SC, 
 тем не менее они все ещё предоставляют довольно сильные гарантии, 
@@ -126,7 +126,7 @@
 Таким образом, модели этого класса не имеют 
 значительных преимуществ перед моделью \SC, 
 и при этом влекут соизмеримые накладные расходы 
-при компиляции под архитектуры c более слабой моделью памяти чем у \x86. 
+при компиляции под архитектуры c более слабой моделью памяти чем у \Intel. 
 Следовательно, выбор этих моделей в качестве моделей для 
 языка программирования оправдан только если предполагается 
 поддержка компиляции только под процессоры архитектуры \Intel. 
@@ -134,13 +134,15 @@
 \subsection{Out of Thin-Air Values}
 \label{sec:analysis:oota}
 
-We next move on to the other end of a memory models' spectrum. 
-We consider the class uniting the weakest models from our list.
-These models enable efficient compilation mappings and 
-almost all reasonable program transformations, but at a cost of 
-introducing thin-air values (\cref{sec:background:oota}).
+Далле мы переместимся на другой конец спектра моделей памяти
+и рассмотрим класс, в который входят наиболее слабые модели
+из рассматриваемых нами. 
+Эти модели предоставляют оптимальные схемы компиляции и 
+допускают практический любые разумные трансформации программ, 
+но достигают этого ценой введения значений из воздуха 
+(\cref{sec:background:oota}).
 
-Let us revisit the load buffering program:  
+Рассмотрим вновь пример программы буфферизации чтения:
 
 \begin{minipage}{0.43\linewidth}
 \begin{equation*}
@@ -171,28 +173,27 @@ Let us revisit the load buffering program:
 \end{equation*}
 \end{minipage}
 
-Program on the right \ref{ex:lbB} can be obtained 
-from the program on the left \ref{ex:lbA}
-via the load/store reordering.
-The outcome ${[r_1=1, r_2=1]}$ is valid for \ref{ex:lbB}.
-Therefore under a memory model where the load/store reordering 
-is a sound transformation, 
-this outcome should also be valid for \ref{ex:lbA}.
-As we demonstrated in \cref{sec:background:oota}
-in order to allow this outcome, 
-memory models needs to utilize speculative execution.
+Версия программы справа \ref{ex:lbB} может быть 
+получена из программы слева \ref{ex:lbA} 
+путем применения переупорядочивания инструкций типа чтение/запись. 
+Результат ${[r_1=1, r_2=1]}$ допустим для программы \ref{ex:lbB}.
+Тогда модель памяти, в которой переупорядочивание типа чтение/запись
+является корректной трансформацией, также должна 
+допускать этот результат для программы \ref{ex:lbA}.
+Как было продемонстрировано в \cref{sec:background:oota}, 
+для того чтобы получить такой результат, 
+необходимо прибегнуть к спекулятивному исполнению. 
 
-We also demonstrated that unrestricted speculations 
-can lead to so called thin-air values which 
-break fundamental reasoning principles~%
-\cite{Boehm-Demsky:MSPC14, Batty-al:ESOP15}.
-In the presence of thin-air values
-type safety and security guarantees can be violated, 
-and compositional reasoning is impossible.
-Moreover, they are also incompatible with 
-the external \DRF property.
-To see this consider yet another variation of 
-the load buffering program:
+Мы также обсуждали, что не ограниченное 
+спекулятивное исполнение может привести к появлению 
+так называемых значений из воздуха, 
+которые нарушают фундаментальные гарантии 
+о поведении программ~%
+\cite{Boehm-Demsky:MSPC14, Batty-al:ESOP15}, 
+в частности, гарантии типобезопасности (type-safety)
+и композициональности.  
+Также не выполняется и гарантия внешней свободы от гонок (\eDRF).
+Чтобы убедиться в этом, рассмотрим ещё один пример:
 
 \begin{equation*}
 \inarrII{
@@ -209,31 +210,31 @@ the load buffering program:
 \tag{LB+ctrl}\label{ex:lb+ctrl}
 \end{equation*}
 
-For a memory model admitting thin-air values 
-(as \eg \CMM~\cite{Batty-al:POPL11}), 
-the outcome ${[r_1=1, r_2=1]}$ is valid
-(a justification is the same as for 
-the \ref{ex:lb+data} example from \cref{sec:background:oota}).
-Not only this outcome is completely unintuitive,
-but it also contradicts to the external \DRF guarantee.
-Indeed, under \SC model the program above has 
-single valid execution with the outcome $[r_1=0, r_2=0]$ 
-containing no data-races, thus under a \DRF compliant model 
-it should also has this sole outcome.  
+Для модель памяти, допускающей значения из воздуха, 
+результат ${[r_1=1, r_2=1]}$ также является допустимым
+(обоснование этого результата такое же как и для 
+примера \ref{ex:lb+data} из \cref{sec:background:oota}).
+Однако этот результат не только совершенно неинтуитивен, 
+но и противоречит гарантии внешней свободы от гонок. 
+Действительно, в модели \SC единственное допустимое 
+поведение этой программы ведет к результату $[r_1=0, r_2=0]$ 
+и не содержит никаких гонок, следовательно 
+в модели, предоставляющей гарантию \eDRF, 
+эта программа также должа иметь только это единственное поведение. 
 
-A counter-intuitive behavior of OOTA models, 
-together with the fact that they break 
-important reasoning principles,
-has lead over the time to the consensus 
-in the research community that these models 
-are not suited well for the role of 
-programming languages memory models~\cite{Boehm-Demsky:MSPC14, Batty-al:ESOP15}.
-A lot of effort has been put to forbid problematic 
-thin-air outcomes, while still keep a 
-compilation scheme as efficient as possible
-and enable as many transformations as possible.
-In the rest of this section we describe various proposals 
-tackling the thin-air problem. 
+Контр-интуитивное поведение моделей 
+допускающих значения из воздуха, 
+а также тот факт что они нарушают множество 
+важных гарантий о поведении программ, 
+привело к консенсусу в исследовательском сообществе о том, 
+что эти модели не подходят на роль моделей памяти 
+для языков программирования~\cite{Boehm-Demsky:MSPC14, Batty-al:ESOP15}.  
+Множество усилий было приложено для того, 
+чтобы запретить проблематичные значения из воздуха, 
+но в то же время сохранить оптимальность схем 
+компиляции и корректность как можно большего количества трансформаций. 
+В оставшейся части этой главы мы опишем различные 
+способы борьбы с проблемой значений из воздуха. 
 
 \subsection{Program Order Preserving}
 \label{sec:analysis:porf}
