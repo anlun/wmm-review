@@ -1,4 +1,4 @@
-\section{Analysis}
+\section{Анализ}
 \label{sec:analysis}
 
 % We partitioned all models into six primary classes: 
@@ -33,7 +33,7 @@
 Тем не менее наличие этих свойств у модели также влияет 
 на корректность определенных трансформаций.
 
-\subsection{Sequential Consistency}
+\subsection{Последовательная Согласованность}
 \label{sec:analysis:seqcst}
 
 Модель последовательной согласованности (\SC)
@@ -96,7 +96,7 @@
 и технической работы, чтобы модифицировать 
 современные компиляторы для поддержки модели \SC~\cite{Marino-al:PLDI11, Liu-al:PLDI19}.
 
-\subsection{Total and Partial Store Order}
+\subsection{Линейный и частичный порядок на записях}
 \label{sec:analysis:tso}
 
 Следующий рассматриваемый класс моделей был вдохновлен моделями с 
@@ -131,7 +131,7 @@
 языка программирования оправдан только если предполагается 
 поддержка компиляции только под процессоры архитектуры \Intel. 
 
-\subsection{Out of Thin-Air Values}
+\subsection{Значения из воздуха}
 \label{sec:analysis:oota}
 
 Далле мы переместимся на другой конец спектра моделей памяти
@@ -236,7 +236,7 @@
 В оставшейся части этой главы мы опишем различные 
 способы борьбы с проблемой значений из воздуха. 
 
-\subsection{Program Order Preserving}
+\subsection{Сохранение программного порядка}
 \label{sec:analysis:porf}
 
 The most straightforward way to forbid thin-air values 
@@ -293,7 +293,7 @@ between non-atomic accesses as well.
 % compiled down to \Intel, and a moderate overhead 
 % when compiled to \ARM or \POWER.
 
-\subsection{Syntactic Dependencies Preserving}
+\subsection{Сохранение синтаксических зависимостей}
 \label{sec:analysis:deprf}
 
 The alternative conceptually simple solution 
@@ -369,7 +369,7 @@ and reported a moderate slowdown of
 3.1\% on average and 17.6\% in maximum. 
 (see \ref{sec:catalog:deprf} for details).
 
-\subsection{Semantic Dependencies Preserving}
+\subsection{Сохранение семантических зависимостей}
 \label{sec:analysis:sdeprf}
 
 The last approach to tackle thin-air problem is to   
@@ -401,7 +401,7 @@ and permit most local and global program transformations
 (with a notable exception of the thread inlining), 
 while still preserving the external \DRF guarantee.
 
-\subsection{Secondary Classes}
+\subsection{Вспомогательная классификация}
 \label{sec:analysis:other}
 
 We also identified an alternative division of memory models into groups, 
@@ -410,7 +410,7 @@ namely the coherence and the catch-fire semantics which treats racy programs
 as erroneous. We demonstrate how presence of these properties 
 affects the compilation mappings and the soundness of some program transformations.
 
-\subsubsection{Coherent Models}
+\subsubsection{Модели с когерентностью}
 \label{sec:analysis:coh}
 
 The coherence property (\ie \SC-per-location, \cref{sec:background:coh})
@@ -483,7 +483,7 @@ any changes here and thus does not impose any performance penalty.
 It is because hardware models already guarantee coherence%
 ~\cite{Alglave-al:TOPLAS14, Sarkar-al:PLDI11, Sewell-al:CACM10, Lahav-al:PLDI17}. 
 
-\subsubsection{Catch-Fire Models}
+\subsubsection{Модели с возгорающейся семантикой}
 \label{sec:analysis:ub}
 
 A catch-fire semantics which treats racy non-atomic 

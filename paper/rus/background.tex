@@ -1,4 +1,4 @@
-\section{Criteria for Memory Models}
+\section{Критерии сравнения моделей памяти}
 \label{sec:background}
 
 В этой секции мы более подробно рассмотрим 
@@ -10,7 +10,7 @@
 предоставляемыми абстракцией разделяемой памяти. 
 Таким образом сперва нам необходимо ввести эти примитивы. 
 
-\paragraph{Programming Primitives}
+\paragraph{Программные Примитивы}
 \label{sec:background:primitives}
 
 Модель памяти определяет семантику разделяемой памяти
@@ -140,7 +140,7 @@
 может прочитать значение записанное двумя конкурентными 
 записями по 4 байта.
 
-\subsection{Compilation Scheme}
+\subsection{Схема компиляции}
 \label{sec:background:compile}
 
 Далле мы рассмотрим первый критерий~\ref{item:criteria:opt-comp}
@@ -256,7 +256,7 @@ $[r_1=0, r_2=0]$ будет допустим спецификацией моде
 \cite{Sewell-al:CACM10, Sarkar-al:PLDI11, 
 Flur-al:POPL16, Pulte-al:POPL18}. 
 
-\subsection{Program Transformations}
+\subsection{Трансформации кода}
 \label{sec:background:trans}
 
 Следующий критерий~\ref{item:criteria:sound-trans} ---
@@ -332,7 +332,7 @@ Flur-al:POPL16, Pulte-al:POPL18}.
 (или большую часть программы), 
 захватывающую несколько потоков.      
  
-\subsubsection{Local Transformations}
+\subsubsection{Локальные трансформации}
 
 \paragraph{
 Переупорядочивание независимых инструкций
@@ -592,7 +592,7 @@ Flur-al:POPL16, Pulte-al:POPL18}.
   \end{array}
 \]
 
-\subsubsection{Global Transformations}
+\subsubsection{Глобальные трансформации}
 
 \paragraph{
 Продвижение регистров
@@ -821,7 +821,7 @@ ${[r_1=1, r_2=2]}$, ${[r_1=1, r_2=1]}$, или ${[r_1=2, r_2=2]}$.
 допустимым также является результат ${[r_1=2, r_2=1]}$.
 Например, модель памяти \Java допускает подобное поведение~\cite{Manson-al:POPL05}.
 
-\subsubsection{Undefined Behavior}
+\subsubsection{Неопределенное поведени}
 \label{sec:background:ub}
 
 Как мы уже кратко упоминали, некоторые модели памяти,
