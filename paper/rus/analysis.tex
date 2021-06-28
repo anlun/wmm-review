@@ -419,25 +419,23 @@ Chakraborty-Vafeiadis:POPL19, Paviotti-al:ESOP20}.
 \subsection{Вспомогательная классификация}
 \label{sec:analysis:other}
 
-We also identified an alternative division of memory models into groups, 
-which correspond to particular properties of a memory model, 
-namely the coherence and the catch-fire semantics which treats racy programs 
-as erroneous. We demonstrate how presence of these properties 
-affects the compilation mappings and the soundness of some program transformations.
+Мы также идентифицируем альтернативное разделение моделей на группы, 
+на основе того, обладают ли они конкретным свойством, 
+в частности, когерентностью и возгорающейся семантикой. 
+Мы демонстрируем, как наличие этих свойств сказывается 
+на оптимальности схемы компиляции и корректности некоторых трансформаций. 
 
 \subsubsection{Модели с когерентностью}
 \label{sec:analysis:coh}
 
-The coherence property (\ie \SC-per-location, \cref{sec:background:coh})
-has a subtle effect on the common subexpression elimination optimization (\CSE),
-which was was first observed in the context of an early version of the \Java 
-memory model~\cite{Pugh:JAVA99}.
-To see the problem, consider the program below
-(on the left) and the transformed version 
-of this program after application of \CSE (on the right).
-Note that the optimization has replaced 
-the second access to variable \texttt{x}
-by the read from register. 
+Когерентность (также именуемая последовательной согласованностью 
+по каждой локации \cref{sec:background:coh})
+имеет неожиданный эффект на корректность удаления общих подвыражений (\CSE), 
+который был впервые замечен в контексте ранней версии модели памяти \Java~\cite{Pugh:JAVA99}.
+Чтобы увидеть проблемы, рассмотрим программу ниже (слева) 
+и её версию после применения трансформации \CSE (справа).
+Заметим, что оптимизация заменила второе обращение 
+к переменной \texttt{x} чтением из регистра. 
 
 \begin{minipage}{0.45\linewidth}
 \begin{equation*}
@@ -469,33 +467,36 @@ by the read from register.
 \end{equation*}
 \end{minipage}
 
-Now assume that variables \texttt{x} and \texttt{y} 
-point to the same memory location.
-Under this assumption the outcome $[r_1=0, r_2=1, r_3=0]$
-is forbidden for a memory model respecting coherence.
-Indeed, the coherence guarantees sequential consistency per location, 
-which means that for programs consisting of accesses 
-to a single memory location 
-(as the one above in the presence of aliasing) 
-only the sequentially consistent outcomes are allowed.
-The outcome $[r_1=0, r_2=1, r_3=0]$ cannot be obtained 
-as the interleaving of instructions, and thus 
-it should be forbidden.  
-However, this outcome is allowed for 
-the optimized version of the program. 
+Предположим, что переменные \texttt{x} and \texttt{y} 
+на самом деле указывают на одну и ту же ячейку памяти.  
+При таком предположении можно сделать вывод, что 
+сценарий выполнения с результатом ${[r_1=0, r_2=1, r_3=0]}$
+должен быть запрещен моделью памяти, гаратирующей когерентность. 
+В самом деле, когерентная модель памяти для программы, 
+содержащей обращения только к одной локации в памяти, 
+допускает только последовательно согласованные сценарии исполнения.
+Результат ${[r_1=0, r_2=1, r_3=0]}$ не может быть получен
+как последовательное чередование инструкций потоков, 
+и значит он не является последовательно согласованным и должен быть запрещен.
+Тем не менее, данный результат допустим для 
+оптимизированной версии программы. 
 
-Note that the compiler still can apply \CSE to the program above, 
-but only if it is able to prove that variables \texttt{x} and \texttt{y} 
-point to disjoint memory locations, which can be achieved 
-by the means of an alias analysis~\cite{Diwan-al:PLDI1998}.
-In fact, in this case \CSE can be seen as a combination 
-of instructiong reordering and elimination transformations.  
+Заметим, что несмотря на вышесказанное, компилятор 
+все равно может применить оптимизацию \CSE к программе выше, 
+но только если он сможет вывести, что переменные \texttt{x} и \texttt{y} 
+указывают на разные локации в памяти. 
+Это информация может быть получена при помощи 
+анализа псевдонимов (alias analysis)~\cite{Diwan-al:PLDI1998}.
+По сути, в этом случае \CSE может быть сведен к 
+комбинации других трансформаций --- переупорядочиванию и элиминации инструкций. 
 
-Therefore, the coherence property in general is not compatible 
-with the common subexpression elimination.
-As for compilation schemes, coherence does not require 
-any changes here and thus does not impose any performance penalty.
-It is because hardware models already guarantee coherence%
+Таким образом, в общем случае свойство когерентность
+несовместимо с удалением общих подвыражений. 
+Что касается оптимальности схем компиляции, 
+то здесь когерентность не накладывает каких-то 
+дополнительных ограничений, 
+так как модели памяти процессоров и так 
+гарантируют соблюдение когерентности%
 ~\cite{Alglave-al:TOPLAS14, Sarkar-al:PLDI11, Sewell-al:CACM10, Lahav-al:PLDI17}. 
 
 \subsubsection{Модели с возгорающейся семантикой}
