@@ -378,34 +378,43 @@
 \subsection{Сохранение семантических зависимостей}
 \label{sec:analysis:sdeprf}
 
-The last approach to tackle thin-air problem is to   
-construct a notion of \emph{semantic dependencies}, 
-which would precisely characterize what load/store 
-pairs are independent and rule out fake dependencies 
-like the one in \ref{ex:lb+fakedata}.
-A practical payoff of this approach is that it 
-does not require significant modifications to existing compilers or hardware, 
-and thus should not impose performance penalties.  
-The ultimate goal is to enable the optimal compilation mappings, 
-preserve most of the existing compiler optimizations, 
-and at the same time maintain the important 
-reasoning guarantees like external \DRF. 
+Последний рассматриваемый нами подход к проблеме значений из воздуха 
+заключается в построении понятия \emph{семантических зависимостей}, 
+которые могли бы точно характеризовать какие пары чтения/записи
+являеются независимыми, и отфильтровали бы ложные зависимости, 
+как в примере \ref{ex:lb+fakedata}.
+Практическая ценность данного подхода заключается в том, что 
+он не требует модификаций существующих компиляторов 
+и процессоров и не накладывает дополнительных 
+расходов на время исполнения скомпилированных программ. 
+Конечной целью является предоставление оптимальных схем компиляции, 
+сохранение корректности большинства существующих трансформаций кода, 
+и в то же время поддержка важных гарантий, 
+таких как внешняя свобода от гонок (\eDRF).
 
-It turns out that this task is quite challenging 
-and to this date there is no strong consensus on how to achieve it.
-In order to give a satisfactory definition of semantic dependencies 
-researchers had to resort to conceptually complex memory models%
-~\cite{Jagadeesan-al:ESOP10, Kang-al:POPL17, Jeffrey-Riely:LICS16, 
-PichonPharabod-Sewell:POPL16, Chakraborty-Vafeiadis:POPL19, Paviotti-al:ESOP20}.
-The main challenge in this line of work was to formally prove 
-that these complex models indeed satisfy all the desired properties. 
+Оказывается, что эта задача является весьма трудной 
+и на сегодняшний день все ещё не существует консенсуса 
+по способу её решения. 
+Чтобы дать удовлетворительное определение семантических зависимостей 
+исследователи вынуждены были обратиться к концептуально 
+сложным моделям памяти~\cite{Jagadeesan-al:ESOP10, Kang-al:POPL17, 
+Jeffrey-Riely:LICS16, PichonPharabod-Sewell:POPL16, 
+Chakraborty-Vafeiadis:POPL19, Paviotti-al:ESOP20}.
+Основная сложностью в данном направлении работ 
+является предоставление формальных доказательств того, 
+что эти продвинутые и сложные модели удовлетворяют 
+всем предъявляемым требованиям. 
 
-Currently the most complete approach of this class 
-is the \Promising semantics~\cite{Kang-al:POPL17, Lee-al:PLDI20}. 
-This model was proven to enable the optimal compilation schemes~\cite{Podkopaev-al:POPL19}, 
-and permit most local and global program transformations
-(with a notable exception of the thread inlining), 
-while still preserving the external \DRF guarantee.
+На сегодняшний день наиболее полное решение 
+проблемы в данном классе моделей предоставляет 
+так называемая ``обещающая'' семантика 
+(\Promising semantics)~\cite{Kang-al:POPL17, Lee-al:PLDI20}. 
+Было доказано, что эта модель допускает 
+оптимальные схемы компиляции~\cite{Podkopaev-al:POPL19}, 
+разрешает применение большинства локальных и глобальных 
+трансформаций (за исключением слияние потоков), 
+и в тоже время предоставляет 
+свойство внешней свободы от гонок и другие гарантии. 
 
 \subsection{Вспомогательная классификация}
 \label{sec:analysis:other}
