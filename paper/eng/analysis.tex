@@ -318,15 +318,16 @@ syntax of a program (hence the name) as opposed
 to \emph{semantic dependencies}.
 For example, giving the modified version of 
 the \ref{ex:lb+data} program below, 
-the store to \texttt{y} is still considered 
-to be dependent on the previous load. 
+the store to \texttt{y} in the left thread
+is still considered to have syntactic dependency 
+on the previous load. 
 
 \begin{equation*}
 \inarrII{
   \readInst{}{r_1}{x}           \\
   \writeInst{}{y}{1 + 0 * r_1}  \\
 }{
-  \readInst{}{r_2}{x}      \\
+  \readInst{}{r_2}{y}      \\
   \writeInst{}{x}{r_2}     \\
 }
 \tag{LB+fakedata}\label{ex:lb+fakedata}

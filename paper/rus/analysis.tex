@@ -297,78 +297,83 @@
 \subsection{Сохранение синтаксических зависимостей}
 \label{sec:analysis:deprf}
 
-The alternative conceptually simple solution 
-to thin-air values problem is to preserve 
-\emph{syntactic dependencies}~\cite{Boehm-Demsky:MSPC14, Alglave-al:ASPLOS18}.
-Under this approach reordering of independent load/store pairs is allowed.
-However, reordering is forbidden if a store depends on the value 
-read by a load either because this value 
-was used to compute the value written by the store (\emph{data dependency}), 
-or it was used to compute 
-the memory address of the store (\emph{address dependency}),
-or else a control-flow path lead to the store was dependent
-on this value (\emph{control dependency}).
-For example, giving the program \ref{ex:lb+data} 
-the store $\writeInst{}{y}{r_1}$ depends 
-on the load $\readInst{}{x}{r_1}$ since 
-it writes the value read by the load.
+Альтернативное простое решение проблемы значений из воздуха 
+заключается в сохранении \emph{синтаксических зависимостей}~%
+\cite{Boehm-Demsky:MSPC14, Alglave-al:ASPLOS18}.
+В рамках этого подхода переупорядочивание типа чтение/запись 
+разрешено, если переставляемые инструкции являются независимыми. 
+Но переупорядочивание запрещено, если запись зависит 
+от значения, прочитанного чтением, 
+(в этом случае мы говорим что существует зависимость по данным, \emph{data dependency})
+или если это значение было использовано при вычислении адреса записи 
+(зависимость по адресу (\emph{address dependency}), 
+или если путь исполнения программы, ведущей к записи, 
+зависит от прочитанного значения 
+(зависимость по управлению, (\emph{control dependency}).
+Например, в программе \ref{ex:lb+data} 
+сущесвтует зависимость по данным, так как 
+инструкция $\writeInst{}{y}{r_1}$ записывает 
+значение, прочитанное инструкцией $\readInst{}{x}{r_1}$. 
 
-Note that these kind of dependencies are computed following a 
-syntax of a program (hence the name) as opposed 
-to \emph{semantic dependencies}.
-For example, giving the modified version of 
-the \ref{ex:lb+data} program below, 
-the store to \texttt{y} is still considered 
-to be dependent on the previous load. 
+Заметим что эти зависимости вычисляются следую 
+синтаксису программы (отсюда и название), 
+в противоположность \emph{семантическим зависимостям}. 
+Например, в модифицированной версии 
+программы \ref{ex:lb+data}, показанной ниже, 
+запись в переменную \texttt{y} в левом потоке все ещё 
+имеет синтаксическую зависимость от предыдущего чтения. 
 
 \begin{equation*}
 \inarrII{
   \readInst{}{r_1}{x}           \\
   \writeInst{}{y}{1 + 0 * r_1}  \\
 }{
-  \readInst{}{r_2}{x}      \\
+  \readInst{}{r_2}{y}      \\
   \writeInst{}{x}{r_2}     \\
 }
 \tag{LB+fakedata}\label{ex:lb+fakedata}
 \end{equation*}
 
-Here the syntactic dependency can be eliminated 
-by the \emph{constant folding} transformation --- 
-the expression $1 + 0 * r_1$ can be reduced to value~$1$.
-Under a syntactic dependency preserving memory model 
-a compiler, however, is prohibited to perform this optimization. 
-Indeed, once a dependency is removed, nothing prevents 
-to reorder a store before a preceding load. 
-Even if a compiler itself does not perform this reordering,
-after the compilation hardware can 
-do this during the execution.   
+В этом примере синтаксическая зависимость может быть удалена
+при применении оптимизации распространения констант ---
+подвыражение $1 + 0 * r_1$ может быть преобразовано в значение~$1$.
+Однако если модель памяти гарантирует сохранение синтаксических зависимостей,
+компилятору запрещено применять эту оптимизацию, 
+так как после удаления зависимости ничто не мешает 
+переставить запись до предшествующего чтения. 
+Даже если сам компилятор не выполнит такое переупорядочивание, 
+его может выполнить процессор во время исполнения 
+скомпилированной программы. 
 
-This subtlety reveals the main drawback of 
-syntactic dependency tracking models --- 
-trace preserving transformations
-(\eg constant folding) are unsound in these models. 
-Constant folding is one of the classic optimizations 
-that any compiler might want to apply, 
-and the fact that it is unsound  
-makes an adoption of this class of models problematic.
-Note that hardware memory models apply a similar approach 
-and usually have a notion of syntactic dependencies between 
-memory operations~\cite{Sarkar-al:PLDI11, Alglave-al:TOPLAS14, Pulte-al:POPL18}.
-Yet in this setting the unsoundness of 
-trace preserving transformations is not a problem,
-since hardware does not perform such complex optimizations.
+На этом примере можно видеть главный недостаток моделей, 
+сохраняющих синтаксические зависимости --- 
+различные оптимизации, сохраняющие трассы
+(\eg распространение констант), некорректны в этих моделях. 
+Распространение констант является одной из 
+классических оптимизаций, и тот факт, 
+что оно некорректно препятствует принятию 
+моделей этого класса. 
+Заметим, что модели архитекту процессоров 
+используют схожий подход и тоже 
+сохраняют синтаксические зависимости 
+между обращениями к разделяемой памяти%
+~\cite{Sarkar-al:PLDI11, Alglave-al:TOPLAS14, Pulte-al:POPL18}.
+Однако в этом случае это не является проблемой, 
+так как процессоры во время исполнения программы 
+не выполняют такие сложные оптимизации, 
+как распространение констант.
 
-Ou and Demsky~\cite{Ou-Demsky:OOPSLA18} examined
-the performance penalty of a syntactic 
-dependency tracking compiler.
-They adjusted compiler optimization passes to preserve
-dependencies between \textbf{non-atomic and relaxed} accesses.
-They evaluated the dependency preserving 
-version of the \LLVM compiler infrastructure 
-on \ARMv{8} hardware using \SPECCPU benchmarks
-and reported a moderate slowdown of 
-3.1\% on average and 17.6\% in maximum. 
-(see \ref{sec:catalog:deprf} for details).
+В работе~\cite{Ou-Demsky:OOPSLA18} изучалось 
+замедление времени работы программ, накладываемое моделью памяти, 
+сохраняющией синтаксические зависимости. 
+Авторы модифицировали оптимизирующие проходы компилятора, 
+чтобы они сохраняли зависиомости между 
+\textbf{неатомарными и ослабленными ($\rlx$) атомарными} обращениями. 
+Затем они измерили время работы программ из тестового набора \SPECCPU,
+скомпилированных модифицированной версией компилятора \LLVM 
+под процессор семейства \ARMv{8}, и сообщили 
+об умеренном замедлении на 3.1\% в среднем и 17.6\% максимум
+(подробности приведены в \ref{sec:catalog:deprf}). 
 
 \subsection{Сохранение семантических зависимостей}
 \label{sec:analysis:sdeprf}
