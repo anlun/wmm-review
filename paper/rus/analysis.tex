@@ -502,17 +502,20 @@ Chakraborty-Vafeiadis:POPL19, Paviotti-al:ESOP20}.
 \subsubsection{Модели с возгорающейся семантикой}
 \label{sec:analysis:ub}
 
-A catch-fire semantics which treats racy non-atomic 
-accesses as undefined behavior also affects  
-soundness of program transformations. 
-As we already briefly discussed, it enables 
-the optimal compilation mapping for non-atomic accesses and 
-makes sequentially valid transformations applicable 
-to them, but its impact is not limited to this observation. 
-A catch-fire semantics also has an interesting interplay
-with the speculative load introduction.
+Возгорающаяся семантика, которая присваивает 
+неопределенное поведение программам, содержащим 
+гонки на неатомарных обращениях, также влияет 
+на корректность трансформаций. 
+Как было упомянуто ранее, наличие подобного 
+неопределенного поведения позволяет использовать
+оптимальные схемы компиляции для неатомарных обращений
+и влечет корректность широкого класса трансформаций, 
+корректных для случая однопоточных программ. 
+Но помимо этого, возгорающаяся семантика 
+имеет интересное взаимодействие с трансформацией
+введения спекулятивного чтения. 
 
-Consider the following example:
+Рассмотрим следующий пример:
 
 \begin{minipage}{0.43\linewidth}
 \begin{equation*}
@@ -548,40 +551,49 @@ Consider the following example:
 \end{equation*}
 \end{minipage}
  
-As we mentioned in \cref{sec:background:trans}, 
-the speculative load introduction can be used 
-in combination with the load/load elimination 
-to move a load instruction out of one branch of a conditional.
-In more detail, giving the example above, 
-the speculative load introduction can be applied
-to add the load $\readInst{}{t}{y}$ before the $\kw{if}$ statement, 
-and then the load/load elimination can be used 
-to replace the second load with an assignment. 
+В \cref{sec:background:trans} мы упоминали, 
+что спекулятивное введение чтения может быть 
+использовано в комбинации с элиминацией 
+типа чтение/чтение, чтобы вынести инструкцию чтения
+из одной из веток условного оператора. 
+В частности, в примере выше, 
+спекулятивное введения чтения может добавить 
+инструкцию $\readInst{}{t}{y}$ перед условным оператором $\kw{if}$, 
+а затем элиминация типа чтение/чтение может заменить 
+второе чтение присваиванием значения из регистра. 
 
-The subtle point here is that while the 
-left program is race free even under \SC, 
-the right program is racy under \SC semantics,
-because of the race between load and store to \texttt{y}.
-This fact implies that if all accesses in the programs above 
-are non-atomic, then a catch-fire semantics should 
-treat the right program as having undefined behavior.
-In other words, the right program allows any outcome,
-while the left program allows only the outcome ${[r=0]}$.
-Soundness of program transformation requires 
-a set of outcomes of a transformed program 
-to be a subset of outcomes of the original program. 
-This condition is clearly violated in our example. 
+Тонкий момент заключается в том, что хотя 
+программа слева не содержит гонок в модели 
+последовательной согласованности, 
+прграмма справа имеет гонку между 
+чтением и записью в переменную \texttt{y}.
+Исходя из этого, в предположении что все 
+обращения в программе выше являются неатомарными, 
+можно заключить, что возгорающаяся семантика 
+должна рассматривать правую программу как 
+имеющую неопределенное поведение. 
+Другими словами, для программы справа 
+допустим любой сценарий исполнения, 
+в то время как для программы слева 
+допустим только сценарий с результатом ${[r=0]}$.
+Однако условие корректности трансформации требует, 
+чтобы множество допустимых сценариев исполнения 
+модифицированной программы было подмножеством 
+сценариев поведения оригинальной программы. 
+Можно видеть, что в этом примере условие корректности нарушается. 
 
-Put simply, speculative load introduction in general
-is unsound in catch-fire memory models, 
-because it can bring data-races into otherwise 
-race-free programs. Since catch-fire semantics
-is sensitive to the presence of data-races 
-it is incompatible with this transformation. 
+Говоря простыми словами, спекулятивное введение чтения 
+в общем случае некоректно в моделях с возгорающейся семантикой,
+так как оно может привнести гонки в программы, 
+которые не содержали гонок. 
+Так как возгорающаяся семантика чувствительна 
+к наличию или отсутствию гонок в программе, 
+она не совместима с этой трансформацией. 
 
-Note that this problem cannot be mitigated 
-by forbidding only non-atomic load introduction
-and allowing atomic load introduction. 
-Indeed, an introduced atomic load access still 
-can race with some non-atomic load or store
-located elsewhere in a program.  
+Заметим, что эту проблему нельзя обойти, 
+запретив спекулятивное введение только неатомарных чтений, 
+и разрешив вводить атомарные чтения. 
+В самом деле, спекулятивно добавленное атомарное чтение
+все ещё может находиться в состоянии гонки с 
+каким-то неатомарным обращением, расположенным 
+в другом месте программы. 
