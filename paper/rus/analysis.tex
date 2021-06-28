@@ -241,59 +241,58 @@
 \subsection{Сохранение программного порядка}
 \label{sec:analysis:porf}
 
-The most straightforward way to forbid thin-air values 
-was proposed by Boehm and Demsky~\cite{Boehm-Demsky:MSPC14}
-The idea is to simply prohibit any kind of speculative execution, 
-which can be achieved by forbidding load/store reorderings altogether. 
-This fix not only restores the external \DRF~\cite{Lahav-al:PLDI17}
-and other reasoning guarantees, but also leads to 
-a much simpler model. The abstract machine implementing 
-the memory model does not need to resort to speculative execution 
-and can perform threads' instructions in-order. 
-A memory storage can be implemented as a 
-monotonically growing history of messages, 
-with each thread having its own view on 
-a frontier of this history~\cite{Dolan-al:PLDI18, Doherty-al:PPoPP19}.
-% In terms of axiomatic semantics it is enough to just
-% forbid cycles consisting of program order and reads-from relations. 
+Наиболее простой способ запретить значения из воздуха 
+был предложен в работе~\cite{Boehm-Demsky:MSPC14}.
+Основная идея --- полностью запретить спекулятивное исполнение, 
+что может быть достигнуто путем запрета переупорядочивания 
+инструкций типа чтение/запись. 
+Это решение позволяет не только восстановить 
+свойство внешней свободы от гонок (\eDRF) 
+и другие гарантии~\cite{Lahav-al:PLDI17}, 
+но также ведет и к более простой модели. 
+Абстрактная машина, реализующая данную модель, 
+не нуждается в использовании спекулятивного исполнения
+и может выполнять инструкции потоков согласно их
+\emph{программному порядку}, \ie в том порядке, в котором они указаны. 
+Память такой машины может быть организована 
+как монотонно растущая история сообщений, 
+где каждый поток имеет свой взгляд на 
+фронт данной истории~\cite{Dolan-al:PLDI18, Doherty-al:PPoPP19}. 
 
-Lahav~\etal~\cite{Lahav-al:PLDI17} formalized this approach
-to thin-air problem and studied it extensively. 
-The authors shown that many program transformations 
-are still sound in this setting, 
-with the obvious exception of the load/store reordering itself
-(see~\cref{table:cmp-cls} for details).
+Данный подход к решению проблемы значений из воздуха 
+был формализован в работе~\cite{Lahav-al:PLDI17}.
+Авторы работы показали, что многие трансформации над 
+кодом программ, за исключением переупорядочивания 
+инструкций типа чтение/запись, остаются корректными в рамках 
+моделей данного класса (\see~\cref{table:cmp-cls})
 
-The compilation mapping to \Intel remain efficient, 
-since this architecture already guarantee to preserve order 
-between loads and subsequent stores. 
-However, weaker architectures (\ARM, \POWER) do not guarantee that, 
-and thus additional measures are required.
-Boehm and Demsky~\etal~\cite{Boehm-Demsky:MSPC14} proposed to 
-compile every relaxed load as 
-a plain load followed by a spurious conditional branch,
-which introduces a dependency between 
-the load and subsequent stores. 
-\ARM and \POWER hardware preserves this dependency, 
-and thus it also retains the load/store ordering. 
-Ou and Demsky~\cite{Ou-Demsky:OOPSLA18} studied 
-a performance penalty required to preserve
-load/store ordering between \textbf{relaxed atomics only}
-on the \ARMv{8} hardware and reported a negligible overhead
-of 0\% on average and 6.3\% in maximum on a set of benchmarks
-implementing various concurrent data-structures, 
-\eg locks, stacks, queues, deques, maps, \etc 
-(see \ref{sec:catalog:porf} for details).
-Note that the overhead is expected to be greater 
-if the compilation scheme is required to preserve the ordering 
-between non-atomic accesses as well. 
-
-% In conclusion, the memory models forbidding load/store reorderings
-% provide a simple solution to thin-air problem, 
-% restore external \DRF-SC guarantee, preserve soundness of 
-% most program transformations, induce no overhead when 
-% compiled down to \Intel, and a moderate overhead 
-% when compiled to \ARM or \POWER.
+Схема компиляции в процессоры семейства \Intel
+является оптимальной, так как модель памяти данной 
+архитектуры гарантирует сохранение порядка 
+между чтениями и последующими записями. 
+Однако более архитектуры с более слабыми моделями (\ARM, \POWER)
+не гарантируют сохранения этого порядка, 
+и таким образом требуют принятия дополнительных мер при компиляции кода. 
+В~\cite{Boehm-Demsky:MSPC14} было предложено компилировать 
+ослабленные ($\rlx$) чтения как обычные чтения, 
+за которыми следует ложная инструкция условного прыжка 
+(conditional jump), которая добавляет зависимость 
+между чтением и последующими записями. 
+Гарантируется, что процессоры семейств \ARM and \POWER 
+сохранят такую зависимость, и, таким образом, 
+сохранят и порядок между чтением и последующими записями. 
+В работе~\cite{Ou-Demsky:OOPSLA18} изучались 
+накладные расходы этой схемы компиляции, 
+при её применении только к \textbf{ослабленным ($\rlx$) атомарным обращениям}.
+При компиляции под процессоры семейства \ARMv{8} 
+замедление времени работы составило 0\% в среднем и 6.3\% максимум 
+на наборе тестов, реализующих различные конкурентные 
+структуры данных, например, блокировки, стеки, очереди, 
+деки, ассоциативные массивы, \etc
+(подробности приведены в \ref{sec:catalog:porf}).
+Заметим, что следует ожидать более существенного замедления
+при применении данной схемы компиляции для 
+сохранения порядка также между неатомарными обращениями. 
 
 \subsection{Сохранение синтаксических зависимостей}
 \label{sec:analysis:deprf}

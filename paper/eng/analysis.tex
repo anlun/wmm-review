@@ -244,9 +244,10 @@ The most straightforward way to forbid thin-air values
 was proposed by Boehm and Demsky~\cite{Boehm-Demsky:MSPC14}
 The idea is to simply prohibit any kind of speculative execution, 
 which can be achieved by forbidding load/store reorderings altogether. 
-This fix not only restores the external \DRF~\cite{Lahav-al:PLDI17}
-and other reasoning guarantees, but also leads to 
-a much simpler model. The abstract machine implementing 
+This fix not only restores the external \DRF
+and other reasoning guarantees~\cite{Lahav-al:PLDI17}, 
+but also leads to a much simpler model. 
+The abstract machine implementing 
 the memory model does not need to resort to speculative execution 
 and can perform threads' instructions in-order. 
 A memory storage can be implemented as a 
@@ -270,9 +271,8 @@ However, weaker architectures (\ARM, \POWER) do not guarantee that,
 and thus additional measures are required.
 Boehm and Demsky~\etal~\cite{Boehm-Demsky:MSPC14} proposed to 
 compile every relaxed load as 
-a plain load followed by a spurious conditional branch,
-which introduces a dependency between 
-the load and subsequent stores. 
+a plain load followed by a spurious conditional jump instruction,
+which introduces a dependency between the load and subsequent stores. 
 \ARM and \POWER hardware preserves this dependency, 
 and thus it also retains the load/store ordering. 
 Ou and Demsky~\cite{Ou-Demsky:OOPSLA18} studied 
