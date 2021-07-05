@@ -192,126 +192,141 @@
 \subsection{Program Order Preserving}
 \label{sec:catalog:porf}
 
-In this section we describe the memory models 
-that preserve program order and forbid any 
-kind of speculative executions to tackle 
-the problem of thin-air values. 
-In particular, we consider \RCMM and 
-several derivatives of this model, 
-as well as the memory model of \OCaml, 
-and the proposed revised model of \Java.  
+В этом разделе описываются модели памяти, 
+сохраняющие программный порядок и запрещающие 
+спекулятивное исполнение с целью 
+предотвратить появление значений из воздуха. 
+В частности, рассматривается модель \RCMM
+и несколько производных от неё, 
+а также модель языка \OCaml и модель \JAM, 
+являющаяся пересмотренной моделью \Java.  
 
 \paragraph{RC11}
 
-Lahav~\etal~\cite{Lahav-al:PLDI17} formalized 
-a version of the \CMM that preserves order between load/store pairs, 
-and also repairs the semantics of sequentially-consistent accesses.
+В работе~\cite{Lahav-al:PLDI17} была формализована
+версия модели \CMM, сохраняющая порядок между 
+операцией чтения и последующими операциями записи, 
+а также исправляющая семантику последовательно согласованных обращений. 
+Получившаяся модель стала известна под именем \RCMM. 
 
-The authors proved soundness of several program transformations 
-(see \cref{table:cmp-mms} for details). 
-Among the unsound transformation, 
-the load/store reordering is forbidden for an obvious reasons, 
-the speculative load introduction is not supported 
-because of the catch-fire semantics for racy programs, 
-the \CSE is not supported because relaxed accesses 
-enforce coherence (non-atomic accesses 
-support this transformation, but their usage entails 
-undefined behavior in the presence of races).
+Авторы модели доказали корректность некоторых трансформаций 
+(\see \cref{table:cmp-mms}).
+Среди некорректных трансформаций, 
+переупорядочивание типа чтение/запись запрещено 
+по очевидным причинам (чтобы запретить спекулятивное исполнение), 
+введение спекулятивной операции чтения запрещено 
+из-за возгорающейся семантики для гонок на неатомарных переменных, 
+наконец, удаление общих подвыражений запрещено, 
+так как модель гарантирует когерентность 
+на уровне ослабленных (и более строгих режимов) обращений к памяти
+(отметим, что данная трансформация разрешена 
+для неатомарных обращений, но, как уже упоминалось, 
+гонки на неаторманых переменных влекут неопределенное поведение
+в модели \RCMM) 
 
-The compilation mapping to \Intel is not affected and remain optimal.
-One of the possible compilation mappings 
-to the \ARM and \POWER architectures 
-requires to compile a relaxed load as  
-a plain load followed by a spurious conditional branch.
-Ou and Demsky~\cite{Ou-Demsky:OOPSLA18} have studied 
-the performance penalty of this mapping on \ARMv{8} hardware.
-They modified the \LLVM compiler framework 
-to enforce the \RCMM memory model
-by (1) adjusting the compiler optimization passes and 
-(2) changing the compilation mappings.
-Several compilation schemes were considered,
-among them the one that uses a spurious conditional branch
-as described above has demonstrated the most promising results.  
-The authors measured the running time on a set of benchmarks 
-implementing concurrent data-structures
-(\eg locks, stacks, queues, deques, maps
-from various open source libraries~\cite{CDSLib, FollyLib, JunctionLib})
-and reported an overhead of 0\% on average and 6.3\% in maximum,
-compared to the unmodified version of the compiler. 
+Для данной модели схема компиляции под процессоры архитектуры 
+\Intel является оптимальной. Одна из возможных 
+схем компиляций под процессоры семейств \ARM и \POWER
+предполагает компиляций ослабленных (relaxed) операций чтения
+как обычных инструкций чтения, за которыми следует 
+ложная инструкция условного ветвления. 
+В работе~\cite{Ou-Demsky:OOPSLA18} были изучены 
+накладные расходы вызванные этой схемой компиляции
+при компиляции под процессор семейства \ARMv{8}. 
+Авторы модифицировали фреймворк \LLVM,
+чтобы гарантировать модель памяти \RCMM, 
+путем (1) модификации оптимизирующих проходов компилятора
+и (2) модификации схемы компиляции. 
+Было рассмотрено несколько возможных схем компиляции. 
+Схема компиляции, описанная выше, продемонстрировала наилучшие результаты. 
+Авторы измерили время работы нескольких тестов, 
+реализующих различные многопоточные примитивы и структуры данных
+(в частности, блокировки, стэки, очереди, деки, ассоциативные массивы
+взятые из различных библиотек с открытым 
+исходным кодом~\cite{CDSLib, FollyLib, JunctionLib}), 
+и сообщили о замедлении на 0\% в среднем и 6.3\% максимум,
+по сравнению с немодифицированной версией компилятора. 
 
 \paragraph{RAR}
 
-Doherty~\etal~\cite{Doherty-al:PPoPP19} developed an 
-operational version of the \RCMM supporting 
-release-acquire and relaxed accesses (\RAR). 
-On top of it they built proof calculus for 
-invariant-based reasoning and verified 
-correctness of mutual exclusion algorithms. 
+В работе~\cite{Doherty-al:PPoPP19} была предложена 
+операционая версия для фрагмента модели \RCMM,
+поддерживающая ослабленные (relaxed) и
+освобождающие/захватывающие (release/acquire)
+режимы обращения к памяти. 
+На базе этой операционной семантики 
+авторы разработали систему исчисления доказательств 
+на основе инвариантов и верифицировали корректность
+алгоритма блокировки. 
 
 \paragraph{Operational RC11}
 
-Dang~\etal~\cite{Dang-al:POPL19} developed yet another 
-operational version of the \RCMM which they called \ORCMM. 
-Their motivation was to then develop a 
-new program logic and show it's soundness
-with respect to the \ORCMM memory model. 
-The program logic itself was utilized to 
-prove correctness of several synchronization primitives 
-from the standard library of the \Rust~\cite{RustBook:19}.
+В работе~\cite{Dang-al:POPL19} была разработана 
+ещё одна версия операционной семантики для модели \RCMM, 
+которая была названа авторами \ORCMM.
+Целью авторов была разработка программной логики 
+(program logic) и доказательство её корректности 
+относительно модели памяти \ORCMM.
+Эта программная логика в свою очередь была использована
+для доказательства корректности реализации нескольких 
+примитивов синхронизации из стандартной библиотеки
+языка \Rust~\cite{RustBook:19}.
 
 \paragraph{Compositional Relaxed Concurrency}
 
-Dodds~\etal~\cite{Dodds-al:ESOP18} proposed the  
-compositional relaxed concurrency semantics (\CRC) 
-for the fragment of the \CMM memory model, 
-including non-atomic accesses with catch-fire semantics, 
-release-acquire accesses, and sequentially-consistent fences. 
-Based on this semantics the authors developed 
-a tool for automatic verification of program transformations
-in the considered fragment of the \CMM model. 
-Since the relaxed fragment was not included, 
-the authors avoided problems with thin-air values. 
+В работе~\cite{Dodds-al:ESOP18} была предложена 
+композициональная семантика (compositional relaxed concurrency, \CRC) 
+для фрагмента модели памяти \CMM, 
+который включает неатомарные обращения с возгорающейся семантикой для гонок, 
+обращения к памяти с режимом доступа освобождения/захвата (release/acquire)
+и последовательно согласованных барьеров. 
+На основе этой семантики авторы разработали инструмент для 
+автоматической верификации трансформаций кода
+в рассматриваемом фрагменте модели памяти \CMM.
+Так как ослабленные обращения не поддерживаются в этом фрагменте, 
+авторы избежали проблем с возникновением значений из воздуха. 
 
 \paragraph{OCaml Memory Model}
 
-Dolan~\etal~\cite{Dolan-al:PLDI18} developed a new 
-memory model for the \MOCaml project. 
-An important divergence of the \OCaml memory model (\OCMM)
-from the \CMM-like models is that the former 
-has a weaker notion of the coherence.
-The choice of the weaker coherence was deliberate 
-with the purpose to enable the common subexpression elimination
-(see \cref{sec:analysis:coh} for details).
+Авторы работы~\cite{Dolan-al:PLDI18} разработали новую модель памяти \OCMM
+для языка \OCaml в рамках проекта \MOCaml.
+Важное отличие модели \OCMM от других моделей подобных \CMM 
+заключается в том, что она предоставляет более слабое свойство когерентности. 
+Выбор более слабого типа когерентности был осознанным с целью 
+разрешить трансформацию удаление общих подвыражений 
+(\see подробности в \cref{sec:analysis:coh}).
 
-The authors also were the first to propose the local \DRF property (\lDRF),
-a strengthening of the external \DRF (\eDRF). 
-While the latter requires an absence of data-races 
-for a whole program as a prerequisite, 
-the former bounds the effect of races 
-to a portion of the program, thus 
-enabling the compositional reasoning 
-about the behavior of the program. 
-The authors discovered that the \lDRF property 
-is not compatible with the load/store reordering.
-This fact forced them to forbid this transformation
-and adapt similar compilation scheme as for \RCMM. 
+Авторы также первыми предложили свойство локальной свободы от гонок (\lDRF),
+которое является более сильной версией свойства обычнй свободы от гонок (\eDRF).
+В то время как предусловием последнего является отсутствие 
+гонок в всей программе, локальная свобода от гонок 
+ограничивает эффект возникшей гонки на фрагмент программы, 
+таким образом позволяя проводить композициональные рассуждения 
+о поведении программ. 
+Авторы выяснили, что свойство локальой свободы от гонок 
+несовместимо с переупорядочиванием операций обращения к памяти типа чтение/запись.  
+Этот факт вынудил авторов запретить эту трансформацию 
+и адаптировать схему компиляции схожую со схемой для модели \RCMM. 
 
 \paragraph{Java Access Modes}
 
-Bender and Palsberg~\cite{Bender-Palsberg:OOPSLA19} formalized a new revision 
-of the Java Memory Model~\cite{JDK9-VarHandle, JEP:193, JDK9-Modes}, 
-which was developed to overcome 
-the difficulties of the previous one~\cite{Manson-al:POPL05}
-(see \ref{sec:catalog:jmm} for details).
-The new version of the model was inspired by the \RCMM. 
-It introduced a system of annotations on memory accesses, 
-called ``Java Access Modes'' (hence the name of the model --- \JAM),
-similar to those present in the \CMM like models.
-The new model adopted the \RCMM solution to OOTA problem. 
-It forbids load/store reorderings on the level of 
-opaque (an analog of \CPP relaxed) or stronger accesses.
-The model does not tackle the problem of 
-thin-air values on the level of plain (\ie non-atomic) accesses.
+В работе~\cite{Bender-Palsberg:OOPSLA19} была формализована 
+новая версия модели памяти языка \Java версии 9~\cite{JDK9-VarHandle, JEP:193, JDK9-Modes}, 
+которая была разработана, чтобы преодолеть трудности 
+предыдущей версии модели~\cite{Manson-al:POPL05} 
+(\see \ref{sec:catalog:jmm}).
+Новая версия была вдохновлена моделью \RCMM.
+В неё Была добавлена поддержка системы аннотаций на режимы доступа к переменым, 
+названная ``Java Access Modes'' (отсюда и название модели --- \JAM),
+аналогичная системе аннотаций в модели \CMM и её производных. 
+Новая версия также адаптировла подход модели \RCMM к 
+проблеме значений из воздуха. 
+Было решено запретить переупорядочивание операций типа чтение/запись 
+на уровне ``непрозрачных'', opaque, или более строгих обращений к памяти
+(``непрозранчые'' обращения являются аналагом ослабленных, relaxed, 
+обращений в модели \CPP).
+Отметим, что модель памяти \JAM не решает проблему возникновения значений 
+из воздуха на уровне неатомарных обращений. 
 
 \subsection{Syntactic Dependencies Preserving}
 \label{sec:catalog:deprf}
