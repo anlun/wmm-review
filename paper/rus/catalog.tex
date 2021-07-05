@@ -331,56 +331,64 @@
 \subsection{Syntactic Dependencies Preserving}
 \label{sec:catalog:deprf}
 
-Next we discuss the programming language memory models 
-that track syntactic dependencies.
+Далее мы обсуждаем модели памяти языков программирования, 
+которые отслеживают синтаксические зависимости между операциями. 
 
 \paragraph{Linux Kernel Memory Model}
 
-\LKMM~\cite{Alglave-al:ASPLOS18} has adopted 
-the idea to track syntactic dependencies in order to 
-forbid thin-air values. Despite this choice 
-limits the list of supported trace preserving transformations,
-in the context of the OS kernel development 
-it can be justified by the following arguments. 
-First, the Linux kernel targets 
-a wide range of hardware architectures with a diverse
-set of memory models. To simplify the reasoning about the code, 
-it is reasonable to pick a syntactic dependency preserving
-model which is conceptually close to those of hardware. 
-Second, kernel developers already utilize 
-various techniques to prevent certain compiler optimizations%
+Модель памяти \LKMM~\cite{Alglave-al:ASPLOS18} 
+адаптировала идею по отслеживанию синтаксических зависимостей
+между операциями с целью предотвратить появление значений из воздуха. 
+Несмотря на то, что этот выбор ограничивает список поддерживаемых 
+трансформаций, сохраняющих трассы программы, 
+в контексте разработки ядра операционной системы 
+он может быть оправдан по следующим соображениям. 
+Во-первых, ядро системы Linux предназначено для работы 
+на широком спектре архитектур с разнообразным 
+набором моделей памяти. Чтобы упростить рассуждение о коде ядра
+обоснованно выбрать модель памяти, сохраняющие синтаксические зависимости, 
+так как модели этого класса очень близки концептуально к 
+моделям памяти процессоров. 
+Во-вторых, разработчики ядра и так уже используют 
+различные техники для того, чтобы предотвратить
+выполнение компилятором некоторых оптимизаций~%
 \cite{Alglave-al:ASPLOS18, LK-MemBarriers, LK-RCU-Deref}.
 
-The authors of the model have empirically tested 
-soundness of compilation mappings to 
-\Intel, \ARMv{7}, \ARMv{8}, and \POWER hardware. 
-They also formalized the read-copy-update 
-synchronization mechanism (RCU)~\cite{McKenney-RCU2007} 
-extensively used in the Linux kernel development, 
-and proved soundness of its implementation with respect to their model.
+Авторы модели эмпирический проверили корректность схем 
+компиляции под процессоры семейств \Intel, \ARMv{7}, \ARMv{8} и \POWER. 
+Они также формализовали механизм синхронизации 
+read-copy-update (RCU)~\cite{McKenney-RCU2007}, 
+широко применяемый в кодовой базе ядра Linux, 
+и доказали корректность его реализации 
+по отношению к предложенной модели памяти. 
 
 \paragraph{Operational Happens-Before Model}
 
-In attempt to repair the Java Memory Model (see \cref{sec:catalog:jmm})
-Zhang and Feng have proposed the 
-operational happens-before model \OHMM~\cite{Zhang-Feng:FCS16}.
-Their abstract machine consists of a global event buffer,
-where events might be reordered before they propagate into  
-a global history based memory, and a replay mechanism 
-used to simulate speculative executions. 
-To avoid thin-air outcomes the model tracks syntactic dependencies 
-between events and forbids the reordering of dependent events. 
-The authors proved the external \DRF and 
-the soundness of several program transformations
-(see \cref{table:cmp-mms}). 
+В попытке исправить модель памят языка \Java (\see \cref{sec:catalog:jmm}), 
+авторы работы~\cite{Zhang-Feng:FCS16} предложили новую модель памяти \OHMM
+(\emph{operational happens-before model}).
+Абстрактная машина, реализующая их модель, 
+состоит из глобального буфера событий, 
+который позволяет переупорядочить события перед тем 
+как они отправляются в глобальную память на основе истории сообщений, 
+а также механизма воспроизведения исполнения (\emph{replay}), 
+позволяющего симулировать спекулятивное исполение. 
+Для того, чтобы предотвратить возникновение значений из воздуха, 
+модель отслеживает синтаксические зависимости между 
+событиями и запрещает переупорядочивание зависимых событий. 
+Авторы доказали, что их модель обладает свойством внешней свободы от гонок (\eDRF)
+и поддерживает некоторые трансформации над кодом 
+(\see \cref{table:cmp-mms}).
 
 \paragraph{Dependency Preserving Compiler}
 
-Ou and Demsky~\cite{Ou-Demsky:OOPSLA18} studied 
-the performance penalty induced by dependency preserving compiler. 
-Again, they modified the \LLVM compiler infrastructure 
-and run benchmarks from \SPECCPU suite on \ARMv{8} hardware. 
-They have observed 3.1\% overhead on average and 17.6\% in maximum. 
+В работе~\cite{Ou-Demsky:OOPSLA18} изучались накладные расходы
+на время исполнения программы, возникающие из-за требования 
+к компилятору сохранять синтаксические зависимости при выполнении оптимизаций. 
+Авторы модифицировали фреймворк \LLVM, скомпилировали с его помощью 
+набор тестов из набора \SPECCPU и запустили их на процессоре семейства \ARMv{8}.
+В результате они наблюдали замедление времени работы программ 
+на 3.1\% в среднем и 17.6\% максимум, по сравнению с немодифицированной версией \LLVM.  
 
 \subsection{Semantic Dependencies Preserving}
 \label{sec:catalog:sdeprf}
