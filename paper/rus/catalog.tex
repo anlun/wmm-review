@@ -539,82 +539,100 @@ roach motel reordering, и другие, \see \cref{table:cmp-mms}).
 
 \subsection{Out of Thin-Air Values}
 
-Finally, we discuss memory models admitting thin-air values. 
+Наконец, в этом раздел мы обсуждаем модели памяти, 
+допускающие значения из воздуха. 
 
 \paragraph{C11}
 
-The most notable member of the OOTA class is the \CMM model~\cite{Batty-al:POPL11}.
-The main purpose of the \CMM model was to adhere to the fundamental principle of \CPP, 
-\ie to provide so-called zero-cost abstraction. 
-In other words, the memory model was meant to provide 
-efficient compilation mappings and support as many transformation as possible.
-It was later revealed that the formal model partially fails to achive these goals.
+Наиболее примечательным представителем данного класса 
+является модель памяти \CMM~\cite{Batty-al:POPL11}.
+Основной задачей при разработке данной модели было 
+было придерживаться фундаментального принципа языков \CPP, 
+заключающегося в предоставлении программистам 
+абстракций с нулевой стоимостью (\emph{zero-cost abstractions}).
+Другими словами, модель \CMM должна была допускать
+оптимальные схемы компиляции и поддерживать
+как можно более широкий набор трансформаций кода. 
+Позже было обнаружено что модель на самом деле 
+частично не удовлетворяет этим требованиям. 
 
-Vafeiadis~\etal~\cite{Vafeiadis-al:POPL15} showed that several program transformation 
-(load/store elimination, strengthening, roach motel reorderings, sequentialization) 
-that deemed to be correct are actually unsound according to the formal model.
-They proposed several local fixes to the model which 
-partly repair soundness of transformations and improve 
-its meta-theoretical properties. 
 
-Batty~\etal~\cite{Batty-al:ESOP15} showed that 
-the model also fails to provide the external \DRF guarantee, 
-and that it is ultimately not possible to provide this guarantee
-at all within the style of the \CMM formal semantics.
-Only the internal \DRF can be proved for it. 
+В работе \cite{Vafeiadis-al:POPL15} было показано, что некоторые трансформации 
+(элиминация операций типа чтение/запись, усиление обращений к памяти,
+roach motel reorderings, слияние потоков), 
+подразумевавшиеся корректными, на самом деле не являются корректными.
+Авторы предложили несколько исправлений для модели, 
+которые восстанавливают корректность некоторых трансформаций (\see \cref{table:cmp-mms})
+и улучшают ее мета-теоретические свойства. 
 
-A lot of work~\cite{Batty-al:POPL11, Sarkar-al:PLDI12, Batty-al:POPL12, Batty-al:POPL16} 
-was dedicated to prove soundness of optimal compilation mappings 
-with respect to formal models of hardware, 
-and there the results were mostly positive.
-Besides that, Flur~\etal~\cite{Flur-al:POPL17} have extended 
-the model to support mixed-size accesses.
-Finally, Nienhuis~\etal~\cite{Nienhuis-al:OOPSLA16} presented 
-a formal executable semantics in terms of an abstract machine, 
-equivalent to the \CMM model. 
+В работе~\cite{Batty-al:ESOP15} было показано, 
+что модель не предоставляет свойство внешней свободы от гонок (\eDRF), 
+и что это свойство впринципе не может быть гарантировано 
+для подкласса моделей памяти, заданных в стиле \CMM.
+Для данных моделей может быть гарантировано 
+только свойство внутренней свободы от гонок (\iDRF).
+
+Множество работ~\cite{Batty-al:POPL11, Sarkar-al:PLDI12, Batty-al:POPL12, Batty-al:POPL16} 
+было посвящено доказательству оптимальности схем компиляций, 
+в этом направлении результаты в основном были положительными. 
+Кроме того, в работе~\cite{Flur-al:POPL17} в модель была 
+добавлена поддержка смешанных обращений. 
+Наконец, в~\cite{Nienhuis-al:OOPSLA16} была представлена 
+формальная исполняемая семантика для модели \CMM в терминах абстрактной машины.  
 
 \paragraph{\JS Memory Model}
 
-The \JSMM is based on the \CMM model. 
-Like the latter, it also has the problem of thin-air values
-and thus can only provide the internal \DRF guarantee. 
-Contrary to the \CMM, the \JS model does not treat 
-racy non-atomic accesses as undefined behavior. 
+Модель \JSMM основана на модели \CMM. 
+Также как и последняя она допускает появление значений из воздуха
+и потому может предоставить толкьо свойство внутренней свободы от гонок. 
+В отличие от модели \CMM, модель языка \JS не рассматривает
+гонки на неатомарных переменных как неопределенное поведение. 
 
-The main language primitive provided by the \JSMM
-is \texttt{SharedArrayBuffer}, that is a linear mutable byte buffer.
-Thus the model naturally supports mixed-size accesses.
+Основным примитивом, предоставляемым моделью \JSMM, 
+является разделяемый массив байт \texttt{SharedArrayBuffer}. 
+Поэтому модель естественным образом поддерживает смешанные обращения. 
 
 \paragraph{A calculus for relaxed memory}
 
-Crary and Sullivan~\cite{Crary-Sullivan:POPL15} proposed 
-an alternative approach to the relaxed shared memory concurrency,
-which they called \emph{Relaxed Memory Calculus} (\RMC).
-Instead of deriving ordering constraints from annotations 
-on memory accesses, they propose to directly specify 
-the ordering between memory accesses in a source code. 
-Their approach is highly generic and subsumes 
-the traditional memory order annotations in the style of \CMM.
-Their model is very weak and permits thin-air values. 
-Yet the authors proved the internal \DRF theorem.
+В работе~\cite{Crary-Sullivan:POPL15} был предложен
+альтернативный подход к определению слабых моделей памяти, 
+который авторы назвали \emph{исчислением слабой памяти}
+(\emph{Relaxed Memory Calculus}, \RMC).
+Вместо того, чтобы выводить ограничения на переупорядочивание 
+операций из аннотаций на режим доступа к переменным, 
+авторы предлагают напрямую указывать эти ограничения
+в исходном коде программы. 
+Этот подход является очень общим и покрывает, в частности, 
+традиционный подход к аннотациям на режимы доступа в стиле модели \CMM. 
+Модель, предложенная авторами, также является очень слабой 
+и допускает возникновение значений из воздуха. 
+Авторы также показали, что данная модель предоставляет 
+свойство внутренней свободы от гонок. 
 
 \paragraph{Relaxed Atomic + Ordering}
 
-Saraswat~\etal~\cite{Saraswat-al:PPoPP07} presented the \RAO memory model
-where relaxed behaviors are explained through transformations 
-over a sequentially consistent execution.
-Although the authors claim their model provides the external \DRF,
-it also permits thin-air values. 
-These two properties known to be incompatible~\cite{Batty-al:ESOP15}.
-We suppose that the external \DRF can be achieved in their model 
-only because of the fundamental restrictions on the input programming language 
-(\eg the general conditional statements are not supported~\cite{PichonPharabod-Sewell:POPL16}). 
+В работе~\cite{Saraswat-al:PPoPP07} была представлена 
+модель \RAO, в рамка которой слабые сценарии поведения объясняются 
+путем применения трансформаций к последовательно согласованным 
+сценариям исполнения. 
+Авторы модели заявляют, что она предоставляет 
+свойство внешней свободы от гонок,
+но в то же время допускает значения из воздуха. 
+Из других работ известно~\cite{Batty-al:ESOP15}, что эти два свойства несовместимы. 
+Мы предполагаем, что свойсвто внешней свободы от гонок
+может быть получено в данной модели только 
+благодаря серьезным ограничениям на входной язык программирования 
+(например, в рассматриваемом авторами языке не поддерживается оператор 
+условного выбора в общем виде~\cite{PichonPharabod-Sewell:POPL16}).
 
 \paragraph{A theory of speculative computation}
 
-Boudol and Petri~\cite{Boudol-Petri:ESOP10} proposed a general 
-framework to study effects of speculative execution in
-shared memory setting (\TSC). 
-They have also noticed that the external \DRF does not 
-hold in the presence of unrestricted speculations, 
-yet the internal \DRF theorem still can be proven. 
+В работе~\cite{Boudol-Petri:ESOP10} был представлен 
+обобщенный фреймворк для изучения эффектов возникающих 
+из-за спекулятивного исполнения в контексте многопоточных программ
+с разделяемой памятью. 
+Авторы работы также заметили, что свойство 
+внешней свободы от гонок не может быть гарантировано
+в присутствии неограниченного спекулятивного исполнения, 
+и что в этом случае может быть гарантировано
+только свойство внутренней свободы от гонок. 
