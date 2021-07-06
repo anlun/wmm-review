@@ -393,119 +393,149 @@ read-copy-update (RCU)~\cite{McKenney-RCU2007},
 \subsection{Semantic Dependencies Preserving}
 \label{sec:catalog:sdeprf}
 
-Next we discuss the memory models 
-which try to tackle the thin-air values problem 
-by developing a notion of semantic dependencies. 
-In particular, this class includes the original Java Memory Model, 
-the Promising semantics, and several models based 
-on the \emph{event structures}~\cite{Winskel:86}.
+Далее мы обсуждаем модели памяти, 
+которые предотвращают появление значений из воздуха 
+путем отслеживания семантических зависимостей. 
+В частности, этот класс моделей включает оригинальную 
+версию модели языка \Java, обещащую семантику (Promising semantics), 
+а также несколько моделей на основе \emph{структур событий}~\cite{Winskel:86}. 
 
 \paragraph{Java Memory Model}
 \label{sec:catalog:jmm}
 
-The original version of the Java memory model \JMM~\cite{Manson-al:POPL05}
-was a pioneering work in the area of programming language memory models. 
-In order to forbid thin-air outcomes, the memory model used 
-a notion of \emph{commit sequence}, \ie a sequence of partial execution graphs.
-The model was shown to adhere the external \DRF~\cite{Huisman-Petri:CONCUR07}.
-However, the model failed to justify some program transformations 
-which were expected to be sound~\cite{Sevcik-Aspinall:ECOOP08} 
-(\eg redundant load after load elimination, roach motel reordering, and others,
-see \cref{table:cmp-mms} for details). 
+Оригинальная версия модели памяти языка \Java (сокращенно \JMM)~\cite{Manson-al:POPL05}
+является одной из первых работ по теме моделей памяти языков программирования.
+Чтобы предотвратить появление значений из воздуха, 
+авторы модели использовали понятие 
+\emph{последовательности фиксации} (\emph{commit sequence}), 
+то есть последовательности частичных графов сценариев исполнения программы. 
+Было показано, что полученная модель обладает 
+свойством внешней свободы от гонок~\cite{Huisman-Petri:CONCUR07}.
+Тем не менее, оказалось что в этой модели
+некоторые трансформации, подразумевавшиеся корректными, 
+на самом деле не являются корректными~\cite{Sevcik-Aspinall:ECOOP08}.
+(например, элиминация операций типа чтение/чтение, 
+roach motel reordering, и другие, \see \cref{table:cmp-mms}). 
 
 \paragraph{Generative operational semantics}
 
-Jagadeesan~\etal~\cite{Jagadeesan-al:ESOP10} attempted to fix \JMM 
-and proposed the generative operational semantics 
-with speculative execution (\GOS).
-To avoid thin-air values they have put stratification constraints 
-on speculations. The authors prove the external \DRF theorem. 
-Also they verified a few program transformations 
-(store/store reordering, load/load elimination, and roach motel reordering), 
-but overall their study of transformations was not systematic.  
+В работе~\cite{Jagadeesan-al:ESOP10} авторы предприняли попытку исправить модель \JMM,
+и предложили порождающую операционную семантику с спекулятивным исполнением
+(generative operational semantics, \GOS).
+Для того чтобы избежать возникновение значений из воздуха, 
+авторы наложили стратифицирующие ограничения на спекуляции. 
+Было доказано, что полученная модель обладает свойством 
+внешней свободы от гонок. 
+Также авторы доказали корректность нескольких трансформаций
+(переупорядочивание типа запись/запись, 
+элиминация типа чтение/чтение, и roach motel reordering), 
+но в целом изучение корректности трансформаций для данной модели не было систематическим. 
 
 \paragraph{Promising Semantics}
 
-Kang~\etal~\cite{Kang-al:POPL17, Lee-al:PLDI20} developed 
-the Promising semantics (\PRM).
-It is the most complete to this day model of the class of
-semantic dependency preserving models. 
-Its key ingredient is a promising and certification machinery.
-During an execution, the abstract machine can 
-non-deterministically \emph{promise} to perform some store,
-it then has to \emph{certify} the promise is feasible. 
-The certification mechanism is defined in the way to forbid thin-air values to appear.
-The authors of the model have proven formally 
-that \Promising semantics admits many local and global program transformations,
-with a notable exception of the thread inlining
-(see \cref{table:cmp-mms} for details).
+В работах~\cite{Kang-al:POPL17, Lee-al:PLDI20} была предложена 
+обещающая семантика (\emph{Promising semantics}, \PRM).
+На сегодняшний день она представлет наиболее полную модель
+в классе моделей, сохраняющих семантические зависимости. 
+Ключевой частью этой модели является механизм обещаний и сертификации. 
+Во время исполнения программы, абстракная машина, 
+реализующая данную модель, может недетерминированно 
+\emph{обещать} выполнить операцию записи,
+затем она должна \emph{сертифицировать}, что данное обещание выполнимо. 
+Механизм сертификации определен таким образом, чтобы 
+предотвратить появление значений из воздуха. 
+Авторы модели формально доказали, 
+что обещающая семантика допускает множество 
+локальных и глобальных трансформаций, 
+за важным исключением трансформации слияния потоков 
+(\see \cref{table:cmp-mms}).
 
-Podkopaev~\etal~\cite{Podkopaev-al:ECOOP17, Podkopaev-al:POPL19} 
-proved formally the soundness of standard optimal 
-compilation mappings to \Intel, \ARMv{7}, \ARMv{8}, and \POWER.
+В работах~\cite{Podkopaev-al:ECOOP17, Podkopaev-al:POPL19} 
+была формально доказана корректность стандартных оптимальных 
+схем компиляции под процессоры семейств \Intel, \ARMv{7}, \ARMv{8}, and \POWER.
 
-The model has a fully defined semantics for plain accesses.  
-Plain and relaxed accesses, however, have different semantics.
-In particular, coherence is enforced only for relaxed accesses. 
-This design choice, in particular, allows to support 
-\CSE on the level of plain accesses. 
+Также, данная модель предоставляет полностью определенную 
+семантику для неатомарных обращений 
+(то есть гонки на неатомарных обращениях 
+не рассматриваются как неопределенное поведение).
+Отметим, однако, что неатомарные и ослабленные обращения 
+к памяти имеют разную семантику. 
+В частности, свойство когерентности гарантируютеся только 
+для ослабленных обращений к памяти.
+Такой дизайн модели позволяет поддержать 
+трансформацию удаления общих подвыражений (\CSE)
+на уровне неатомарных обращений. 
 
-One of a few limitations of the \Promising semantics is that 
-it does not support sequentially consistent accesses. 
+Одним из немногих ограничений обещающей семантики
+является то, что она не поддерживает последователно согласованный 
+режим доступа к переменным. 
 
 \paragraph{Weakestmo}
 
-Chakraborty and Vafeiadis~\cite{Chakraborty-Vafeiadis:CGO17, Chakraborty-Vafeiadis:POPL19}
-developed a memory model based on the event structures (\WMO). 
-They utilize the event structures' capability to simultaneously encode 
-multiple conflicting executions in order to model speculative executions.
-The model was shown to admit optimal compilation mappings~\cite{Moiseenko-al:ECOOP20},
-several program transformation, and the external \DRF.
-Unlike \Promising semantics, it also supports 
-sequentially consistent accesses.
+В работах~\cite{Chakraborty-Vafeiadis:CGO17, Chakraborty-Vafeiadis:POPL19} 
+была предложена модель памяти на основе структур событий (\WMO).
+Авторы использовали способность структур событий кодировать
+сразу несколько сценариев исполнения в одной структуре
+для моделирования спекулятивного исполнения. 
+Было продемонстрировано, что предложенная модель поддерживает 
+оптимальные схемы компиляции~\cite{Moiseenko-al:ECOOP20}, 
+некоторые трансформации кода (\see \cref{table:cmp-mms}), 
+а также свойство внешней свободы от гонок. 
+В отличие от обещающей семантики модель 
+также поддерживает режим последовательно согласованных
+обращений к памяти. 
 
 \paragraph{A Concurrency Semantics for Relaxed Atomics}
 
-Pichon-Pharabod and Sewell~\cite{PichonPharabod-Sewell:POPL16} 
-presented the operational memory model (\CSRA) consisting of 
-a memory subsystem inspired by the \POWER model 
-and a thread subsystem, 
-where each thread is represented as an event structure. 
-At each step the abstract machine is allowed to either 
-commit an event to the storage, or perform a transformation 
-on one of the event structures. 
-The authors have shown soundness of 
-optimal compilation mappings to \Intel and \POWER, 
-as well as soundness of several program transformations.
-It was later revealed though that the compilation scheme
-to \ARMv{7} and \ARMv{8} is not optimal~\cite{PichonPharabod:PhD18}.
+Авторы работы~\cite{PichonPharabod-Sewell:POPL16} 
+представили операционную модель памяти (\CSRA),
+состоящую из подсистемы памяти, вдохновленной моделью памяти 
+процессоров семейства \POWER, 
+и подсистемой потоков, в которой каждый поток 
+представлен как структура событий. 
+На каждом шаге абстрактная машина либо 
+добавляет новое событие, соответствующее операции обращения к памяти, 
+в подсистему памяти, либо выполняет трансформацию 
+над одной из структур событий. 
+Авторы показали, что модель поддерживает оптимальные 
+схемы компиляции под процессоры семейств \Intel и \POWER,
+а также корректность некоторых трансформаций кода
+(\see \cref{table:cmp-mms}). 
+Однако позже было обнаружено, что 
+модель не поддерживает оптимальные схемы компиляции
+под процессоры семейств \ARMv{7} и \ARMv{8}~\cite{PichonPharabod:PhD18}.
 
 \paragraph{Well-Justified Event Structures}
 
-Jeffrey and Riely~\cite{Jeffrey-Riely:LICS16} proposed 
-the memory model (\WJES) based on event structures and a notion of 
-\emph{well-justification} of events inspired by the game semantics. 
-Well-justification is used to prevent thin-air values 
-and prove the external \DRF. The authors do not study 
-the soundness of program transformations in their model. 
-They show, however, a counterexample demonstrating that 
-the load/load reordering is unsound. 
-This fact also implies that 
-the compilation mappings to \ARMv{7}, \ARMv{8}, and \POWER 
-are not optimal.   
+В работе~\cite{Jeffrey-Riely:LICS16} была предложена модель памяти (\WJES)
+основанная на структурах событий и понятии 
+\emph{обоснованности} событий (\emph{well-justification of events}), 
+вдохновленного игровыми семантиками (\emph{game semantics}).
+Понятие обоснованности событий необходимо для 
+предотвращения появления значений из воздуха и 
+доказательства выполнения свойства внешней свободы от гонок. 
+Отметим, что авторы модели не изучали корректность трансформаций 
+в их модели. Однако они продемонстрировали контрпримеры, 
+показывающие что переупорядочивание операций типа чтение/чтение 
+не является корректным. 
+Этот факт также влечет то, что схемы компиляции 
+под процессоры семейств \ARMv{7}, \ARMv{8}, и \POWER 
+не могут быть оптимальными. 
 
 \paragraph{Modular Relaxed Dependencies}
 
-Paviotti~\etal~\cite{Paviotti-al:ESOP20} constructed the 
-denotational semantics based on the event structures (\MRD). 
-They employ the event structures to capture 
-semantic dependencies between memory access events, 
-which are in turn used to rule out thin-air outcomes.
-The authors prove the external \DRF and 
-the soundness of optimal compilation mappings,
-also they present a refinement relation which 
-can be used to reason about validity of program transformations. 
-However, they have not studied soundness of particular transformations. 
+В работе~\cite{Paviotti-al:ESOP20} была построена 
+денотационная семантика на основе стуктур событий (\MRD). 
+Авторы данной модели использовали структуры событий 
+для того, чтобы проследить семантические зависимости
+между операциями доступа к памяти, 
+которые, в свою очередь, используются 
+чтобы предотвратить возникновение значений из воздуха. 
+Авторы доказали, что модель обладает свойством внешней свободы от гонок,
+также они доказали корректность оптимальных схем компиляции
+и представили отношение уточнения (\emph{refinement relation}), 
+которое может быть использовано для рассуждения о корректности трансформаций. 
+Однако корректность каких-либо конкретных трансформаций кода не была изучена.
 
 \subsection{Out of Thin-Air Values}
 
