@@ -82,8 +82,8 @@ or some combination of the above.
 Despite these efforts \SC still induces considerable slowdown,
 especially on weak hardware.
 For instance, on \ARMv{8} machines 
-the slowdown can be up to 70\%~\cite{Liu-al:PLDI19} 
-(see \cref{sec:catalog:sc} for details).
+the slowdown can be up to 70\%~\cite{Liu-al:PLDI19}.
+% (see \cref{sec:catalog:sc} for details).
 Moreover, while these optimization typically reduce 
 penalties on thread-local accesses (a common case), 
 they are likely to have a lesser impact on specific 
@@ -282,7 +282,7 @@ on the \ARMv{8} hardware and reported a negligible overhead
 of 0\% on average and 6.3\% in maximum on a set of benchmarks
 implementing various concurrent data-structures, 
 \eg locks, stacks, queues, deques, maps, \etc 
-(see \ref{sec:catalog:porf} for details).
+% (see \ref{sec:catalog:porf} for details).
 Note that the overhead is expected to be greater 
 if the compilation scheme is required to preserve the ordering 
 between non-atomic accesses as well. 
@@ -369,7 +369,7 @@ version of the \LLVM compiler infrastructure
 on \ARMv{8} hardware using \SPECCPU benchmarks
 and reported a moderate slowdown of 
 3.1\% on average and 17.6\% in maximum. 
-(see \ref{sec:catalog:deprf} for details).
+% (see \ref{sec:catalog:deprf} for details).
 
 \subsection{Semantic Dependencies Preserving}
 \label{sec:analysis:sdeprf}
