@@ -10,7 +10,7 @@ design principles of a programming language.
 A language that seeks to provide a clear semantics and 
 high-level programming abstractions at the cost 
 of some performance losses most definitely should 
-adhere to simple memory models like the sequential consistency. 
+adhere to simple memory models like sequential consistency. 
 %% , \eg \Haskell,
 %% \app{I doubt that Haskell is a good example in this regard.
 %%   It is lazy and loosely defines execution order.}
@@ -26,8 +26,7 @@ However, these models are the most complicated ones
 which makes reasoning about programs' correctness
 under them challenging~\cite{Svendsen-al:ESOP18}.
 
-In the middle between two extremes are program order preserving and 
-syntactic dependency preserving models.
+In the middle between two extremes are program order preserving models.
 Those are a reasonable choice for programming languages
 which may afford a moderate performance overhead 
 in exchange of a simpler and more predictable program behavior~\cite{Ou-Demsky:OOPSLA18}.
@@ -101,7 +100,7 @@ Currently, \Kotlin can be compiled
 to \Java bytecode, to \JS code, or to native code via \LLVM
 (for Linux, Windows, macOS, iOS, and other platforms).
 
-The language is not oriented on system-level programming,
+The language is not oriented to system-level programming,
 that is, it does not have to provide zero cost abstraction over target hardware
 for shared memory accesses.
 Therefore a memory model which either preserves program order 

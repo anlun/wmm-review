@@ -3,12 +3,12 @@
 
 In this section we will have a closer look on criteria for 
 programming language memory models, 
-namely an optimality of a compilation scheme \ref{item:criteria:opt-comp}, 
-a soundness of common program transformations \ref{item:criteria:sound-trans}, 
+namely optimality of compilation scheme \ref{item:criteria:opt-comp}, 
+soundness of common program transformations \ref{item:criteria:sound-trans}, 
 and provided reasoning guarantees \ref{item:criteria:reasoning}.  
 The criteria are bound to common programming primitives 
 provided by the shared memory abstraction.
-Thus, we first need to introduce these programming primitives. 
+Thus, we first introduce these programming primitives. 
 
 \paragraph{Programming Primitives}
 \label{sec:background:primitives}
@@ -25,8 +25,8 @@ The shared memory consists of individual variables,
 each having a unique address.\footnote{
 Throughout the rest of paper, we use terms 
 memory address and memory location interchangeably}
-Threads can access these variables by performing 
-loads or stores.\footnote{We also use terms 
+Threads access these variables by performing 
+loads or stores.\footnote{We use terms 
 load/stores and reads/writes interchangeably}
 
 % \begin{figure}[t]
@@ -70,7 +70,7 @@ threads can observe these accesses (\eg \Java~\cite{Manson-al:POPL05}).
 In turn, atomics are designed for concurrent accesses. 
 Some memory models further distinguish 
 several kinds of accesses to atomic variables.
-In these models the accesses to shared memory are annotated by the 
+In these models the accesses to shared memory are annotated by 
 so-called \emph{access modes}.
 For example, the \CPP model (and a later revision of 
 the \Java~\cite{Bender-Palsberg:OOPSLA19} model), distinguish 
@@ -79,10 +79,10 @@ three modes: \emph{relaxed} (\emph{opaque} in \Java terminology),
 (\emph{volatile} in \Java).
 They are denoted as $\rlx$, $\acq$, $\rel$, and $\sco$ correspondingly.
 Note that $\acq$ mode is only applicable to load operations,
-while $\rel$ is applicable to store operations.
-Non-atomic accesses are often considered to be the fourth access mode $\na$, 
-but note that mixing non-atomic and atomic accesses to the same variable 
-entails undefined behavior in \CPP.
+while $\rel$ is only applicable to store operations.
+Non-atomic accesses are often considered to be the fourth access mode $\na$. 
+% but note that mixing non-atomic and atomic accesses to the same variable 
+% entails undefined behavior in \CPP.
 
 The access modes are ordered by the guarantees they provide
 in exchange of optimization opportunities, as the following 
@@ -106,7 +106,7 @@ another thread expecting a message can perform an acquire read.
 If the acquire read observes the release write, the two 
 threads synchronize their views on shared memory. 
 
-The memory model can also provide atomic \emph{read-modify-write} operations.
+Memory models also provide atomic \emph{read-modify-write} operations.
 These include \emph{compare-and-swap}, \emph{exchange}, and variations of atomic increment,
 \eg \emph{fetch-and-add}, \emph{fetch-and-sub}, \etc 
 Compare-and-swap (\CAS) operation takes a shared variable, expected 
@@ -130,7 +130,7 @@ as well as memory fence operations~\cite{Batty-al:POPL11},
 which are related to hardware fence instructions
 (see \cref{sec:background:compile} for details). 
 
-Finally, a memory model can treat a shared memory 
+Finally, a memory model can treat the shared memory 
 not as a set of disjoint typed variables, but rather as 
 a raw byte sequence, and permit so-called \emph{mixed-size} 
 concurrent accesses~\cite{Flur-al:POPL17}.
@@ -142,7 +142,7 @@ to read from two concurrent adjacent 4 byte stores.
 \label{sec:background:compile}
 
 We next consider the first criterion~\ref{item:criteria:opt-comp}
-for programming language memory models---an optimality of a compilation scheme. 
+for programming language memory models---optimality of the compilation scheme. 
 A \emph{compilation scheme} is a mapping of 
 programming language primitives into 
 instructions of particular hardware architecture. 
@@ -158,16 +158,16 @@ and \texttt{stl} --- store release on \ARMv{8}.}
 read-modify-write operations, 
 and also various memory fences. 
 
-A compilation mapping should be \emph{sound}.
+A compilation scheme should be \emph{sound}.
 In the context of this paper it means that 
-a set of outcomes permitted by a 
-memory model of hardware for a compiled program 
-should be a subset of outcomes permitted by a 
+a set of outcomes permitted by  
+the hardware memory model for a compiled program 
+should be a subset of outcomes permitted by the 
 programming language model for the original program. 
 
 Let us consider an example. 
 The program \ref{ex:sb} below is a 
-fragment of \ref{ex:Dekker} from \cref{sec:intro}.
+variant of \ref{ex:Dekker} from \cref{sec:intro}.
 
 \begin{equation*}
 \inarrII{
@@ -190,18 +190,17 @@ is used as both plain load from memory and
 plain store to memory instructions.}
 the outcome $[r_1=0, r_2=0]$ would be 
 allowed for the compiled program 
-(and it can actually be observed in practice as was stated before), 
+(and it can actually be observed in practice), 
 since the memory model of \Intel permits this outcome. 
 It can be obtained as a result of \emph{store buffering}
 optimization (hence the name of the program \ref{ex:sb}). 
 The store ${\writeInst{}{x}{1}}$ can be buffered and 
 executed after all other instructions of the program.  
-Yet clearly the outcome ${[r_1=0, r_2=0]}$ is not sequentially consistent. 
+Yet the outcome ${[r_1=0, r_2=0]}$ is not sequentially consistent. 
 Therefore the proposed compilation scheme, 
 which maps all loads and stores to the 
-plain load and stores is unsound. 
-As we demonstrated in \cref{sec:intro}, 
-unsoundness of a compilation scheme has 
+plain load and stores is \emph{unsound}. 
+Unsoundness of a compilation scheme has 
 dramatic consequences as it may break 
 the correctness of a program. 
 
@@ -225,7 +224,7 @@ as demonstrated below:
 
 
 The \texttt{mfence} is a special memory fence instruction
-of \Intel architecture which flushes a store buffer of a thread. 
+of \Intel architecture that flushes the store buffer of the thread. 
 For the program \ref{ex:sb-mfence} the outcome $[r_1=0, r_2=0]$
 is forbidden by the \Intel memory model. 
 
@@ -240,13 +239,13 @@ to modern hardware architectures
 for the \SC model which is both \emph{sound and optimal}. 
 This fact makes the \SC memory model unsuitable  
 for high-performance programming languages
-and serves as one of the stimulus for 
+and serves as the stimulu for 
 weakening of memory models. 
  
 In this paper, when speaking about compilation schemes, 
-we will consider only the following hardware memory models: 
+we will consider the following hardware memory models: 
 \Intel, \ARMv{7}, \ARMv{8}, and \POWER, 
-for the two main reasons. 
+for two main reasons. 
 First, these hardware architectures are the 
 most widespread today.
 Second, they have received a lot of attention 
@@ -261,14 +260,14 @@ Flur-al:POPL16, Pulte-al:POPL18}.
 \label{sec:background:trans}
 
 The next criterion~\ref{item:criteria:sound-trans} 
-for memory models is a soundness of program transformations, 
-that is source-to-source transformations of code which are applied during 
+for memory models is the soundness of program transformations, 
+which are source-to-source transformations of code which applied during 
 optimization passes of a compiler. 
 
 \emph{Sound} transformations should preserve the semantics 
 of a program. In our context, similarly to the 
 soundness of compilation scheme, it means that 
-a set of outcomes of a transformed program 
+a set of outcomes of the transformed program 
 should be a subset of outcomes of the original one. 
 
 Going back to the \ref{ex:sb} example, 
@@ -313,7 +312,7 @@ Yet for the original one (on the left) it is not.
 It means that the aforementioned program transformation
 is unsound for \SC. 
 
-We next present a comprehensive list of 
+We next present a list of 
 various program transformations considered in
 the literature on weak memory models 
 with a short description of each one.
@@ -372,9 +371,8 @@ load/load, and load/store reorderings.
 
 \paragraph{Elimination of Redundant Access} 
 
-In a pair of two adjacent memory accessing instructions 
-one of them can be eliminated if its effect 
-is subsumed by another. 
+In a pair of two adjacent instructions accessing same memory location  
+one of them can be eliminated if its effect is subsumed by another. 
 For example, two stores writing to the same variable 
 can be replaced by a single store.  
 Similarly to the reorderings, there exist four kinds 
@@ -531,9 +529,9 @@ a sequentially consistent access:
 \paragraph{Trace Preserving Transformations}
 
 This wide class contains all local transformations 
-which do not change a set of traces of a thread~\cite{Sevcik-Aspinall:ECOOP08},
+which do not change a set of traces of a thread~\cite{Sevcik-Aspinall:ECOOP08}.
 Trace is a sequence of visible side-effects performed by a thread
-(loads and stores to shared memory also viewed as side-effects). 
+(loads and stores to shared memory are also viewed as side-effects). 
 An example is the classic \emph{constant folding}%
 ~\cite{Muchnick:ACDI97, Wegman-Zadeck:TOPLAS91} transformation.
 Here is a particular example of the constant folding application:
@@ -615,7 +613,7 @@ if a program satisfies some invariant deduced
 by a global value-range analysis. 
 For example, in a program below   
 the conditional statement can be eliminated 
-since a static analysis can deduce an invariant 
+since a static analysis can deduce invariant 
 $\mathsf{x} \geq \mathsf{0}$.
 
 {\footnotesize
@@ -660,7 +658,7 @@ reasoning guarantees provided by memory models.
 \label{sec:background:drf}
 
 When reasoning about concurrent code, most programmers 
-assume sequential consistent memory model.
+assume sequentially consistent memory model.
 Of course, it would be improper to require from 
 programmers to always keep in mind 
 all the intricacy of weak memory models,
@@ -670,7 +668,7 @@ The \emph{data-race freedom}~\cite{Manson-al:POPL05} property,
 \DRF for short, is designed to solve this problem. 
 It guarantees that well-synchronized programs 
 have only sequentially consistent outcomes. 
-In other words, it allows to programmers assume 
+In other words, it allows programmers to assume 
 simpler sequentially consistent model 
 if they properly use synchronization primitives.
 
@@ -721,14 +719,15 @@ a program has only sequentially consistent outcomes under $M$
 if it has no data-races under sequentially consistent memory model
 (or all accesses participating in such race are annotated by~$\sco$).
 
-The \DRF theorem allows to reduce reasoning under a weak memory model
+The \DRF theorem allows one to reduce reasoning under a weak memory model
 to reasoning under the sequential consistency.
 It is sufficient to prove that a program has no data-races under the \SC
 in order to derive that this program has only \SC outcomes. 
 
 The \DRF theorem in the formulation given above is 
 sometimes called \emph{external data-race freedom} (\eDRF),
-in order to distinguish it from the \emph{internal data-race freedom} (\iDRF). 
+in order to distinguish it from the 
+\emph{internal data-race freedom} (\iDRF)~\cite{Batty-al:ESOP15, Watt-al:PLDI2020}. 
 The latter guarantees the \SC semantics for a program 
 under weak model $M$ only if the program 
 has no races under \textbf{model $\mathbf{M}$ itself}.
@@ -739,7 +738,7 @@ because one has to first show that the program
 is race-free under relaxed model. 
 As we will demonstrate later (see \cref{sec:analysis:oota})
 the internal \DRF is a compromise for a certain class 
-of memory models which cannot establish the external \DRF.
+of memory models which does not admit the external \DRF.
 
 \subsubsection{Coherence}
 \label{sec:background:coh}
@@ -762,7 +761,7 @@ into the main memory.
 In particular, coherence implies that  
 programs consisting only of accesses to 
 a single memory location have 
-the sequentially consistent semantics.
+sequentially consistent semantics.
 For example, consider the following program:
 
 \begin{equation*}
@@ -776,12 +775,12 @@ For example, consider the following program:
 \tag{COH}\label{ex:coh}
 \end{equation*}
 
-The coherence prescribes to a memory model 
-assign to this program only the 
+The coherence prescribes memory model 
+to assign to this program only the 
 sequentially consistent outcomes: 
 ${[r_1=1, r_2=2]}$, ${[r_1=1, r_2=1]}$, or ${[r_1=2, r_2=2]}$.
 A non-coherent model additionally may permit 
-the following outcome ${[r_1=2, r_2=1]}$.
+the outcome ${[r_1=2, r_2=1]}$.
 For example, the \Java memory model actually 
 allows this outcome~\cite{Manson-al:POPL05}.
 
@@ -868,6 +867,6 @@ and then justifies itself leading to the confusing outcome ${[r_1=1, r_2=1]}$.
 As we will see in \cref{sec:analysis}, speculative execution 
 is required to enable certain program transformations. 
 However, speculations should be properly constrained
-in order to prevent an appearance of thin-air values. 
+in order to prevent thin-air values. 
 In \cref{sec:analysis:porf,sec:analysis:deprf,sec:analysis:sdeprf}
 we will see how various memory models deal with this problem. 

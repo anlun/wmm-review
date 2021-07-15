@@ -70,7 +70,7 @@ was inspired by the similar idea of separation
 between thread-local and shared mutable memory. 
 To safely distinguish between the two 
 the authors utilized the powerful strong type system of \Haskell. 
-The consequence of this approach is that the 
+The consequence of this approach is that  
 programmers need to follow a stricter discipline 
 in order to please the type checker. 
 The authors modified the GHC to preserve \SC 
@@ -80,7 +80,7 @@ They reported 0.4\% geometric mean slowdown,
 and noticed that only 12 benchmarks experienced 
 slowdown greater than 10\%.
 These promising results can be partly explained 
-by the fact that \Haskell encourage a 
+by the fact that \Haskell encourages a 
 purely functional programming style, 
 which minimizes the usage of shared mutable memory.  
 
@@ -361,7 +361,7 @@ In order to forbid thin-air outcomes, the memory model used
 a notion of \emph{commit sequence}, \ie a sequence of partial execution graphs.
 The model was shown to adhere the external \DRF~\cite{Huisman-Petri:CONCUR07}.
 However, the model failed to justify some program transformations 
-which were expected to be sound~\cite{Sevcik-Aspinall:ECOOP08} 
+that were expected to be sound~\cite{Sevcik-Aspinall:ECOOP08} 
 (\eg redundant load after load elimination, roach motel reordering, and others,
 see \cref{table:cmp-mms} for details). 
 
@@ -386,7 +386,7 @@ Its key ingredient is a promising and certification machinery.
 During an execution, the abstract machine can 
 non-deterministically \emph{promise} to perform some store,
 it then has to \emph{certify} the promise is feasible. 
-The certification mechanism is defined in the way to forbid thin-air values to appear.
+The certification mechanism is defined in a way that forbids thin-air values to appear.
 The authors of the model have proven formally 
 that \Promising semantics admits many local and global program transformations,
 with a notable exception of the thread inlining
@@ -413,7 +413,7 @@ They utilize the event structures' capability to simultaneously encode
 multiple conflicting executions in order to model speculative executions.
 The model was shown to admit optimal compilation mappings~\cite{Moiseenko-al:ECOOP20},
 several program transformation, and the external \DRF.
-Unlike \Promising semantics, it also supports 
+Unlike \Promising semantics it also supports 
 sequentially consistent accesses.
 
 \paragraph{A Concurrency Semantics for Relaxed Atomics}

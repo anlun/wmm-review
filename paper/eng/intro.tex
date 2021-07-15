@@ -6,12 +6,12 @@ to establish proper synchronization between threads executed in parallel.
 Usually it is done with the help of synchronization primitives
 provided by a programming language or libraries,
 for example locks, barriers, channels, \etc
-Sometimes, however, usage of these primitives is impossible or undesirable. 
-Examples of such cases are an implementation 
+Sometimes, however, the usage of these primitives is impossible or undesirable. 
+Examples of such cases are the implementation 
 of synchronization primitives themselves
 or lock-free data structures.
 In these cases one has to resort to 
-lower-level programming discipline and use shared variables. 
+lower-level programming and use shared variables. 
 At this point things get complicated.
 
 %The memory model defines which values reads of shared variables can observe at each point of execution. 
@@ -37,8 +37,8 @@ Here is a simplified version of Dekker's Lock~\cite{Dijkstra:68}:
 \tag{Dekker's Lock}\label{ex:Dekker}
 \end{equation*}
 
-In this program, there are two threads that compete to enter the critical section.
-In order to indicate their intention, threads set 
+In this program, two threads compete to enter the critical section.
+In order to indicate their intention, the threads set 
 variables $x$ and $y$ correspondingly.%
 \footnote{We distinguish shared variables 
 (denoted as $x$, $y$, $z$) and thread local registers 
@@ -48,16 +48,16 @@ and read the other variable before it is set
 enters the critical section.
 The algorithm relies on the fact that both threads cannot read value~\texttt{0}.%
 \footnote{From here and through the rest of the paper we assume that all 
-variables are initialized with zeros, unless the other is stated explicitly}
+variables are initialized with zeros, unless we explicitly state otherwise}
 Otherwise, the two threads would have been able 
 to enter the critical section simultaneously, 
-thus breaking correctness of the algorithm.
+thus breaking the correctness of the algorithm.
 
-Indeed, after running this program on a multi-core system, one would expect to see 
+Indeed, running this program on a multi-core system, one would expect to see 
 one of the following outcomes: ${[r_1=0, r_2=1]}$, ${[r_1=1,r_2=0]}$, or ${[r_1=1,r_2=1]}$.
 These outcomes are \emph{sequential consistent}~\cite{Lamport:TC79} meaning
 that they may be obtained via a sequential execution 
-of some interleaving of threads' instructions.
+of some interleaving of the threads' instructions.
 
 %A memory model that admits only these behaviours is known under the name \emph{sequential consistency} (SC) [Lamport:TC79].
 
@@ -70,7 +70,7 @@ However, not all behaviors which are observable on real concurrent systems are s
 For example, if one ports \ref{ex:Dekker} 
 from the pseudo code to the C language, compile it with the GCC compiler, 
 and run on a processor from the x86/x64 family,
-she may observe non sequentially consistent outcome $[r_1=0, r_2=0]$.
+they may observe non sequentially consistent outcome $[r_1=0, r_2=0]$.
 Such outcomes are called \emph{weak}.
 
 Weak outcomes appear because of compiler and CPU optimizations.
@@ -81,7 +81,7 @@ are independent instructions and thus they can be reordered
 For the optimized program, the outcome $[r_1=0, r_2=0]$
 is sequentially consistent.
 
-An exact set of allowed outcomes for a given program 
+The exact set of allowed outcomes for a given program 
 is defined by a semantics of a concurrent system, or a \emph{memory model}.
 The memory model permitting only sequentially consistent outcomes 
 is called \emph{sequential consistency} (SC).
@@ -108,10 +108,10 @@ According to our findings,
 in the last decade at least 50 papers on the subject are published each year.%
 \footnote{This claim is supported by our data acquired from Google Scholar, 
 see \cref{sec:methodology} for details}  
-For the people unfamiliar with all the subtleties 
-of weak memory models, it can be hard to navigate in this large zoo.
+For those unfamiliar with all the subtleties 
+of weak memory models, it is hard to navigate in this large zoo.
 Despite the long history of the field and recent progress made, 
-there is no single source that would summarize the prior knowledge
+there is no single source that summarizes the prior knowledge
 and give a comparison of different memory models of programming languages. 
 The aim of this paper is to close this gap.
 
@@ -126,7 +126,7 @@ We hope that our work will be useful to programming language researchers
 who want to dive into the theory of weakly consistent memory models,
 and also to system-level developers, 
 who are working on new programming languages, compilers, or virtual machines, 
-and thus have to choose a memory model for their system.
+and have to choose a memory model for their system.
 
 The rest of the paper is organized as follows.
 In \cref{sec:related} we overview related work. 

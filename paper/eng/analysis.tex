@@ -46,7 +46,7 @@ sequential execution of some interleaving of threads' instructions.
 % and, moreover, each read is guaranteed to read-from the most recent write. 
 
 \SC renders many common transformations unsound, 
-including all kind of instruction reorderings and the
+including all kinds of instruction reorderings and 
 common subexpression elimination~\cite{Marino-al:PLDI11, Sevcik-Aspinall:ECOOP08}.
 The fact that instruction reorderings are forbidden 
 makes the model expensive to implement on modern hardware
@@ -217,13 +217,13 @@ the outcome ${[r_1=1, r_2=1]}$ is valid
 (a justification is the same as for 
 the \ref{ex:lb+data} example from \cref{sec:background:oota}).
 Not only this outcome is completely unintuitive,
-but it also contradicts to the external \DRF guarantee.
-Indeed, under \SC model the program above has 
+but it also contradicts the external \DRF guarantee.
+Indeed, under \SC the program above has a
 single valid execution with the outcome $[r_1=0, r_2=0]$ 
 containing no data-races, thus under a \DRF compliant model 
-it should also has this sole outcome.  
+it should also have this sole outcome.  
 
-A counter-intuitive behavior of OOTA models, 
+The counter-intuitive behavior of OOTA models, 
 together with the fact that they break 
 important reasoning principles,
 has lead over the time to the consensus 
@@ -231,7 +231,7 @@ in the research community that these models
 are not suited well for the role of 
 programming languages memory models~\cite{Boehm-Demsky:MSPC14, Batty-al:ESOP15}.
 A lot of effort has been put to forbid problematic 
-thin-air outcomes, while still keep a 
+thin-air outcomes, while still keep the 
 compilation scheme as efficient as possible
 and enable as many transformations as possible.
 In the rest of this section we describe various proposals 
@@ -258,8 +258,8 @@ a frontier of this history~\cite{Dolan-al:PLDI18, Doherty-al:PPoPP19}.
 % forbid cycles consisting of program order and reads-from relations. 
 
 Lahav~\etal~\cite{Lahav-al:PLDI17} formalized this approach
-to thin-air problem and studied it extensively. 
-The authors shown that many program transformations 
+to the thin-air problem and studied it extensively. 
+The authors were shown that many program transformations 
 are still sound in this setting, 
 with the obvious exception of the load/store reordering itself
 (see~\cref{table:cmp-cls} for details).
@@ -269,7 +269,7 @@ since this architecture already guarantee to preserve order
 between loads and subsequent stores. 
 However, weaker architectures (\ARM, \POWER) do not guarantee that, 
 and thus additional measures are required.
-Boehm and Demsky~\etal~\cite{Boehm-Demsky:MSPC14} proposed to 
+Boehm and Demsky~\cite{Boehm-Demsky:MSPC14} proposed to 
 compile every relaxed load as 
 a plain load followed by a spurious conditional jump instruction,
 which introduces a dependency between the load and subsequent stores. 
@@ -313,7 +313,7 @@ the store $\writeInst{}{y}{r_1}$ depends
 on the load $\readInst{}{x}{r_1}$ since 
 it writes the value read by the load.
 
-Note that these kind of dependencies are computed following a 
+Note that these kind of dependencies are computed following the 
 syntax of a program (hence the name) as opposed 
 to \emph{semantic dependencies}.
 For example, giving the modified version of 
@@ -409,8 +409,8 @@ while still preserving the external \DRF guarantee.
 We also identified an alternative division of memory models into groups, 
 which correspond to particular properties of a memory model, 
 namely the coherence and the catch-fire semantics which treats racy programs 
-as erroneous. We demonstrate how presence of these properties 
-affects the compilation mappings and the soundness of some program transformations.
+as erroneous. We demonstrate how the presence of these properties 
+affects the compilation mappings and the soundness of certain program transformations.
 
 \subsubsection{Coherent Models}
 \label{sec:analysis:coh}
@@ -424,7 +424,7 @@ To see the problem, consider the program below
 of this program after application of \CSE (on the right).
 Note that the optimization has replaced 
 the second access to variable \texttt{x}
-by the read from register. 
+by a read from a register. 
 
 \begin{minipage}{0.45\linewidth}
 \begin{equation*}
@@ -474,9 +474,9 @@ the optimized version of the program.
 Note that the compiler still can apply \CSE to the program above, 
 but only if it is able to prove that variables \texttt{x} and \texttt{y} 
 point to disjoint memory locations, which can be achieved 
-by the means of an alias analysis~\cite{Diwan-al:PLDI1998}.
+by alias analysis~\cite{Diwan-al:PLDI1998}.
 In fact, in this case \CSE can be seen as a combination 
-of instructiong reordering and elimination transformations.  
+of instruction reordering and elimination transformations.  
 
 Therefore, the coherence property in general is not compatible 
 with the common subexpression elimination.
@@ -488,9 +488,9 @@ It is because hardware models already guarantee coherence%
 \subsubsection{Catch-Fire Models}
 \label{sec:analysis:ub}
 
-A catch-fire semantics which treats racy non-atomic 
+A catch-fire semantics that treats racy non-atomic 
 accesses as undefined behavior also affects  
-soundness of program transformations. 
+soundness of a program transformations. 
 As we already briefly discussed, it enables 
 the optimal compilation mapping for non-atomic accesses and 
 makes sequentially valid transformations applicable 

@@ -18,16 +18,17 @@ x86~\cite{Sewell-al:CACM10},
 IBM~\POWER \cite{Alglave-DAMP09,Sarkar-al:PLDI11,Alglave-al:TOPLAS14}),
 \ARM~\cite{Chong-ASPLOS08, Alglave-DAMP09,Pulte-al:POPL18,Flur-al:POPL16,Alglave-al:TOPLAS14})
 and \RISC~\cite{Pulte-al:POPL18}.
-Among those, x86 and \POWER architectures have stable memory models which do not change in the last years,
+Among those, x86 and \POWER architectures have stable memory models which did not change in the last years,
 whereas the \ARM memory model changed with transition from \ARMv{7}~\cite{Alglave-al:TOPLAS14} to \ARMv{8}~\cite{Pulte-al:POPL18}
 to accommodate new instructions for shared memory access.
 \RISC\footnote{https://riscv.org/} was introduced in 2010 and recently adopted a memory model~\cite{Pulte-al:POPL18}
 which is almost the same as the \ARMv{8} model.
 
-All of the aforementioned models have representations in a framework of \emph{declarative} (or \emph{axiomatic})
+All of the aforementioned models have representations in the framework of 
+\emph{declarative} (or \emph{axiomatic})
 memory models~\cite{Alglave-al:TOPLAS14}.
-The framework became a standard for defining weak memory models, %(including models for programming languages),
-it has tools for testing and verification~\cite{Alglave-al:TOPLAS14}.
+This framework became a standard for defining weak memory models,
+and it has tools for testing and verification~\cite{Alglave-al:TOPLAS14}.
 It is also used for defining some programming language memory models: 
 \CPP~\cite{Batty-al:POPL11}, \JS~\cite{Watt-al:PLDI2020}, Java~\cite{Manson-al:POPL05} and many others.
 However, the framework does not fully solve the problem for programming languages like C/C++
@@ -36,7 +37,7 @@ which are oriented on zero cost abstraction over architectures like \ARM and \PO
 optimizations which may eliminate syntactic dependencies (for example, constant folding).
 
 The problem is that the framework does not
-allow to properly distinguish real (\emph{semantic}) dependencies between instructions in programs
+allow one to properly distinguish real (\emph{semantic}) dependencies between instructions in programs
 from fake ones. For example, there is a real dependency between instructions in the snippet on the left
 and a fake dependency between instructions on the right:
 \[\begin{array}{l@{\qquad}|@{\qquad}l}
@@ -47,7 +48,7 @@ For hardware models, it is not a problem since they respect all syntactic depend
 whereas, in the case of a programming language memory model,
 if we want to support a compiler optimization which replaces $r * 0$ with $0$ in the code on the right,
 we have to either distinguish them and respect only real dependencies
-or ignore dependencies at all (as the model of \CPP does).
+or ignore dependencies completely (as the model of \CPP does).
 Ignoring of dependencies in combination with support of \emph{load-buffering behavior} of \ARM and \POWER
 leads to notorious \emph{Out Of Thin-Air} (OOTA) executions~\cite{Boehm-Demsky:MSPC14}
 which break even basic reasoning principles about programs

@@ -1,11 +1,13 @@
  \[\inarr{
  \begin{tikzpicture}[yscale=0.6,xscale=1.0]
+   \node (na)  at (-2.6, 0) {$\na$};
    \node (rlx) at (-1.3, 0) {$\rlx$};
    \node (rel) at (0, 1) {$\rel$};
    \node (acq) at (0,-1) {$\acq$};
    % \node (acqrel) at (1.5,0) {$\acqrel$};
    \node (sc) at (1.3,0) {$\sco$};
 
+   \path[->] (na) edge[line width=0.742mm] node[fill=white, anchor=center, pos=0.5] {$\sqsubset$} (rlx);
    \path[->] (rlx) edge[line width=0.742mm] node[fill=white, anchor=center, pos=0.5] {\rotatebox[origin=c]{45}{$\sqsubset$}} (rel);
    \path[->] (rlx) edge[line width=0.742mm] node[fill=white, anchor=center, pos=0.5] {\rotatebox[origin=c]{-45}{$\sqsubset$}} (acq);
    \path[->] (rel) edge[line width=0.742mm] node[fill=white, anchor=center, pos=0.5] {\rotatebox[origin=c]{-45}{$\sqsubset$}} (sc);

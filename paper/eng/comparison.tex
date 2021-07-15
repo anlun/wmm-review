@@ -26,7 +26,7 @@ syntactic dependency preserving models,
 semantic dependency preserving models, 
 and models with out of thin-air values. 
 The models from the same class have the similar compilation mappings, 
-the set of sound program transformations, and the provided reasoning guarantees.
+set of sound program transformations, and provided reasoning guarantees.
 We first present the result of our comparison on a per-class basis 
 (see~\cref{table:cmp-cls} and~\cref{sec:analysis}), and 
 then give a more detailed comparison with respect to individual models
@@ -38,11 +38,11 @@ and then dive deeper into the details of each particular model.
 \input{../common/smalltable.tex}
 
 In both \cref{table:cmp-cls} and \cref{table:cmp-mms} we order
-the memory models by their weakness.  
+the memory models by their strength.  
 The strongest models are located at the top rows of the tables, 
 while the weakest are at the bottom.  
 
-Columns of both tables correspond 
+The columns of both tables correspond 
 to the properties of the memory models.
 In order to be concise, we chose a binary classification for all properties,
 \ie the model is either said to satisfy a given property or not.  
@@ -104,7 +104,7 @@ the corresponding cell by \wmark\xspace.
 Finally, if none of the models satisfy the property, we mark the cell by \xmark\xspace. 
 Note that when counting the majority, we omit the unknowns.
 Also, if a given property was not studied in the context of some class of models 
-(\ie, in~\cref{table:cmp-mms} it is marked by gray color for all models in this class)
+(\ie in~\cref{table:cmp-mms} it is marked by gray color for all models in this class)
 in \cref{table:cmp-cls} we mark the corresponding cell by \xmark. 
 That is, in \cref{table:cmp-cls} symbols \cmark\xspace and \wmark\xspace 
 denote positive knowledge,
